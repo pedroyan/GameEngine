@@ -4,7 +4,7 @@ class State {
 		State();
 		~State();
 		bool QuitRequested();
-		void Update();
+		void Update(float dt);
 		void Render();
 	private:
 		//Sprite bg;

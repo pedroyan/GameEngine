@@ -16,7 +16,7 @@ class Game {
 
 		~Game();
 
-		Game* GetInstance();
+		static Game* GetInstance();
 		State* GetState();
 		SDL_Renderer* GetRenderer();
 		void Run();

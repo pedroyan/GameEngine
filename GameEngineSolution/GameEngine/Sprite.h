@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+#include "Game.h"
 #include <SDL_image.h>
 
 using std::string;
@@ -17,8 +18,9 @@ class Sprite {
 		int GetWidth();
 		int GetHeight();
 		bool IsOpen();
+
 	private:
-		SDL_Texture* Texture;
+		SDL_Texture* texture;
 		int width;
 		int height;
 		SDL_Rect clipRect;

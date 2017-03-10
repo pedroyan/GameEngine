@@ -20,6 +20,7 @@ Game::Game(string title, int width, int height) {
 
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	state = new State();
 }
 
 Game* Game::Instance = nullptr;
@@ -51,4 +52,17 @@ State * Game::GetState() {
 
 SDL_Renderer * Game::GetRenderer() {
 	return renderer;
+}
+
+void Game::Run() {
+	while (!(*state).QuitRequested()) {
+
+		//renderiza o novo quadro
+		state->Render();
+		state->Update(3.0);
+		SDL_RenderPresent(renderer);
+
+		//Delay para evitar renderização excessivas
+		SDL_Delay(33);
+	}
 }
