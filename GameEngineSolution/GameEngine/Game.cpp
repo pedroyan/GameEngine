@@ -25,6 +25,13 @@ Game::Game(string title, int width, int height) {
 Game* Game::Instance = nullptr;
 
 Game::~Game() {
+	delete state;
+	IMG_Quit();
+
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+
+	SDL_Quit();
 }
 
 Game * Game::GetInstance() {
@@ -34,4 +41,12 @@ Game * Game::GetInstance() {
 	}
 
 	return Instance;
+}
+
+State * Game::GetState() {
+	return state;
+}
+
+SDL_Renderer * Game::GetRenderer() {
+	return renderer;
 }

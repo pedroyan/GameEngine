@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-using namespace std;
+using std::string;
 
 void Logger::LogError(string error) {
 	ofstream myfile;
