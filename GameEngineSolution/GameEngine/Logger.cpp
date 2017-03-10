@@ -3,6 +3,7 @@
 #include <fstream>
 
 using std::string;
+using std::ofstream;
 
 void Logger::LogError(string error) {
 	ofstream myfile;
