@@ -50,4 +50,16 @@ void Sprite::Render(int x, int y) {
 	SDL_RenderCopy(renderer, texture, &clipRect, &destinyRectangl);
 }
 
+int Sprite::GetWidth() {
+	return width;
+}
+
+int Sprite::GetHeight() {
+	return height;
+}
+
+bool Sprite::IsOpen() {
+	return texture != nullptr;
+}
+
 
