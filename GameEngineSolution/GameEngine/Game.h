@@ -4,6 +4,10 @@
 #include <SDL_image.h>
 #include "State.h"
 
+#define DEFAULT_GAME_WIDTH 1024;
+#define DEFAULT_GAME_HEIGHT 600;
+
+
 using std::string;
 
 class Game {

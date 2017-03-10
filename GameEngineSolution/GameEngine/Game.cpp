@@ -37,7 +37,9 @@ Game::~Game() {
 Game * Game::GetInstance() {
 	
 	if (Instance == nullptr) {
-		return new Game("Default Title", 300, 300);
+		int width = DEFAULT_GAME_WIDTH;
+		int height = DEFAULT_GAME_HEIGHT;
+		return new Game("default Title", width, height);
 	}
 
 	return Instance;
