@@ -1,6 +1,5 @@
 #pragma once
 #include<string>
-#include "Game.h"
 #include <SDL_image.h>
 
 using std::string;

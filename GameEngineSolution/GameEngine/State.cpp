@@ -4,7 +4,7 @@
 
 State::State() {
 	quitRequested = false;
-	//instancia um sprite;
+	bg = new Sprite("img/ocean.jpg");
 }
 
 bool State::QuitRequested() {
@@ -16,7 +16,7 @@ void State::Update(float dt) {
 }
 
 void State::Render() {
-	//renderize o fundo (bg, tipo sprite) de forma a preencher a tela.
+	bg->Render(0, 0);
 }
 
 

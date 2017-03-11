@@ -8,6 +8,7 @@ int main(int argc, char ** argv) {
 	int Width = DEFAULT_GAME_WIDTH
 
 	Game* game = new Game("Meu Jogo",Width,Height);
+	game->Run();
 
 	delete game;
 

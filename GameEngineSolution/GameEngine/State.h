@@ -1,4 +1,6 @@
 #pragma once
+#include "Sprite.h"
+
 class State {
 	public:
 		State();
@@ -7,7 +9,7 @@ class State {
 		void Update(float dt);
 		void Render();
 	private:
-		//Sprite bg;
+		Sprite* bg;
 		bool quitRequested;
 };
 

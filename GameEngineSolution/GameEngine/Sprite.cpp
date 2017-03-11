@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Game.h"
 #include "Logger.h"
 
 Sprite::Sprite() {
