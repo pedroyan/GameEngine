@@ -30,16 +30,23 @@ class Vec2 {
 		Vec2 Normalize();
 
 		/// <summary>
-		/// Calcula a distancia entre o vetor atual e o vetor passado
+		/// Calcula a distancia entre dois pontos
 		/// </summary>
 		/// <param name="otherPoint">Ponto que se deseja calcular a distancia a partir do ponto atual</param>
 		/// <returns></returns>
 		float GetDistance(Vec2 otherPoint);
 
 		/// <summary>
+		/// Calcula o ângulo do vetor distância entre dois pontos, considerando
+		/// a instancia atual como o ponto de partida e a instancia passada como
+		/// o ponto de destino
+		/// </summary>
+		/// <param name="destinyPoint">ponto de destino</param>
+		/// <returns></returns>
+		float GetDistanceVectorAngle(Vec2 destinyPoint);
+
+		/// <summary>
 		/// Calcula o ângulo, em radianos, do vetor em relação ao eixo X.
-		/// Vale lembrar o eixo Y cresce para baixo e essa mudança será refletida
-		/// no calculo dos ângulos
 		/// </summary>
 		/// <returns>o ângulo em radianos</returns>
 		float GetXAxisAngle();

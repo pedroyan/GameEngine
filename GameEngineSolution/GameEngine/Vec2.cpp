@@ -16,13 +16,18 @@ Vec2 Vec2::Normalize() {
 	return (*this) / norm;
 }
 
-float Vec2::GetDistance(Vec2 otherPoint) {
-	Vec2 diferenceVector = (*this) - otherPoint;
+float Vec2::GetDistance(Vec2 destinyPoint) {
+	Vec2 diferenceVector = (*this) - destinyPoint;
 	return diferenceVector.Magnitude();
 }
 
+float Vec2::GetDistanceVectorAngle(Vec2 destinyPoint) {
+	Vec2 distanceVector = (*this) - destinyPoint;
+	return distanceVector.GetXAxisAngle();
+}
+
 float Vec2::GetXAxisAngle() {
-	return (float)atan2(-Y, X);
+	return (float)atan2(Y, X);
 }
 
 Vec2::Vec2(float x, float y) {
