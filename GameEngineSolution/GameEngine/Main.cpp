@@ -12,9 +12,9 @@ int main(int argc, char ** argv) {
 	game->Run();
 	delete game;
 
-	Vec2 vec = Vec2(10, 8);
-	Vec2 normalizedVec = vec.Normalize();
-	float magnitude = normalizedVec.Magnitude();
+	Vec2 vec = Vec2(10, 10);
+	float angle = vec.GetXAxisAngle();
+	angle = angle * 180/ M_PI;
 
 	return 0;
 }

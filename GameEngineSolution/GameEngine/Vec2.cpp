@@ -8,7 +8,7 @@ Vec2::Vec2() {
 }
 
 float Vec2::Magnitude() {
-	return sqrt(X*X + Y*Y);
+	return (float)sqrt(X*X + Y*Y);
 }
 
 Vec2 Vec2::Normalize() {
@@ -19,6 +19,10 @@ Vec2 Vec2::Normalize() {
 float Vec2::GetDistance(Vec2 otherPoint) {
 	Vec2 diferenceVector = (*this) - otherPoint;
 	return diferenceVector.Magnitude();
+}
+
+float Vec2::GetXAxisAngle() {
+	return (float)atan2(-Y, X);
 }
 
 Vec2::Vec2(float x, float y) {

@@ -37,6 +37,14 @@ class Vec2 {
 		float GetDistance(Vec2 otherPoint);
 
 		/// <summary>
+		/// Calcula o ângulo, em radianos, do vetor em relação ao eixo X.
+		/// Vale lembrar o eixo Y cresce para baixo e essa mudança será refletida
+		/// no calculo dos ângulos
+		/// </summary>
+		/// <returns>o ângulo em radianos</returns>
+		float GetXAxisAngle();
+
+		/// <summary>
 		/// Inicializa um vetor 2D com os parametros passados
 		/// </summary>
 		/// <param name="x">Componente x do vetor</param>
