@@ -4,7 +4,7 @@
 
 State::State() {
 	quitRequested = false;
-	bg = new Sprite("img/ocean.jpg");
+	bg = (*new Sprite("img/ocean.jpg"));
 }
 
 bool State::QuitRequested() {
@@ -16,7 +16,7 @@ void State::Update(float dt) {
 }
 
 void State::Render() {
-	bg->Render(0, 0);
+	bg.Render(0, 0);
 }
 
 

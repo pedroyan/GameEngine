@@ -9,7 +9,7 @@ class State {
 		void Update(float dt);
 		void Render();
 	private:
-		Sprite* bg;
+		Sprite bg;
 		bool quitRequested;
 };
 
