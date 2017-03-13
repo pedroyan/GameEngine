@@ -251,3 +251,4 @@ paket-files/
 *.sln.iml
 GameEngineSolution/GameEngine/Debug/
 GameEngineSolution/Debug/GameEngine.exe
+GameEngineSolution/Debug/ErrorDump.txt
