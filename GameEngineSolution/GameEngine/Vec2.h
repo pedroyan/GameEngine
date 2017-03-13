@@ -52,6 +52,14 @@ class Vec2 {
 		float GetXAxisAngle();
 
 		/// <summary>
+		/// Rotaciona o vetor num determinado ângulo. Lembrando que,
+		/// como o eixo Y cresce para baixo, passar um angulo positivo
+		/// irá rotacionar o vetor no sentido horário.
+		/// </summary>
+		/// <param name="angulo">Angulo em radianos da rotação</param>
+		void Rotate(float angulo);
+
+		/// <summary>
 		/// Inicializa um vetor 2D com os parametros passados
 		/// </summary>
 		/// <param name="x">Componente x do vetor</param>

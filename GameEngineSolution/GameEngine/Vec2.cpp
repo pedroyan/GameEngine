@@ -30,6 +30,11 @@ float Vec2::GetXAxisAngle() {
 	return (float)atan2(Y, X);
 }
 
+void Vec2::Rotate(float angulo) {
+	X = X * cos(angulo) - Y * sin(angulo);
+	Y = Y * cos(angulo) + X * sin(angulo);
+}
+
 Vec2::Vec2(float x, float y) {
 	X = x;
 	Y = y;

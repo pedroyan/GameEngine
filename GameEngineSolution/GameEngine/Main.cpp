@@ -13,6 +13,7 @@ int main(int argc, char ** argv) {
 	delete game;
 
 	Vec2 vec = Vec2(10, 10);
+	vec.Rotate(M_PI/4);
 	float angle = vec.GetXAxisAngle();
 	angle = angle * 180/ M_PI;
 
