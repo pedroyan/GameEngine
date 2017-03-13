@@ -30,9 +30,7 @@ void Sprite::Open(string file) {
 
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 
-	//Os valores de x e y seriam 0?
 	SetClip(0, 0, width, height);
-
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {

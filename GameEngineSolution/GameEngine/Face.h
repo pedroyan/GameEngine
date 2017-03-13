@@ -15,6 +15,6 @@ class Face :
 		bool IsDead();
 	private:
 		int hitpoint;
-		Sprite* sp;
+		Sprite sp;
 };
 

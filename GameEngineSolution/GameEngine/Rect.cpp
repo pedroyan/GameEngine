@@ -34,6 +34,10 @@ bool Rect::IsInside(Vec2 coordinates) {
 		&& coordinates.Y >= Y && coordinates.Y <= Y + H;
 }
 
+bool Rect::IsInside(float x, float y) {
+	return IsInside(Vec2(x, y));
+}
+
 Rect::Rect() {
 	X = 0;
 	Y = 0;
@@ -41,7 +45,7 @@ Rect::Rect() {
 	H = 0;
 }
 
-Rect::Rect(int x, int y, int w, int h) {
+Rect::Rect(float x, float y, float w, float h) {
 	X = x;
 	Y = y;
 	W = w;

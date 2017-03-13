@@ -4,10 +4,10 @@ class Rect {
 	public:
 		//variaveis
 
-		int X;
-		int Y;
-		int W;
-		int H;
+		float X;
+		float Y;
+		float W;
+		float H;
 
 		//Operadores
 		Rect operator+(const Vec2 vec);
@@ -36,8 +36,17 @@ class Rect {
 		/// <returns>booleano indicando se o ponto se encontra dentro do retângulo</returns>
 		bool IsInside(Vec2 coordinates);
 
+		/// <summary>
+		/// Verifica se o ponto passado se encontra
+		/// dentro do retângulo
+		/// </summary>
+		/// <param name="coordinates">coordenada x</param>
+		/// <param name="coordinates">coordenada y</param>
+		/// <returns>booleano indicando se o ponto se encontra dentro do retângulo</returns>
+		bool IsInside(float x, float y);
+
 		Rect();
-		Rect(int x, int y, int w, int h);
+		Rect(float x, float y, float w, float h);
 		~Rect();
 		
 };
