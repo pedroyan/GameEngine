@@ -126,6 +126,7 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +137,7 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="TileSet.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -14,5 +14,7 @@ int main(int argc, char ** argv) {
 	game->Run();
 	delete game;
 
+	printf("oi");
+
 	return 0;
 }
