@@ -81,7 +81,7 @@
     <Link>
       <AdditionalLibraryDirectories>C:\Projetos\GameEngine\SDL2_image-2.0.1\lib\lx86;C:\Projetos\GameEngine\SDL2-2.0.5\lib\lx86;C:\Projetos\GameEngine\SDL2_mixer-2.0.1\lib\lx86;C:\Projetos\GameEngine\SDL2_ttf-2.0.14\lib\lx86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
