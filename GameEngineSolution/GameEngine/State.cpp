@@ -81,10 +81,7 @@ void State::Input() {
 
 void State::AddObject(float mouseX, float mouseY) {
 	Vec2 vec(200, 0);
-	int size = vec.Magnitude();
-	int twoPi = M_PI * 2;
-	vec.Rotate(rand()%twoPi);
-	size = vec.Magnitude();
+	vec.Rotate(rand());
 	objectArray.emplace_back(new Face(mouseX + vec.X, mouseY + vec.Y));
 }
 
