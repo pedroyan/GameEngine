@@ -32,3 +32,11 @@ void TileSet::Render(unsigned int index, float x, float y) {
 	tileSet.Render(x, y);
 }
 
+int TileSet::GetTileWidth() {
+	return tileWidth;
+}
+
+int TileSet::GetTileHeight() {
+	return tileHeight;
+}
+

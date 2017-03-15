@@ -17,6 +17,10 @@ class TileSet {
 		/// <param name="y">Posição Y do ponto de renderização</param>
 		void Render(unsigned int index, float x, float y);
 
+		int GetTileWidth();
+
+		int GetTileHeight();
+
 	private:
 		Sprite tileSet;
 		int rows;
