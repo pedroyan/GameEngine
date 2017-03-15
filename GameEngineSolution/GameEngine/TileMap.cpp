@@ -34,6 +34,10 @@ void TileMap::SetDimensionsFromFile(FILE * fp) {
 	sscanf(dimensionString, "%d,%d,%d,", &mapWidth, &mapHeight, &mapDepth);
 }
 
+void TileMap::SetTileSet(TileSet * set) {
+	tileSet = set;
+}
+
 void TileMap::setTileMatrix(FILE * fp) {
 	char c = fgetc(fp); // pega o primeiro \n
 	c = fgetc(fp); //pega o segundo \n
@@ -55,5 +59,18 @@ void TileMap::setTileMatrix(FILE * fp) {
 		//ignora o \n
 		c = fgetc(fp);
 	}
+}
+
+int * TileMap::At(int x, int y, int z) {
+	if (x >= mapWidth || y >= mapHeight || z >= mapDepth) {
+		throw std::out_of_range("Dimensões passadas são maiores do que as do mapa");
+	}
+
+	int heigthOffset = y*mapWidth;
+	int depthOffset = z*mapHeight*mapWidth;
+
+	int index = x + heigthOffset + depthOffset;
+
+	return &tileMatrix[index];
 }
 

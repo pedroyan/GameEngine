@@ -43,5 +43,6 @@ class TileMap {
 		void SetDimensionsFromFile(FILE* fp);
 
 		void setTileMatrix(FILE* fp);
+
 };
 

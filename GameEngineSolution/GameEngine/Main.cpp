@@ -16,6 +16,9 @@ int main(int argc, char ** argv) {
 	delete game;
 
 	TileMap* map = new TileMap("map/tileMap.txt", nullptr);
+	int* location = map->At(19, 23);
+	(*location) = 30;
+	int* location2 = map->At(19, 23);
 
 	printf("oi");
 
