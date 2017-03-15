@@ -77,6 +77,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Projetos\GameEngine\SDL2_image-2.0.1\lib\lx86;C:\Projetos\GameEngine\SDL2-2.0.5\lib\lx86;C:\Projetos\GameEngine\SDL2_mixer-2.0.1\lib\lx86;C:\Projetos\GameEngine\SDL2_ttf-2.0.14\lib\lx86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -126,6 +129,7 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
@@ -137,6 +141,7 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>

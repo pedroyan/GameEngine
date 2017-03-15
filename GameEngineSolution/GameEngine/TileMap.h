@@ -34,5 +34,12 @@ class TileMap {
 		int mapWidth;
 		int mapHeight;
 		int mapDepth;
+
+		/// <summary>
+		/// Seta as dimensões do mapa a partir FilePointer
+		/// recém aberto
+		/// </summary>
+		/// <param name="fp">Ponteiro para o arquivo aberto</param>
+		void SetDimensionsFromFile(FILE* fp);
 };
 

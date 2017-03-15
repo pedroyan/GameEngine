@@ -5,6 +5,7 @@
 #include "Vec2.h"
 #include "Rect.h"
 #include "Face.h"
+#include "TileMap.h"
 
 int main(int argc, char ** argv) {
 	int Height = DEFAULT_GAME_HEIGHT;
