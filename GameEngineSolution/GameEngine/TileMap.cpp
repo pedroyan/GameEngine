@@ -19,6 +19,7 @@ void TileMap::Load(string file) {
 	}
 
 	SetDimensionsFromFile(fp);
+	setTileMatrix(fp);
 }
 
 /// <summary>
@@ -27,9 +28,32 @@ void TileMap::Load(string file) {
 /// </summary>
 /// <param name="fp">Ponteiro para o arquivo aberto</param>
 void TileMap::SetDimensionsFromFile(FILE * fp) {
-	char dimensionString[8];
+	char dimensionString[9];
 
-	fgets(dimensionString, 8, fp);
+	fgets(dimensionString, 9, fp);
 	sscanf(dimensionString, "%d,%d,%d,", &mapWidth, &mapHeight, &mapDepth);
+}
+
+void TileMap::setTileMatrix(FILE * fp) {
+	char c = fgetc(fp); // pega o primeiro \n
+	c = fgetc(fp); //pega o segundo \n
+
+	for (size_t i = 0; i < mapDepth; i++) {
+		for (size_t j = 0; j < mapHeight; j++) {
+			for (size_t k = 0; k < mapWidth; k++) {
+				int tileIndex;
+
+				char tileString[4];
+				fgets(tileString, 4, fp);
+				sscanf(tileString, "%d,", &tileIndex);
+				tileMatrix.insert(tileMatrix.end(), tileIndex);
+
+			}
+			//ignora o \n
+			c = fgetc(fp);
+		}
+		//ignora o \n
+		c = fgetc(fp);
+	}
 }
 

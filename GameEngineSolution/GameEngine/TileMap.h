@@ -41,5 +41,7 @@ class TileMap {
 		/// </summary>
 		/// <param name="fp">Ponteiro para o arquivo aberto</param>
 		void SetDimensionsFromFile(FILE* fp);
+
+		void setTileMatrix(FILE* fp);
 };
 
