@@ -4,7 +4,7 @@
 #include <SDL.h>
 
 
-State::State() {
+State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet) {
 	quitRequested = false;
 	bg = (*new Sprite("img/ocean.jpg"));
 }
@@ -25,6 +25,7 @@ void State::Update(float dt) {
 
 void State::Render() {
 	bg.Render(0, 0);
+	tileMap.Render(0, 0);
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Render();
 	}

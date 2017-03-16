@@ -3,7 +3,6 @@
 
 
 TileMap::~TileMap() {
-	delete tileSet;
 }
 
 TileMap::TileMap(string file, TileSet * tileSetVariable) {

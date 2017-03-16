@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 #include "GameObject.h"
+#include "TileSet.h"
+#include "TileMap.h"
 
 class State {
 	public:
@@ -15,6 +17,9 @@ class State {
 		//variaveis
 
 		Sprite bg;
+		TileSet tileSet;
+		TileMap tileMap;
+
 		std::vector<std::unique_ptr<GameObject>> objectArray;
 		//metodos
 
