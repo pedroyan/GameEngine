@@ -21,8 +21,8 @@ void TileSet::Render(unsigned int index, float x, float y) {
 		return;
 	}
 
-	int tileColumn = index%rows;
-	int tileRow = index / rows;
+	int tileColumn = index%columns;
+	int tileRow = index / columns;
 
 	int positionX = tileColumn*tileWidth;
 	int positionY = tileRow*tileHeight;
