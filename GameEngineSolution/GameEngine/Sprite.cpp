@@ -20,6 +20,10 @@ Sprite::~Sprite() {
 
 void Sprite::Open(string file) {
 	Game* gameInstance = Game::GetInstance();
+	if (texture != nullptr) {
+		SDL_DestroyTexture(texture);
+	}
+
 	texture = IMG_LoadTexture(gameInstance->GetRenderer(), file.c_str());
 
 	if (texture == nullptr) {
