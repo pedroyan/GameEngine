@@ -34,10 +34,7 @@ void InputManager::Update() {
 	// Obtenha as coordenadas do mouse
 	SDL_GetMouseState(&mouseX, &mouseY);
 	quitRequested = false;
-	keyUpdate.clear();
-	for (auto& update : mouseUpdate) {
-		update = 0;
-	}
+	updateCounter++;
 
 	while (SDL_PollEvent(&event)) {
 
@@ -46,38 +43,33 @@ void InputManager::Update() {
 
 		} else if (event.type == SDL_MOUSEBUTTONDOWN) {
 			mouseState[event.button.button] = true;
-			mouseUpdate[event.button.button]++;
+			mouseUpdate[event.button.button] = updateCounter;
 
 		} else if (event.type == SDL_MOUSEBUTTONUP) {
 			mouseState[event.button.button] = false;
-			mouseUpdate[event.button.button]++;
+			mouseUpdate[event.button.button] = updateCounter;
 
 		} else if (event.type == SDL_KEYDOWN) {
 			if (!event.key.repeat) {
 				auto keyPressed = event.key.keysym.sym;
-
 				keyState[keyPressed] = true;
-
-				int& keyCounter = keyUpdate[keyPressed];
-				keyCounter++;
+				keyUpdate[keyPressed] = updateCounter;
 			}
 
 		} else if (event.type == SDL_KEYUP) {
 			auto keyPressed = event.key.keysym.sym;
 			keyState[keyPressed] = false;
-
-			int& keyCounter = keyUpdate[keyPressed];
-			keyCounter++;
+			keyUpdate[keyPressed] = updateCounter;
 		} 	
 	}
 }
 
 bool InputManager::KeyPress(int key) {
-	return keyState[key] && keyUpdate[key] == 1;
+	return keyState[key] && keyUpdate[key] == updateCounter;
 }
 
 bool InputManager::KeyRelease(int key) {
-	return !keyState[key] && keyUpdate[key] == 1;
+	return !keyState[key] && keyUpdate[key] == updateCounter;
 }
 
 bool InputManager::IsKeyDown(int key) {
@@ -85,11 +77,11 @@ bool InputManager::IsKeyDown(int key) {
 }
 
 bool InputManager::MousePress(int button) {
-	return mouseState[button] && mouseUpdate[button] == 1;
+	return mouseState[button] && mouseUpdate[button] == updateCounter;
 }
 
 bool InputManager::MouseRelease(int button) {
-	return !mouseState[button] && mouseUpdate[button] == 1;
+	return !mouseState[button] && mouseUpdate[button] == updateCounter;
 }
 
 bool InputManager::IsMouseDown(int button) {
