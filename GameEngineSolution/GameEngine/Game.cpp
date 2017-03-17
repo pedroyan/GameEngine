@@ -66,7 +66,7 @@ void Game::Run() {
 		//renderiza o novo quadro
 		state->Render();
 		InputManager::GetInstance().Update();
-		state->Update(3.0);
+		state->Update(dt);
 		SDL_RenderPresent(renderer);
 
 		//Delay para evitar renderização excessivas

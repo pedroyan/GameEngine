@@ -1,7 +1,9 @@
 #include "State.h"
 #include "Face.h"
 #include <vector>
+#include "Camera.h"
 #include <SDL.h>
+#include <math.h>
 #include "InputManager.h"
 
 
@@ -16,6 +18,7 @@ bool State::QuitRequested() {
 
 void State::Update(float dt) {
 	SDL_Event event;
+	Camera::Update(dt);
 	auto& manager = InputManager::GetInstance();
 
 	quitRequested = manager.QuitRequested() || manager.KeyPress(SDLK_ESCAPE);
@@ -25,7 +28,7 @@ void State::Update(float dt) {
 	}
 
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		objectArray[i]->Update(3.0);
+		objectArray[i]->Update(dt);
 		if (objectArray[i] -> IsDead()) {
 			objectArray.erase(objectArray.begin() + i);
 		}
@@ -34,7 +37,7 @@ void State::Update(float dt) {
 
 void State::Render() {
 	bg.Render(0, 0);
-	tileMap.Render(0, 0);
+	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y));
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Render();
 	}

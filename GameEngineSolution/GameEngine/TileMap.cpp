@@ -100,7 +100,11 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	for (size_t i = 0; i < mapHeight; i++) {
 		for (size_t j = 0; j < mapWidth; j++) {
 			int index = i*mapWidth + j + startIndex;
-			tileSet->Render(tileMatrix[index], tileSet->GetTileWidth()*j, tileSet->GetTileHeight()*i);
+
+			int row = cameraY + tileSet->GetTileHeight()*i;
+			int column = cameraX + tileSet->GetTileWidth()*j;
+
+			tileSet->Render(tileMatrix[index],column , row);
 		}
 	}
 
