@@ -24,6 +24,8 @@ Game::Game(string title, int width, int height) {
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	state = new State();
 	srand(std::time(0));
+	dt = 0;
+	frameStart = 0;
 }
 
 Game* Game::Instance = nullptr;
@@ -59,6 +61,7 @@ SDL_Renderer * Game::GetRenderer() {
 
 void Game::Run() {
 	while (!(*state).QuitRequested()) {
+		CalculateDeltaTime();
 
 		//renderiza o novo quadro
 		state->Render();
@@ -69,4 +72,14 @@ void Game::Run() {
 		//Delay para evitar renderização excessivas
 		SDL_Delay(33);
 	}
+}
+
+float Game::GetDeltaTime() {
+	return dt;
+}
+
+void Game::CalculateDeltaTime() {
+	int actualTicks = SDL_GetTicks();
+	dt = (actualTicks - frameStart) / 1000.0;
+	frameStart = actualTicks;
 }
