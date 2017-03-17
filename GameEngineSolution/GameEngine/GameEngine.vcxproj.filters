@@ -33,9 +33,6 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Face.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TileSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,8 +54,14 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Face.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

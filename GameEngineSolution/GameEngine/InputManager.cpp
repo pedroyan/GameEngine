@@ -38,43 +38,34 @@ void InputManager::Update() {
 
 	while (SDL_PollEvent(&event)) {
 
-		switch (event.type) {
-			case SDL_QUIT:
-				quitRequested = true;
-				break;
+		if (event.type == SDL_QUIT) {
+			quitRequested = true;
 
-			case SDL_MOUSEBUTTONDOWN:
-				mouseState[event.button.button] = true;
-				mouseUpdate[event.button.button]++;
-				break;
+		} else if (event.type == SDL_MOUSEBUTTONDOWN) {
+			mouseState[event.button.button] = true;
+			mouseUpdate[event.button.button]++;
 
-			case SDL_MOUSEBUTTONUP:	
-				mouseState[event.button.button] = false;
-				mouseUpdate[event.button.button]++;
-				break;
+		} else if (event.type == SDL_MOUSEBUTTONUP) {
+			mouseState[event.button.button] = false;
+			mouseUpdate[event.button.button]++;
 
-			case SDL_KEYDOWN:
-				if (!event.key.repeat) {
-					auto keyPressed = event.key.keysym.sym;
-
-					keyState[keyPressed] = true;
-
-					int& keyCounter = keyUpdate[keyPressed];
-					keyCounter++;
-				}
-				break;
-
-			case SDL_KEYUP:
+		} else if (event.type == SDL_KEYDOWN) {
+			if (!event.key.repeat) {
 				auto keyPressed = event.key.keysym.sym;
-				keyState[keyPressed] = false;
+
+				keyState[keyPressed] = true;
 
 				int& keyCounter = keyUpdate[keyPressed];
 				keyCounter++;
-				break;
+			}
 
-			default:
-				break;
-		}	
+		} else if (event.type == SDL_KEYUP) {
+			auto keyPressed = event.key.keysym.sym;
+			keyState[keyPressed] = false;
+
+			int& keyCounter = keyUpdate[keyPressed];
+			keyCounter++;
+		} 	
 	}
 }
 
