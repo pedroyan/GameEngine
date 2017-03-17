@@ -1,5 +1,6 @@
 #include "Face.h"
 #include "Game.h"
+#include "InputManager.h"
 
 Face::Face(float x, float y){
 	hitpoint = 30;
@@ -22,6 +23,11 @@ void Face::Damage(int damage) {
 }
 
 void Face::Update(float dt) {
+	auto& inputManager = InputManager::GetInstance();
+ 	if (inputManager.MousePress(LEFT_MOUSE_BUTTON) && box.IsInside(inputManager.GetMouseX(),inputManager.GetMouseY())) {
+		Damage(rand() % 10 + 10);
+	}
+
 }
 
 void Face::Render() {

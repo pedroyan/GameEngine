@@ -31,10 +31,13 @@ InputManager& InputManager::GetInstance() {
 
 void InputManager::Update() {
 	SDL_Event event;
-
 	// Obtenha as coordenadas do mouse
 	SDL_GetMouseState(&mouseX, &mouseY);
 	quitRequested = false;
+	keyUpdate.clear();
+	for (auto& update : mouseUpdate) {
+		update = 0;
+	}
 
 	while (SDL_PollEvent(&event)) {
 
@@ -100,3 +103,4 @@ int InputManager::GetMouseX() {
 int InputManager::GetMouseY() {
 	return mouseY;
 }
+

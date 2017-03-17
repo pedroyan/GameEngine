@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Logger.h"
+#include "InputManager.h"
 #include <ctime>
 
 Game::Game(string title, int width, int height) {
@@ -61,6 +62,7 @@ void Game::Run() {
 
 		//renderiza o novo quadro
 		state->Render();
+		InputManager::GetInstance().Update();
 		state->Update(3.0);
 		SDL_RenderPresent(renderer);
 

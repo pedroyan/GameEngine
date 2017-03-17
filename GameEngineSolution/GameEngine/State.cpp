@@ -2,6 +2,7 @@
 #include "Face.h"
 #include <vector>
 #include <SDL.h>
+#include "InputManager.h"
 
 
 State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet) {
@@ -14,9 +15,17 @@ bool State::QuitRequested() {
 }
 
 void State::Update(float dt) {
-	Input();
-	
+	SDL_Event event;
+	auto& manager = InputManager::GetInstance();
+
+	quitRequested = manager.QuitRequested() || manager.KeyPress(SDLK_ESCAPE);
+
+	if (manager.KeyPress(SDLK_SPACE)) {
+		AddObject((float)manager.GetMouseX(), (float)manager.GetMouseY());
+	}
+
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		objectArray[i]->Update(3.0);
 		if (objectArray[i] -> IsDead()) {
 			objectArray.erase(objectArray.begin() + i);
 		}
