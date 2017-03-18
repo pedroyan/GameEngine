@@ -27,6 +27,10 @@ void Camera::Update(float dt) {
 	}
 }
 
+bool Camera::IsBeeingFollowed(GameObject * followed) {
+	return followed == focus;
+}
+
 void Camera::UpdateOnInput(float dt) {
 	Vec2 direction;
 	auto& input = InputManager::GetInstance();

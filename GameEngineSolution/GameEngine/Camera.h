@@ -6,6 +6,7 @@ class Camera {
 		static void Follow(GameObject* newFocus);
 		static void Unfollow();
 		static void Update(float dt);
+		static bool IsBeeingFollowed(GameObject* followed);
 		static Vec2 pos;
 		static Vec2 speed;
 
