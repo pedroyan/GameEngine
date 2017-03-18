@@ -1,5 +1,6 @@
 #include "Face.h"
 #include "Game.h"
+#include "Camera.h"
 #include "InputManager.h"
 
 Face::Face(float x, float y){
@@ -24,14 +25,20 @@ void Face::Damage(int damage) {
 
 void Face::Update(float dt) {
 	auto& inputManager = InputManager::GetInstance();
- 	if (inputManager.MousePress(LEFT_MOUSE_BUTTON) && box.IsInside(inputManager.GetMouseX(),inputManager.GetMouseY())) {
+	float x = inputManager.GetMouseX() + Camera::pos.X;
+	float y = inputManager.GetMouseY() + Camera::pos.Y;
+ 	if (inputManager.MousePress(LEFT_MOUSE_BUTTON) && box.IsInside(x,y)) {
 		Damage(rand() % 10 + 10);
 	}
 
 }
 
 void Face::Render() {
-	sp.Render(box.X, box.Y);
+	Vec2 cameraPosition = Camera::pos;
+	int x = box.X - cameraPosition.X;
+	int y = box.Y - cameraPosition.Y;
+
+	sp.Render(x, y);
 }
 
 bool Face::IsDead() {

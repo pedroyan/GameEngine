@@ -24,7 +24,12 @@ void State::Update(float dt) {
 	quitRequested = manager.QuitRequested() || manager.KeyPress(SDLK_ESCAPE);
 
 	if (manager.KeyPress(SDLK_SPACE)) {
-		AddObject((float)manager.GetMouseX(), (float)manager.GetMouseY());
+		Vec2 cameraPosition = Camera::pos;
+
+		float x = (float)manager.GetMouseX() + cameraPosition.X;
+		float y = (float)manager.GetMouseY() + cameraPosition.Y;
+
+		AddObject(x, y);
 	}
 
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
