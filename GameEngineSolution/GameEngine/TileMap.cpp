@@ -101,8 +101,8 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 		for (size_t j = 0; j < mapWidth; j++) {
 			int index = i*mapWidth + j + startIndex;
 
-			int row = cameraY + tileSet->GetTileHeight()*i;
-			int column = cameraX + tileSet->GetTileWidth()*j;
+			int row = tileSet->GetTileHeight()*i - cameraY;
+			int column = tileSet->GetTileWidth()*j - cameraX;
 
 			tileSet->Render(tileMatrix[index],column , row);
 		}

@@ -11,5 +11,7 @@ class Camera {
 
 	private:
 		static GameObject* focus;
+		static void UpdateOnInput(float dt);
+		static void UpdateOnFocus();
 };
 
