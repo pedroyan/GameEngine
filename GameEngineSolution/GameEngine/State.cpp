@@ -28,7 +28,7 @@ void State::Update(float dt) {
 		float x = (float)manager.GetMouseX() + cameraPosition.X;
 		float y = (float)manager.GetMouseY() + cameraPosition.Y;
 
-		AddObject(x, y);
+		//AddObject(x, y);
 	}
 
 	for (unsigned int i = 0; i < objectArray.size(); i++) {

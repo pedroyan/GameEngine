@@ -24,6 +24,5 @@ class State {
 		//metodos
 
 		bool quitRequested;
-		void AddObject(float mouseX, float mouseY);
 };
 
