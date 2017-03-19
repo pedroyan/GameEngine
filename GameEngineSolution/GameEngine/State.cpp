@@ -1,5 +1,4 @@
 #include "State.h"
-#include "Face.h"
 #include <vector>
 #include "Camera.h"
 #include <SDL.h>
@@ -46,12 +45,6 @@ void State::Render() {
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Render();
 	}
-}
-
-void State::AddObject(float mouseX, float mouseY) {
-	Vec2 vec(200, 0);
-	vec.Rotate(rand());
-	objectArray.emplace_back(new Face(mouseX + vec.X, mouseY + vec.Y));
 }
 
 
