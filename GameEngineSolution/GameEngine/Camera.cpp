@@ -3,9 +3,6 @@
 #include "InputManager.h"
 #include <SDL.h>
 
-//static Vec2 pos;
-//static Vec2 speed;
-//static GameObject* focus;
 
 Vec2 Camera::speed(1000, 1000);
 Vec2 Camera::pos;

@@ -43,6 +43,10 @@ Vec2::Vec2(float x, float y) {
 	Y = y;
 }
 
+bool Vec2::Equals(Vec2 vector) {
+	return vector.X == X && vector.Y == Y;
+}
+
 Vec2 Vec2::operator+(const Vec2 soma) {
 	Vec2 result;
 	result.X = X + soma.X;

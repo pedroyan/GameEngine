@@ -66,6 +66,8 @@ class Vec2 {
 		/// <param name="y">Componente Y do vetor</param>
 		Vec2(float x, float y);
 
+		bool Equals(Vec2 vector);
+
 		~Vec2();
 };
 

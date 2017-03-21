@@ -1,15 +1,44 @@
 #include "Alien.h"
+#include "InputManager.h"
 
+Vec2 Alien::defaultSpeed(200, 0);
 
+Alien::Alien(float x, float y, int nMinions) {
+	sp = (*new Sprite("img/alien.png"));
 
-Alien::Alien() {
+	box.X = x;
+	box.Y = y;
+	box.W = sp.GetWidth();
+	box.H = sp.GetHeight();
+
+	speed = defaultSpeed;
+
+	populateMinionArray(nMinions);
 }
-
 
 Alien::~Alien() {
 }
 
 void Alien::Update(float dt) {
+	auto& input = InputManager::GetInstance();
+
+	if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
+		taskQueue.push(Action(Action::ActionType::MOVE, input.GetMouseX(), input.GetMouseY()));
+	}
+
+	if (input.IsMouseDown(RIGHT_MOUSE_BUTTON)) {
+		taskQueue.push(Action(Action::ActionType::MOVE, input.GetMouseX(), input.GetMouseY()));
+	}
+
+	if (taskQueue.size() > 0) {
+
+		auto action = taskQueue.front();
+		if (action.type == Action::ActionType::MOVE) {
+			move(dt, action);
+		} else if (action.type == Action::ActionType::SHOOT) {
+			// jaja implemento
+		}
+	}
 }
 
 void Alien::Render() {
@@ -19,5 +48,40 @@ bool Alien::IsDead() {
 	return false;
 }
 
-Alien::Action::Action(ActionType type, float x, float y) {
+void Alien::populateMinionArray(int nMinions) {
+}
+
+
+void Alien::move(float dt, Alien::Action action) {
+
+	Vec2 positionVector = Vec2(box.X, box.Y);
+	float distanceTravelled = speed.Magnitude() * dt;
+
+	//Movimenta de acordo com a velocidade caso a distancia percorrida < distancia que falta
+	if (positionVector.GetDistance(action.pos) < distanceTravelled) {
+
+		//Calcula o angulo somente 1 vez para cada novo movimento
+		if (!speed.Equals(defaultSpeed)) {
+			auto rotationAngle = speed.GetDistanceVectorAngle(action.pos);
+			speed.Rotate(rotationAngle);
+		}
+
+		box.X += speed.X;
+		box.Y += speed.Y;
+	} else {
+
+		// caso a distancia percorrida pela velocidade > distancia que falta, seta a posição instantaneamente
+		box.Y = action.pos.Y;
+		box.X = action.pos.X;
+		taskQueue.pop();
+
+		speed = defaultSpeed;
+	}
+}
+
+
+Alien::Action::Action(ActionType actionType, float x, float y) {
+	type = actionType;
+	pos.X = x;
+	pos.Y = y;
 }
