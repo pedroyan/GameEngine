@@ -4,9 +4,8 @@
 #include <SDL.h>
 
 
-State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet) {
+State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg") {
 	quitRequested = false;
-	bg = (*new Sprite("img/ocean.jpg"));
 }
 
 bool State::QuitRequested() {
