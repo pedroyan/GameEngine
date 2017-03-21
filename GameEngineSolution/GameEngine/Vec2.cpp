@@ -22,7 +22,7 @@ float Vec2::GetDistance(Vec2 destinyPoint) {
 }
 
 float Vec2::GetDistanceVectorAngle(Vec2 destinyPoint) {
-	Vec2 distanceVector = (*this) - destinyPoint;
+	Vec2 distanceVector = destinyPoint - (*this);
 	return distanceVector.GetXAxisAngle();
 }
 
