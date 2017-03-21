@@ -2,9 +2,8 @@
 #include <SDL.h>
 
 
-State::State() {
+State::State() : bg("img/ocean.jpg") {
 	quitRequested = false;
-	bg = (*new Sprite("img/ocean.jpg"));
 }
 
 bool State::QuitRequested() {
