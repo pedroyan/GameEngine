@@ -9,6 +9,7 @@ class State {
 		State();
 		~State();
 		bool QuitRequested();
+		void LoadAssets();
 		void Update(float dt);
 		void Render();
 	private:

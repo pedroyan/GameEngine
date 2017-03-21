@@ -13,6 +13,9 @@ bool State::QuitRequested() {
 	return quitRequested;
 }
 
+void State::LoadAssets() {
+}
+
 void State::Update(float dt) {
 	Input();
 	
