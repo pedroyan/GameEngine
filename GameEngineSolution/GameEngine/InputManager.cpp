@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include "Camera.h"
 #include <SDL.h>
 
 
@@ -94,5 +95,13 @@ int InputManager::GetMouseX() {
 
 int InputManager::GetMouseY() {
 	return mouseY;
+}
+
+int InputManager::GetWorldMouseX() {
+	return mouseX + Camera::pos.X;
+}
+
+int InputManager::GetWorldMouseY() {
+	return mouseY + Camera::pos.Y;
 }
 

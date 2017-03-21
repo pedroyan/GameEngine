@@ -1,5 +1,6 @@
 #include "Alien.h"
 #include "InputManager.h"
+#include "Camera.h"
 
 Vec2 Alien::defaultSpeed(20, 0);
 
@@ -25,11 +26,11 @@ void Alien::Update(float dt) {
 	auto& input = InputManager::GetInstance();
 
 	if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
-		taskQueue.push(Action(Action::ActionType::MOVE, input.GetMouseX(), input.GetMouseY()));
+		taskQueue.push(Action(Action::ActionType::MOVE, input.GetWorldMouseX(), input.GetWorldMouseY()));
 	}
 
 	if (input.IsMouseDown(RIGHT_MOUSE_BUTTON)) {
-		taskQueue.push(Action(Action::ActionType::MOVE, input.GetMouseX(), input.GetMouseY()));
+		taskQueue.push(Action(Action::ActionType::MOVE, input.GetWorldMouseX(), input.GetWorldMouseY()));
 	}
 
 	if (taskQueue.size() > 0) {
@@ -44,7 +45,11 @@ void Alien::Update(float dt) {
 }
 
 void Alien::Render() {
-	sp.Render(box.X, box.Y);
+	auto cameraPosition = Camera::pos;
+	int x = box.X - cameraPosition.X;
+	int y = box.Y - cameraPosition.Y;
+
+	sp.Render(x, y);
 	for (auto& minion : minionArray) {
 		minion.Render();
 	}
