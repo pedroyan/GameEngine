@@ -252,3 +252,4 @@ paket-files/
 GameEngineSolution/GameEngine/Debug/
 GameEngineSolution/Debug/GameEngine.exe
 GameEngineSolution/Debug/ErrorDump.txt
+*.orig
