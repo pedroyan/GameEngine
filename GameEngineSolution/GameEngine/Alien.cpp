@@ -26,7 +26,7 @@ void Alien::Update(float dt) {
 	auto& input = InputManager::GetInstance();
 
 	if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
-		taskQueue.push(Action(Action::ActionType::MOVE, input.GetWorldMouseX(), input.GetWorldMouseY()));
+		taskQueue.push(Action(Action::ActionType::SHOOT, input.GetWorldMouseX(), input.GetWorldMouseY()));
 	}
 
 	if (input.IsMouseDown(RIGHT_MOUSE_BUTTON)) {
@@ -41,6 +41,10 @@ void Alien::Update(float dt) {
 		} else if (action.type == Action::ActionType::SHOOT) {
 			taskQueue.pop();
 		}
+	}
+
+	for (auto& minion : minionArray) {
+		minion.Update(dt);
 	}
 }
 
@@ -60,12 +64,19 @@ bool Alien::IsDead() {
 }
 
 void Alien::populateMinionArray(int nMinions) {
+	float offset = 0;
+	float angularDistance = nMinions > 0 ? M_PI * 2 / nMinions : 0;
+
+	for (int i = 0; i < nMinions; i++) {
+		minionArray.emplace_back(Minion(this, offset));
+		offset += angularDistance;
+	}
 }
 
 
 void Alien::move(float dt, Alien::Action action) {
 
-	Vec2 positionVector = Vec2(box.X, box.Y);
+	Vec2 positionVector = box.GetCenter();
 	float distanceTravelled = speed.Magnitude();
 
 	//Movimenta de acordo com a velocidade caso a distancia percorrida < distancia que falta
@@ -83,8 +94,7 @@ void Alien::move(float dt, Alien::Action action) {
 	} else {
 
 		// caso a distancia percorrida pela velocidade > distancia que falta, seta a posição instantaneamente
-		box.Y = action.pos.Y;
-		box.X = action.pos.X;
+		box.SetCenter(action.pos.X, action.pos.Y);
 		taskQueue.pop();
 
 		speed = defaultSpeed;

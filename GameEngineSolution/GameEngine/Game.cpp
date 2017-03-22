@@ -69,6 +69,8 @@ void Game::Run() {
 		state->Update(dt);
 		SDL_RenderPresent(renderer);
 
+		//printf("Mouse x: %d     Mouse Y: %d\n", InputManager::GetInstance().GetWorldMouseX(), InputManager::GetInstance().GetWorldMouseY());
+
 		//Delay para evitar renderização excessivas
 		SDL_Delay(33);
 	}

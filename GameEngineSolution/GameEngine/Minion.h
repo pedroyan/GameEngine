@@ -14,5 +14,6 @@ class Minion : public GameObject{
 		GameObject* center;
 		Sprite sp;
 		float arc;
+		static float angularSpeed;
 };
 

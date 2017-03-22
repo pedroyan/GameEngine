@@ -16,8 +16,8 @@ Rect Rect::operator+(const Vec2 vec) {
 Vec2 Rect::GetCenter() {
 	Vec2 toReturn;
 
-	toReturn.X = X + W / 2;
-	toReturn.Y = Y + H / 2;
+	toReturn.X = X + W / 2.0;
+	toReturn.Y = Y + H / 2.0;
 
 	return toReturn;
 }
@@ -36,6 +36,11 @@ bool Rect::IsInside(Vec2 coordinates) {
 
 bool Rect::IsInside(float x, float y) {
 	return IsInside(Vec2(x, y));
+}
+
+void Rect::SetCenter(float x, float y) {
+	X = x - W / 2;
+	Y = y - H / 2;
 }
 
 Rect::Rect() {

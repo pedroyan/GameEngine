@@ -45,6 +45,8 @@ class Rect {
 		/// <returns>booleano indicando se o ponto se encontra dentro do retângulo</returns>
 		bool IsInside(float x, float y);
 
+		void SetCenter(float x, float y);
+
 		Rect();
 		Rect(float x, float y, float w, float h);
 		~Rect();
