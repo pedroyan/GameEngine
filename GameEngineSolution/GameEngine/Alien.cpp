@@ -24,7 +24,7 @@ Alien::~Alien() {
 
 void Alien::Update(float dt) {
 	auto& input = InputManager::GetInstance();
-
+	rotation -= 2*dt;
 	if (input.MousePress(LEFT_MOUSE_BUTTON)) {
 		taskQueue.push(Action(Action::ActionType::SHOOT, input.GetWorldMouseX(), input.GetWorldMouseY()));
 	}
@@ -55,7 +55,7 @@ void Alien::Render() {
 	int x = box.X - cameraPosition.X;
 	int y = box.Y - cameraPosition.Y;
 
-	sp.Render(x, y);
+	sp.Render(x, y, rotation);
 	for (auto& minion : minionArray) {
 		minion.Render();
 	}

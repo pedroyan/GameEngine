@@ -7,7 +7,10 @@ public:
 	virtual void Render() = 0;
 	virtual bool IsDead() = 0;
 
+	GameObject();
+
 	Rect box;
+	float rotation;
 
 	virtual ~GameObject();
 };

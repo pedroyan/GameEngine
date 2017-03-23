@@ -5,10 +5,14 @@
 
 Sprite::Sprite() {
 	texture = nullptr;
+	scaleX = 1;
+	scaleY = 1;
 }
 
 Sprite::Sprite(string file) {
 	texture = nullptr;
+	scaleX = 1;
+	scaleY = 1;
 	Open(file);
 }
 
@@ -35,28 +39,37 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y) {
+void Sprite::Render(int x, int y, float angle) {
+	float degreeAngle = angle * 180 / M_PI;
+
 	SDL_Renderer* renderer = Game::GetInstance()->GetRenderer();
 	SDL_Rect destinyRectangl;
 
 	destinyRectangl.x = x;
 	destinyRectangl.y = y;
-	destinyRectangl.h = clipRect.h;
-	destinyRectangl.w = clipRect.w;
-
-	SDL_RenderCopy(renderer, texture, &clipRect, &destinyRectangl);
+	destinyRectangl.h = clipRect.h*scaleY;
+	destinyRectangl.w = clipRect.w*scaleY;
+	SDL_RenderCopyEx(renderer, texture, &clipRect, &destinyRectangl,degreeAngle,nullptr,SDL_FLIP_NONE);
 }
 
 int Sprite::GetWidth() {
-	return width;
+	return width*scaleX;
 }
 
 int Sprite::GetHeight() {
-	return height;
+	return height*scaleY;
 }
 
 bool Sprite::IsOpen() {
 	return texture != nullptr;
+}
+
+void Sprite::SetScaleX(float scale) {
+	scaleX = scale;
+}
+
+void Sprite::SetScaleY(float scale) {
+	scaleY = scale;
 }
 
 
