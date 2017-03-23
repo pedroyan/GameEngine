@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 
-Vec2 Alien::defaultSpeed(200, 0);
+Vec2 Alien::defaultSpeed(500, 0);
 
 Alien::Alien(float x, float y, int nMinions) {
 	sp = (*new Sprite("img/alien.png"));
