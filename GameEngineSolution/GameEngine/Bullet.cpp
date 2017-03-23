@@ -8,6 +8,7 @@ Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance,
 
 	distanceLeft = maxDistance;
 	speed.Rotate(angle);
+	rotation = angle;
 }
 
 Bullet::~Bullet() {
@@ -15,8 +16,10 @@ Bullet::~Bullet() {
 
 void Bullet::Update(float dt) {
 	auto realSpeed = speed * dt;
-	box += realSpeed;
+	auto bulletCenter = box.GetCenter();
+	bulletCenter = bulletCenter + realSpeed;
 
+	box.SetCenter(bulletCenter.X, bulletCenter.Y);
 	distanceLeft -= realSpeed.Magnitude();
 }
 
@@ -24,7 +27,7 @@ void Bullet::Render() {
 	int x = box.X - Camera::pos.X;
 	int y = box.Y - Camera::pos.Y;
 
-	sp.Render(x, y);
+	sp.Render(x, y, rotation);
 }
 
 bool Bullet::IsDead() {
