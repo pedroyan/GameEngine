@@ -1,5 +1,7 @@
 #include "Minion.h"
 #include "Camera.h"
+#include "Bullet.h"
+#include "Game.h"
 #include <math.h>
 
 float Minion::angularSpeed = M_PI; //radianos/s
@@ -39,5 +41,11 @@ bool Minion::IsDead() {
 }
 
 void Minion::Shoot(Vec2 pos) {
-	//pew pew
+	auto position = box.GetCenter();
+
+	auto angle = position.GetDistanceVectorAngle(pos);
+	auto bullet = new Bullet(box.X, box.Y, angle, 100, 500, "img/minionbullet1.png");
+
+	auto state = Game::GetInstance()->GetState();
+	state->AddObject(bullet);
 }

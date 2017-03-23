@@ -25,7 +25,7 @@ Alien::~Alien() {
 void Alien::Update(float dt) {
 	auto& input = InputManager::GetInstance();
 
-	if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
+	if (input.MousePress(LEFT_MOUSE_BUTTON)) {
 		taskQueue.push(Action(Action::ActionType::SHOOT, input.GetWorldMouseX(), input.GetWorldMouseY()));
 	}
 
@@ -39,6 +39,8 @@ void Alien::Update(float dt) {
 		if (action.type == Action::ActionType::MOVE) {
 			move(dt, action);
 		} else if (action.type == Action::ActionType::SHOOT) {
+			auto randomMinion = minionArray[rand()%minionArray.size()];
+			randomMinion.Shoot(action.pos);
 			taskQueue.pop();
 		}
 	}

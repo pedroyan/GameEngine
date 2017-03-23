@@ -2,10 +2,12 @@
 #include <string>
 #include "Sprite.h"
 #include "Vec2.h"
+#include "Camera.h"
+#include "GameObject.h"
 
 using std::string;
 
-class Bullet {
+class Bullet : public GameObject {
 	public:
 	Bullet(float x, float y, float angle, float speed, float maxDistance, string sprite);
 	~Bullet();

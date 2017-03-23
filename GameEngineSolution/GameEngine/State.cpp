@@ -51,6 +51,11 @@ void State::Render() {
 	}
 }
 
+void State::AddObject(GameObject * ptr) {
+	auto uniqueObject = std::unique_ptr<GameObject>(ptr);
+	objectArray.push_back(std::move(uniqueObject));
+}
+
 
 State::~State() {
 	objectArray.clear();

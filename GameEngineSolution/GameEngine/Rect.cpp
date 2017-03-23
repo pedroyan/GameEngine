@@ -13,6 +13,11 @@ Rect Rect::operator+(const Vec2 vec) {
 	return result;
 }
 
+Rect& Rect::operator+=(const Vec2 vec) {
+	(*this) = (*this) + vec;
+	return *this;
+}
+
 Vec2 Rect::GetCenter() {
 	Vec2 toReturn;
 

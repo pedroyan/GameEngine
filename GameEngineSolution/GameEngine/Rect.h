@@ -11,6 +11,7 @@ class Rect {
 
 		//Operadores
 		Rect operator+(const Vec2 vec);
+		Rect& operator+=(const Vec2 vec);
 
 		//Método
 
