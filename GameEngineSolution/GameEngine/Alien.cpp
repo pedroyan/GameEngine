@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 
-Vec2 Alien::defaultSpeed(20, 0);
+Vec2 Alien::defaultSpeed(200, 0);
 
 Alien::Alien(float x, float y, int nMinions) {
 	sp = (*new Sprite("img/alien.png"));
@@ -79,20 +79,21 @@ void Alien::populateMinionArray(int nMinions) {
 void Alien::move(float dt, Alien::Action action) {
 
 	Vec2 positionVector = box.GetCenter();
-	float distanceTravelled = speed.Magnitude();
+
+	//Calcula o angulo somente 1 vez para cada novo movimento
+	if (speed.Equals(defaultSpeed)) {
+		auto rotationAngle = positionVector.GetDistanceVectorAngle(action.pos);
+		speed.Rotate(rotationAngle);
+	}
+
+	auto realSpeed = speed * dt;
+
+	float distanceTravelled = realSpeed.Magnitude();
 
 	//Movimenta de acordo com a velocidade caso a distancia percorrida < distancia que falta
 	float distanceToGo = positionVector.GetDistance(action.pos);
 	if (distanceTravelled < distanceToGo) {
-
-		//Calcula o angulo somente 1 vez para cada novo movimento
-		if (speed.Equals(defaultSpeed)) {
-			auto rotationAngle = positionVector.GetDistanceVectorAngle(action.pos);
-			speed.Rotate(rotationAngle);
-		}
-
-		box.X += speed.X;
-		box.Y += speed.Y;
+		box += realSpeed;
 	} else {
 
 		// caso a distancia percorrida pela velocidade > distancia que falta, seta a posição instantaneamente
