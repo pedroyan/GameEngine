@@ -9,7 +9,7 @@
 
 State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg") {
 	quitRequested = false;
-	objectArray.emplace_back(new Alien(512, 300, 10));
+	objectArray.emplace_back(new Alien(512, 300, 3));
 }
 
 bool State::QuitRequested() {
