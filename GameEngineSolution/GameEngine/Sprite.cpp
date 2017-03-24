@@ -9,11 +9,19 @@ Sprite::Sprite() {
 	scaleY = 1;
 }
 
-Sprite::Sprite(string file) {
+Sprite::Sprite(string file, int VframeCount, float VframeTime) {
 	texture = nullptr;
 	scaleX = 1;
 	scaleY = 1;
+
+	frameCount = VframeCount;
+	frameTime = VframeTime;
+
 	Open(file);
+
+	currentFrame = 0;
+	timeElapsed = 0;
+
 }
 
 
@@ -28,8 +36,9 @@ void Sprite::Open(string file) {
 	texture = Resources::GetImage(file);
 
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+	frameWidth = width / frameCount; //realiza o cálculo somente uma vez
 
-	SetClip(0, 0, width, height);
+	SetClip(0, 0, frameWidth, height);
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
@@ -53,7 +62,7 @@ void Sprite::Render(int x, int y, float angle) {
 }
 
 int Sprite::GetWidth() {
-	return width*scaleX;
+	return frameWidth*scaleX;
 }
 
 int Sprite::GetHeight() {
@@ -62,6 +71,32 @@ int Sprite::GetHeight() {
 
 bool Sprite::IsOpen() {
 	return texture != nullptr;
+}
+
+void Sprite::Update(float dt) {
+	timeElapsed += dt;
+
+	if (timeElapsed > frameTime) {
+		currentFrame++;
+		SetFrame(currentFrame);
+		timeElapsed = 0; // será?
+	}
+
+}
+
+void Sprite::SetFrame(int frame) {
+	frame = frame < frameCount ? frame : 0;
+	currentFrame = frame;
+
+	clipRect.x = frameWidth*frame;
+}
+
+void Sprite::SetFrameCount(int vframeCount) {
+	frameCount = vframeCount;
+}
+
+void Sprite::SetFrameTime(float vframeTime) {
+	frameTime = vframeTime;
 }
 
 void Sprite::SetScaleX(float scale) {

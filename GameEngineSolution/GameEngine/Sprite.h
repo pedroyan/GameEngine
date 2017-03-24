@@ -7,7 +7,7 @@ using std::string;
 class Sprite {
 	public:
 		Sprite();
-		Sprite(string file);
+		Sprite(string file, int frameCount = 1, float frameTime = 1);
 
 		~Sprite();
 
@@ -32,6 +32,10 @@ class Sprite {
 		int GetWidth();
 		int GetHeight();
 		bool IsOpen();
+		void Update(float dt);
+		void SetFrame(int frame);
+		void SetFrameCount(int frameCount);
+		void SetFrameTime(float frameTime);
 
 		void SetScaleX(float scale);
 		void SetScaleY(float scale);
@@ -43,5 +47,15 @@ class Sprite {
 		SDL_Rect clipRect;
 		float scaleX;
 		float scaleY;
+
+		int frameCount;
+		int currentFrame;
+		float timeElapsed;
+		float frameTime;
+
+		/// <summary>
+		/// Largura de cada frame
+		/// </summary>
+		int frameWidth;
 };
 

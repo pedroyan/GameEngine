@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite):sp(sprite),speed(speedArg,0) {
+Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite):sp(sprite,3,0.1),speed(speedArg,0) {
 	box.X = x;
 	box.Y = y;
 	box.W = sp.GetWidth();
@@ -21,6 +21,7 @@ void Bullet::Update(float dt) {
 
 	box.SetCenter(bulletCenter.X, bulletCenter.Y);
 	distanceLeft -= realSpeed.Magnitude();
+	sp.Update(dt);
 }
 
 void Bullet::Render() {
