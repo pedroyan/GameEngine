@@ -41,5 +41,6 @@ class Alien : public GameObject{
 
 		void populateMinionArray(int nMinions);
 		void move(float dt, Alien::Action action);
+		Minion* getClosestMinion(Vec2 pos);
 };
 

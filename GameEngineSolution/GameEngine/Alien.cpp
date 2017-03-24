@@ -39,8 +39,8 @@ void Alien::Update(float dt) {
 		if (action.type == Action::ActionType::MOVE) {
 			move(dt, action);
 		} else if (action.type == Action::ActionType::SHOOT) {
-			auto randomMinion = minionArray[rand()%minionArray.size()];
-			randomMinion.Shoot(action.pos);
+			auto closestMinion = getClosestMinion(action.pos);
+			closestMinion->Shoot(action.pos);
 			taskQueue.pop();
 		}
 	}
@@ -102,6 +102,22 @@ void Alien::move(float dt, Alien::Action action) {
 
 		speed = defaultSpeed;
 	}
+}
+
+Minion* Alien::getClosestMinion(Vec2 pos) {
+	
+	float smallestDistance = FLT_MAX;
+	Minion* closestMinion = nullptr;
+
+	for (auto& minion : minionArray) {
+		auto minionDistance = minion.box.GetCenter().GetDistance(pos);
+		if (minionDistance < smallestDistance) {
+			smallestDistance = minionDistance;
+			closestMinion = &minion;
+		}
+	}
+
+	return closestMinion;
 }
 
 

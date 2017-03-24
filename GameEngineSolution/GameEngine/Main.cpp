@@ -11,7 +11,5 @@ int main(int argc, char ** argv) {
 	game->Run();
 	Resources::ClearImages();
 
-	printf("oi");
-
 	return 0;
 }
