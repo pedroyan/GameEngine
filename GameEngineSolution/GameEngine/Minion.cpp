@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "Game.h"
 #include <math.h>
+#include <random>
 
 float Minion::angularSpeed = M_PI; //radianos/s
 
@@ -11,6 +12,12 @@ Minion::Minion(GameObject * minionCenter, float arcOffset) : sp("img/minion.png"
 	arc = arcOffset;
 	box.W = sp.GetWidth();
 	box.H = sp.GetHeight();
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> dis(1, 1.5);
+
+	sp.SetScaleX(dis(gen));
+	sp.SetScaleY(dis(gen));
 }
 
 Minion::~Minion() {
@@ -33,7 +40,7 @@ void Minion::Render() {
 	int x = box.X - Camera::pos.X;
 	int y = box.Y - Camera::pos.Y;
 
-	sp.Render(x, y);
+	sp.Render(x, y, arc);
 }
 
 bool Minion::IsDead() {
