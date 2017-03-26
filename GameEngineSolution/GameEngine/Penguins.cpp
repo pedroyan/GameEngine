@@ -3,7 +3,7 @@
 #include <math.h>
 
 Penguins* Penguins::player = nullptr;
-float acceleration = 2;
+float acceleration = 30;
 //Limite para velocidade adiante
 float fSpeedLimit = 200;
 //Limite para velocidade de ré
@@ -38,10 +38,12 @@ void Penguins::Update(float dt) {
 	}
 
 	if (input.IsKeyDown(SDLK_w) && linearSpeed < fSpeedLimit) {
-		Accelerate(true);
+		Accelerate(true, dt);
 	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
-		Accelerate(false);
+		Accelerate(false, dt);
 	}
+
+	box += speed*dt;
 }
 
 void Penguins::Render() {
@@ -54,18 +56,18 @@ bool Penguins::IsDead() {
 void Penguins::Shoot() {
 }
 
-void Penguins::Accelerate(bool forward) {
+void Penguins::Accelerate(bool forward, float dt) {
 	float accelarationValue = 0;
-
+	auto realAcceletarion = acceleration*dt;
 	if (forward) {
-		auto newLinearSpeed = linearSpeed + acceleration;
+		auto newLinearSpeed = linearSpeed + realAcceletarion;
 		accelarationValue = newLinearSpeed < fSpeedLimit // mesmo raciocinio explicado na desaceleração
-			? acceleration 
+			? realAcceletarion
 			: fSpeedLimit - linearSpeed;
 	} else {
-		auto newLinearSpeed = linearSpeed - acceleration;
+		auto newLinearSpeed = linearSpeed - realAcceletarion;
 		accelarationValue = newLinearSpeed > bSpeedLimit //se a nova velocidade linear não for menor do que o limite inferior
-			? acceleration								//desacelera a velocidade pela constante completa
+			? realAcceletarion								//desacelera a velocidade pela constante completa
 			: -(bSpeedLimit - linearSpeed);		//caso contrário, só desacelera oque falta para a velocidade atingir o limite inferior
 	}
 

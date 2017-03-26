@@ -25,7 +25,7 @@ class Penguins : public GameObject {
 	float cannonAngle;
 	int hp;
 
-	void Accelerate(bool forward);
+	void Accelerate(bool forward, float dt);
 
 };
 
