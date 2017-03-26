@@ -28,6 +28,7 @@ void Minion::Update(float dt) {
 
 	Vec2 minionCircumference(100, 0);
 	minionCircumference.Rotate(arc);
+	rotation = arc;
 
 	auto centerVector = center->box.GetCenter();
 
@@ -40,7 +41,7 @@ void Minion::Render() {
 	int x = box.X - Camera::pos.X;
 	int y = box.Y - Camera::pos.Y;
 
-	sp.Render(x, y, arc);
+	sp.Render(x, y, rotation);
 }
 
 bool Minion::IsDead() {
