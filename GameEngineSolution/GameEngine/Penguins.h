@@ -20,9 +20,12 @@ class Penguins : public GameObject {
 	Sprite bodySP;
 	Sprite cannonSp;
 	Vec2 speed;
+
 	float linearSpeed;
 	float cannonAngle;
 	int hp;
+
+	void Accelerate(bool forward);
 
 };
 
