@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Vec2.h"
+#include "InputManager.h"
 
 class Penguins : public GameObject {
 	public:
@@ -24,8 +25,9 @@ class Penguins : public GameObject {
 	float linearSpeed;
 	float cannonAngle;
 	int hp;
-
+	
 	void Accelerate(bool forward, float dt);
+	void UpdateCannonAngle(InputManager& manager);
 
 };
 

@@ -38,10 +38,7 @@ void Minion::Update(float dt) {
 }
 
 void Minion::Render() {
-	int x = box.X - Camera::pos.X;
-	int y = box.Y - Camera::pos.Y;
-
-	sp.Render(x, y, rotation);
+	sp.Render(box.GetWorldPosition(), rotation);
 }
 
 bool Minion::IsDead() {

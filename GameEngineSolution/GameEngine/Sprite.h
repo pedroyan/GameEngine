@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include <SDL_image.h>
+#include "Vec2.h"
 
 using std::string;
 
@@ -29,6 +30,7 @@ class Sprite {
 		/// <param name="y">Posicao Y</param>
 		/// <param name="angle">Angulo, em radianos, que o sprite será girado no sentido horario</param>
 		void Render(int x, int y, float angle = 0);
+		void Render(Vec2 pos, float angle = 0);
 		int GetWidth();
 		int GetHeight();
 		bool IsOpen();

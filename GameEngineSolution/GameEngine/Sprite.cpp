@@ -61,6 +61,10 @@ void Sprite::Render(int x, int y, float angle) {
 	SDL_RenderCopyEx(renderer, texture, &clipRect, &destinyRectangl,degreeAngle,nullptr,SDL_FLIP_NONE);
 }
 
+void Sprite::Render(Vec2 pos, float angle) {
+	Render(pos.X, pos.Y, angle);
+}
+
 int Sprite::GetWidth() {
 	return frameWidth*scaleX;
 }

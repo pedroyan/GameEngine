@@ -1,5 +1,4 @@
 #include "Penguins.h"
-#include "InputManager.h"
 #include <math.h>
 
 Penguins* Penguins::player = nullptr;
@@ -29,6 +28,7 @@ Penguins::~Penguins() {
 void Penguins::Update(float dt) {
 	auto& input = InputManager::GetInstance();
 
+	//Rotaciona caso D ou A sejam apertados
 	if (input.IsKeyDown(SDLK_d)) {
 		rotation += turningSpeed;
 		speed.Rotate(turningSpeed);
@@ -37,16 +37,23 @@ void Penguins::Update(float dt) {
 		speed.Rotate(-turningSpeed);
 	}
 
+	//Acelera caso W ou S sejam apertados
 	if (input.IsKeyDown(SDLK_w) && linearSpeed < fSpeedLimit) {
 		Accelerate(true, dt);
 	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
 		Accelerate(false, dt);
 	}
-
 	box += speed*dt;
+
+	UpdateCannonAngle(input);
+
+	if (input.MousePress(LEFT_ARROW_KEY)) {
+		Shoot();
+	}
 }
 
 void Penguins::Render() {
+	bodySP.Render(box.GetWorldPosition(), rotation);
 }
 
 bool Penguins::IsDead() {
@@ -67,7 +74,7 @@ void Penguins::Accelerate(bool forward, float dt) {
 	} else {
 		auto newLinearSpeed = linearSpeed - realAcceletarion;
 		accelarationValue = newLinearSpeed > bSpeedLimit //se a nova velocidade linear não for menor do que o limite inferior
-			? realAcceletarion								//desacelera a velocidade pela constante completa
+			? realAcceletarion							//desacelera a velocidade pela constante completa
 			: -(bSpeedLimit - linearSpeed);		//caso contrário, só desacelera oque falta para a velocidade atingir o limite inferior
 	}
 
@@ -81,4 +88,11 @@ void Penguins::Accelerate(bool forward, float dt) {
 
 	accelerationVector.Rotate(accAngle);
 	speed = accelerationVector + speed;
+}
+
+void Penguins::UpdateCannonAngle(InputManager & manager) {
+	Vec2 mousePosition(manager.GetWorldMouseX(), manager.GetWorldMouseY());
+	Vec2 cannonAxis = box.GetCenter();
+
+	cannonAngle = cannonAxis.GetDistanceVectorAngle(mousePosition);
 }

@@ -1,5 +1,5 @@
 #include "Rect.h"
-
+#include "Camera.h"
 
 
 Rect Rect::operator+(const Vec2 vec) {
@@ -41,6 +41,13 @@ bool Rect::IsInside(Vec2 coordinates) {
 
 bool Rect::IsInside(float x, float y) {
 	return IsInside(Vec2(x, y));
+}
+
+Vec2 Rect::GetWorldPosition() {
+	auto cameraPosition = Camera::pos;
+	int x = X - cameraPosition.X;
+	int y = Y - cameraPosition.Y;
+	return Vec2(x, y);
 }
 
 void Rect::SetCenter(float x, float y) {

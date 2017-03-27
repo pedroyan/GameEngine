@@ -25,10 +25,7 @@ void Bullet::Update(float dt) {
 }
 
 void Bullet::Render() {
-	int x = box.X - Camera::pos.X;
-	int y = box.Y - Camera::pos.Y;
-
-	sp.Render(x, y, rotation);
+	sp.Render(box.GetWorldPosition(), rotation);
 }
 
 bool Bullet::IsDead() {

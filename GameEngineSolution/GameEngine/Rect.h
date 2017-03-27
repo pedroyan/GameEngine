@@ -46,6 +46,8 @@ class Rect {
 		/// <returns>booleano indicando se o ponto se encontra dentro do retângulo</returns>
 		bool IsInside(float x, float y);
 
+		Vec2 GetWorldPosition();
+
 		void SetCenter(float x, float y);
 
 		Rect();

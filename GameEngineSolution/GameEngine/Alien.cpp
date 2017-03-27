@@ -51,11 +51,9 @@ void Alien::Update(float dt) {
 }
 
 void Alien::Render() {
-	auto cameraPosition = Camera::pos;
-	int x = box.X - cameraPosition.X;
-	int y = box.Y - cameraPosition.Y;
+	auto position = box.GetWorldPosition();
 
-	sp.Render(x, y, rotation);
+	sp.Render(position, rotation);
 	for (auto& minion : minionArray) {
 		minion.Render();
 	}
