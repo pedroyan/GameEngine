@@ -54,6 +54,14 @@ void Penguins::Update(float dt) {
 
 void Penguins::Render() {
 	bodySP.Render(box.GetWorldPosition(), rotation);
+
+	auto centerPosition = box.GetCenter();
+
+	Vec2 renderPosition;
+	renderPosition.X = centerPosition.X - cannonSp.GetWidth() / 2;
+	renderPosition.Y = centerPosition.Y - cannonSp.GetHeight() / 2;
+
+	cannonSp.Render(renderPosition,cannonAngle);
 }
 
 bool Penguins::IsDead() {
