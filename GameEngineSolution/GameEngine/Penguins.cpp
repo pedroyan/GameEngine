@@ -1,4 +1,6 @@
 #include "Penguins.h"
+#include "Bullet.h"
+#include "Game.h"
 #include <math.h>
 
 Penguins* Penguins::player = nullptr;
@@ -13,6 +15,7 @@ float turningSpeed = M_PI / 16;
 Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(200,0){
 	rotation = 0;
 	Penguins::player = this;
+	hp = 100;
 
 	box.X = x;
 	box.Y = y;
@@ -47,7 +50,7 @@ void Penguins::Update(float dt) {
 
 	UpdateCannonAngle(input);
 
-	if (input.MousePress(LEFT_ARROW_KEY)) {
+	if (input.MousePress(LEFT_MOUSE_BUTTON)) {
 		Shoot();
 	}
 }
@@ -65,10 +68,18 @@ void Penguins::Render() {
 }
 
 bool Penguins::IsDead() {
-	return false;
+	return hp <= 0;
 }
 
 void Penguins::Shoot() {
+	Vec2 cannonOffset(20, 0);
+	cannonOffset.Rotate(cannonAngle);
+
+	Vec2 spawnPoint = box.GetCenter() + cannonOffset;
+
+	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, 200, 500, "img/penguinbullet.png");
+	Game::GetInstance()->GetState()->AddObject(bullet);
+
 }
 
 void Penguins::Accelerate(bool forward, float dt) {
