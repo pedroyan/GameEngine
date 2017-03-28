@@ -61,8 +61,8 @@ void Penguins::Render() {
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
-	renderPosition.X = centerPosition.X - cannonSp.GetWidth() / 2;
-	renderPosition.Y = centerPosition.Y - cannonSp.GetHeight() / 2;
+	renderPosition.X = centerPosition.X - cannonSp.GetWidth() / 2 - Camera::pos.X;
+	renderPosition.Y = centerPosition.Y - cannonSp.GetHeight() / 2 - Camera::pos.Y;
 
 	cannonSp.Render(renderPosition,cannonAngle);
 }
