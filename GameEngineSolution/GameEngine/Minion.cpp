@@ -49,7 +49,7 @@ void Minion::Shoot(Vec2 pos) {
 	auto position = box.GetCenter();
 
 	auto angle = position.GetDistanceVectorAngle(pos);
-	auto bullet = new Bullet(position.X, position.Y, angle, 500, 500, "img/minionbullet2.png");
+	auto bullet = new Bullet(position.X, position.Y, angle, 500, 500, "img/minionbullet2.png",3);
 
 	auto state = Game::GetInstance()->GetState();
 	state->AddObject(bullet);

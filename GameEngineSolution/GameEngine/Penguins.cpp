@@ -72,12 +72,13 @@ bool Penguins::IsDead() {
 }
 
 void Penguins::Shoot() {
-	Vec2 cannonOffset(20, 0);
+	Vec2 cannonOffset(50, 0);
 	cannonOffset.Rotate(cannonAngle);
+	
+	//Subtrai um Vetor(-15,15) do centro do sprite para se tornar o centro do canhão
+	Vec2 spawnPoint = box.GetCenter() + Vec2(-15,-15) + cannonOffset;
 
-	Vec2 spawnPoint = box.GetCenter() + cannonOffset;
-
-	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, 200, 500, "img/penguinbullet.png");
+	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getDynamicBulletSpeed(), 600, "img/penguinbullet.png",4);
 	Game::GetInstance()->GetState()->AddObject(bullet);
 
 }
@@ -114,4 +115,10 @@ void Penguins::UpdateCannonAngle(InputManager & manager) {
 	Vec2 cannonAxis = box.GetCenter();
 
 	cannonAngle = cannonAxis.GetDistanceVectorAngle(mousePosition);
+}
+
+float Penguins::getDynamicBulletSpeed() {
+	Vec2 bulletSpeed(400, 0);
+	bulletSpeed.Rotate(cannonAngle);
+	return (bulletSpeed + speed).Magnitude();
 }

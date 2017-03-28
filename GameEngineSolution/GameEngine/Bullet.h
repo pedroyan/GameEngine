@@ -9,7 +9,7 @@ using std::string;
 
 class Bullet : public GameObject {
 	public:
-	Bullet(float x, float y, float angle, float speed, float maxDistance, string sprite);
+	Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite, int frameCount);
 	~Bullet();
 
 	void Update(float dt);
