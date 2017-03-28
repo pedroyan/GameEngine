@@ -61,7 +61,7 @@ Vec2 Vec2::operator-(const Vec2 subtracao) {
 	return result;
 }
 
-Vec2 Vec2::operator*(const float escalar) {
+Vec2 Vec2::operator*(const float escalar) const{
 	Vec2 result;
 	result.X = X*escalar;
 	result.Y = Y*escalar;

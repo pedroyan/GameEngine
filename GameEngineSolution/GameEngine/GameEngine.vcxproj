@@ -143,6 +143,7 @@
     <ClInclude Include="Alien.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
