@@ -4,15 +4,15 @@
 #include <math.h>
 
 Penguins* Penguins::player = nullptr;
-float acceleration = 30;
+float acceleration = 100;
 //Limite para velocidade adiante
-float fSpeedLimit = 200;
+float fSpeedLimit = 500;
 //Limite para velocidade de ré
-float bSpeedLimit = -100;
+float bSpeedLimit = -300;
 //Velocidade angular de virara
 float turningSpeed = M_PI / 16;
 
-Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(200,0){
+Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
 	Penguins::player = this;
 	hp = 100;
@@ -114,8 +114,7 @@ void Penguins::Accelerate(bool forward, float dt) {
 	Vec2 accelerationVector(accelarationValue, 0);
 
 	linearSpeed = forward ? linearSpeed + accelarationValue : linearSpeed - accelarationValue;
-	auto accAngle = forward ? speed.GetXAxisAngle() : M_PI + speed.GetXAxisAngle();
-
+	auto accAngle = forward ? rotation : M_PI + rotation;
 	accelerationVector.Rotate(accAngle);
 	speed = accelerationVector + speed;
 }

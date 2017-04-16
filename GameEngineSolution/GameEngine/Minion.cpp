@@ -56,6 +56,7 @@ void Minion::Shoot(Vec2 pos) {
 }
 
 void Minion::NotifyCollision(GameObject & other) {
+	center->NotifyCollision(other);
 }
 
 bool Minion::Is(string type) {
