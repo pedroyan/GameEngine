@@ -54,3 +54,10 @@ void Minion::Shoot(Vec2 pos) {
 	auto state = Game::GetInstance()->GetState();
 	state->AddObject(bullet);
 }
+
+void Minion::NotifyCollision(GameObject & other) {
+}
+
+bool Minion::Is(string type) {
+	return type == "Minion";
+}

@@ -53,19 +53,19 @@ class Collision {
 
     private:
 
-        static inline float Mag(const Vec2& p) {
+        static inline float Mag(const Vec2 p) {
             return std::sqrt(p.X * p.X + p.Y * p.Y);
         }
 
-        static inline Vec2 Norm(Vec2& p) {
-            return p * (1.f / Mag(p));
+        static inline Vec2 Norm(Vec2 p) {
+			return p.Normalize();
         }
 
-        static inline float Dot(const Vec2& a, const Vec2& b) {
+        static inline float Dot(const Vec2 a, const Vec2 b) {
             return a.X * b.X + a.Y * b.Y;
         }
 
-        static inline Vec2 Rotate(const Vec2& p, float angle) {
+        static inline Vec2 Rotate(const Vec2 p, float angle) {
             float cs = std::cos(angle), sn = std::sin(angle);
             return Vec2 ( p.X * cs - p.Y * sn, p.X * sn + p.Y * cs );
         }

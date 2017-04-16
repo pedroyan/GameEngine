@@ -17,6 +17,8 @@ class Alien : public GameObject{
 	void Update(float dt);
 	void Render();
 	bool IsDead();
+	bool Is(string type);
+	void NotifyCollision(GameObject& other);
 
 	private:
 		class Action {

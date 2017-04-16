@@ -6,6 +6,7 @@
 #include "InputManager.h"
 #include "Alien.h"
 #include "Penguins.h"
+#include "Collision.h"
 
 
 State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg") {
@@ -42,7 +43,12 @@ void State::Update(float dt) {
 
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Update(dt);
-		if (objectArray[i] -> IsDead()) {
+	}
+
+	CheckCollisions();
+
+	for (unsigned i = 0; i < objectArray.size(); i++) {
+		if (objectArray[i]->IsDead()) {
 			objectArray.erase(objectArray.begin() + i);
 		}
 	}
@@ -59,6 +65,18 @@ void State::Render() {
 void State::AddObject(GameObject * ptr) {
 	auto uniqueObject = std::unique_ptr<GameObject>(ptr);
 	objectArray.push_back(std::move(uniqueObject));
+}
+
+void State::CheckCollisions() {
+	auto size = objectArray.size();
+	for (size_t i = 0; i < size; i++) {
+		for (size_t j = i+1; j < size; j++) {
+			if (Collision::IsColliding(objectArray[i]->box, objectArray[j]->box, objectArray[i]->rotation, objectArray[j]->rotation)) {
+				objectArray[i]->NotifyCollision(*objectArray[j]);
+				objectArray[j]->NotifyCollision(*objectArray[i]);
+			}
+		}
+	}
 }
 
 

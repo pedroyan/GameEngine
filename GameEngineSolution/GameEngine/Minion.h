@@ -10,6 +10,8 @@ class Minion : public GameObject{
 		void Render();
 		bool IsDead();
 		void Shoot(Vec2 pos);
+		void NotifyCollision(GameObject& other);
+		bool Is(string type);
 	private:
 		GameObject* center;
 		Sprite sp;

@@ -63,6 +63,16 @@ bool Alien::IsDead() {
 	return hp <= 0;
 }
 
+bool Alien::Is(string type) {
+	return type == "Alien";
+}
+
+void Alien::NotifyCollision(GameObject & other) {
+	if (other.Is("Bullet")) {
+		hp -= 10;
+	}
+}
+
 void Alien::populateMinionArray(int nMinions) {
 	float offset = 0;
 	float angularDistance = nMinions > 0 ? M_PI * 2 / nMinions : 0;

@@ -24,6 +24,7 @@ class State {
 
 		std::vector<std::unique_ptr<GameObject>> objectArray;
 		//metodos
+		void CheckCollisions();
 
 		bool quitRequested;
 };

@@ -71,6 +71,16 @@ bool Penguins::IsDead() {
 	return hp <= 0;
 }
 
+void Penguins::NotifyCollision(GameObject & other) {
+	if (other.Is("Bullet")) {
+		hp -= 10;
+	}
+}
+
+bool Penguins::Is(string type) {
+	return type == "Penguins";
+}
+
 void Penguins::Shoot() {
 	Vec2 cannonOffset(50, 0);
 	cannonOffset.Rotate(cannonAngle);
