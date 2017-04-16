@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite, int frameCount):sp(sprite, frameCount,0.1),speed(speedArg,0) {
+Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite, int frameCount, bool targetsPlayerv):sp(sprite, frameCount,0.1),speed(speedArg,0) {
 	box.X = x;
 	box.Y = y;
 	box.W = sp.GetWidth();
@@ -9,6 +9,7 @@ Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance,
 	distanceLeft = maxDistance;
 	speed.Rotate(angle);
 	rotation = angle;
+	targetsPlayer = targetsPlayerv;
 }
 
 Bullet::~Bullet() {
@@ -33,7 +34,9 @@ bool Bullet::IsDead() {
 }
 
 void Bullet::NotifyCollision(GameObject & other) {
-	distanceLeft = 0;
+	if (other.Is("Penguins") && targetsPlayer || !other.Is("Penguins")) {
+		distanceLeft = 0;
+	}
 }
 
 bool Bullet::Is(string type) {

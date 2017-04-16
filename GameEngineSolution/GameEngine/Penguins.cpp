@@ -72,7 +72,7 @@ bool Penguins::IsDead() {
 }
 
 void Penguins::NotifyCollision(GameObject & other) {
-	if (other.Is("Bullet")) {
+	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
 		hp -= 10;
 	}
 }
@@ -88,7 +88,7 @@ void Penguins::Shoot() {
 	//Subtrai um Vetor(-15,15) do centro do sprite para se tornar o centro do canhão
 	Vec2 spawnPoint = box.GetCenter() + Vec2(-15,-15) + cannonOffset;
 
-	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 600, "img/penguinbullet.png",4);
+	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 600, "img/penguinbullet.png",4, false);
 	Game::GetInstance()->GetState()->AddObject(bullet);
 
 }

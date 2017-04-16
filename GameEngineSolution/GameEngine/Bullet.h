@@ -9,7 +9,7 @@ using std::string;
 
 class Bullet : public GameObject {
 	public:
-	Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite, int frameCount);
+	Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite, int frameCount, bool targetsPlayerv);
 	~Bullet();
 
 	void Update(float dt);
@@ -17,6 +17,8 @@ class Bullet : public GameObject {
 	bool IsDead();
 	void NotifyCollision(GameObject& other);
 	bool Is(string type);
+
+	bool targetsPlayer;
 
 	private:
 
