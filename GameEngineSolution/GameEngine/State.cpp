@@ -70,10 +70,12 @@ void State::AddObject(GameObject * ptr) {
 void State::CheckCollisions() {
 	auto size = objectArray.size();
 	for (size_t i = 0; i < size; i++) {
-		for (size_t j = i+1; j < size; j++) {
-			if (Collision::IsColliding(objectArray[i]->box, objectArray[j]->box, objectArray[i]->rotation, objectArray[j]->rotation)) {
-				objectArray[i]->NotifyCollision(*objectArray[j]);
-				objectArray[j]->NotifyCollision(*objectArray[i]);
+		if (!objectArray[i]->Is("Animation")) {
+			for (size_t j = i + 1; j < size; j++) {
+				if (!objectArray[j]->Is("Animation") && Collision::IsColliding(objectArray[i]->box, objectArray[j]->box, objectArray[i]->rotation, objectArray[j]->rotation)) {
+					objectArray[i]->NotifyCollision(*objectArray[j]);
+					objectArray[j]->NotifyCollision(*objectArray[i]);
+				}
 			}
 		}
 	}

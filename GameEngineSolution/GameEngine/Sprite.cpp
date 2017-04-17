@@ -83,7 +83,7 @@ void Sprite::Update(float dt) {
 	if (timeElapsed > frameTime) {
 		currentFrame++;
 		SetFrame(currentFrame);
-		timeElapsed = 0; // será?
+		timeElapsed = 0;
 	}
 
 }
