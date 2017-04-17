@@ -33,6 +33,7 @@ class Penguins : public GameObject {
 	void Accelerate(bool forward, float dt);
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
+	void takeDamage(int damage);
 
 };
 

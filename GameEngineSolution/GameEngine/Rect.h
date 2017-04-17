@@ -49,6 +49,7 @@ class Rect {
 		Vec2 GetWorldPosition();
 
 		void SetCenter(float x, float y);
+		void SetCenter(Vec2 vector);
 
 		Rect();
 		Rect(float x, float y, float w, float h);

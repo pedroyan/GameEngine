@@ -1,6 +1,7 @@
 #include "Penguins.h"
 #include "Bullet.h"
 #include "Game.h"
+#include "Animation.h"
 #include <math.h>
 
 Penguins* Penguins::player = nullptr;
@@ -83,7 +84,7 @@ bool Penguins::IsDead() {
 
 void Penguins::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
-		hp -= 10;
+		takeDamage(10);
 	}
 }
 
@@ -141,4 +142,11 @@ float Penguins::getInertialBulletSpeed() {
 	Vec2 bulletSpeed(400, 0);
 	bulletSpeed.Rotate(cannonAngle);
 	return (bulletSpeed + speed).Magnitude();
+}
+
+void Penguins::takeDamage(int damage) {
+	hp -= damage;
+	if (IsDead()) {
+		Game::GetInstance()->GetState()->AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
+	}
 }

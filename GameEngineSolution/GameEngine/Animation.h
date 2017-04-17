@@ -7,7 +7,7 @@ using std::string;
 
 class Animation : public GameObject {
 	public:
-	Animation(float x, float y, float rotation, Sprite sprite, float timeLimitV, bool ends);
+	Animation(Vec2 center, float rotationv, string sprite, int framecount, float frameTime, bool ends);
 	void Update(float dt);
 	void Render();
 

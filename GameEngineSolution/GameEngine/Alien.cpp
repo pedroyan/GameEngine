@@ -1,6 +1,9 @@
 #include "Alien.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "State.h"
+#include "Animation.h"
+#include "Game.h"
 
 Vec2 Alien::defaultSpeed(500, 0);
 
@@ -69,7 +72,7 @@ bool Alien::Is(string type) {
 
 void Alien::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet")) {
-		hp -= 10;
+		takeDamage(10);
 	}
 }
 
@@ -126,6 +129,13 @@ Minion* Alien::getClosestMinion(Vec2 pos) {
 	}
 
 	return closestMinion;
+}
+
+void Alien::takeDamage(int damage) {
+	hp -= damage;
+	if (IsDead()) {
+		Game::GetInstance()->GetState()->AddObject(new Animation(box.GetCenter(), rotation, "img/aliendeath.png", 4, 0.125, true));
+	}
 }
 
 

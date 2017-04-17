@@ -1,15 +1,13 @@
 #include "Animation.h"
 
-Animation::Animation(float x, float y, float rotationv, Sprite sprite, float timeLimitV, bool ends) {
-	sp = sprite;
+Animation::Animation(Vec2 center, float rotationv, string sprite, int framecount ,float frameTime, bool ends) :sp(sprite,framecount,frameTime) {
 
-	box.X = x;
-	box.Y = y;
 	box.W = sp.GetWidth();
 	box.H = sp.GetHeight();
+	box.SetCenter(center);
 
 	rotation = rotationv;
-	timeLimit = timeLimitV;
+	timeLimit = framecount*frameTime;
 	oneTimeOnly = ends;
 	endTimer = Timer();
 }

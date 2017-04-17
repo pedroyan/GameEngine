@@ -55,6 +55,10 @@ void Rect::SetCenter(float x, float y) {
 	Y = y - H / 2;
 }
 
+void Rect::SetCenter(Vec2 vector) {
+	SetCenter(vector.X, vector.Y);
+}
+
 Rect::Rect() {
 	X = 0;
 	Y = 0;
