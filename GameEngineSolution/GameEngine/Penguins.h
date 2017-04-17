@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "Vec2.h"
 #include "InputManager.h"
+#include "Timer.h"
 
 class Penguins : public GameObject {
 	public:
@@ -27,6 +28,7 @@ class Penguins : public GameObject {
 	float linearSpeed;
 	float cannonAngle;
 	int hp;
+	Timer cooldownCounter;
 	
 	void Accelerate(bool forward, float dt);
 	void UpdateCannonAngle(InputManager& manager);

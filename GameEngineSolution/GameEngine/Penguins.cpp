@@ -12,10 +12,14 @@ float bSpeedLimit = -300;
 //Velocidade angular de virara
 float turningSpeed = M_PI / 16;
 
+//cooldown de tiro em segundos
+float coolDown = 0.5;
+
 Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
 	Penguins::player = this;
 	hp = 100;
+	cooldownCounter = Timer();
 
 	box.X = x;
 	box.Y = y;
@@ -30,6 +34,12 @@ Penguins::~Penguins() {
 
 void Penguins::Update(float dt) {
 	auto& input = InputManager::GetInstance();
+	if (cooldownCounter.Get() != 0) {
+		cooldownCounter.Update(dt);
+		if (cooldownCounter.Get() > 0) {
+			cooldownCounter.Restart();
+		}
+	}
 
 	//Rotaciona caso D ou A sejam apertados
 	if (input.IsKeyDown(SDLK_d)) {
@@ -50,7 +60,7 @@ void Penguins::Update(float dt) {
 
 	UpdateCannonAngle(input);
 
-	if (input.MousePress(LEFT_MOUSE_BUTTON)) {
+	if (input.MousePress(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
 		Shoot();
 	}
 }
@@ -91,6 +101,7 @@ void Penguins::Shoot() {
 	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 600, "img/penguinbullet.png",4, false);
 	Game::GetInstance()->GetState()->AddObject(bullet);
 
+	cooldownCounter.Update(-coolDown);
 }
 
 void Penguins::Accelerate(bool forward, float dt) {
