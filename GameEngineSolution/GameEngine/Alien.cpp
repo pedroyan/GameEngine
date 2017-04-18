@@ -4,11 +4,18 @@
 #include "State.h"
 #include "Animation.h"
 #include "Game.h"
+#include "Bullet.h"
+#include "Penguins.h"
 
 Vec2 Alien::defaultSpeed(500, 0);
+int Alien::alienCount = 0;
+
+const int restCooldown = 1;
 
 Alien::Alien(float x, float y, int nMinions) {
 	sp = (*new Sprite("img/alien.png"));
+	Alien::alienCount++;
+	state = Alienstate::RESTING;
 
 	box.X = x;
 	box.Y = y;
@@ -23,29 +30,15 @@ Alien::Alien(float x, float y, int nMinions) {
 }
 
 Alien::~Alien() {
+	Alien::alienCount--;
 }
 
 void Alien::Update(float dt) {
 	auto& input = InputManager::GetInstance();
 	rotation -= 2*dt;
-	if (input.MousePress(LEFT_MOUSE_BUTTON)) {
-		taskQueue.push(Action(Action::ActionType::SHOOT, input.GetWorldMouseX(), input.GetWorldMouseY()));
-	}
 
-	if (input.IsMouseDown(RIGHT_MOUSE_BUTTON)) {
-		taskQueue.push(Action(Action::ActionType::MOVE, input.GetWorldMouseX(), input.GetWorldMouseY()));
-	}
-
-	if (taskQueue.size() > 0) {
-
-		auto action = taskQueue.front();
-		if (action.type == Action::ActionType::MOVE) {
-			move(dt, action);
-		} else if (action.type == Action::ActionType::SHOOT) {
-			auto closestMinion = getClosestMinion(action.pos);
-			closestMinion->Shoot(action.pos);
-			taskQueue.pop();
-		}
+	if (Penguins::player != nullptr) {
+		runAI(dt);
 	}
 
 	for (auto& minion : minionArray) {
@@ -71,7 +64,7 @@ bool Alien::Is(string type) {
 }
 
 void Alien::NotifyCollision(GameObject & other) {
-	if (other.Is("Bullet")) {
+	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
 		takeDamage(10);
 	}
 }
@@ -86,14 +79,19 @@ void Alien::populateMinionArray(int nMinions) {
 	}
 }
 
-
-void Alien::move(float dt, Alien::Action action) {
+/// <summary>
+/// Movimenta o centro do alien para a posição indicada.
+/// </summary>
+/// <param name="dt">tempo decorrido entre um frame e outro</param>
+/// <param name="targetPosition">posição de destina</param>
+/// <returns>Indica se o movimento se encerrou</returns>
+bool Alien::move(float dt, Vec2 targetPosition) {
 
 	Vec2 positionVector = box.GetCenter();
 
 	//Calcula o angulo somente 1 vez para cada novo movimento
 	if (speed.Equals(defaultSpeed)) {
-		auto rotationAngle = positionVector.GetDistanceVectorAngle(action.pos);
+		auto rotationAngle = positionVector.GetDistanceVectorAngle(targetPosition);
 		speed.Rotate(rotationAngle);
 	}
 
@@ -102,16 +100,17 @@ void Alien::move(float dt, Alien::Action action) {
 	float distanceTravelled = realSpeed.Magnitude();
 
 	//Movimenta de acordo com a velocidade caso a distancia percorrida < distancia que falta
-	float distanceToGo = positionVector.GetDistance(action.pos);
+	float distanceToGo = positionVector.GetDistance(targetPosition);
 	if (distanceTravelled < distanceToGo) {
 		box += realSpeed;
+		return false;
 	} else {
 
 		// caso a distancia percorrida pela velocidade > distancia que falta, seta a posição instantaneamente
-		box.SetCenter(action.pos.X, action.pos.Y);
-		taskQueue.pop();
+		box.SetCenter(targetPosition.X, targetPosition.Y);
 
 		speed = defaultSpeed;
+		return true;
 	}
 }
 
@@ -138,9 +137,22 @@ void Alien::takeDamage(int damage) {
 	}
 }
 
-
-Alien::Action::Action(ActionType actionType, float x, float y) {
-	type = actionType;
-	pos.X = x;
-	pos.Y = y;
+void Alien::runAI(float dt) {
+	auto currentPlayerCenter = Penguins::player->box.GetCenter();
+	if (state == Alienstate::RESTING) {
+		restTimer.Update(dt);
+		if (restTimer.Get() >= restCooldown) {
+			destination = currentPlayerCenter;
+			move(dt, destination);
+			state = Alienstate::MOVING;
+		}
+	} else {
+		auto concluiMovimento = move(dt, destination);
+		if (concluiMovimento) {
+			auto closestMinion = getClosestMinion(currentPlayerCenter);
+			closestMinion->Shoot(currentPlayerCenter);
+			restTimer.Restart();
+			state = Alienstate::RESTING;
+		}
+	}
 }

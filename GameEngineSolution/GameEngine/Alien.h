@@ -5,6 +5,7 @@
 #include <vector>
 #include "GameObject.h"
 #include "Minion.h"
+#include "Timer.h"
 
 using std::queue;
 using std::vector;
@@ -19,31 +20,23 @@ class Alien : public GameObject{
 	bool IsDead();
 	bool Is(string type);
 	void NotifyCollision(GameObject& other);
+	static int alienCount;
 
 	private:
-		class Action {
-			public:
-				enum class ActionType {
-					MOVE,
-					SHOOT
-				};
-				Action(ActionType actionType, float x, float y);
-
-				ActionType type;
-				Vec2 pos;
-		};
-
-
 		Sprite sp;
 		Vec2 speed;
 		int hp;
-		queue<Action> taskQueue;
 		vector<Minion> minionArray;
 		static Vec2 defaultSpeed;
+		enum Alienstate { MOVING, RESTING };
+		Alienstate state;
+		Timer restTimer;
+		Vec2 destination;
 
 		void populateMinionArray(int nMinions);
-		void move(float dt, Alien::Action action);
+		bool move(float dt, Vec2 targetPosition);
 		Minion* getClosestMinion(Vec2 pos);
 		void takeDamage(int damage);
+		void runAI(float dt);
 };
 

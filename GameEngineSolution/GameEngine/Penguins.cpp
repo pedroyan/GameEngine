@@ -5,7 +5,7 @@
 #include <math.h>
 
 Penguins* Penguins::player = nullptr;
-float acceleration = 100;
+float acceleration = 200;
 //Limite para velocidade adiante
 float fSpeedLimit = 500;
 //Limite para velocidade de ré
