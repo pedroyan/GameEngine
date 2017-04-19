@@ -1,7 +1,7 @@
 #include "Alien.h"
 #include "InputManager.h"
 #include "Camera.h"
-#include "State.h"
+#include "StageState.h"
 #include "Animation.h"
 #include "Game.h"
 #include "Bullet.h"

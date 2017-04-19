@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <SDL_image.h>
-#include "State.h"
+#include "StageState.h"
 
 #define DEFAULT_GAME_WIDTH 1024;
 #define DEFAULT_GAME_HEIGHT 600;
