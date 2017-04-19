@@ -7,7 +7,7 @@
 Penguins* Penguins::player = nullptr;
 float acceleration = 200;
 //Limite para velocidade adiante
-float fSpeedLimit = 500;
+float fSpeedLimit = 400;
 //Limite para velocidade de ré
 float bSpeedLimit = -300;
 //Velocidade angular de virara
@@ -99,7 +99,7 @@ void Penguins::Shoot() {
 	//Subtrai um Vetor(-15,15) do centro do sprite para se tornar o centro do canhão
 	Vec2 spawnPoint = box.GetCenter() + Vec2(-15,-15) + cannonOffset;
 
-	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 600, "img/penguinbullet.png",4, false);
+	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/penguinbullet.png",4, false);
 	Game::GetInstance()->GetState()->AddObject(bullet);
 
 	cooldownCounter.Update(-coolDown);
@@ -139,7 +139,7 @@ void Penguins::UpdateCannonAngle(InputManager & manager) {
 }
 
 float Penguins::getInertialBulletSpeed() {
-	Vec2 bulletSpeed(400, 0);
+	Vec2 bulletSpeed(800, 0);
 	bulletSpeed.Rotate(cannonAngle);
 	return (bulletSpeed + speed).Magnitude();
 }
