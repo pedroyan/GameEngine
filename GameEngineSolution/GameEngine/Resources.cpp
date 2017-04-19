@@ -8,8 +8,8 @@ SDL_Texture * Resources::GetImage(string file) {
 	auto iterator = imageTable.find(file);
 
 	if (iterator == imageTable.end()) {
-		Game* gameInstance = Game::GetInstance();
-		SDL_Texture* texture = IMG_LoadTexture(gameInstance->GetRenderer(), file.c_str());
+		Game& gameInstance = Game::GetInstance();
+		SDL_Texture* texture = IMG_LoadTexture(gameInstance.GetRenderer(), file.c_str());
 
 		if (texture == nullptr) {
 			string error = SDL_GetError();

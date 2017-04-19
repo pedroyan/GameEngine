@@ -16,9 +16,9 @@ class Game {
 
 		~Game();
 
-		static Game* GetInstance();
-		StageState* GetState();
+		static Game& GetInstance();
 		SDL_Renderer* GetRenderer();
+		StageState* GetState();
 		void Run();
 		float GetDeltaTime();
 

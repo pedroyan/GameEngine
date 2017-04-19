@@ -100,7 +100,7 @@ void Penguins::Shoot() {
 	Vec2 spawnPoint = box.GetCenter() + Vec2(-15,-15) + cannonOffset;
 
 	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/penguinbullet.png",4, false);
-	Game::GetInstance()->GetState()->AddObject(bullet);
+	Game::GetInstance().GetState()->AddObject(bullet);
 
 	cooldownCounter.Update(-coolDown);
 }
@@ -147,6 +147,6 @@ float Penguins::getInertialBulletSpeed() {
 void Penguins::takeDamage(int damage) {
 	hp -= damage;
 	if (IsDead()) {
-		Game::GetInstance()->GetState()->AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
+		Game::GetInstance().GetState()->AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
 	}
 }

@@ -40,15 +40,15 @@ Game::~Game() {
 	SDL_Quit();
 }
 
-Game * Game::GetInstance() {
+Game & Game::GetInstance() {
 	
 	if (Instance == nullptr) {
 		int width = DEFAULT_GAME_WIDTH;
 		int height = DEFAULT_GAME_HEIGHT;
-		return new Game("default Title", width, height);
+		return (*new Game("default Title", width, height));
 	}
 
-	return Instance;
+	return *Instance;
 }
 
 StageState * Game::GetState() {

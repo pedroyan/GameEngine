@@ -4,9 +4,10 @@
 #include <memory>
 #include "GameObject.h"
 #include "TileSet.h"
+#include "State.h"
 #include "TileMap.h"
 
-class StageState {
+class StageState : public State{
 	public:
 		StageState();
 		~StageState();
@@ -14,6 +15,8 @@ class StageState {
 		void LoadAssets();
 		void Update(float dt);
 		void Render();
+		void Pause();
+		void Resume();
 		void AddObject(GameObject* ptr);
 	private:
 		//variaveis
@@ -22,7 +25,6 @@ class StageState {
 		TileSet tileSet;
 		TileMap tileMap;
 
-		std::vector<std::unique_ptr<GameObject>> objectArray;
 		//metodos
 		void CheckCollisions();
 

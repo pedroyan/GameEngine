@@ -62,6 +62,12 @@ void StageState::Render() {
 	}
 }
 
+void StageState::Pause() {
+}
+
+void StageState::Resume() {
+}
+
 void StageState::AddObject(GameObject * ptr) {
 	auto uniqueObject = std::unique_ptr<GameObject>(ptr);
 	objectArray.push_back(std::move(uniqueObject));
