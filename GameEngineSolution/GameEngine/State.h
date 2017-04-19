@@ -6,10 +6,10 @@
 #include "TileSet.h"
 #include "TileMap.h"
 
-class State {
+class StageState {
 	public:
-		State();
-		~State();
+		StageState();
+		~StageState();
 		bool QuitRequested();
 		void LoadAssets();
 		void Update(float dt);

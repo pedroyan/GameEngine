@@ -22,7 +22,7 @@ Game::Game(string title, int width, int height) {
 
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	state = new State();
+	state = new StageState();
 	srand(std::time(0));
 	dt = 0;
 	frameStart = 0;
@@ -51,7 +51,7 @@ Game * Game::GetInstance() {
 	return Instance;
 }
 
-State * Game::GetState() {
+StageState * Game::GetState() {
 	return state;
 }
 

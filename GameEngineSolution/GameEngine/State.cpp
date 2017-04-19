@@ -9,7 +9,7 @@
 #include "Collision.h"
 
 
-State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg") {
+StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg") {
 	quitRequested = false;
 	objectArray.emplace_back(new Alien(512, 300, 3));
 	auto penguim = new Penguins(704, 640);
@@ -18,14 +18,14 @@ State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&ti
 
 }
 
-bool State::QuitRequested() {
+bool StageState::QuitRequested() {
 	return quitRequested;
 }
 
-void State::LoadAssets() {
+void StageState::LoadAssets() {
 }
 
-void State::Update(float dt) {
+void StageState::Update(float dt) {
 	SDL_Event event;
 	Camera::Update(dt);
 	auto& manager = InputManager::GetInstance();
@@ -54,7 +54,7 @@ void State::Update(float dt) {
 	}
 }
 
-void State::Render() {
+void StageState::Render() {
 	bg.Render(0, 0);
 	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y));
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
@@ -62,12 +62,12 @@ void State::Render() {
 	}
 }
 
-void State::AddObject(GameObject * ptr) {
+void StageState::AddObject(GameObject * ptr) {
 	auto uniqueObject = std::unique_ptr<GameObject>(ptr);
 	objectArray.push_back(std::move(uniqueObject));
 }
 
-void State::CheckCollisions() {
+void StageState::CheckCollisions() {
 	auto size = objectArray.size();
 	for (size_t i = 0; i < size; i++) {
 		if (!objectArray[i]->Is("Animation")) {
@@ -82,6 +82,6 @@ void State::CheckCollisions() {
 }
 
 
-State::~State() {
+StageState::~StageState() {
 	objectArray.clear();
 }
