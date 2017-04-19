@@ -133,7 +133,7 @@ Minion* Alien::getClosestMinion(Vec2 pos) {
 void Alien::takeDamage(int damage) {
 	hp -= damage;
 	if (IsDead()) {
-		Game::GetInstance().GetState()->AddObject(new Animation(box.GetCenter(), rotation, "img/aliendeath.png", 4, 0.125, true));
+		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/aliendeath.png", 4, 0.125, true));
 	}
 }
 

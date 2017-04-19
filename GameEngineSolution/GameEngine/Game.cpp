@@ -51,8 +51,8 @@ Game & Game::GetInstance() {
 	return *Instance;
 }
 
-StageState * Game::GetState() {
-	return state;
+State & Game::GetCurrentState() {
+	return *state;
 }
 
 SDL_Renderer * Game::GetRenderer() {
