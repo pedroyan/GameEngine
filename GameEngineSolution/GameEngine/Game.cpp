@@ -22,7 +22,7 @@ Game::Game(string title, int width, int height) {
 
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	state = new StageState();
+	storedState = new StageState();
 	srand(std::time(0));
 	dt = 0;
 	frameStart = 0;
@@ -31,7 +31,7 @@ Game::Game(string title, int width, int height) {
 Game* Game::Instance = nullptr;
 
 Game::~Game() {
-	delete state;
+	delete storedState;
 	IMG_Quit();
 
 	SDL_DestroyRenderer(renderer);
@@ -52,7 +52,7 @@ Game & Game::GetInstance() {
 }
 
 State & Game::GetCurrentState() {
-	return *state;
+	return *storedState;
 }
 
 SDL_Renderer * Game::GetRenderer() {
@@ -60,13 +60,13 @@ SDL_Renderer * Game::GetRenderer() {
 }
 
 void Game::Run() {
-	while (!(*state).QuitRequested()) {
+	while (!(*storedState).QuitRequested()) {
 		CalculateDeltaTime();
 
 		//renderiza o novo quadro
-		state->Render();
+		storedState->Render();
 		InputManager::GetInstance().Update();
-		state->Update(dt);
+		storedState->Update(dt);
 		SDL_RenderPresent(renderer);
 
 		//printf("Mouse x: %d     Mouse Y: %d\n", InputManager::GetInstance().GetWorldMouseX(), InputManager::GetInstance().GetWorldMouseY());

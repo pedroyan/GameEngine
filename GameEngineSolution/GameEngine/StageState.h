@@ -11,7 +11,6 @@ class StageState : public State{
 	public:
 		StageState();
 		~StageState();
-		bool QuitRequested();
 		void LoadAssets();
 		void Update(float dt);
 		void Render();
@@ -27,7 +26,5 @@ class StageState : public State{
 
 		//metodos
 		void CheckCollisions();
-
-		bool quitRequested;
 };
 

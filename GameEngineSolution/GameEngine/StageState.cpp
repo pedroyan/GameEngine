@@ -18,10 +18,6 @@ StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMa
 
 }
 
-bool StageState::QuitRequested() {
-	return quitRequested;
-}
-
 void StageState::LoadAssets() {
 }
 
