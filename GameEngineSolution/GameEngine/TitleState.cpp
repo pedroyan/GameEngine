@@ -26,5 +26,4 @@ void TitleState::Pause() {
 }
 
 void TitleState::Resume() {
-	printf("resumi");
 }

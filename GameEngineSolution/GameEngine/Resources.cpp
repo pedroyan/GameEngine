@@ -2,9 +2,9 @@
 #include "Game.h"
 #include "Logger.h"
 
-unordered_map<string, SDL_Texture*> Resources::imageTable;
+unordered_map<string, shared_ptr<SDL_Texture>> Resources::imageTable;
 
-SDL_Texture * Resources::GetImage(string file) {
+shared_ptr<SDL_Texture> Resources::GetImage(string file) {
 	auto iterator = imageTable.find(file);
 
 	if (iterator == imageTable.end()) {
@@ -16,16 +16,24 @@ SDL_Texture * Resources::GetImage(string file) {
 			Logger::LogError(error);
 			exit(0);
 		}
+		auto deleteCallback = [](SDL_Texture* texture) {
+			SDL_DestroyTexture(texture);
+		};
 
-		imageTable.emplace(std::make_pair(file, texture));
-		return texture;
+		shared_ptr<SDL_Texture> shared(texture,deleteCallback);
+		imageTable.emplace(std::make_pair(file, shared));
+		return shared;
 	} else {
 		return iterator->second;
 	}
 }
 
 void Resources::ClearImages() {
-	for (auto& x : imageTable) {
-		SDL_DestroyTexture(x.second);
+	for (auto it = imageTable.begin(); it != imageTable.end();) {
+		if ((*it).second.unique()) {
+			it = imageTable.erase(it);
+		} else {
+			it++;
+		}
 	}
 }

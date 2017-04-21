@@ -26,16 +26,13 @@ Sprite::Sprite(string file, int VframeCount, float VframeTime) {
 
 
 Sprite::~Sprite() {
-	//if (texture!=nullptr) {
-	//	SDL_DestroyTexture(texture);
-	//}
 }
 
 void Sprite::Open(string file) {
 	
 	texture = Resources::GetImage(file);
 
-	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+	SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height);
 	frameWidth = width / frameCount; //realiza o cálculo somente uma vez
 
 	SetClip(0, 0, frameWidth, height);
@@ -58,7 +55,7 @@ void Sprite::Render(int x, int y, float angle) {
 	destinyRectangl.y = y;
 	destinyRectangl.h = clipRect.h*scaleY;
 	destinyRectangl.w = clipRect.w*scaleY;
-	SDL_RenderCopyEx(renderer, texture, &clipRect, &destinyRectangl,degreeAngle,nullptr,SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, texture.get(), &clipRect, &destinyRectangl,degreeAngle,nullptr,SDL_FLIP_NONE);
 }
 
 void Sprite::Render(Vec2 pos, float angle) {

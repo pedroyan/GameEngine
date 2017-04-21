@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Logger.h"
 #include "InputManager.h"
+#include "Resources.h"
 #include <ctime>
 
 Game::Game(string title, int width, int height) {
@@ -78,21 +79,28 @@ void Game::Run() {
 	} else {
 		return;
 	}
-
-	while (!stateStack.empty() && !(*stateStack.top()).QuitRequested()) {
+	bool quit = false;
+	while (!stateStack.empty() && !quit) {
 		CalculateDeltaTime();
 
 		auto& currentState = GetCurrentState();
-		//renderiza o novo quadro
+
 		currentState.Render();
 		InputManager::GetInstance().Update();
 		currentState.Update(dt);
 		SDL_RenderPresent(renderer);
 
-		//printf("Mouse x: %d     Mouse Y: %d\n", InputManager::GetInstance().GetWorldMouseX(), InputManager::GetInstance().GetWorldMouseY());
-
 		ManagePile();
 		SDL_Delay(20);
+
+		quit = (*stateStack.top()).QuitRequested();
+	}
+
+	//limpa stack se uma flag de quit quem saiu do loop
+	if (quit) {
+		while (!stateStack.empty()) {
+			stateStack.pop();
+		}
 	}
 }
 
@@ -109,6 +117,8 @@ void Game::CalculateDeltaTime() {
 void Game::ManagePile() {
 	if (GetCurrentState().PopRequested()) {
 		stateStack.pop();
+		Resources::ClearImages();
+
 		if (!stateStack.empty()) {
 			auto& state = GetCurrentState();
 			state.Resume();
