@@ -26,7 +26,8 @@ void StageState::Update(float dt) {
 	Camera::Update(dt);
 	auto& manager = InputManager::GetInstance();
 
-	quitRequested = manager.QuitRequested() || manager.KeyPress(SDLK_ESCAPE);
+	popRequested = manager.KeyPress(SDLK_ESCAPE);
+	quitRequested = manager.QuitRequested();
 
 	UpdateArray(dt);
 }

@@ -110,7 +110,8 @@ void Game::ManagePile() {
 	if (GetCurrentState().PopRequested()) {
 		stateStack.pop();
 		if (!stateStack.empty()) {
-			(*stateStack.top()).Resume();
+			auto& state = GetCurrentState();
+			state.Resume();
 		}
 	}
 
@@ -118,6 +119,7 @@ void Game::ManagePile() {
 		if (!stateStack.empty()) {
 			(*stateStack.top()).Pause();
 		}
-		stateStack.push(std::unique_ptr<State>(storedState));
+		stateStack.emplace(std::unique_ptr<State>(storedState));
+		storedState = nullptr;
 	}
 }
