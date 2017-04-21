@@ -22,7 +22,7 @@ Game::Game(string title, int width, int height) {
 
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	storedState = new StageState();
+	storedState = nullptr;
 	srand(std::time(0));
 	dt = 0;
 	frameStart = 0;
@@ -31,7 +31,14 @@ Game::Game(string title, int width, int height) {
 Game* Game::Instance = nullptr;
 
 Game::~Game() {
-	delete storedState;
+	if (storedState != nullptr) {
+		delete storedState;
+	}
+
+	while (stateStack.size() > 0) {
+		stateStack.pop();
+	}
+
 	IMG_Quit();
 
 	SDL_DestroyRenderer(renderer);
@@ -52,7 +59,11 @@ Game & Game::GetInstance() {
 }
 
 State & Game::GetCurrentState() {
-	return *storedState;
+	return *stateStack.top();
+}
+
+void Game::Push(State * state) {
+	storedState = state;
 }
 
 SDL_Renderer * Game::GetRenderer() {
@@ -60,13 +71,22 @@ SDL_Renderer * Game::GetRenderer() {
 }
 
 void Game::Run() {
-	while (!(*storedState).QuitRequested()) {
+	if (storedState != nullptr) {
+		auto uniqueObject = std::unique_ptr<State>(storedState);
+		stateStack.push(std::move(uniqueObject));
+		storedState = nullptr;
+	} else {
+		return;
+	}
+
+	while (stateStack.empty() || !(*stateStack.top()).QuitRequested()) {
 		CalculateDeltaTime();
 
+		auto& currentState = GetCurrentState();
 		//renderiza o novo quadro
-		storedState->Render();
+		currentState.Render();
 		InputManager::GetInstance().Update();
-		storedState->Update(dt);
+		currentState.Update(dt);
 		SDL_RenderPresent(renderer);
 
 		//printf("Mouse x: %d     Mouse Y: %d\n", InputManager::GetInstance().GetWorldMouseX(), InputManager::GetInstance().GetWorldMouseY());
@@ -84,4 +104,20 @@ void Game::CalculateDeltaTime() {
 	int actualTicks = SDL_GetTicks();
 	dt = (actualTicks - frameStart) / 1000.0;
 	frameStart = actualTicks;
+}
+
+void Game::ManagePile() {
+	if (GetCurrentState().PopRequested()) {
+		stateStack.pop();
+		if (!stateStack.empty()) {
+			(*stateStack.top()).Resume();
+		}
+	}
+
+	if (storedState != nullptr) {
+		if (!stateStack.empty()) {
+			(*stateStack.top()).Pause();
+		}
+		stateStack.push(std::unique_ptr<State>(storedState));
+	}
 }

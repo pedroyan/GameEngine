@@ -2,7 +2,9 @@
 #include <iostream>
 #include <string>
 #include <SDL_image.h>
-#include "StageState.h"
+#include "State.h"
+#include <stack>
+#include <memory>
 
 #define DEFAULT_GAME_WIDTH 1024;
 #define DEFAULT_GAME_HEIGHT 600;
@@ -19,6 +21,8 @@ class Game {
 		SDL_Renderer* GetRenderer();
 		State& GetCurrentState();
 
+		void Push(State* state);
+
 		void Run();
 		float GetDeltaTime();
 
@@ -29,7 +33,9 @@ class Game {
 		State* storedState;
 		int frameStart;
 		float dt;
+		std::stack<std::unique_ptr<State>> stateStack;
 		void CalculateDeltaTime();
+		void ManagePile();
 
 };
 
