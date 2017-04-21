@@ -79,7 +79,7 @@ void Game::Run() {
 		return;
 	}
 
-	while (stateStack.empty() || !(*stateStack.top()).QuitRequested()) {
+	while (!stateStack.empty() && !(*stateStack.top()).QuitRequested()) {
 		CalculateDeltaTime();
 
 		auto& currentState = GetCurrentState();
@@ -91,7 +91,7 @@ void Game::Run() {
 
 		//printf("Mouse x: %d     Mouse Y: %d\n", InputManager::GetInstance().GetWorldMouseX(), InputManager::GetInstance().GetWorldMouseY());
 
-		//Delay para evitar renderização excessivas
+		ManagePile();
 		SDL_Delay(20);
 	}
 }
