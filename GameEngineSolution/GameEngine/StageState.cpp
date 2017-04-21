@@ -28,34 +28,13 @@ void StageState::Update(float dt) {
 
 	quitRequested = manager.QuitRequested() || manager.KeyPress(SDLK_ESCAPE);
 
-	if (manager.KeyPress(SDLK_SPACE)) {
-		Vec2 cameraPosition = Camera::pos;
-
-		float x = (float)manager.GetMouseX() + cameraPosition.X;
-		float y = (float)manager.GetMouseY() + cameraPosition.Y;
-
-		//AddObject(x, y);
-	}
-
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		objectArray[i]->Update(dt);
-	}
-
-	CheckCollisions();
-
-	for (unsigned i = 0; i < objectArray.size(); i++) {
-		if (objectArray[i]->IsDead()) {
-			objectArray.erase(objectArray.begin() + i);
-		}
-	}
+	UpdateArray(dt);
 }
 
 void StageState::Render() {
 	bg.Render(0, 0);
 	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y));
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		objectArray[i]->Render();
-	}
+	RenderArray();
 }
 
 void StageState::Pause() {
@@ -79,6 +58,20 @@ void StageState::CheckCollisions() {
 					objectArray[j]->NotifyCollision(*objectArray[i]);
 				}
 			}
+		}
+	}
+}
+
+void StageState::UpdateArray(float dt) {
+	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		objectArray[i]->Update(dt);
+	}
+
+	CheckCollisions();
+
+	for (unsigned i = 0; i < objectArray.size(); i++) {
+		if (objectArray[i]->IsDead()) {
+			objectArray.erase(objectArray.begin() + i);
 		}
 	}
 }

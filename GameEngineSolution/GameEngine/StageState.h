@@ -23,8 +23,9 @@ class StageState : public State{
 		Sprite bg;
 		TileSet tileSet;
 		TileMap tileMap;
-
+	
 		//metodos
 		void CheckCollisions();
+		void UpdateArray(float dt);
 };
 
