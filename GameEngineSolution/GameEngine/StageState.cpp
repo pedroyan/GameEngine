@@ -9,8 +9,9 @@
 #include "Collision.h"
 
 
-StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg") {
+StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
 	quitRequested = false;
+	stageMusic.Play(-1);
 	objectArray.emplace_back(new Alien(512, 300, 3));
 	auto penguim = new Penguins(704, 640);
 	Camera::Follow(penguim);

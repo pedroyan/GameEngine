@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <SDL_mixer.h>
+#include <memory>
 using std::string;
 
 class Music {
@@ -14,6 +15,6 @@ class Music {
 	bool IsOpen();
 
 	private:
-	Mix_Music* music;
+	std::shared_ptr<Mix_Music> music;
 };
 

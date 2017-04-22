@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Logger.h"
 #include "InputManager.h"
+#include <SDL_mixer.h>
 #include "Resources.h"
 #include <ctime>
 
@@ -20,6 +21,9 @@ Game::Game(string title, int width, int height) {
 	}
 
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+	Mix_Init(MIX_INIT_OGG);
+	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
+
 
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
