@@ -28,6 +28,9 @@
     <Filter Include="Source Files\States">
       <UniqueIdentifier>{ab5e61b2-de3f-4b17-aefd-5a8a963029b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{ae63f8b7-fb2e-472d-ae64-bdac6192260c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -94,7 +97,7 @@
       <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Music.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
