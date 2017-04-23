@@ -1,8 +1,7 @@
 #include "TileSet.h"
 
 
-TileSet::TileSet(int width, int height, string file) {
-	tileSet = (*new Sprite(file));
+TileSet::TileSet(int width, int height, string file) : tileSet(file) {
 
 	tileWidth = width;
 	tileHeight = height;
