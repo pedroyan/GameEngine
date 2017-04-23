@@ -135,6 +135,7 @@
     <ClCompile Include="Penguins.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StageState.cpp" />
     <ClCompile Include="State.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Penguins.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StageState.h" />
     <ClInclude Include="State.h" />
