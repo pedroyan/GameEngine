@@ -12,8 +12,7 @@ int Alien::alienCount = 0;
 
 const int restCooldown = 1;
 
-Alien::Alien(float x, float y, int nMinions) {
-	sp = (*new Sprite("img/alien.png"));
+Alien::Alien(float x, float y, int nMinions) : sp("img/alien.png") {
 	Alien::alienCount++;
 	state = Alienstate::RESTING;
 
