@@ -19,7 +19,6 @@ void TileMap::Load(string file) {
 
 	SetDimensionsFromFile(fp);
 	setTileMatrix(fp);
-	free(fp);
 }
 
 /// <summary>
