@@ -4,8 +4,7 @@
 
 Vec2 Alien::defaultSpeed(500, 0);
 
-Alien::Alien(float x, float y, int nMinions) {
-	sp = (*new Sprite("img/alien.png"));
+Alien::Alien(float x, float y, int nMinions) : sp("img/alien.png") {
 
 	box.X = x;
 	box.Y = y;
