@@ -2,6 +2,7 @@
 #include "Bullet.h"
 #include "Game.h"
 #include "Animation.h"
+#include "Sound.h"
 #include <math.h>
 
 Penguins* Penguins::player = nullptr;
@@ -148,5 +149,6 @@ void Penguins::takeDamage(int damage) {
 	hp -= damage;
 	if (IsDead()) {
 		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
+		Sound("audio/boom.wav").Play(0);
 	}
 }

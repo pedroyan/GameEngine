@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "Minion.h"
 #include "Timer.h"
+#include "Sound.h"
 
 using std::queue;
 using std::vector;

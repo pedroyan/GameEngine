@@ -23,7 +23,6 @@ void StageState::LoadAssets() {
 }
 
 void StageState::Update(float dt) {
-	SDL_Event event;
 	Camera::Update(dt);
 	auto& manager = InputManager::GetInstance();
 

@@ -122,6 +122,8 @@ void Game::ManagePile() {
 	if (GetCurrentState().PopRequested()) {
 		stateStack.pop();
 		Resources::ClearImages();
+		Resources::ClearMusic();
+		Resources::ClearSound();
 
 		if (!stateStack.empty()) {
 			auto& state = GetCurrentState();

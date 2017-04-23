@@ -12,10 +12,13 @@ class Resources {
 	public:
 		static shared_ptr<SDL_Texture> GetImage(string file);
 		static shared_ptr<Mix_Music> GetMusic(string file);
+		static shared_ptr<Mix_Chunk> GetSound(string file);
 		static void ClearImages();
 		static void ClearMusic();
+		static void ClearSound();
 	private:
 		static unordered_map<string,shared_ptr<SDL_Texture>> imageTable;
 		static unordered_map<string, shared_ptr<Mix_Music>> musicTable;
+		static unordered_map<string, shared_ptr<Mix_Chunk>> soundTable;
 };
 
