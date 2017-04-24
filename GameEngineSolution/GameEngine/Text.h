@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 #include <SDL_ttf.h>
+#include <memory>
 #include "Rect.h"
 using std::string;
+using std::shared_ptr;
 class Text {
 	public:
 		enum TextStyle{SOLID,SHADED,BLENDED};
@@ -19,7 +21,7 @@ class Text {
 
 	private:
 		void RemakeTexture();
-		TTF_Font* font;
+		shared_ptr<TTF_Font> font;
 		SDL_Texture* texture;
 
 		string text;
