@@ -69,7 +69,7 @@ int * TileMap::At(int x, int y, int z) {
 	unsigned int unsigZ = z;
 
 	if (unsigX >= mapWidth || unsigY >= mapHeight || unsigZ >= mapDepth) {
-		throw std::out_of_range("Dimensões passadas são maiores do que as do mapa");
+		throw std::exception();
 	}
 
 	unsigned int heigthOffset = unsigY*mapWidth;
@@ -90,7 +90,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	unsigned int unsigLayer = layer;
 
 	if (unsigLayer >= mapDepth) {
-		throw std::out_of_range("Layer fora de alcance");
+		throw std::exception(); // layer fora de alcance
 	}
 
 	int layerSize = mapHeight*mapWidth;
