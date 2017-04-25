@@ -3,7 +3,8 @@
 #include "InputManager.h"
 #include "Game.h"
 
-TitleState::TitleState() : bg("img/title.jpg") {
+TitleState::TitleState() : bg("img/title.jpg"), mainText("font/Call me maybe.ttf", 40, Text::TextStyle::BLENDED, "Pressione espaco para comecar", {255,255,255,255}) {
+	mainText.SetPos(bg.GetWidth() / 2, bg.GetHeight() - 80, true, false);
 }
 
 
@@ -20,6 +21,7 @@ void TitleState::Update(float dt) {
 
 void TitleState::Render() {
 	bg.Render(0, 0);
+	mainText.Render();
 }
 
 void TitleState::Pause() {

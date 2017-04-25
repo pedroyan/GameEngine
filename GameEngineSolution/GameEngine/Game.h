@@ -25,6 +25,7 @@ class Game {
 
 		void Run();
 		float GetDeltaTime();
+		static void ClearResources();
 
 	private:
 		static Game* Instance;

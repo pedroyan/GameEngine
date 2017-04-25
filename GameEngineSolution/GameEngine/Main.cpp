@@ -13,7 +13,7 @@ int main(int argc, char ** argv) {
 	Game* game = new Game("PedroYan_140158995",Width,Height);
 	game->Push(new TitleState());
 	game->Run();
-	Resources::ClearImages();
+	Game::ClearResources();
 	delete game;
 
 	return 0;

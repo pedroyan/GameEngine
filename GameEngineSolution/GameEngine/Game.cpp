@@ -119,6 +119,13 @@ float Game::GetDeltaTime() {
 	return dt;
 }
 
+void Game::ClearResources() {
+	Resources::ClearImages();
+	Resources::ClearMusic();
+	Resources::ClearSound();
+	Resources::ClearFont();
+}
+
 void Game::CalculateDeltaTime() {
 	int actualTicks = SDL_GetTicks();
 	dt = (actualTicks - frameStart) / 1000.0;
@@ -128,9 +135,7 @@ void Game::CalculateDeltaTime() {
 void Game::ManagePile() {
 	if (GetCurrentState().PopRequested()) {
 		stateStack.pop();
-		Resources::ClearImages();
-		Resources::ClearMusic();
-		Resources::ClearSound();
+		ClearResources();
 
 		if (!stateStack.empty()) {
 			auto& state = GetCurrentState();
