@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Bullet.h"
 #include "Penguins.h"
+#include <cfloat>
 
 Vec2 Alien::defaultSpeed(500, 0);
 int Alien::alienCount = 0;

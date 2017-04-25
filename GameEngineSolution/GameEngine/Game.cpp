@@ -5,7 +5,6 @@
 
 Game::Game(string title, int width, int height) {
 	if (Instance != nullptr) {
-		throw new std::exception("Não é possivel instanciar mais de um jogo!");
 		exit(0);
 	}
 	Instance = this;
