@@ -1,6 +1,7 @@
 #include "Alien.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include <cfloat>
 
 Vec2 Alien::defaultSpeed(500, 0);
 
