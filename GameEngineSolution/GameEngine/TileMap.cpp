@@ -41,9 +41,9 @@ void TileMap::setTileMatrix(FILE * fp) {
 	char c = fgetc(fp); // pega o primeiro \n
 	c = fgetc(fp); //pega o segundo \n
 
-	for (size_t i = 0; i < mapDepth; i++) {
-		for (size_t j = 0; j < mapHeight; j++) {
-			for (size_t k = 0; k < mapWidth; k++) {
+	for (int i = 0; i < mapDepth; i++) {
+		for (int j = 0; j < mapHeight; j++) {
+			for (int k = 0; k < mapWidth; k++) {
 				int tileIndex;
 
 				char tileString[4];
@@ -81,7 +81,7 @@ int * TileMap::At(int x, int y, int z) {
 }
 
 void TileMap::Render(int cameraX, int cameraY) {
-	for (size_t i = 0; i < mapDepth; i++) {
+	for (int i = 0; i < mapDepth; i++) {
 		RenderLayer(i, cameraX, cameraY);
 	}
 }
@@ -97,8 +97,8 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 
 	int startIndex = unsigLayer*layerSize;
 
-	for (size_t i = 0; i < mapHeight; i++) {
-		for (size_t j = 0; j < mapWidth; j++) {
+	for (int i = 0; i < mapHeight; i++) {
+		for (int j = 0; j < mapWidth; j++) {
 			int index = i*mapWidth + j + startIndex;
 
 			int row = tileSet->GetTileHeight()*i - cameraY;
