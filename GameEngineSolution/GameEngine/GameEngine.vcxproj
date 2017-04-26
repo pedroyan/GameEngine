@@ -125,6 +125,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="EndState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StageState.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateData.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
@@ -152,6 +154,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="EndState.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
@@ -165,6 +168,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StageState.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="StateData.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />

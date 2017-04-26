@@ -7,6 +7,8 @@
 #include "Alien.h"
 #include "Penguins.h"
 #include "Collision.h"
+#include "Game.h"
+#include "EndState.h"
 
 
 StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
@@ -30,6 +32,14 @@ void StageState::Update(float dt) {
 	quitRequested = manager.QuitRequested();
 
 	UpdateArray(dt);
+
+	if (Alien::alienCount < 1) {
+		popRequested = true;
+		Game::GetInstance().Push(new EndState(StateData(true)));
+	} else if (Penguins::player == nullptr) {
+		popRequested = true;
+		Game::GetInstance().Push(new EndState(StateData(false)));
+	}
 }
 
 void StageState::Render() {
