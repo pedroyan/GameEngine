@@ -28,12 +28,15 @@
     <Filter Include="Source Files\States">
       <UniqueIdentifier>{ab5e61b2-de3f-4b17-aefd-5a8a963029b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{ae63f8b7-fb2e-472d-ae64-bdac6192260c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Image">
+      <UniqueIdentifier>{2ee4d2e0-11cd-41ef-a547-0d445247a697}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
@@ -78,16 +81,37 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StageState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="TitleState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Music.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
     <ClCompile Include="State.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EndState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="StateData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,14 +176,26 @@
     <ClInclude Include="State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SDL_mixer.h">
+    <ClInclude Include="TitleState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EndState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="SDL2_mixer.lib" />
   </ItemGroup>
 </Project>

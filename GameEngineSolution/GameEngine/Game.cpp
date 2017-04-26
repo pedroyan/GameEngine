@@ -1,11 +1,13 @@
 #include "Game.h"
 #include "Logger.h"
 #include "InputManager.h"
+#include <SDL_mixer.h>
+#include "Resources.h"
+#include <SDL_ttf.h>
 #include <ctime>
 
 Game::Game(string title, int width, int height) {
 	if (Instance != nullptr) {
-		throw new std::exception("Não é possivel instanciar mais de um jogo!");
 		exit(0);
 	}
 	Instance = this;
@@ -19,10 +21,14 @@ Game::Game(string title, int width, int height) {
 	}
 
 	IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
-
+	Mix_Init(MIX_INIT_OGG);
+	TTF_Init();
+	
+	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	storedState = new StageState();
+
+	storedState = nullptr;
 	srand(std::time(0));
 	dt = 0;
 	frameStart = 0;
@@ -31,8 +37,20 @@ Game::Game(string title, int width, int height) {
 Game* Game::Instance = nullptr;
 
 Game::~Game() {
-	delete storedState;
+	if (storedState != nullptr) {
+		delete storedState;
+	}
+
+	while (stateStack.size() > 0) {
+		stateStack.pop();
+	}
+
 	IMG_Quit();
+
+	Mix_CloseAudio();
+	Mix_Quit();
+
+	TTF_Quit();
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -52,7 +70,11 @@ Game & Game::GetInstance() {
 }
 
 State & Game::GetCurrentState() {
-	return *storedState;
+	return *stateStack.top();
+}
+
+void Game::Push(State * state) {
+	storedState = state;
 }
 
 SDL_Renderer * Game::GetRenderer() {
@@ -60,19 +82,35 @@ SDL_Renderer * Game::GetRenderer() {
 }
 
 void Game::Run() {
-	while (!(*storedState).QuitRequested()) {
+	if (storedState != nullptr) {
+		auto uniqueObject = std::unique_ptr<State>(storedState);
+		stateStack.push(std::move(uniqueObject));
+		storedState = nullptr;
+	} else {
+		return;
+	}
+	bool quit = false;
+	while (!stateStack.empty() && !quit) {
 		CalculateDeltaTime();
 
-		//renderiza o novo quadro
-		storedState->Render();
+		auto& currentState = GetCurrentState();
+
+		currentState.Render();
 		InputManager::GetInstance().Update();
-		storedState->Update(dt);
+		currentState.Update(dt);
 		SDL_RenderPresent(renderer);
 
-		//printf("Mouse x: %d     Mouse Y: %d\n", InputManager::GetInstance().GetWorldMouseX(), InputManager::GetInstance().GetWorldMouseY());
-
-		//Delay para evitar renderização excessivas
+		ManagePile();
 		SDL_Delay(20);
+
+		quit = (*stateStack.top()).QuitRequested();
+	}
+
+	//limpa stack se uma flag de quit quem saiu do loop
+	if (quit) {
+		while (!stateStack.empty()) {
+			stateStack.pop();
+		}
 	}
 }
 
@@ -80,8 +118,35 @@ float Game::GetDeltaTime() {
 	return dt;
 }
 
+void Game::ClearResources() {
+	Resources::ClearImages();
+	Resources::ClearMusic();
+	Resources::ClearSound();
+	Resources::ClearFont();
+}
+
 void Game::CalculateDeltaTime() {
 	int actualTicks = SDL_GetTicks();
 	dt = (actualTicks - frameStart) / 1000.0;
 	frameStart = actualTicks;
+}
+
+void Game::ManagePile() {
+	if (GetCurrentState().PopRequested()) {
+		stateStack.pop();
+		ClearResources();
+
+		if (!stateStack.empty()) {
+			auto& state = GetCurrentState();
+			state.Resume();
+		}
+	}
+
+	if (storedState != nullptr) {
+		if (!stateStack.empty()) {
+			(*stateStack.top()).Pause();
+		}
+		stateStack.emplace(std::unique_ptr<State>(storedState));
+		storedState = nullptr;
+	}
 }

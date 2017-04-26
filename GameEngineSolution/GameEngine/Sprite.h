@@ -2,8 +2,10 @@
 #include<string>
 #include <SDL_image.h>
 #include "Vec2.h"
+#include <memory>
 
 using std::string;
+using std::shared_ptr;
 
 class Sprite {
 	public:
@@ -43,7 +45,7 @@ class Sprite {
 		void SetScaleY(float scale);
 
 	private:
-		SDL_Texture* texture;
+		shared_ptr<SDL_Texture> texture;
 		int width;
 		int height;
 		SDL_Rect clipRect;

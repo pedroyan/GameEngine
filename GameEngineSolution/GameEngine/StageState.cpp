@@ -7,11 +7,18 @@
 #include "Alien.h"
 #include "Penguins.h"
 #include "Collision.h"
+#include "Game.h"
+#include "EndState.h"
 
 
-StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg") {
+StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
 	quitRequested = false;
+	stageMusic.Play(-1);
+
 	objectArray.emplace_back(new Alien(512, 300, 3));
+	objectArray.emplace_back(new Alien(900, 0, 4));
+	objectArray.emplace_back(new Alien(0, 900, 5));
+
 	auto penguim = new Penguins(704, 640);
 	Camera::Follow(penguim);
 	AddObject(penguim);
@@ -22,40 +29,27 @@ void StageState::LoadAssets() {
 }
 
 void StageState::Update(float dt) {
-	SDL_Event event;
 	Camera::Update(dt);
 	auto& manager = InputManager::GetInstance();
 
-	quitRequested = manager.QuitRequested() || manager.KeyPress(SDLK_ESCAPE);
+	popRequested = manager.KeyPress(SDLK_ESCAPE);
+	quitRequested = manager.QuitRequested();
 
-	if (manager.KeyPress(SDLK_SPACE)) {
-		Vec2 cameraPosition = Camera::pos;
+	UpdateArray(dt);
 
-		float x = (float)manager.GetMouseX() + cameraPosition.X;
-		float y = (float)manager.GetMouseY() + cameraPosition.Y;
-
-		//AddObject(x, y);
-	}
-
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		objectArray[i]->Update(dt);
-	}
-
-	CheckCollisions();
-
-	for (unsigned i = 0; i < objectArray.size(); i++) {
-		if (objectArray[i]->IsDead()) {
-			objectArray.erase(objectArray.begin() + i);
-		}
+	if (Alien::alienCount < 1) {
+		popRequested = true;
+		Game::GetInstance().Push(new EndState(StateData(true)));
+	} else if (Penguins::player == nullptr) {
+		popRequested = true;
+		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
 }
 
 void StageState::Render() {
 	bg.Render(0, 0);
 	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y));
-	for (unsigned int i = 0; i < objectArray.size(); i++) {
-		objectArray[i]->Render();
-	}
+	RenderArray();
 }
 
 void StageState::Pause() {
@@ -79,6 +73,20 @@ void StageState::CheckCollisions() {
 					objectArray[j]->NotifyCollision(*objectArray[i]);
 				}
 			}
+		}
+	}
+}
+
+void StageState::UpdateArray(float dt) {
+	for (unsigned int i = 0; i < objectArray.size(); i++) {
+		objectArray[i]->Update(dt);
+	}
+
+	CheckCollisions();
+
+	for (unsigned i = 0; i < objectArray.size(); i++) {
+		if (objectArray[i]->IsDead()) {
+			objectArray.erase(objectArray.begin() + i);
 		}
 	}
 }

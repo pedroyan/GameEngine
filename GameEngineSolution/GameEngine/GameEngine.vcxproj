@@ -69,7 +69,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\SDL2_mixer-2.0.1\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -82,9 +82,9 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)\SDL2_mixer-2.0.1\lib\x86l;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,21 +125,27 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="EndState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minion.cpp" />
+    <ClCompile Include="Music.cpp" />
     <ClCompile Include="Penguins.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StageState.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateData.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TitleState.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,28 +154,30 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="EndState.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Minion.h" />
+    <ClInclude Include="Music.h" />
     <ClInclude Include="Penguins.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resources.h" />
-    <ClInclude Include="SDL_mixer.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StageState.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="StateData.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TitleState.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="SDL2_mixer.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

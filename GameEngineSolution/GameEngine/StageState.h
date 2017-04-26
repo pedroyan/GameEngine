@@ -6,6 +6,8 @@
 #include "TileSet.h"
 #include "State.h"
 #include "TileMap.h"
+#include "Music.h"
+#include "Sound.h"
 
 class StageState : public State{
 	public:
@@ -23,8 +25,10 @@ class StageState : public State{
 		Sprite bg;
 		TileSet tileSet;
 		TileMap tileMap;
+		Music stageMusic;
 
 		//metodos
 		void CheckCollisions();
+		void UpdateArray(float dt);
 };
 

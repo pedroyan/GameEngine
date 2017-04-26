@@ -2,6 +2,7 @@
 #include "Bullet.h"
 #include "Game.h"
 #include "Animation.h"
+#include "Sound.h"
 #include <math.h>
 
 Penguins* Penguins::player = nullptr;
@@ -57,7 +58,15 @@ void Penguins::Update(float dt) {
 	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
 		Accelerate(false, dt);
 	}
+	Rect previousRect = box;
 	box += speed*dt;
+
+	if (box.X < 0 || box.X > 1408) {
+		box.X = previousRect.X;
+	}
+	if (box.Y < 0 || box.Y > 1280) {
+		box.Y = previousRect.Y;
+	}
 
 	UpdateCannonAngle(input);
 
@@ -148,5 +157,6 @@ void Penguins::takeDamage(int damage) {
 	hp -= damage;
 	if (IsDead()) {
 		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
+		Sound("audio/boom.wav").Play(0);
 	}
 }
