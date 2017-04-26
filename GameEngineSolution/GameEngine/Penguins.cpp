@@ -58,7 +58,15 @@ void Penguins::Update(float dt) {
 	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
 		Accelerate(false, dt);
 	}
+	Rect previousRect = box;
 	box += speed*dt;
+
+	if (box.X < 0 || box.X > 1408) {
+		box.X = previousRect.X;
+	}
+	if (box.Y < 0 || box.Y > 1280) {
+		box.Y = previousRect.Y;
+	}
 
 	UpdateCannonAngle(input);
 
