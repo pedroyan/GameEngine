@@ -7,11 +7,16 @@
 #include "Bullet.h"
 #include "Penguins.h"
 #include <cfloat>
+#include <random>
 
 Vec2 Alien::defaultSpeed(500, 0);
 int Alien::alienCount = 0;
 
-const int restCooldown = 1;
+std::random_device rd;
+std::mt19937 gen(rd());
+std::uniform_real_distribution<> dis(1, 2);
+
+const int restCooldown = dis(gen);
 
 Alien::Alien(float x, float y, int nMinions) : sp("img/alien.png") {
 	Alien::alienCount++;
