@@ -9,7 +9,7 @@
 #include "Collision.h"
 
 
-State::State() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg") {
+State::State() : bg("img/ocean.jpg"), tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet)  {
 	quitRequested = false;
 	objectArray.emplace_back(new Alien(512, 300, 3));
 	auto penguim = new Penguins(704, 640);
@@ -26,20 +26,10 @@ void State::LoadAssets() {
 }
 
 void State::Update(float dt) {
-	SDL_Event event;
 	Camera::Update(dt);
 	auto& manager = InputManager::GetInstance();
 
 	quitRequested = manager.QuitRequested() || manager.KeyPress(SDLK_ESCAPE);
-
-	if (manager.KeyPress(SDLK_SPACE)) {
-		Vec2 cameraPosition = Camera::pos;
-
-		float x = (float)manager.GetMouseX() + cameraPosition.X;
-		float y = (float)manager.GetMouseY() + cameraPosition.Y;
-
-		//AddObject(x, y);
-	}
 
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Update(dt);
