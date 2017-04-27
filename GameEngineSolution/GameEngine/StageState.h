@@ -22,9 +22,9 @@ class StageState : public State{
 	private:
 		//variaveis
 
-		Sprite bg;
 		TileSet tileSet;
 		TileMap tileMap;
+		Sprite bg;
 		Music stageMusic;
 
 		//metodos
