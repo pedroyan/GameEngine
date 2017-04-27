@@ -53,11 +53,11 @@ void Sprite::Render(int x, int y, float angle) {
 }
 
 int Sprite::GetWidth() {
-	return width*scaleX;
+	return (int)width*scaleX;
 }
 
 int Sprite::GetHeight() {
-	return height*scaleY;
+	return (int)height*scaleY;
 }
 
 bool Sprite::IsOpen() {

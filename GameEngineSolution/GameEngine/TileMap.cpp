@@ -13,7 +13,7 @@ TileMap::TileMap(string file, TileSet * tileSetVariable) {
 void TileMap::Load(string file) {
 	FILE* fp = fopen(file.c_str(),"r");
 	if (fp == NULL) {
-		printf("Erro ao abrir arquivo %s\n", file);
+		printf("Erro ao abrir arquivo %s\n", file.c_str());
 		return;
 	}
 
@@ -39,8 +39,8 @@ void TileMap::SetTileSet(TileSet * set) {
 }
 
 void TileMap::setTileMatrix(FILE * fp) {
-	char c = fgetc(fp); // pega o primeiro \n
-	c = fgetc(fp); //pega o segundo \n
+	fgetc(fp); // pega o primeiro \n
+	fgetc(fp); //pega o segundo \n
 
 	for (int i = 0; i < mapDepth; i++) {
 		for (int j = 0; j < mapHeight; j++) {
@@ -57,26 +57,26 @@ void TileMap::setTileMatrix(FILE * fp) {
 
 			}
 			//ignora o \n
-			c = fgetc(fp);
+			fgetc(fp);
 		}
 		//ignora o \n
-		c = fgetc(fp);
+		fgetc(fp);
 	}
 }
 
 int * TileMap::At(int x, int y, int z) {
-	unsigned int unsigX = x;
-	unsigned int unsigY = y;
-	unsigned int unsigZ = z;
-
-	if (unsigX >= mapWidth || unsigY >= mapHeight || unsigZ >= mapDepth) {
-		throw std::exception();
+	if (x < 0 || y < 0 || z < 0) {
+		throw std::exception(); // não é possível passar valores menores que 0
 	}
 
-	unsigned int heigthOffset = unsigY*mapWidth;
-	unsigned int depthOffset = unsigZ*mapHeight*mapWidth;
+	if (x >= mapWidth || y >= mapHeight || z >= mapDepth) {
+		throw std::exception(); // não é possivel utilizar valores fora do indice
+	}
 
-	unsigned int index = unsigX + heigthOffset + depthOffset;
+	int heigthOffset = y*mapWidth;
+	int depthOffset = z*mapHeight*mapWidth;
+
+	int index = x + heigthOffset + depthOffset;
 
 	return &tileMatrix[index];
 }
@@ -88,15 +88,14 @@ void TileMap::Render(int cameraX, int cameraY) {
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
-	unsigned int unsigLayer = layer;
 
-	if (unsigLayer >= mapDepth) {
+	if (layer < 0 || layer >= mapDepth) {
 		throw std::exception(); // layer fora de alcance
 	}
 
 	int layerSize = mapHeight*mapWidth;
 
-	int startIndex = unsigLayer*layerSize;
+	int startIndex = layer*layerSize;
 
 	for (int i = 0; i < mapHeight; i++) {
 		for (int j = 0; j < mapWidth; j++) {
