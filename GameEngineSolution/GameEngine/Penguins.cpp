@@ -148,7 +148,7 @@ void Penguins::UpdateCannonAngle(InputManager & manager) {
 }
 
 float Penguins::getInertialBulletSpeed() {
-	Vec2 bulletSpeed(800, 0);
+	Vec2 bulletSpeed(1000, 0);
 	bulletSpeed.Rotate(cannonAngle);
 	return (bulletSpeed + speed).Magnitude();
 }

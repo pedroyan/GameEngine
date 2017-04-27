@@ -34,6 +34,10 @@ void Text::Render(int cameraX, int cameraY) {
 		destiny.y = box.Y - cameraY;
 
 		int result = SDL_RenderCopy(renderer, texture, NULL, &destiny);
+
+		if (result == -1) {
+			throw new std::exception();
+		}
 	}
 }
 
@@ -63,8 +67,8 @@ void Text::SetStyle(TextStyle style) {
 	RemakeTexture();
 }
 
-void Text::SetFontSize(int fontSize) {
-	this->fontsize = fontsize;
+void Text::SetFontSize(int fontSizev) {
+	this->fontsize = fontSizev;
 	RemakeTexture();
 }
 

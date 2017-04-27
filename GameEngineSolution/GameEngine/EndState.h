@@ -17,8 +17,9 @@ class EndState : public State {
 		void Resume();
 
 	private:
-		Music music;
-		Sprite bg;
 		Text instruction;
+		Sprite bg;
+		Music music;
+		
 };
 

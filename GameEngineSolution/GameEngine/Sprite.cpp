@@ -63,11 +63,11 @@ void Sprite::Render(Vec2 pos, float angle) {
 }
 
 int Sprite::GetWidth() {
-	return frameWidth*scaleX;
+	return (int)frameWidth*scaleX;
 }
 
 int Sprite::GetHeight() {
-	return height*scaleY;
+	return (int)height*scaleY;
 }
 
 bool Sprite::IsOpen() {
