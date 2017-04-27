@@ -34,7 +34,6 @@ Alien::~Alien() {
 }
 
 void Alien::Update(float dt) {
-	auto& input = InputManager::GetInstance();
 	rotation -= 2*dt;
 
 	if (Penguins::player != nullptr) {
