@@ -12,7 +12,7 @@ class TileMap {
 	public:
 		TileMap(string file, TileSet* tileSetVariable);
 
-		void Load(string file);
+		void Load(string fileName);
 
 		void SetTileSet(TileSet*  tileSetVariable);
 
@@ -43,6 +43,14 @@ class TileMap {
 		void SetDimensionsFromFile(FILE* fp);
 
 		void setTileMatrix(FILE* fp);
+
+		/// <summary>
+		/// Carrega o arquivo XML para a memória.
+		/// </summary>
+		/// <param name="fileName">Nome do arquivo a ser carregado</param>
+		/// <returns>string contendo o XML carregado</returns>
+		string loadTMXtoMemory(string fileName);
+
 
 };
 

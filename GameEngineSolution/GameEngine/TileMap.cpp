@@ -1,5 +1,10 @@
 #include "TileMap.h"
-#include <stdio.h>
+#include "RapidXML\rapidxml.hpp"
+#include <fstream>
+
+using std::ifstream;
+using std::getline;
+using namespace rapidxml;
 
 
 TileMap::~TileMap() {
@@ -10,16 +15,15 @@ TileMap::TileMap(string file, TileSet * tileSetVariable) {
 	tileSet = tileSetVariable;
 }
 
-void TileMap::Load(string file) {
-	FILE* fp = fopen(file.c_str(),"r");
-	if (fp == NULL) {
-		printf("Erro ao abrir arquivo %s\n", file.c_str());
-		return;
-	}
+void TileMap::Load(string fileName) {
 
-	SetDimensionsFromFile(fp);
+	string input_TMX = loadTMXtoMemory(fileName);
+
+	printf("%s", input_TMX.c_str());
+
+	/*SetDimensionsFromFile(fp);
 	setTileMatrix(fp);
-	fclose(fp);
+	fclose(fp);*/
 }
 
 /// <summary>
@@ -62,6 +66,28 @@ void TileMap::setTileMatrix(FILE * fp) {
 		//ignora o \n
 		fgetc(fp);
 	}
+}
+
+/// <summary>
+/// Carrega o arquivo TMX para a memória. Lança exceção caso o arquivo não consiga ser carregado
+/// </summary>
+/// <param name="filename">Nome do arquivo a ser carregado</param>
+/// <returns>string contendo o TMX carregado</returns>
+string TileMap::loadTMXtoMemory(string fileName) {
+	ifstream file(fileName);
+
+	if (!file.is_open()) {
+		printf("Nao foi possivel abrir o arquivo %s", fileName.c_str());
+		throw new std::exception();
+		exit(0);
+	}
+
+	string line;
+	string input_TMX;
+	while (getline(file, line))
+		input_TMX += line + "\n";
+
+	return input_TMX;
 }
 
 int * TileMap::At(int x, int y, int z) {
