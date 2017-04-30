@@ -17,13 +17,16 @@ TileMap::TileMap(string file, TileSet * tileSetVariable) {
 
 void TileMap::Load(string fileName) {
 
-	string input_TMX = loadTMXtoMemory(fileName);
+	char* input_TMX = loadTMXtoMemory(fileName);
+	xml_document<> doc;
+	doc.parse<0>(input_TMX);
 
-	printf("%s", input_TMX.c_str());
+	//printf("%s", input_TMX.c_str());
 
 	/*SetDimensionsFromFile(fp);
 	setTileMatrix(fp);
 	fclose(fp);*/
+	free(input_TMX);
 }
 
 /// <summary>
@@ -73,7 +76,7 @@ void TileMap::setTileMatrix(FILE * fp) {
 /// </summary>
 /// <param name="filename">Nome do arquivo a ser carregado</param>
 /// <returns>string contendo o TMX carregado</returns>
-string TileMap::loadTMXtoMemory(string fileName) {
+char* TileMap::loadTMXtoMemory(string fileName) {
 	ifstream file(fileName);
 
 	if (!file.is_open()) {
@@ -87,7 +90,8 @@ string TileMap::loadTMXtoMemory(string fileName) {
 	while (getline(file, line))
 		input_TMX += line + "\n";
 
-	return input_TMX;
+	char* chr = _strdup(input_TMX.c_str());
+	return chr;
 }
 
 int * TileMap::At(int x, int y, int z) {

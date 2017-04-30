@@ -49,7 +49,7 @@ class TileMap {
 		/// </summary>
 		/// <param name="fileName">Nome do arquivo a ser carregado</param>
 		/// <returns>string contendo o XML carregado</returns>
-		string loadTMXtoMemory(string fileName);
+		char* loadTMXtoMemory(string fileName);
 
 
 };
