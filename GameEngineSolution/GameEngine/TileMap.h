@@ -2,8 +2,10 @@
 #include <string>
 #include <vector>
 #include "TileSet.h"
+#include "RapidXML\rapidxml.hpp"
 
 using std::string;
+using namespace rapidxml;
 
 /// <summary>
 /// Simula uma matriz tridimensional que representa o mapa e suas diversas camadas
@@ -36,11 +38,10 @@ class TileMap {
 		int mapDepth;
 
 		/// <summary>
-		/// Seta as dimensões do mapa a partir FilePointer
-		/// recém aberto
+		/// Seta as dimensões do tileMap a partir do nó map
 		/// </summary>
-		/// <param name="fp">Ponteiro para o arquivo aberto</param>
-		void SetDimensionsFromFile(FILE* fp);
+		/// <param name="mapNode">xml node chamado map</param>
+		void SetDimensionsFromMap(xml_node<>* mapNode);
 
 		void setTileMatrix(FILE* fp);
 
@@ -50,7 +51,6 @@ class TileMap {
 		/// <param name="fileName">Nome do arquivo a ser carregado</param>
 		/// <returns>string contendo o XML carregado</returns>
 		char* loadTMXtoMemory(string fileName);
-
 
 };
 

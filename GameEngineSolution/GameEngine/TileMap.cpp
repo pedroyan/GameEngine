@@ -1,16 +1,18 @@
 #include "TileMap.h"
-#include "RapidXML\rapidxml.hpp"
+#include "RapidXML\rapidxml_print.hpp"
 #include <fstream>
+#include <stdio.h>
 
 using std::ifstream;
 using std::getline;
-using namespace rapidxml;
+
 
 
 TileMap::~TileMap() {
 }
 
 TileMap::TileMap(string file, TileSet * tileSetVariable) {
+	mapDepth = 0;
 	Load(file);
 	tileSet = tileSetVariable;
 }
@@ -21,24 +23,35 @@ void TileMap::Load(string fileName) {
 	xml_document<> doc;
 	doc.parse<0>(input_TMX);
 
+	auto mapNode = doc.first_node("map", 0U, true);
+	SetDimensionsFromMap(mapNode);
+
+	auto layerNode = mapNode->first_node("layer");
+	while (layerNode != nullptr) {
+		
+	}
+
 	//printf("%s", input_TMX.c_str());
 
+	
 	/*SetDimensionsFromFile(fp);
 	setTileMatrix(fp);
 	fclose(fp);*/
+
+	print(std::back_inserter(s), doc, 0);
 	free(input_TMX);
 }
 
 /// <summary>
-/// Seta as dimensões do mapa a partir FilePointer
-/// recém aberto
+/// Seta as dimensões do tileMap a partir do nó map
 /// </summary>
-/// <param name="fp">Ponteiro para o arquivo aberto</param>
-void TileMap::SetDimensionsFromFile(FILE * fp) {
-	char dimensionString[9];
+/// <param name="mapNode">xml node chamado map</param>
+void TileMap::SetDimensionsFromMap(xml_node<>* mapNode) {
+	string widthS = mapNode->first_attribute("width")->value();
+	sscanf(widthS.c_str(), "%d", &mapWidth);
 
-	fgets(dimensionString, 9, fp);
-	sscanf(dimensionString, "%d,%d,%d,", &mapWidth, &mapHeight, &mapDepth);
+	string heightS = mapNode->first_attribute("height")->value();
+	sscanf(heightS.c_str(), "%d", &mapHeight);
 }
 
 void TileMap::SetTileSet(TileSet * set) {
@@ -46,10 +59,6 @@ void TileMap::SetTileSet(TileSet * set) {
 }
 
 void TileMap::setTileMatrix(FILE * fp) {
-	fgetc(fp); // pega o primeiro \n
-	fgetc(fp); //pega o segundo \n
-
-	for (int i = 0; i < mapDepth; i++) {
 		for (int j = 0; j < mapHeight; j++) {
 			for (int k = 0; k < mapWidth; k++) {
 				int tileIndex;
@@ -66,9 +75,7 @@ void TileMap::setTileMatrix(FILE * fp) {
 			//ignora o \n
 			fgetc(fp);
 		}
-		//ignora o \n
-		fgetc(fp);
-	}
+
 }
 
 /// <summary>
