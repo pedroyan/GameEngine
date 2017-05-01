@@ -26,19 +26,13 @@ void TileMap::Load(string fileName) {
 	auto mapNode = doc.first_node("map", 0U, true);
 	SetDimensionsFromMap(mapNode);
 
-	auto layerNode = mapNode->first_node("layer");
+	xml_node<>* layerNode = mapNode->first_node("layer");
+
 	while (layerNode != nullptr) {
-		
+		layerNode = parseLayer(layerNode);
+		mapDepth++;
 	}
 
-	//printf("%s", input_TMX.c_str());
-
-	
-	/*SetDimensionsFromFile(fp);
-	setTileMatrix(fp);
-	fclose(fp);*/
-
-	print(std::back_inserter(s), doc, 0);
 	free(input_TMX);
 }
 
@@ -58,24 +52,72 @@ void TileMap::SetTileSet(TileSet * set) {
 	tileSet = set;
 }
 
-void TileMap::setTileMatrix(FILE * fp) {
-		for (int j = 0; j < mapHeight; j++) {
-			for (int k = 0; k < mapWidth; k++) {
-				int tileIndex;
+/// <summary>
+/// Confere a validade da layer e insere os tiles na matriz
+/// </summary>
+/// <param name="layerNode">Layer a ser analisada</param>
+/// <returns>Ponteiro para proxima layer. Null caso não exista proxima layer</returns>
+xml_node<>* TileMap::parseLayer(xml_node<>* layerNode) {
 
-				char tileString[4];
-				fgets(tileString, 4, fp);
-				sscanf(tileString, "%d,", &tileIndex);
+	//valida encoding
+	auto dataNode = layerNode->first_node("data");
+	string encodingType = dataNode->first_attribute("encoding")->value();
 
-				//subtrai o numero lido por 1 para adequar aos padrões do projeto
-				tileIndex -= 1;
-				tileMatrix.insert(tileMatrix.end(), tileIndex);
+	if (encodingType != "csv") {
+		printf("Codificacao %s não suportada pela engine.", encodingType.c_str());
+		throw new std::exception();
+		exit(0);
+	}
 
-			}
-			//ignora o \n
-			fgetc(fp);
+	stringstream ss;
+	ss << dataNode->value();
+	setTileMatrix(ss);
+
+	return layerNode->next_sibling();
+}
+
+/// <summary>
+/// Seta a matriz de tiles
+/// </summary>
+/// <param name="stream">string stream contendo as informações no formato CSV das posições dos tiles</param>
+void TileMap::setTileMatrix(stringstream &stream) {
+	int tileIndex;
+	char tileString[10];
+
+	stream.read(tileString, 1);
+	for (int j = 0; j < mapHeight; j++) {
+		for (int k = 0; k < mapWidth; k++) {
+
+			readTileIndex(stream, tileString);
+			sscanf(tileString, "%d,", &tileIndex);
+
+			//subtrai o numero lido por 1 para adequar aos padrões do projeto
+			tileIndex -= 1;
+			tileMatrix.insert(tileMatrix.end(), tileIndex);
+
 		}
+		//ignora o \n
+		stream.read(tileString, 1);
+	}
 
+}
+
+/// <summary>
+/// Armazena o valor do tile index no buffer
+/// </summary>
+/// <param name="stream">StringStream a ser parseada</param>
+/// <param name="buffer">buffer onde sera armazenado o valor extraido</param>
+void TileMap::readTileIndex(stringstream & stream, char buffer[]) {
+	int i = 0;
+	char temp = ' ';
+
+	while (temp != ',' && temp != '\n') {
+		stream.read(&temp, 1);
+		buffer[i] = temp;
+		i++;
+	}
+
+	buffer[i] = '\0';
 }
 
 /// <summary>

@@ -1,10 +1,12 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <sstream>
 #include "TileSet.h"
 #include "RapidXML\rapidxml.hpp"
 
 using std::string;
+using std::stringstream;
 using namespace rapidxml;
 
 /// <summary>
@@ -43,7 +45,20 @@ class TileMap {
 		/// <param name="mapNode">xml node chamado map</param>
 		void SetDimensionsFromMap(xml_node<>* mapNode);
 
-		void setTileMatrix(FILE* fp);
+		/// <summary>
+		/// Confere a validade da layer e insere os tiles na matriz
+		/// </summary>
+		/// <param name="layerNode">Layer a ser analisada</param>
+		/// <returns>Ponteiro para proxima layer. Null caso não exista proxima layer</returns>
+		xml_node<>* parseLayer(xml_node<>* layerNode);
+
+		/// <summary>
+		/// Seta a matriz de tiles
+		/// </summary>
+		/// <param name="stream">string stream contendo as informações no formato CSV das posições dos tiles</param>
+		void setTileMatrix(stringstream &stream);
+
+		void readTileIndex(stringstream &stream, char buffer[]);
 
 		/// <summary>
 		/// Carrega o arquivo XML para a memória.
