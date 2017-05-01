@@ -40,10 +40,12 @@ class TileMap {
 		int mapDepth;
 
 		/// <summary>
-		/// Seta as dimensões do tileMap a partir do nó map
+		/// Pega as dimensões especificadas no nó
 		/// </summary>
-		/// <param name="mapNode">xml node chamado map</param>
-		void SetDimensionsFromMap(xml_node<>* mapNode);
+		/// <param name="node">Nó do XML analisado</param>
+		/// <param name="width">Variável onde será inserida a largura especificada no nó</param>
+		/// <param name="height">Variável onde será inserida a altura especificada no nó</param>
+		void GetDimensionProperties(xml_node<>* node, int * width, int * height);
 
 		/// <summary>
 		/// Confere a validade da layer e insere os tiles na matriz

@@ -24,7 +24,7 @@ void TileMap::Load(string fileName) {
 	doc.parse<0>(input_TMX);
 
 	auto mapNode = doc.first_node("map", 0U, true);
-	SetDimensionsFromMap(mapNode);
+	GetDimensionProperties(mapNode,&mapWidth,&mapHeight);
 
 	xml_node<>* layerNode = mapNode->first_node("layer");
 
@@ -40,12 +40,12 @@ void TileMap::Load(string fileName) {
 /// Seta as dimensões do tileMap a partir do nó map
 /// </summary>
 /// <param name="mapNode">xml node chamado map</param>
-void TileMap::SetDimensionsFromMap(xml_node<>* mapNode) {
+void TileMap::GetDimensionProperties(xml_node<>* mapNode, int* width, int* height) {
 	string widthS = mapNode->first_attribute("width")->value();
-	sscanf(widthS.c_str(), "%d", &mapWidth);
+	sscanf(widthS.c_str(), "%d", width);
 
 	string heightS = mapNode->first_attribute("height")->value();
-	sscanf(heightS.c_str(), "%d", &mapHeight);
+	sscanf(heightS.c_str(), "%d", height);
 }
 
 void TileMap::SetTileSet(TileSet * set) {
@@ -59,13 +59,31 @@ void TileMap::SetTileSet(TileSet * set) {
 /// <returns>Ponteiro para proxima layer. Null caso não exista proxima layer</returns>
 xml_node<>* TileMap::parseLayer(xml_node<>* layerNode) {
 
+	//Valida tamanho
+	int altura;
+	int largura;
+
+	GetDimensionProperties(layerNode, &largura, &altura);
+
+	if (largura != mapWidth) {
+		printf("Layer invalida: Largura da layer e diferente da largura do mapa");
+		throw std::exception();
+		exit(0);
+	}
+
+	if (altura != mapHeight) {
+		printf("Layer invalida: Altura da layer e diferente da altura do mapa");
+		throw std::exception();
+		exit(0);
+	}
+
 	//valida encoding
 	auto dataNode = layerNode->first_node("data");
 	string encodingType = dataNode->first_attribute("encoding")->value();
 
 	if (encodingType != "csv") {
 		printf("Codificacao %s não suportada pela engine.", encodingType.c_str());
-		throw new std::exception();
+		throw std::exception();
 		exit(0);
 	}
 
