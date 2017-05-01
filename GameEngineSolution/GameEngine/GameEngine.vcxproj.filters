@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Image">
       <UniqueIdentifier>{2ee4d2e0-11cd-41ef-a547-0d445247a697}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\RapidXML">
+      <UniqueIdentifier>{68dea58f-49dd-45a9-9b61-6ed302f25710}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -193,6 +196,18 @@
     </ClInclude>
     <ClInclude Include="StateData.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RapidXML\rapidxml.hpp">
+      <Filter>Header Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="RapidXML\rapidxml_iterators.hpp">
+      <Filter>Header Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="RapidXML\rapidxml_print.hpp">
+      <Filter>Header Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="RapidXML\rapidxml_utils.hpp">
+      <Filter>Header Files\RapidXML</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

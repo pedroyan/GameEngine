@@ -11,7 +11,7 @@
 #include "EndState.h"
 
 
-StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/tileMap.txt",&tileSet), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
+StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/map.tmx",&tileSet), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
 	quitRequested = false;
 	stageMusic.Play(-1);
 

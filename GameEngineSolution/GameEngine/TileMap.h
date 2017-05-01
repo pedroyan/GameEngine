@@ -1,9 +1,13 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <sstream>
 #include "TileSet.h"
+#include "RapidXML\rapidxml.hpp"
 
 using std::string;
+using std::stringstream;
+using namespace rapidxml;
 
 /// <summary>
 /// Simula uma matriz tridimensional que representa o mapa e suas diversas camadas
@@ -12,7 +16,7 @@ class TileMap {
 	public:
 		TileMap(string file, TileSet* tileSetVariable);
 
-		void Load(string file);
+		void Load(string fileName);
 
 		void SetTileSet(TileSet*  tileSetVariable);
 
@@ -36,13 +40,34 @@ class TileMap {
 		int mapDepth;
 
 		/// <summary>
-		/// Seta as dimensões do mapa a partir FilePointer
-		/// recém aberto
+		/// Pega as dimensões especificadas no nó
 		/// </summary>
-		/// <param name="fp">Ponteiro para o arquivo aberto</param>
-		void SetDimensionsFromFile(FILE* fp);
+		/// <param name="node">Nó do XML analisado</param>
+		/// <param name="width">Variável onde será inserida a largura especificada no nó</param>
+		/// <param name="height">Variável onde será inserida a altura especificada no nó</param>
+		void GetDimensionProperties(xml_node<>* node, int * width, int * height);
 
-		void setTileMatrix(FILE* fp);
+		/// <summary>
+		/// Confere a validade da layer e insere os tiles na matriz
+		/// </summary>
+		/// <param name="layerNode">Layer a ser analisada</param>
+		/// <returns>Ponteiro para proxima layer. Null caso não exista proxima layer</returns>
+		xml_node<>* parseLayer(xml_node<>* layerNode);
+
+		/// <summary>
+		/// Seta a matriz de tiles
+		/// </summary>
+		/// <param name="stream">string stream contendo as informações no formato CSV das posições dos tiles</param>
+		void setTileMatrix(stringstream &stream);
+
+		void readTileIndex(stringstream &stream, char buffer[]);
+
+		/// <summary>
+		/// Carrega o arquivo XML para a memória.
+		/// </summary>
+		/// <param name="fileName">Nome do arquivo a ser carregado</param>
+		/// <returns>string contendo o XML carregado</returns>
+		char* loadTMXtoMemory(string fileName);
 
 };
 

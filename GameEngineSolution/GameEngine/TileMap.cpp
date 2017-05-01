@@ -1,67 +1,164 @@
 #include "TileMap.h"
+#include "RapidXML\rapidxml_print.hpp"
+#include <fstream>
 #include <stdio.h>
+
+using std::ifstream;
+using std::getline;
+
 
 
 TileMap::~TileMap() {
 }
 
 TileMap::TileMap(string file, TileSet * tileSetVariable) {
+	mapDepth = 0;
 	Load(file);
 	tileSet = tileSetVariable;
 }
 
-void TileMap::Load(string file) {
-	FILE* fp = fopen(file.c_str(),"r");
-	if (fp == NULL) {
-		printf("Erro ao abrir arquivo %s\n", file.c_str());
-		return;
+void TileMap::Load(string fileName) {
+
+	char* input_TMX = loadTMXtoMemory(fileName);
+	xml_document<> doc;
+	doc.parse<0>(input_TMX);
+
+	auto mapNode = doc.first_node("map", 0U, true);
+	GetDimensionProperties(mapNode,&mapWidth,&mapHeight);
+
+	xml_node<>* layerNode = mapNode->first_node("layer");
+
+	while (layerNode != nullptr) {
+		layerNode = parseLayer(layerNode);
+		mapDepth++;
 	}
 
-	SetDimensionsFromFile(fp);
-	setTileMatrix(fp);
-	fclose(fp);
+	free(input_TMX);
 }
 
 /// <summary>
-/// Seta as dimensões do mapa a partir FilePointer
-/// recém aberto
+/// Seta as dimensões do tileMap a partir do nó map
 /// </summary>
-/// <param name="fp">Ponteiro para o arquivo aberto</param>
-void TileMap::SetDimensionsFromFile(FILE * fp) {
-	char dimensionString[9];
+/// <param name="mapNode">xml node chamado map</param>
+void TileMap::GetDimensionProperties(xml_node<>* mapNode, int* width, int* height) {
+	string widthS = mapNode->first_attribute("width")->value();
+	sscanf(widthS.c_str(), "%d", width);
 
-	fgets(dimensionString, 9, fp);
-	sscanf(dimensionString, "%d,%d,%d,", &mapWidth, &mapHeight, &mapDepth);
+	string heightS = mapNode->first_attribute("height")->value();
+	sscanf(heightS.c_str(), "%d", height);
 }
 
 void TileMap::SetTileSet(TileSet * set) {
 	tileSet = set;
 }
 
-void TileMap::setTileMatrix(FILE * fp) {
-	fgetc(fp); // pega o primeiro \n
-	fgetc(fp); //pega o segundo \n
+/// <summary>
+/// Confere a validade da layer e insere os tiles na matriz
+/// </summary>
+/// <param name="layerNode">Layer a ser analisada</param>
+/// <returns>Ponteiro para proxima layer. Null caso não exista proxima layer</returns>
+xml_node<>* TileMap::parseLayer(xml_node<>* layerNode) {
 
-	for (int i = 0; i < mapDepth; i++) {
-		for (int j = 0; j < mapHeight; j++) {
-			for (int k = 0; k < mapWidth; k++) {
-				int tileIndex;
+	//Valida tamanho
+	int altura;
+	int largura;
 
-				char tileString[4];
-				fgets(tileString, 4, fp);
-				sscanf(tileString, "%d,", &tileIndex);
+	GetDimensionProperties(layerNode, &largura, &altura);
 
-				//subtrai o numero lido por 1 para adequar aos padrões do projeto
-				tileIndex -= 1;
-				tileMatrix.insert(tileMatrix.end(), tileIndex);
+	if (largura != mapWidth) {
+		printf("Layer invalida: Largura da layer e diferente da largura do mapa");
+		throw std::exception();
+		exit(0);
+	}
 
-			}
-			//ignora o \n
-			fgetc(fp);
+	if (altura != mapHeight) {
+		printf("Layer invalida: Altura da layer e diferente da altura do mapa");
+		throw std::exception();
+		exit(0);
+	}
+
+	//valida encoding
+	auto dataNode = layerNode->first_node("data");
+	string encodingType = dataNode->first_attribute("encoding")->value();
+
+	if (encodingType != "csv") {
+		printf("Codificacao %s não suportada pela engine.", encodingType.c_str());
+		throw std::exception();
+		exit(0);
+	}
+
+	stringstream ss;
+	ss << dataNode->value();
+	setTileMatrix(ss);
+
+	return layerNode->next_sibling();
+}
+
+/// <summary>
+/// Seta a matriz de tiles
+/// </summary>
+/// <param name="stream">string stream contendo as informações no formato CSV das posições dos tiles</param>
+void TileMap::setTileMatrix(stringstream &stream) {
+	int tileIndex;
+	char tileString[10];
+
+	stream.read(tileString, 1);
+	for (int j = 0; j < mapHeight; j++) {
+		for (int k = 0; k < mapWidth; k++) {
+
+			readTileIndex(stream, tileString);
+			sscanf(tileString, "%d,", &tileIndex);
+
+			//subtrai o numero lido por 1 para adequar aos padrões do projeto
+			tileIndex -= 1;
+			tileMatrix.insert(tileMatrix.end(), tileIndex);
+
 		}
 		//ignora o \n
-		fgetc(fp);
+		stream.read(tileString, 1);
 	}
+
+}
+
+/// <summary>
+/// Armazena o valor do tile index no buffer
+/// </summary>
+/// <param name="stream">StringStream a ser parseada</param>
+/// <param name="buffer">buffer onde sera armazenado o valor extraido</param>
+void TileMap::readTileIndex(stringstream & stream, char buffer[]) {
+	int i = 0;
+	char temp = ' ';
+
+	while (temp != ',' && temp != '\n') {
+		stream.read(&temp, 1);
+		buffer[i] = temp;
+		i++;
+	}
+
+	buffer[i] = '\0';
+}
+
+/// <summary>
+/// Carrega o arquivo TMX para a memória. Lança exceção caso o arquivo não consiga ser carregado
+/// </summary>
+/// <param name="filename">Nome do arquivo a ser carregado</param>
+/// <returns>string contendo o TMX carregado</returns>
+char* TileMap::loadTMXtoMemory(string fileName) {
+	ifstream file(fileName);
+
+	if (!file.is_open()) {
+		printf("Nao foi possivel abrir o arquivo %s", fileName.c_str());
+		throw new std::exception();
+		exit(0);
+	}
+
+	string line;
+	string input_TMX;
+	while (getline(file, line))
+		input_TMX += line + "\n";
+
+	char* chr = _strdup(input_TMX.c_str());
+	return chr;
 }
 
 int * TileMap::At(int x, int y, int z) {
