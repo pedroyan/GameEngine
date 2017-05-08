@@ -48,7 +48,18 @@ bool TileSet::isWall(int tileSet) {
 	return true;
 }
 
-void TileSet::AddTilePropertie(int tileIndex, bool isWall){
+void TileSet::AddTileFloorPropertie(int tileIndex, bool isFloor){
+	auto map = tilesProperties.find(tileIndex);
+	if (map == tilesProperties.end()) {
+		auto tileIsFloor = TileProperties();
+		tileIsFloor.SetIsFloor(isFloor);
+		this->tilesProperties.emplace(tileIndex, tileIsFloor);
+		return;
+	}
+	map->second.SetIsFloor(isFloor);
+}
+
+void TileSet::AddTileWallPropertie(int tileIndex, bool isWall){
 	auto map = tilesProperties.find(tileIndex);
 	if (map == tilesProperties.end()) {
 		auto tileIsWall =  TileProperties();

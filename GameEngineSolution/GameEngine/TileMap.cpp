@@ -176,26 +176,46 @@ char* TileMap::loadTMXtoMemory(string fileName) {
 /// <returns>Proximo no a ser lido</returns>
 xml_node<>* TileMap::GetTilesProperties(xml_node<>* tileNode){
 	int indexNode;
-	bool isWallBollean;
 	
 	
 	string indexNodeS = tileNode->first_attribute("id")->value();
 	sscanf(indexNodeS.c_str(), "%d", &indexNode);
-	auto propertiesNode = tileNode->first_node("properties")->first_node("property");
+	auto propertiesNode = tileNode->first_node("properties")->first_node("property");	
+	while (propertiesNode != nullptr) {
+		propertiesNode = AddPropertie(propertiesNode,indexNode);
+	}
+
+	return tileNode->next_sibling();
+}
+
+xml_node<>* TileMap::AddPropertie(xml_node<>* propertiesNode, int indexNode){
+	bool Bollean;
 	string propertieType = propertiesNode->first_attribute("name")->value();
+
 	if (propertieType == "Wall") {
 		string propertiesNodeWall = propertiesNode->first_attribute("value")->value();
-		int isWallInt=0;
-		sscanf(propertiesNodeWall.c_str(), "%d",&isWallInt);
+		int isWallInt = 0;
+		sscanf(propertiesNodeWall.c_str(), "%d", &isWallInt);
 		if (isWallInt == 1) {
-			isWallBollean = true;
+			Bollean = true;
 		} else {
-			isWallBollean = false;
+			Bollean = false;
 		}
-
+		this->tileSet->AddTileWallPropertie(indexNode, Bollean);
 	}
-	this->tileSet->AddTilePropertie(indexNode, isWallBollean);
-	return tileNode->next_sibling();
+	if (propertieType == "Floor") {
+		string propertiesNodeWall = propertiesNode->first_attribute("value")->value();
+		int isWallInt = 0;
+		sscanf(propertiesNodeWall.c_str(), "%d", &isWallInt);
+		if (isWallInt == 1) {
+			Bollean = true;
+		} else {
+			Bollean = false;
+		}
+		this->tileSet->AddTileFloorPropertie(indexNode, Bollean);
+	}
+	
+	return propertiesNode->next_sibling();
 }
 
 int * TileMap::At(int x, int y, int z) {

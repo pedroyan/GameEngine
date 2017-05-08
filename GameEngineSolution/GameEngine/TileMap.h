@@ -76,6 +76,7 @@ class TileMap {
 		/// <param name="tileNode">Nome do no a ser lido</param>
 		/// <returns>Proximo no a ser lido</returns>
 		xml_node<>* GetTilesProperties(xml_node<>* node);
+		xml_node<>* AddPropertie(xml_node<>* tileNode, int indexNode);
 
 };
 

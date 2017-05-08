@@ -67,7 +67,7 @@ void Penguins::Update(float dt) {
 
 
 	
-	if (isCollindingWall()) {
+	if (isCollindingWall()) {//caso seja chao
 	//	box.X = previousRect.X;
 		box.Y = previousRect.Y;
 	}
@@ -165,7 +165,7 @@ void Penguins::takeDamage(int damage) {
 	}
 }
 
-bool Penguins::isCollindingWall(){
+int Penguins::isCollindingWall(){
 	auto map = Game::GetInstance().GetCurrentState().GetMap();//talvez de como otimizar
 	auto tile_height = map.GetTileSet()->GetTileHeight();
 	auto tile_width = map.GetTileSet()->GetTileWidth();

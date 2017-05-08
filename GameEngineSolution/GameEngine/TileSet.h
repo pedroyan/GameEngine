@@ -35,7 +35,8 @@ class TileSet {
 		/// </summary>
 		/// <param name="tileIndex">tile a ser adicionado a nova popriedade</param>
 		/// <param name="isWall">bool para ser uma Wall(colide com objetos)</param>
-		void AddTilePropertie(int tileIndex, bool isWall);
+		void AddTileWallPropertie(int tileIndex, bool isWall);
+		void AddTileFloorPropertie(int tileIndex, bool isWall);
 
 	private:
 		Sprite tileSet;
