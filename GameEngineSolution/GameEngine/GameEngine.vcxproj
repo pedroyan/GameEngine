@@ -143,6 +143,7 @@
     <ClCompile Include="StateData.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TileProperties.cpp" />
     <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleState.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="StateData.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TileProperties.h" />
     <ClInclude Include="TileSet.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleState.h" />

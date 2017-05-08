@@ -13,8 +13,9 @@ TileMap::~TileMap() {
 
 TileMap::TileMap(string file, TileSet * tileSetVariable) {
 	mapDepth = 0;
-	Load(file);
 	tileSet = tileSetVariable;
+	Load(file);
+	
 }
 
 void TileMap::Load(string fileName) {
@@ -25,7 +26,12 @@ void TileMap::Load(string fileName) {
 
 	auto mapNode = doc.first_node("map", 0U, true);
 	GetDimensionProperties(mapNode,&mapWidth,&mapHeight);
-
+	xml_node<>* TileSetNode = mapNode->first_node("tileset");
+	auto tilesNode = TileSetNode->first_node("tile");
+	
+	while (tilesNode != nullptr) {
+		tilesNode =GetTilesProperties(tilesNode);
+	}
 	xml_node<>* layerNode = mapNode->first_node("layer");
 
 	while (layerNode != nullptr) {
@@ -159,6 +165,34 @@ char* TileMap::loadTMXtoMemory(string fileName) {
 
 	char* chr = _strdup(input_TMX.c_str());
 	return chr;
+}
+/// <summary>
+/// Carrega as propiedades dos tiles
+/// </summary>
+/// <param name="tileNode">Nome do no a ser lido</param>
+/// <returns>Proximo no a ser lido</returns>
+xml_node<>* TileMap::GetTilesProperties(xml_node<>* tileNode){
+	int indexNode;
+	bool isWallBollean;
+	
+	
+	string indexNodeS = tileNode->first_attribute("id")->value();
+	sscanf(indexNodeS.c_str(), "%d", &indexNode);
+	auto propertiesNode = tileNode->first_node("properties")->first_node("property");
+	string propertieType = propertiesNode->first_attribute("name")->value();
+	if (propertieType == "Wall") {
+		string propertiesNodeWall = propertiesNode->first_attribute("value")->value();
+		int isWallInt=0;
+		sscanf(propertiesNodeWall.c_str(), "%d",&isWallInt);
+		if (isWallInt == 1) {
+			isWallBollean = true;
+		} else {
+			isWallBollean = false;
+		}
+
+	}
+	this->tileSet->AddTilePropertie(indexNode, isWallBollean);
+	return tileNode->next_sibling();
 }
 
 int * TileMap::At(int x, int y, int z) {

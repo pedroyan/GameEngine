@@ -68,6 +68,12 @@ class TileMap {
 		/// <param name="fileName">Nome do arquivo a ser carregado</param>
 		/// <returns>string contendo o XML carregado</returns>
 		char* loadTMXtoMemory(string fileName);
+		/// <summary>
+		/// Carrega as propiedades dos tiles
+		/// </summary>
+		/// <param name="tileNode">Nome do no a ser lido</param>
+		/// <returns>Proximo no a ser lido</returns>
+		xml_node<>* GetTilesProperties(xml_node<>* node);
 
 };
 

@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
 #include "Sprite.h"
+#include "TileProperties.h"
+#include <unordered_map>
+
+using std::unordered_map;
 
 using std::string;
 class TileSet {
@@ -20,6 +24,18 @@ class TileSet {
 		int GetTileWidth();
 
 		int GetTileHeight();
+		/// <summary>
+		/// Descobre se o tile analisado é uma wall(colide com objetos) 
+		/// </summary>
+		/// <param name="tileSet">tile analisado</param>
+		/// <returns>true para wall e false para background</returns>
+		bool isWall(int tileSet);
+		/// <summary>
+		/// Adiciona ao tile a propriedades ao um tile
+		/// </summary>
+		/// <param name="tileIndex">tile a ser adicionado a nova popriedade</param>
+		/// <param name="isWall">bool para ser uma Wall(colide com objetos)</param>
+		void AddTilePropertie(int tileIndex, bool isWall);
 
 	private:
 		Sprite tileSet;
@@ -27,5 +43,6 @@ class TileSet {
 		int columns;
 		int tileWidth;
 		int tileHeight;
+	    unordered_map<int,TileProperties> tilesProperties;
 };
 

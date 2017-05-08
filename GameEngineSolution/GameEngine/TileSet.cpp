@@ -38,3 +38,23 @@ int TileSet::GetTileHeight() {
 	return tileHeight;
 }
 
+bool TileSet::isWall(int tileSet) {
+	auto iterator = tilesProperties.find(tileSet);
+	if (iterator == tilesProperties.end()) {
+		return false;
+	} else {
+		return iterator->second.GetIsWall();
+	}
+	return true;
+}
+
+void TileSet::AddTilePropertie(int tileIndex, bool isWall){
+	auto map = tilesProperties.find(tileIndex);
+	if (map == tilesProperties.end()) {
+		auto tileIsWall =  TileProperties();
+		tileIsWall.SetIsWall(isWall);
+		this->tilesProperties.emplace(tileIndex,tileIsWall);
+		return;
+	}
+	map->second.SetIsWall(isWall);
+}
