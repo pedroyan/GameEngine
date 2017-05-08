@@ -4,6 +4,7 @@
 #include "Vec2.h"
 #include "InputManager.h"
 #include "Timer.h"
+#include "TileMap.h"
 
 class Penguins : public GameObject {
 	public:
@@ -24,6 +25,8 @@ class Penguins : public GameObject {
 	Sprite bodySP;
 	Sprite cannonSp;
 	Vec2 speed;
+	TileMap map;
+
 
 	float linearSpeed;
 	float cannonAngle;
@@ -34,6 +37,7 @@ class Penguins : public GameObject {
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
 	void takeDamage(int damage);
+	bool isCollindingWall();
 
 };
 

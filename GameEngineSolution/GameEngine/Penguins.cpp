@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Sound.h"
 #include <math.h>
+#include "StageState.h"
 
 Penguins* Penguins::player = nullptr;
 float acceleration = 200;
@@ -20,13 +21,15 @@ float coolDown = 0.5;
 Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
 	Penguins::player = this;
-	hp = 100;
+	hp = 900000;//vida alterada pra teste
 	cooldownCounter = Timer();
 
 	box.X = x;
 	box.Y = y;
 	box.W = bodySP.GetWidth();
 	box.H = bodySP.GetHeight();
+auto map = Game::GetInstance().GetCurrentState().GetMap();//talvez de como otimizar
+
 
 }
 
@@ -58,13 +61,14 @@ void Penguins::Update(float dt) {
 	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
 		Accelerate(false, dt);
 	}
+	
 	Rect previousRect = box;
 	box += speed*dt;
 
-	if (box.X < 0 || box.X > 1408) {
-		box.X = previousRect.X;
-	}
-	if (box.Y < 0 || box.Y > 1280) {
+
+	
+	if (isCollindingWall()) {
+	//	box.X = previousRect.X;
 		box.Y = previousRect.Y;
 	}
 
@@ -159,4 +163,42 @@ void Penguins::takeDamage(int damage) {
 		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
 		Sound("audio/boom.wav").Play(0);
 	}
+}
+
+bool Penguins::isCollindingWall(){
+	auto map = Game::GetInstance().GetCurrentState().GetMap();//talvez de como otimizar
+	auto tile_height = map.GetTileSet()->GetTileHeight();
+	auto tile_width = map.GetTileSet()->GetTileWidth();
+
+
+	int left_tile = this->box.X / tile_width;
+	int right_tile = (this->box.X + this->box.W )/ tile_width;
+	int top_tile = this->box.Y / tile_height;
+	int bottom_tile = (this->box.Y+this->box.H) / tile_height;
+
+	if (left_tile < 0) {
+		left_tile = 0;
+	}
+	if (right_tile > tile_width) {
+		right_tile = tile_width;
+	}
+	if (top_tile < 0) {
+		top_tile = 0;
+	}
+	if (bottom_tile > tile_height) {
+		bottom_tile = tile_height;
+	}
+
+	bool	any_collision = false;
+		for (int i = left_tile; i <= right_tile; i++)
+		{
+			for (int j = top_tile; j <= bottom_tile; j++)
+			{
+				int* tile  =  map.At(i, j);
+				if (map.GetTileSet()->isWall(*tile)){
+					any_collision = true;
+				}
+			}
+		}
+		return any_collision;
 }

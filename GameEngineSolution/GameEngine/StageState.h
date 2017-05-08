@@ -18,6 +18,7 @@ class StageState : public State{
 		void Render();
 		void Pause();
 		void Resume();
+		TileMap GetMap();
 		void AddObject(GameObject* ptr);
 	private:
 		//variaveis

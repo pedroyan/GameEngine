@@ -11,6 +11,9 @@ using std::getline;
 TileMap::~TileMap() {
 }
 
+TileMap::TileMap(){
+}
+
 TileMap::TileMap(string file, TileSet * tileSetVariable) {
 	mapDepth = 0;
 	tileSet = tileSetVariable;
@@ -251,5 +254,9 @@ int TileMap::GetHeight() {
 
 int TileMap::GetDepth() {
 	return mapDepth;
+}
+
+TileSet * TileMap::GetTileSet(){
+	return tileSet;
 }
 

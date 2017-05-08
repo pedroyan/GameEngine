@@ -14,6 +14,7 @@ using namespace rapidxml;
 /// </summary>
 class TileMap {
 	public:
+		TileMap();
 		TileMap(string file, TileSet* tileSetVariable);
 
 		void Load(string fileName);
@@ -29,6 +30,7 @@ class TileMap {
 		int GetWidth();
 		int GetHeight();
 		int GetDepth();
+		TileSet* GetTileSet();
 
 		~TileMap();
 	private:
