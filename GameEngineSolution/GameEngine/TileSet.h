@@ -28,8 +28,14 @@ class TileSet {
 		/// Descobre se o tile analisado é uma wall(colide com objetos) 
 		/// </summary>
 		/// <param name="tileSet">tile analisado</param>
-		/// <returns>true para wall e false para background</returns>
+		/// <returns>true para wall e false para outro tipo</returns>
 		bool isWall(int tileSet);
+		/// <summary>
+		/// Analise se o tile eh to tipo floor
+		/// </summary>
+		/// <param name="tileSet">tile analisado</param>
+		/// <returns>true para floor e false outro tipo</returns>
+		bool isFloor(int tileSet);
 		/// <summary>
 		/// Adiciona ao tile a propriedades ao um tile
 		/// </summary>

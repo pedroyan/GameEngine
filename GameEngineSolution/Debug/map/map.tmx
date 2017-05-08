@@ -4,14 +4,14 @@
   <image source="../img/tileset.png" width="384" height="192"/>
   <tile id="9">
    <properties>
-    <property name="Floor" type="int" value="1"/>
-    <property name="Wall" type="int" value="0"/>
+    <property name="Floor" type="int" value="0"/>
+    <property name="Wall" type="int" value="1"/>
    </properties>
   </tile>
   <tile id="15">
    <properties>
-    <property name="Floor" type="int" value="0"/>
-    <property name="Wall" type="int" value="1"/>
+    <property name="Floor" type="int" value="1"/>
+    <property name="Wall" type="int" value="0"/>
    </properties>
   </tile>
  </tileset>

@@ -65,10 +65,13 @@ void Penguins::Update(float dt) {
 	Rect previousRect = box;
 	box += speed*dt;
 
-
+	Penguins::CollisionType collisionAnalysis = isCollinding();
 	
-	if (isCollindingWall()) {//caso seja chao
-	//	box.X = previousRect.X;
+	if (collisionAnalysis==Floor) {//caso seja chao
+		box.Y = previousRect.Y;
+	}
+	if (collisionAnalysis == Wall) {//caso seja chao
+		box.X = previousRect.X;
 		box.Y = previousRect.Y;
 	}
 
@@ -165,7 +168,7 @@ void Penguins::takeDamage(int damage) {
 	}
 }
 
-int Penguins::isCollindingWall(){
+Penguins::CollisionType Penguins::isCollinding(){
 	auto map = Game::GetInstance().GetCurrentState().GetMap();//talvez de como otimizar
 	auto tile_height = map.GetTileSet()->GetTileHeight();
 	auto tile_width = map.GetTileSet()->GetTileWidth();
@@ -189,14 +192,21 @@ int Penguins::isCollindingWall(){
 		bottom_tile = tile_height;
 	}
 
-	bool	any_collision = false;
+	Penguins::CollisionType	any_collision = noCollision;
 		for (int i = left_tile; i <= right_tile; i++)
 		{
 			for (int j = top_tile; j <= bottom_tile; j++)
 			{
 				int* tile  =  map.At(i, j);
 				if (map.GetTileSet()->isWall(*tile)){
-					any_collision = true;
+					if (any_collision < Wall) {
+						any_collision = Wall;
+					}
+				}
+				if (map.GetTileSet()->isFloor(*tile)) {
+					if (any_collision < Floor) {
+						any_collision = Floor;
+					}
 				}
 			}
 		}

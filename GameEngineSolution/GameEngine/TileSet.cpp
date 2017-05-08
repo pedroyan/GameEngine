@@ -45,7 +45,15 @@ bool TileSet::isWall(int tileSet) {
 	} else {
 		return iterator->second.GetIsWall();
 	}
-	return true;
+}
+
+bool TileSet::isFloor(int tileSet) {
+	auto iterator = tilesProperties.find(tileSet);
+	if (iterator == tilesProperties.end()) {
+		return false;
+	} else {
+		return iterator->second.GetIsFloor();
+	}
 }
 
 void TileSet::AddTileFloorPropertie(int tileIndex, bool isFloor){
