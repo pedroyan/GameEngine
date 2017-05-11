@@ -63,18 +63,20 @@ void Penguins::Update(float dt) {
 	}
 	
 	Rect previousRect = box;
-	box += speed*dt;
-
-	Penguins::CollisionType collisionAnalysis = isCollinding();
-	
-	if (collisionAnalysis==Floor) {//caso seja chao
-		box.Y = previousRect.Y;
-	}
-	if (collisionAnalysis == Wall) {//caso seja chao
+	box.X += speed.X*dt;
+	Penguins::CollisionType collisionAnalysisX = isCollinding();
+	if (collisionAnalysisX==Wall) {//caso seja chao
 		box.X = previousRect.X;
+	}
+	box.Y += speed.Y*dt;
+	Penguins::CollisionType collisionAnalysisY = isCollinding();
+	if (collisionAnalysisY == Wall) {//caso seja chao
+		for (int i = 0; i < 100; i++) {
+    	Penguins::CollisionType collisionAnalysisY = isCollinding();
+
+		}
 		box.Y = previousRect.Y;
 	}
-
 	UpdateCannonAngle(input);
 
 	if (input.MousePress(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
