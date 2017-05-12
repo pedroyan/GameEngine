@@ -194,9 +194,7 @@ xml_node<>* TileMap::AddPropertie(xml_node<>* propertiesNode, int indexNode){
 
 	if (propertieType == "Solid") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
-		int isSolidInt = 0;
-		sscanf(propertiesNodeSolid.c_str(), "%d", &isSolidInt);
-		if (isSolidInt == 1) {
+		if (propertiesNodeSolid == "true") {
 			Bollean = true;
 		} else {
 			Bollean = false;
@@ -205,9 +203,7 @@ xml_node<>* TileMap::AddPropertie(xml_node<>* propertiesNode, int indexNode){
 	}
 	if (propertieType == "Snow") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
-		int isSolidInt = 0;
-		sscanf(propertiesNodeSolid.c_str(), "%d", &isSolidInt);
-		if (isSolidInt == 1) {
+		if (propertiesNodeSolid == "true") {
 			Bollean = true;
 		} else {
 			Bollean = false;
