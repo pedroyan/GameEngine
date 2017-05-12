@@ -58,8 +58,7 @@ void StageState::Pause() {
 void StageState::Resume() {
 }
 
-TileMap StageState::GetMap()
-{
+TileMap StageState::GetMap(){
 	return tileMap;
 }
 
