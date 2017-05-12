@@ -17,5 +17,7 @@ public:
 	float rotation;
 
 	virtual ~GameObject();
+
+	
 };
 

@@ -120,6 +120,9 @@
     <ClCompile Include="TileProperties.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
+    <ClCompile Include="TileCollision.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -213,6 +216,9 @@
       <Filter>Header Files\RapidXML</Filter>
     </ClInclude>
     <ClInclude Include="TileProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

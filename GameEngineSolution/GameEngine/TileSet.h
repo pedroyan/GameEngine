@@ -25,24 +25,29 @@ class TileSet {
 
 		int GetTileHeight();
 		/// <summary>
-		/// Descobre se o tile analisado é uma wall(colide com objetos) 
+		/// Descobre se o tile analisado é uma Solid(colide com objetos) 
 		/// </summary>
 		/// <param name="tileSet">tile analisado</param>
-		/// <returns>true para wall e false para outro tipo</returns>
-		bool isWall(int tileSet);
+		/// <returns>true para Solid e false para outro tipo</returns>
+		bool isSolid(int tileSet);
 		/// <summary>
-		/// Analise se o tile eh to tipo floor
+		/// Analise se o tile eh to tipo Snow
 		/// </summary>
 		/// <param name="tileSet">tile analisado</param>
-		/// <returns>true para floor e false outro tipo</returns>
-		bool isFloor(int tileSet);
+		/// <returns>true para Snow e false outro tipo</returns>
+		bool isSnow(int tileSet);
 		/// <summary>
 		/// Adiciona ao tile a propriedades ao um tile
 		/// </summary>
-		/// <param name="tileIndex">tile a ser adicionado a nova popriedade</param>
-		/// <param name="isWall">bool para ser uma Wall(colide com objetos)</param>
-		void AddTileWallPropertie(int tileIndex, bool isWall);
-		void AddTileFloorPropertie(int tileIndex, bool isWall);
+		/// <param name="tileIndex">tile a ser adicionado a nova propriedade</param>
+		/// <param name="isSolid">bool para ser uma Solid(colide com objetos)</param>
+		void AddTileSolidPropertie(int tileIndex, bool isSolid);
+		/// <summary>
+		/// Adiciona ao tile a propriedade Snow
+		/// </summary>
+		/// <param name="tileIndex">tile a ser adicionado a nova propriedade</param>
+		/// <param name="isSolid">bool para ser um Sbow(abaixa a velocidade)</param>
+		void AddTileSnowPropertie(int tileIndex, bool isSolid);
 
 	private:
 		Sprite tileSet;

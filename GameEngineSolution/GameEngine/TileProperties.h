@@ -1,11 +1,11 @@
 #pragma once
 class	TileProperties {
 public:
-	bool GetIsWall();
-	void SetIsWall(bool iswall);
-	bool GetIsFloor();
-	void SetIsFloor(bool isFloor);
+	bool GetIsSolid();
+	void SetIsSolid(bool isSolid);
+	bool GetIsSnow();
+	void SetIsSnow(bool isSnow);
 private:
-	bool isWall=false;
-	bool isFloor = false;
+	bool isSolid=false;
+	bool isSnow = false;
 };

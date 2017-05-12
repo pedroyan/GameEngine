@@ -142,6 +142,7 @@
     <ClCompile Include="State.cpp" />
     <ClCompile Include="StateData.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TileCollision.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileProperties.cpp" />
     <ClCompile Include="TileSet.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="StateData.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="TileCollision.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileProperties.h" />
     <ClInclude Include="TileSet.h" />

@@ -192,27 +192,27 @@ xml_node<>* TileMap::AddPropertie(xml_node<>* propertiesNode, int indexNode){
 	bool Bollean;
 	string propertieType = propertiesNode->first_attribute("name")->value();
 
-	if (propertieType == "Wall") {
-		string propertiesNodeWall = propertiesNode->first_attribute("value")->value();
-		int isWallInt = 0;
-		sscanf(propertiesNodeWall.c_str(), "%d", &isWallInt);
-		if (isWallInt == 1) {
+	if (propertieType == "Solid") {
+		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
+		int isSolidInt = 0;
+		sscanf(propertiesNodeSolid.c_str(), "%d", &isSolidInt);
+		if (isSolidInt == 1) {
 			Bollean = true;
 		} else {
 			Bollean = false;
 		}
-		this->tileSet->AddTileWallPropertie(indexNode, Bollean);
+		this->tileSet->AddTileSolidPropertie(indexNode, Bollean);
 	}
-	if (propertieType == "Floor") {
-		string propertiesNodeWall = propertiesNode->first_attribute("value")->value();
-		int isWallInt = 0;
-		sscanf(propertiesNodeWall.c_str(), "%d", &isWallInt);
-		if (isWallInt == 1) {
+	if (propertieType == "Snow") {
+		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
+		int isSolidInt = 0;
+		sscanf(propertiesNodeSolid.c_str(), "%d", &isSolidInt);
+		if (isSolidInt == 1) {
 			Bollean = true;
 		} else {
 			Bollean = false;
 		}
-		this->tileSet->AddTileFloorPropertie(indexNode, Bollean);
+		this->tileSet->AddTileSnowPropertie(indexNode, Bollean);
 	}
 	
 	return propertiesNode->next_sibling();

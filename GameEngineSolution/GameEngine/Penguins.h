@@ -21,12 +21,7 @@ class Penguins : public GameObject {
 
 	static Penguins* player;
 
-	private:
-		enum CollisionType {//quanto maior o enum,maior a prioridade da colissao
-		noCollision=0,
-		Floor,
-		Wall
-	}type;
+	
 	Sprite bodySP;
 	Sprite cannonSp;
 	Vec2 speed;
@@ -42,11 +37,7 @@ class Penguins : public GameObject {
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
 	void takeDamage(int damage);
-	/// <summary>
-	/// Analisa se o player esta colidindo com algo
-	/// </summary>
-	/// <returns>Tipo de colisao que o player esta sofrendo de maior prioridade</returns>
-	CollisionType isCollinding();
+	void applyTileEffect(float dt);
 
 };
 

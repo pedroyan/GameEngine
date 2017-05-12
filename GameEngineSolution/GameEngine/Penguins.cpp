@@ -5,6 +5,7 @@
 #include "Sound.h"
 #include <math.h>
 #include "StageState.h"
+#include "TileCollision.h"
 
 Penguins* Penguins::player = nullptr;
 float acceleration = 200;
@@ -28,8 +29,8 @@ Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/
 	box.Y = y;
 	box.W = bodySP.GetWidth();
 	box.H = bodySP.GetHeight();
-auto map = Game::GetInstance().GetCurrentState().GetMap();//talvez de como otimizar
-
+	
+	
 
 }
 
@@ -62,21 +63,8 @@ void Penguins::Update(float dt) {
 		Accelerate(false, dt);
 	}
 	
-	Rect previousRect = box;
-	box.X += speed.X*dt;
-	Penguins::CollisionType collisionAnalysisX = isCollinding();
-	if (collisionAnalysisX==Wall) {//caso seja chao
-		box.X = previousRect.X;
-	}
-	box.Y += speed.Y*dt;
-	Penguins::CollisionType collisionAnalysisY = isCollinding();
-	if (collisionAnalysisY == Wall) {//caso seja chao
-		for (int i = 0; i < 100; i++) {
-    	Penguins::CollisionType collisionAnalysisY = isCollinding();
-
-		}
-		box.Y = previousRect.Y;
-	}
+	
+	applyTileEffect(dt);
 	UpdateCannonAngle(input);
 
 	if (input.MousePress(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
@@ -170,47 +158,27 @@ void Penguins::takeDamage(int damage) {
 	}
 }
 
-Penguins::CollisionType Penguins::isCollinding(){
-	auto map = Game::GetInstance().GetCurrentState().GetMap();//talvez de como otimizar
-	auto tile_height = map.GetTileSet()->GetTileHeight();
-	auto tile_width = map.GetTileSet()->GetTileWidth();
-
-
-	int left_tile = this->box.X / tile_width;
-	int right_tile = (this->box.X + this->box.W )/ tile_width;
-	int top_tile = this->box.Y / tile_height;
-	int bottom_tile = (this->box.Y+this->box.H) / tile_height;
-
-	if (left_tile < 0) {
-		left_tile = 0;
+void Penguins::applyTileEffect(float dt){
+	TileCollision collisionAnalysis;
+	Rect previousRect = box;
+	
+	//EIXO X
+	box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
+	auto collisionAnalysisX = collisionAnalysis.isCollinding(this->box);
+	if (collisionAnalysisX == TileCollision::Solid) {
+		box.X = previousRect.X;
 	}
-	if (right_tile > tile_width) {
-		right_tile = tile_width;
-	}
-	if (top_tile < 0) {
-		top_tile = 0;
-	}
-	if (bottom_tile > tile_height) {
-		bottom_tile = tile_height;
+	if (collisionAnalysisX == TileCollision::Snow) {
+		box.X = box.X - (speed.X*dt / 2);
 	}
 
-	Penguins::CollisionType	any_collision = noCollision;
-		for (int i = left_tile; i <= right_tile; i++)
-		{
-			for (int j = top_tile; j <= bottom_tile; j++)
-			{
-				int* tile  =  map.At(i, j);
-				if (map.GetTileSet()->isWall(*tile)){
-					if (any_collision < Wall) {
-						any_collision = Wall;
-					}
-				}
-				if (map.GetTileSet()->isFloor(*tile)) {
-					if (any_collision < Floor) {
-						any_collision = Floor;
-					}
-				}
-			}
-		}
-		return any_collision;
+	//EIXO Y
+	box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
+	auto collisionAnalysisY = collisionAnalysis.isCollinding(this->box);
+	if (collisionAnalysisY == TileCollision::Solid) {
+		box.Y = previousRect.Y;
+	}
+	if (collisionAnalysisY == TileCollision::Snow) {
+		box.Y = box.Y - (speed.Y*dt / 2);
+	}
 }

@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Camera.h"
+#include "Game.h"
 
 
 GameObject::GameObject() {
@@ -12,3 +13,4 @@ GameObject::~GameObject()
 		Camera::Unfollow();
 	}
 }
+

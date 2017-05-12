@@ -1,18 +1,18 @@
 #include "TileProperties.h"
 
-bool TileProperties::GetIsWall(){
-	return isWall;
+bool TileProperties::GetIsSolid(){
+	return isSolid;
 }
 
-void TileProperties::SetIsWall(bool iswall){
-	this->isWall = iswall;
+void TileProperties::SetIsSolid(bool isSolid){
+	this->isSolid = isSolid;
 }
 
-bool TileProperties::GetIsFloor()
+bool TileProperties::GetIsSnow()
 {
-	return isFloor;
+	return isSnow;
 }
 
-void TileProperties::SetIsFloor(bool isFloor){
-	this->isFloor = isFloor;
+void TileProperties::SetIsSnow(bool isSnow){
+	this->isSnow = isSnow;
 }
