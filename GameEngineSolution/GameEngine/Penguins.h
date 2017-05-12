@@ -21,7 +21,7 @@ class Penguins : public GameObject {
 
 	static Penguins* player;
 
-	
+private:
 	Sprite bodySP;
 	Sprite cannonSp;
 	Vec2 speed;
