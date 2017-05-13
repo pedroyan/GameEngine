@@ -41,13 +41,13 @@ class TileSet {
 		/// </summary>
 		/// <param name="tileIndex">tile a ser adicionado a nova propriedade</param>
 		/// <param name="isSolid">bool para ser uma Solid(colide com objetos)</param>
-		void AddTileSolidPropertie(int tileIndex, bool isSolid);
+		void AddTileSolidProperty(int tileIndex, bool isSolid);
 		/// <summary>
 		/// Adiciona ao tile a propriedade Snow
 		/// </summary>
 		/// <param name="tileIndex">tile a ser adicionado a nova propriedade</param>
 		/// <param name="isSolid">bool para ser um Sbow(abaixa a velocidade)</param>
-		void AddTileSnowPropertie(int tileIndex, bool isSolid);
+		void AddTileSnowProperty(int tileIndex, bool isSolid);
 
 	private:
 		Sprite tileSet;

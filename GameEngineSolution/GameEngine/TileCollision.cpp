@@ -1,6 +1,6 @@
 #include "TileCollision.h"
 #include "Game.h"
-TileCollision::CollisionType TileCollision::isCollinding(Rect box) {//TER UMA BIBLIOTECA UNICA PARA A COLISAO COM O MAPA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+TileCollision::CollisionType TileCollision::isCollinding(Rect box) {
 	auto map = Game::GetInstance().GetCurrentState().GetMap();//talvez de como otimizar
 	auto tile_height = map.GetTileSet()->GetTileHeight();
 	auto tile_width = map.GetTileSet()->GetTileWidth();

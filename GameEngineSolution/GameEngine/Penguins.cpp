@@ -159,12 +159,12 @@ void Penguins::takeDamage(int damage) {
 }
 
 void Penguins::applyTileEffect(float dt){
-	TileCollision collisionAnalysis;
+	// TileCollision collisionAnalysis;
 	Rect previousRect = box;
 	
 	//EIXO X
 	box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
-	auto collisionAnalysisX = collisionAnalysis.isCollinding(this->box);
+	auto collisionAnalysisX = TileCollision::isCollinding(this->box);
 	if (collisionAnalysisX == TileCollision::Solid) {
 		box.X = previousRect.X;
 	}
@@ -174,7 +174,7 @@ void Penguins::applyTileEffect(float dt){
 
 	//EIXO Y
 	box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
-	auto collisionAnalysisY = collisionAnalysis.isCollinding(this->box);
+	auto collisionAnalysisY = TileCollision::isCollinding(this->box);
 	if (collisionAnalysisY == TileCollision::Solid) {
 		box.Y = previousRect.Y;
 	}

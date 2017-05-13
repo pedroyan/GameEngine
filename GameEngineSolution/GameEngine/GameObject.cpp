@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "Camera.h"
-#include "Game.h"
+
 
 
 GameObject::GameObject() {

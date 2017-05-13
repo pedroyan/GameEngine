@@ -56,7 +56,7 @@ bool TileSet::isSnow(int tileSet) {
 	}
 }
 
-void TileSet::AddTileSnowPropertie(int tileIndex, bool isSnow){
+void TileSet::AddTileSnowProperty(int tileIndex, bool isSnow){
 	auto map = tilesProperties.find(tileIndex);
 	if (map == tilesProperties.end()) {
 		auto tileIsSnow = TileProperties();
@@ -67,7 +67,7 @@ void TileSet::AddTileSnowPropertie(int tileIndex, bool isSnow){
 	map->second.SetIsSnow(isSnow);
 }
 
-void TileSet::AddTileSolidPropertie(int tileIndex, bool isSolid){
+void TileSet::AddTileSolidProperty(int tileIndex, bool isSolid){
 	auto map = tilesProperties.find(tileIndex);
 	if (map == tilesProperties.end()) {
 		auto tileIsSolid =  TileProperties();
