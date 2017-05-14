@@ -23,6 +23,10 @@ void State::RenderArray() {
 	}
 }
 
+TileMap State::GetMap(){
+	return TileMap();
+}
+
 void State::AddObject(GameObject * object) {
 	auto uniqueObject = std::unique_ptr<GameObject>(object);
 	objectArray.push_back(std::move(uniqueObject));

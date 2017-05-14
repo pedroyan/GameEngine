@@ -9,15 +9,18 @@
 #include "Collision.h"
 #include "Game.h"
 #include "EndState.h"
+#include "TileCollision.h"
 
 
-StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/map.tmx",&tileSet), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
+StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
+	this->tileMap = TileMap("map/map.tmx", &tileSet);
+	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
 	stageMusic.Play(-1);
 
 	objectArray.emplace_back(new Alien(512, 300, 3));
-	objectArray.emplace_back(new Alien(900, 0, 4));
-	objectArray.emplace_back(new Alien(0, 900, 5));
+	//objectArray.emplace_back(new Alien(900, 0, 4)); //retirado para testes
+	//objectArray.emplace_back(new Alien(0, 900, 5));
 
 	auto penguim = new Penguins(704, 640);
 	Camera::Follow(penguim);
@@ -56,6 +59,10 @@ void StageState::Pause() {
 }
 
 void StageState::Resume() {
+}
+
+TileMap StageState::GetMap(){
+	return tileMap;
 }
 
 void StageState::AddObject(GameObject * ptr) {

@@ -2,6 +2,7 @@
 #include "Camera.h"
 
 
+
 GameObject::GameObject() {
 	rotation = 0;
 }
@@ -12,3 +13,4 @@ GameObject::~GameObject()
 		Camera::Unfollow();
 	}
 }
+

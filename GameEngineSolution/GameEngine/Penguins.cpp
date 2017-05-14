@@ -4,6 +4,8 @@
 #include "Animation.h"
 #include "Sound.h"
 #include <math.h>
+#include "StageState.h"
+#include "TileCollision.h"
 
 Penguins* Penguins::player = nullptr;
 float acceleration = 200;
@@ -20,13 +22,15 @@ float coolDown = 0.5;
 Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
 	Penguins::player = this;
-	hp = 100;
+	hp = 900000;//vida alterada pra teste
 	cooldownCounter = Timer();
 
 	box.X = x;
 	box.Y = y;
 	box.W = bodySP.GetWidth();
 	box.H = bodySP.GetHeight();
+	
+	
 
 }
 
@@ -58,16 +62,7 @@ void Penguins::Update(float dt) {
 	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
 		Accelerate(false, dt);
 	}
-	Rect previousRect = box;
-	box += speed*dt;
-
-	if (box.X < 0 || box.X > 1408) {
-		box.X = previousRect.X;
-	}
-	if (box.Y < 0 || box.Y > 1280) {
-		box.Y = previousRect.Y;
-	}
-
+	applyTileEffect(dt);
 	UpdateCannonAngle(input);
 
 	if (input.MousePress(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
@@ -158,5 +153,30 @@ void Penguins::takeDamage(int damage) {
 	if (IsDead()) {
 		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
 		Sound("audio/boom.wav").Play(0);
+	}
+}
+
+void Penguins::applyTileEffect(float dt){
+	// TileCollision collisionAnalysis;
+	Rect previousRect = box;
+	
+	//EIXO X
+	box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
+	auto collisionAnalysisX = TileCollision::isCollinding(this->box);
+	if (collisionAnalysisX == TileCollision::Solid) {
+		box.X = previousRect.X;
+	}
+	if (collisionAnalysisX == TileCollision::Snow) {
+		box.X = box.X - (speed.X*dt / 2);
+	}
+
+	//EIXO Y
+	box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
+	auto collisionAnalysisY = TileCollision::isCollinding(this->box);
+	if (collisionAnalysisY == TileCollision::Solid) {
+		box.Y = previousRect.Y;
+	}
+	if (collisionAnalysisY == TileCollision::Snow) {
+		box.Y = box.Y - (speed.Y*dt / 2);
 	}
 }

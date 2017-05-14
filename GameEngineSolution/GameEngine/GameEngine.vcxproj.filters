@@ -117,6 +117,9 @@
     <ClCompile Include="StateData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TileCollision.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="RapidXML\rapidxml_utils.hpp">
       <Filter>Header Files\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="TileCollision.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

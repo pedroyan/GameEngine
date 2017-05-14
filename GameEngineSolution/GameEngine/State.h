@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "TileMap.h"
 #include <vector>
 #include <memory>
 
@@ -15,6 +16,7 @@ class State {
 
 	bool PopRequested();
 	bool QuitRequested();
+	virtual TileMap GetMap();
 
 	protected:
 	virtual void UpdateArray(float dt);
@@ -23,5 +25,7 @@ class State {
 	bool popRequested;
 	bool quitRequested;
 	std::vector<std::unique_ptr<GameObject>> objectArray;
+
+	
 };
 

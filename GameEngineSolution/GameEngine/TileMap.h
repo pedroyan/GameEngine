@@ -14,6 +14,7 @@ using namespace rapidxml;
 /// </summary>
 class TileMap {
 	public:
+		TileMap();
 		TileMap(string file, TileSet* tileSetVariable);
 
 		void Load(string fileName);
@@ -29,6 +30,7 @@ class TileMap {
 		int GetWidth();
 		int GetHeight();
 		int GetDepth();
+		TileSet* GetTileSet();
 
 		~TileMap();
 	private:
@@ -68,6 +70,19 @@ class TileMap {
 		/// <param name="fileName">Nome do arquivo a ser carregado</param>
 		/// <returns>string contendo o XML carregado</returns>
 		char* loadTMXtoMemory(string fileName);
+		/// <summary>
+		/// Carrega as propiedades dos tiles
+		/// </summary>
+		/// <param name="tileNode">Nome do no a ser lido</param>
+		/// <returns>Proximo no a ser lido</returns>
+		xml_node<>* GetTilesProperties(xml_node<>* node);
+		/// <summary>
+		/// Adiciona uma propiedade ao tile.
+		/// </summary>
+		/// <param name="tileNode">Tile que esta sendo lido</param>
+		/// <param name="indexNode">Index do tile que esta sendo lido</param>
+		/// <returns></returns>
+		xml_node<>* AddPropertie(xml_node<>* tileNode, int indexNode);
 
 };
 

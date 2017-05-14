@@ -11,10 +11,14 @@ using std::getline;
 TileMap::~TileMap() {
 }
 
+TileMap::TileMap(){
+}
+
 TileMap::TileMap(string file, TileSet * tileSetVariable) {
 	mapDepth = 0;
-	Load(file);
 	tileSet = tileSetVariable;
+	Load(file);
+	
 }
 
 void TileMap::Load(string fileName) {
@@ -25,7 +29,12 @@ void TileMap::Load(string fileName) {
 
 	auto mapNode = doc.first_node("map", 0U, true);
 	GetDimensionProperties(mapNode,&mapWidth,&mapHeight);
-
+	xml_node<>* TileSetNode = mapNode->first_node("tileset");
+	auto tilesNode = TileSetNode->first_node("tile");
+	
+	while (tilesNode != nullptr) {
+		tilesNode =GetTilesProperties(tilesNode);
+	}
 	xml_node<>* layerNode = mapNode->first_node("layer");
 
 	while (layerNode != nullptr) {
@@ -160,6 +169,44 @@ char* TileMap::loadTMXtoMemory(string fileName) {
 	char* chr = _strdup(input_TMX.c_str());
 	return chr;
 }
+/// <summary>
+/// Carrega as propiedades dos tiles
+/// </summary>
+/// <param name="tileNode">Nome do no a ser lido</param>
+/// <returns>Proximo no a ser lido</returns>
+xml_node<>* TileMap::GetTilesProperties(xml_node<>* tileNode){
+	int indexNode;
+	
+	
+	string indexNodeS = tileNode->first_attribute("id")->value();
+	sscanf(indexNodeS.c_str(), "%d", &indexNode);
+	auto propertiesNode = tileNode->first_node("properties")->first_node("property");	
+	while (propertiesNode != nullptr) {
+		propertiesNode = AddPropertie(propertiesNode,indexNode);
+	}
+
+	return tileNode->next_sibling();
+}
+
+xml_node<>* TileMap::AddPropertie(xml_node<>* propertiesNode, int indexNode){
+	string propertieType = propertiesNode->first_attribute("name")->value();
+
+	if (propertieType == "Solid") {
+		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
+		if (propertiesNodeSolid == "true") {
+			this->tileSet->AddTileProperty(indexNode, TileSet::Solid);
+		}
+	}
+	if (propertieType == "Snow") {
+		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
+		if (propertiesNodeSolid == "true") {
+			this->tileSet->AddTileProperty(indexNode, TileSet::Snow);
+		} 
+		
+	}
+	
+	return propertiesNode->next_sibling();
+}
 
 int * TileMap::At(int x, int y, int z) {
 	if (x < 0 || y < 0 || z < 0) {
@@ -217,5 +264,9 @@ int TileMap::GetHeight() {
 
 int TileMap::GetDepth() {
 	return mapDepth;
+}
+
+TileSet * TileMap::GetTileSet(){
+	return tileSet;
 }
 
