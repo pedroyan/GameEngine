@@ -199,7 +199,7 @@ xml_node<>* TileMap::AddPropertie(xml_node<>* propertiesNode, int indexNode){
 		} else {
 			Bollean = false;
 		}
-		this->tileSet->AddTileSolidProperty(indexNode, Bollean);
+		this->tileSet->AddTileProperty(indexNode, TileSet::Solid);
 	}
 	if (propertieType == "Snow") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
@@ -208,7 +208,7 @@ xml_node<>* TileMap::AddPropertie(xml_node<>* propertiesNode, int indexNode){
 		} else {
 			Bollean = false;
 		}
-		this->tileSet->AddTileSnowProperty(indexNode, Bollean);
+		this->tileSet->AddTileProperty(indexNode, TileSet::Snow);
 	}
 	
 	return propertiesNode->next_sibling();

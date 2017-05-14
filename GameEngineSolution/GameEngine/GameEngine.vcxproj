@@ -144,7 +144,6 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TileCollision.cpp" />
     <ClCompile Include="TileMap.cpp" />
-    <ClCompile Include="TileProperties.cpp" />
     <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleState.cpp" />
@@ -178,7 +177,6 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="TileCollision.h" />
     <ClInclude Include="TileMap.h" />
-    <ClInclude Include="TileProperties.h" />
     <ClInclude Include="TileSet.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleState.h" />

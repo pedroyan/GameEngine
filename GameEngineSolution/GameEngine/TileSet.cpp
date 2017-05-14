@@ -38,42 +38,19 @@ int TileSet::GetTileHeight() {
 	return tileHeight;
 }
 
-bool TileSet::isSolid(int tileSet) {
-	auto iterator = tilesProperties.find(tileSet);
+TileSet::CollisionType TileSet::GetTileProperty(int tileIndex){
+	auto iterator = tilesProperties.find(tileIndex);
 	if (iterator == tilesProperties.end()) {
-		return false;
+		return noCollision;
 	} else {
-		return iterator->second.GetIsSolid();
+		return iterator->second;
 	}
 }
 
-bool TileSet::isSnow(int tileSet) {
-	auto iterator = tilesProperties.find(tileSet);
-	if (iterator == tilesProperties.end()) {
-		return false;
-	} else {
-		return iterator->second.GetIsSnow();
-	}
-}
-
-void TileSet::AddTileSnowProperty(int tileIndex, bool isSnow){
+void TileSet::AddTileProperty(int tileIndex, TileSet::CollisionType tileType){
 	auto map = tilesProperties.find(tileIndex);
 	if (map == tilesProperties.end()) {
-		auto tileIsSnow = TileProperties();
-		tileIsSnow.SetIsSnow(isSnow);
-		this->tilesProperties.emplace(tileIndex, tileIsSnow);
+		this->tilesProperties.emplace(tileIndex,tileType);
 		return;
 	}
-	map->second.SetIsSnow(isSnow);
-}
-
-void TileSet::AddTileSolidProperty(int tileIndex, bool isSolid){
-	auto map = tilesProperties.find(tileIndex);
-	if (map == tilesProperties.end()) {
-		auto tileIsSolid =  TileProperties();
-		tileIsSolid.SetIsSolid(isSolid);
-		this->tilesProperties.emplace(tileIndex,tileIsSolid);
-		return;
-	}
-	map->second.SetIsSolid(isSolid);
 }

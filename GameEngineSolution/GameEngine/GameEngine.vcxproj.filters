@@ -117,9 +117,6 @@
     <ClCompile Include="StateData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TileProperties.cpp">
-      <Filter>Source Files\Map</Filter>
-    </ClCompile>
     <ClCompile Include="TileCollision.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
@@ -214,9 +211,6 @@
     </ClInclude>
     <ClInclude Include="RapidXML\rapidxml_utils.hpp">
       <Filter>Header Files\RapidXML</Filter>
-    </ClInclude>
-    <ClInclude Include="TileProperties.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TileCollision.h">
       <Filter>Header Files</Filter>
