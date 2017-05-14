@@ -15,6 +15,11 @@ public:
 	/// <param name="box">Box(codernadas x,y e tamanhos w,h) do objeto a qual ira ser analisado</param>
 	/// <returns>Tipo de colisao que o player esta sofrendo de maior prioridade</returns>
 	static CollisionType isCollinding(Rect box);
+
+	/// <summary>
+	/// Obtem os parametros do mapa
+	/// </summary>
+	/// <param name="mapa">mapa a qual sera analisada a colisao</param>
 	static void GetParameters(TileMap mapa);
 	
 private:
