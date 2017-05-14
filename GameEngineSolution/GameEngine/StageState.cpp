@@ -9,9 +9,12 @@
 #include "Collision.h"
 #include "Game.h"
 #include "EndState.h"
+#include "TileCollision.h"
 
 
-StageState::StageState() : tileSet(64,64,"img/tileset.png"), tileMap("map/map.tmx",&tileSet), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
+StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
+	this->tileMap = TileMap("map/map.tmx", &tileSet);
+	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
 	stageMusic.Play(-1);
 

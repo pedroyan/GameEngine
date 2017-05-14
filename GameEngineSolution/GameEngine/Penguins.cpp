@@ -62,8 +62,6 @@ void Penguins::Update(float dt) {
 	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
 		Accelerate(false, dt);
 	}
-	
-	
 	applyTileEffect(dt);
 	UpdateCannonAngle(input);
 

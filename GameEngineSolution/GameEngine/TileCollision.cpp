@@ -1,10 +1,10 @@
 #include "TileCollision.h"
 #include "Game.h"
+ TileMap TileCollision::map;
+ int  TileCollision::tile_height;
+ int TileCollision::tile_width;
 TileCollision::CollisionType TileCollision::isCollinding(Rect box) {
-	auto map = Game::GetInstance().GetCurrentState().GetMap();//talvez de como otimizar
-	auto tile_height = map.GetTileSet()->GetTileHeight();
-	auto tile_width = map.GetTileSet()->GetTileWidth();
-
+	
 
 	int left_tile =  box.X / tile_width;
 	int right_tile = (box.X +  box.W) / tile_width;
@@ -45,3 +45,11 @@ TileCollision::CollisionType TileCollision::isCollinding(Rect box) {
 	}
 	return any_collision;
 }
+
+void TileCollision::GetParameters(TileMap mapa){
+	map = mapa;
+	tile_height = map.GetTileSet()->GetTileHeight();
+	tile_width = map.GetTileSet()->GetTileWidth();
+}
+
+
