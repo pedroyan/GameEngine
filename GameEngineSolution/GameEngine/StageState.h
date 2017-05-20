@@ -8,6 +8,7 @@
 #include "TileMap.h"
 #include "Music.h"
 #include "Sound.h"
+#include "Background.h"
 
 class StageState : public State{
 	public:
@@ -27,6 +28,7 @@ class StageState : public State{
 		TileMap tileMap;
 		Sprite bg;
 		Music stageMusic;
+		Background bg1;
 
 		//metodos
 		void CheckCollisions();
