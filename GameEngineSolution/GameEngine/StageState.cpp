@@ -5,7 +5,7 @@
 #include <math.h>
 #include "InputManager.h"
 #include "Alien.h"
-#include "Penguins.h"
+#include "Player.h"
 #include "Collision.h"
 #include "Game.h"
 #include "EndState.h"
