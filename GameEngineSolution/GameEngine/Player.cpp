@@ -7,7 +7,7 @@
 #include "StageState.h"
 #include "TileCollision.h"
 
-Penguins* Penguins::player = nullptr;
+Player* Player::playerInstance = nullptr;
 float acceleration = 200;
 //Limite para velocidade adiante
 float fSpeedLimit = 400;
@@ -19,9 +19,9 @@ float turningSpeed = M_PI / 16;
 //cooldown de tiro em segundos
 float coolDown = 0.5;
 
-Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(0,0){
+Player::Player(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
-	Penguins::player = this;
+	Player::playerInstance = this;
 	hp = 900000;//vida alterada pra teste
 	cooldownCounter = Timer();
 
@@ -34,11 +34,11 @@ Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/
 
 }
 
-Penguins::~Penguins() {
-	Penguins::player = nullptr;
+Player::~Player() {
+	Player::playerInstance = nullptr;
 }
 
-void Penguins::Update(float dt) {
+void Player::Update(float dt) {
 	auto& input = InputManager::GetInstance();
 	if (cooldownCounter.Get() != 0) {
 		cooldownCounter.Update(dt);
@@ -70,7 +70,7 @@ void Penguins::Update(float dt) {
 	}
 }
 
-void Penguins::Render() {
+void Player::Render() {
 	bodySP.Render(box.GetWorldPosition(), rotation);
 
 	auto centerPosition = box.GetCenter();
@@ -82,21 +82,21 @@ void Penguins::Render() {
 	cannonSp.Render(renderPosition,cannonAngle);
 }
 
-bool Penguins::IsDead() {
+bool Player::IsDead() {
 	return hp <= 0;
 }
 
-void Penguins::NotifyCollision(GameObject & other) {
+void Player::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
 		takeDamage(10);
 	}
 }
 
-bool Penguins::Is(string type) {
+bool Player::Is(string type) {
 	return type == "Penguins";
 }
 
-void Penguins::Shoot() {
+void Player::Shoot() {
 	Vec2 cannonOffset(50, 0);
 	cannonOffset.Rotate(cannonAngle);
 	
@@ -109,7 +109,7 @@ void Penguins::Shoot() {
 	cooldownCounter.Update(-coolDown);
 }
 
-void Penguins::Accelerate(bool forward, float dt) {
+void Player::Accelerate(bool forward, float dt) {
 	float accelarationValue = 0;
 	auto realAcceletarion = acceleration*dt;
 	if (forward) {
@@ -135,20 +135,20 @@ void Penguins::Accelerate(bool forward, float dt) {
 	speed = accelerationVector + speed;
 }
 
-void Penguins::UpdateCannonAngle(InputManager & manager) {
+void Player::UpdateCannonAngle(InputManager & manager) {
 	Vec2 mousePosition(manager.GetWorldMouseX(), manager.GetWorldMouseY());
 	Vec2 cannonAxis = box.GetCenter();
 
 	cannonAngle = cannonAxis.GetDistanceVectorAngle(mousePosition);
 }
 
-float Penguins::getInertialBulletSpeed() {
+float Player::getInertialBulletSpeed() {
 	Vec2 bulletSpeed(1000, 0);
 	bulletSpeed.Rotate(cannonAngle);
 	return (bulletSpeed + speed).Magnitude();
 }
 
-void Penguins::takeDamage(int damage) {
+void Player::takeDamage(int damage) {
 	hp -= damage;
 	if (IsDead()) {
 		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
@@ -156,7 +156,7 @@ void Penguins::takeDamage(int damage) {
 	}
 }
 
-void Penguins::applyTileEffect(float dt){
+void Player::applyTileEffect(float dt){
 	// TileCollision collisionAnalysis;
 	Rect previousRect = box;
 	

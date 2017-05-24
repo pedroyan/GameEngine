@@ -41,7 +41,7 @@ Alien::~Alien() {
 void Alien::Update(float dt) {
 	rotation -= 2*dt;
 
-	if (Penguins::player != nullptr) {
+	if (Player::playerInstance != nullptr) {
 		runAI(dt);
 	}
 
@@ -143,7 +143,7 @@ void Alien::takeDamage(int damage) {
 }
 
 void Alien::runAI(float dt) {
-	auto currentPlayerCenter = Penguins::player->box.GetCenter();
+	auto currentPlayerCenter = Player::playerInstance->box.GetCenter();
 	if (state == Alienstate::RESTING) {
 		restTimer.Update(dt);
 		if (restTimer.Get() >= restCooldown) {

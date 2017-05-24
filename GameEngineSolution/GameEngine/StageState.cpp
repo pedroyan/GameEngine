@@ -18,7 +18,7 @@ StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg("img/ocean.jpg")
 	quitRequested = false;
 	stageMusic.Play(-1);
 
-	auto penguim = new Penguins(704, 1100);
+	auto penguim = new Player(704, 1100);
 	Camera::Follow(penguim);
 	AddObject(penguim);
 
@@ -39,7 +39,7 @@ void StageState::Update(float dt) {
 	if (false) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(true)));
-	} else if (Penguins::player == nullptr) {
+	} else if (Player::playerInstance == nullptr) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}

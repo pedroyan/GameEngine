@@ -6,10 +6,10 @@
 #include "Timer.h"
 #include "TileMap.h"
 
-class Penguins : public GameObject {
+class Player : public GameObject {
 	public:
-	Penguins(float x, float y);
-	~Penguins();
+	Player(float x, float y);
+	~Player();
 
 	void Update(float dt);
 	void Render();
@@ -19,7 +19,7 @@ class Penguins : public GameObject {
 
 	void Shoot();
 
-	static Penguins* player;
+	static Player* playerInstance;
 
 	private:
 	Sprite bodySP;
