@@ -13,7 +13,7 @@ float acceleration = 200;
 float fSpeedLimit = 400;
 //Limite para velocidade de ré
 float bSpeedLimit = -300;
-//Velocidade angular de virara
+//Velocidade angular de virada
 float turningSpeed = M_PI / 16;
 
 //cooldown de tiro em segundos

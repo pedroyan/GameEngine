@@ -18,11 +18,7 @@ StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg("img/ocean.jpg")
 	quitRequested = false;
 	stageMusic.Play(-1);
 
-	objectArray.emplace_back(new Alien(512, 300, 3));
-	//objectArray.emplace_back(new Alien(900, 0, 4)); //retirado para testes
-	//objectArray.emplace_back(new Alien(0, 900, 5));
-
-	auto penguim = new Penguins(704, 640);
+	auto penguim = new Penguins(704, 1100);
 	Camera::Follow(penguim);
 	AddObject(penguim);
 
@@ -40,7 +36,7 @@ void StageState::Update(float dt) {
 
 	UpdateArray(dt);
 
-	if (Alien::alienCount < 1) {
+	if (false) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(true)));
 	} else if (Penguins::player == nullptr) {
