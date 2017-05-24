@@ -11,7 +11,8 @@ Player* Player::playerInstance = nullptr;
 //Limite para velocidade adiante
 const float SpeedLimit = 400;
 
-const float jumpHeight = 1; // em blocos
+const float jumpHeight = 2; // em blocos
+const float Gravity = 2 * 9.8;
 
 //cooldown de tiro em segundos
 const float coolDown = 0.5;
@@ -53,11 +54,11 @@ void Player::Update(float dt) {
 	}
 
 	if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
-		auto k1 = 2 * 9.8 * jumpHeight;
+		auto k1 = 2 * Gravity * jumpHeight;
 		speed.Y = -64 *sqrt(k1);
 		jumpCount++;
 	} else {
-		speed.Y += 64 * 9.8*dt;
+		speed.Y += 64 * Gravity*dt;
 	}
 
 	Move(dt);
