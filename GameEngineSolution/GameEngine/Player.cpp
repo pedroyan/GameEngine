@@ -148,10 +148,8 @@ void Player::Move(float dt){
 	box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 	auto collisionAnalysisY = TileCollision::isCollinding(this->box);
 	if (collisionAnalysisY == TileCollision::Solid) {
-		if (previousRect.Y < box.Y) {
-			speed.Y = 0;
-			jumpCount = 0;
-		}
+		speed.Y = 0;
+		jumpCount = 0;
 		box.Y = previousRect.Y;
 	}
 
