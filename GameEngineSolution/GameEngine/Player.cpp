@@ -8,14 +8,13 @@
 #include "TileCollision.h"
 
 Player* Player::playerInstance = nullptr;
-float acceleration = 200;
 //Limite para velocidade adiante
-float SpeedLimit = 400;
+const float SpeedLimit = 400;
 
-float jumpHeight = 3; // em blocos
+const float jumpHeight = 1; // em blocos
 
 //cooldown de tiro em segundos
-float coolDown = 0.5;
+const float coolDown = 0.5;
 
 Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
@@ -27,6 +26,8 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), cannonSp("img/c
 	box.Y = y;
 	box.W = bodySP.GetWidth();
 	box.H = bodySP.GetHeight();
+
+	jumpCount = 0;
 }
 
 Player::~Player() {
@@ -50,14 +51,16 @@ void Player::Update(float dt) {
 	} else {
 		speed.X = 0;
 	}
-	if (input.KeyPress(SDLK_SPACE)) {
+
+	if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 		auto k1 = 2 * 9.8 * jumpHeight;
 		speed.Y = -64 *sqrt(k1);
+		jumpCount++;
 	} else {
 		speed.Y += 64 * 9.8*dt;
 	}
 
-	applyTileEffect(dt);
+	Move(dt);
 	UpdateCannonAngle(input);
 
 	if (input.MousePress(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
@@ -126,7 +129,7 @@ void Player::takeDamage(int damage) {
 	}
 }
 
-void Player::applyTileEffect(float dt){
+void Player::Move(float dt){
 	// TileCollision collisionAnalysis;
 	Rect previousRect = box;
 	
@@ -146,6 +149,7 @@ void Player::applyTileEffect(float dt){
 	if (collisionAnalysisY == TileCollision::Solid) {
 		if (previousRect.Y < box.Y) {
 			speed.Y = 0;
+			jumpCount = 0;
 		}
 		box.Y = previousRect.Y;
 	}

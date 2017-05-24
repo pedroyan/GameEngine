@@ -32,11 +32,12 @@ class Player : public GameObject {
 	float cannonAngle;
 	int hp;
 	Timer cooldownCounter;
-	
+	int jumpCount;
+
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
 	void takeDamage(int damage);
-	void applyTileEffect(float dt);
+	void Move(float dt);
 
 };
 
