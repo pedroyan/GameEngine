@@ -12,6 +12,8 @@ float acceleration = 200;
 //Limite para velocidade adiante
 float SpeedLimit = 400;
 
+float jumpHeight = 3; // em blocos
+
 //cooldown de tiro em segundos
 float coolDown = 0.5;
 
@@ -48,8 +50,12 @@ void Player::Update(float dt) {
 	} else {
 		speed.X = 0;
 	}
-
-	speed.Y += 64*9.8*dt;
+	if (input.KeyPress(SDLK_SPACE)) {
+		auto k1 = 2 * 9.8 * jumpHeight;
+		speed.Y = -64 *sqrt(k1);
+	} else {
+		speed.Y += 64 * 9.8*dt;
+	}
 
 	applyTileEffect(dt);
 	UpdateCannonAngle(input);
