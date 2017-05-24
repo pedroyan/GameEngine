@@ -49,6 +49,8 @@ void Player::Update(float dt) {
 		speed.X = 0;
 	}
 
+	speed.Y += 64*9.8*dt;
+
 	applyTileEffect(dt);
 	UpdateCannonAngle(input);
 
@@ -136,8 +138,12 @@ void Player::applyTileEffect(float dt){
 	box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 	auto collisionAnalysisY = TileCollision::isCollinding(this->box);
 	if (collisionAnalysisY == TileCollision::Solid) {
+		if (previousRect.Y < box.Y) {
+			speed.Y = 0;
+		}
 		box.Y = previousRect.Y;
 	}
+
 	if (collisionAnalysisY == TileCollision::Snow) {
 		box.Y = box.Y - (speed.Y*dt / 2);
 	}
