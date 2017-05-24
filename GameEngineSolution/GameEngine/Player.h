@@ -33,7 +33,6 @@ class Player : public GameObject {
 	int hp;
 	Timer cooldownCounter;
 	
-	void Accelerate(bool forward, float dt);
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
 	void takeDamage(int damage);

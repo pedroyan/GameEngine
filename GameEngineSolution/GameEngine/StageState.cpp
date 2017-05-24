@@ -18,9 +18,9 @@ StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg("img/ocean.jpg")
 	quitRequested = false;
 	stageMusic.Play(-1);
 
-	auto penguim = new Player(704, 1100);
-	Camera::Follow(penguim);
-	AddObject(penguim);
+	auto player = new Player(704, 1000);
+	Camera::Follow(player);
+	AddObject(player);
 
 }
 

@@ -10,16 +10,12 @@
 Player* Player::playerInstance = nullptr;
 float acceleration = 200;
 //Limite para velocidade adiante
-float fSpeedLimit = 400;
-//Limite para velocidade de ré
-float bSpeedLimit = -300;
-//Velocidade angular de virada
-float turningSpeed = M_PI / 16;
+float SpeedLimit = 400;
 
 //cooldown de tiro em segundos
 float coolDown = 0.5;
 
-Player::Player(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(0,0){
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
 	Player::playerInstance = this;
 	hp = 900000;//vida alterada pra teste
@@ -29,9 +25,6 @@ Player::Player(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubn
 	box.Y = y;
 	box.W = bodySP.GetWidth();
 	box.H = bodySP.GetHeight();
-	
-	
-
 }
 
 Player::~Player() {
@@ -49,19 +42,13 @@ void Player::Update(float dt) {
 
 	//Rotaciona caso D ou A sejam apertados
 	if (input.IsKeyDown(SDLK_d)) {
-		rotation += turningSpeed;
-		speed.Rotate(turningSpeed);
+		speed.X = SpeedLimit;
 	} else if (input.IsKeyDown(SDLK_a)) {
-		rotation -= turningSpeed;
-		speed.Rotate(-turningSpeed);
+		speed.X = -SpeedLimit;
+	} else {
+		speed.X = 0;
 	}
 
-	//Acelera caso W ou S sejam apertados
-	if (input.IsKeyDown(SDLK_w) && linearSpeed < fSpeedLimit) {
-		Accelerate(true, dt);
-	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
-		Accelerate(false, dt);
-	}
 	applyTileEffect(dt);
 	UpdateCannonAngle(input);
 
@@ -71,7 +58,7 @@ void Player::Update(float dt) {
 }
 
 void Player::Render() {
-	bodySP.Render(box.GetWorldPosition(), rotation);
+	bodySP.Render(box.GetWorldPosition(), 0);
 
 	auto centerPosition = box.GetCenter();
 
@@ -109,31 +96,6 @@ void Player::Shoot() {
 	cooldownCounter.Update(-coolDown);
 }
 
-void Player::Accelerate(bool forward, float dt) {
-	float accelarationValue = 0;
-	auto realAcceletarion = acceleration*dt;
-	if (forward) {
-		auto newLinearSpeed = linearSpeed + realAcceletarion;
-		accelarationValue = newLinearSpeed < fSpeedLimit // mesmo raciocinio explicado na desaceleração
-			? realAcceletarion
-			: fSpeedLimit - linearSpeed;
-	} else {
-		auto newLinearSpeed = linearSpeed - realAcceletarion;
-		accelarationValue = newLinearSpeed > bSpeedLimit //se a nova velocidade linear não for menor do que o limite inferior
-			? realAcceletarion							//desacelera a velocidade pela constante completa
-			: -(bSpeedLimit - linearSpeed);		//caso contrário, só desacelera oque falta para a velocidade atingir o limite inferior
-	}
-
-	//Lembrando que accelarationValue é sempre positivo. Quem irá dizer
-	//sua orientação é o vetor
-
-	Vec2 accelerationVector(accelarationValue, 0);
-
-	linearSpeed = forward ? linearSpeed + accelarationValue : linearSpeed - accelarationValue;
-	auto accAngle = forward ? rotation : M_PI + rotation;
-	accelerationVector.Rotate(accAngle);
-	speed = accelerationVector + speed;
-}
 
 void Player::UpdateCannonAngle(InputManager & manager) {
 	Vec2 mousePosition(manager.GetWorldMouseX(), manager.GetWorldMouseY());
