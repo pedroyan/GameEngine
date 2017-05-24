@@ -91,7 +91,7 @@ void Player::NotifyCollision(GameObject & other) {
 }
 
 bool Player::Is(string type) {
-	return type == "Penguins";
+	return type == "Player";
 }
 
 void Player::Shoot() {
