@@ -6,10 +6,10 @@
 #include "Timer.h"
 #include "TileMap.h"
 
-class Penguins : public GameObject {
+class Player : public GameObject {
 	public:
-	Penguins(float x, float y);
-	~Penguins();
+	Player(float x, float y);
+	~Player();
 
 	void Update(float dt);
 	void Render();
@@ -19,7 +19,7 @@ class Penguins : public GameObject {
 
 	void Shoot();
 
-	static Penguins* player;
+	static Player* playerInstance;
 
 	private:
 	Sprite bodySP;
@@ -32,12 +32,12 @@ class Penguins : public GameObject {
 	float cannonAngle;
 	int hp;
 	Timer cooldownCounter;
-	
-	void Accelerate(bool forward, float dt);
+	int jumpCount;
+
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
 	void takeDamage(int damage);
-	void applyTileEffect(float dt);
+	void Move(float dt);
 
 };
 

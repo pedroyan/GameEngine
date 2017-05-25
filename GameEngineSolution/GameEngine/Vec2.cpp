@@ -75,6 +75,12 @@ Vec2 Vec2::operator/(const float escalar) {
 	return result;
 }
 
+Vec2 & Vec2::operator+=(const Vec2 rhs) {
+	this->X += rhs.X;
+	this->Y += rhs.Y;
+	return *this;
+}
+
 
 Vec2::~Vec2() {
 }
