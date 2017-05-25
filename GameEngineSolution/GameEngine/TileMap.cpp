@@ -214,7 +214,7 @@ int * TileMap::At(int x, int y, int z) {
 	}
 
 	if (x >= mapWidth || y >= mapHeight || z >= mapDepth) {
-		throw std::exception(); // não é possivel utilizar valores fora do indice
+		return nullptr;
 	}
 
 	int heigthOffset = y*mapWidth;
