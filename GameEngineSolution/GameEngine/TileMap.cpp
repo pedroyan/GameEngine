@@ -113,7 +113,7 @@ xml_node<>* TileMap::parseLayer(xml_node<>* layerNode) {
 xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 	auto ObjectNode = objLayer->first_node("object");
 	if (ObjectNode == nullptr) {
-		return nullptr; //Caso não tenha Object
+		return objLayer->next_sibling(); //Caso não tenha Object
 	}
 	float x, y, w, h;
 
@@ -125,6 +125,7 @@ xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 	auto propertiesNode = ObjectNode->first_node("properties");
 	if (propertiesNode == nullptr ) {
 		Logger::LogError("WARNING: Objeto sem propriedade \"ObjectType\"");
+		return objLayer->next_sibling();
 	}
 }
 
