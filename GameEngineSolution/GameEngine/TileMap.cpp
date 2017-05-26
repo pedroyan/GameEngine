@@ -138,7 +138,7 @@ xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 		prop = prop->next_sibling();
 	}
 
-	if (properties.find("ObjectType") == properties.end) {
+	if (properties.find("ObjectType") == properties.end()) {
 		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) + " sem propriedade \"ObjectType\"");
 		return objLayer->next_sibling();
 	}
