@@ -1,8 +1,6 @@
 #pragma once
 #include "Sprite.h"
 #include "Game.h"
-#include "Camera.h"
-
 
 class Background {
 public:
