@@ -11,12 +11,13 @@ void Background::Render(int cameraX, int cameraY) {
 	int actualY;
 	int widthGame = DEFAULT_GAME_WIDTH;
 	int heightGame = DEFAULT_GAME_HEIGHT;
+	printf("%f\n", (cameraX + widthGame / 2) * velocity);
 
 	if (cameraX <= 0) {
 		actualX = 0;
 	}
-	else if(cameraX + widthGame >= width) {
-		actualX = width - widthGame;
+	else if(cameraX*velocity  >= width - widthGame) {
+		actualX = (width - widthGame)/velocity;
 	}
 	else {
 		actualX = cameraX;
@@ -25,12 +26,12 @@ void Background::Render(int cameraX, int cameraY) {
 	if (cameraY <= 0) {
 		actualY = 0;
 	}
-	else if (cameraY + heightGame >= height) {
-		actualY = height - heightGame;
+	else if (cameraY*velocity >= height - heightGame) {
+		actualY = (height - heightGame)/velocity;
 	}
 	else {
 		actualY = cameraY;
 	}
-
+	printf("-%f-\n", actualX*velocity);
 	bg.Render(-actualX*velocity, -actualY*velocity);
 }
