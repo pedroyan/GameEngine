@@ -2,10 +2,11 @@
 #include "Sprite.h"
 #include "Game.h"
 
+
 class Background {
 public:
-	Background(char*, int, int, float);
-	void Render(int, int);
+	Background(char* sprite, float velocity);
+	void Render(int cameraX, int cameraY);
 	Sprite bg;
 	int width;
 	int height;
