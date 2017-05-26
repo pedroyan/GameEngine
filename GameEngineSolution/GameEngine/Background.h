@@ -2,7 +2,6 @@
 #include "Sprite.h"
 #include "Game.h"
 
-
 class Background {
 public:
 	Background(char* sprite, float velocity);

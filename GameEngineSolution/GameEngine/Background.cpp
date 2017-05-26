@@ -15,8 +15,8 @@ void Background::Render(int cameraX, int cameraY) {
 	if (cameraX <= 0) {
 		actualX = 0;
 	}
-	else if(cameraX + widthGame >= width) {
-		actualX = width - widthGame;
+	else if(cameraX*velocity  >= width - widthGame) {
+		actualX = (width - widthGame)/velocity;
 	}
 	else {
 		actualX = cameraX;
@@ -25,8 +25,8 @@ void Background::Render(int cameraX, int cameraY) {
 	if (cameraY <= 0) {
 		actualY = 0;
 	}
-	else if (cameraY + heightGame >= height) {
-		actualY = height - heightGame;
+	else if (cameraY*velocity >= height - heightGame) {
+		actualY = (height - heightGame)/velocity;
 	}
 	else {
 		actualY = cameraY;
