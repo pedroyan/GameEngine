@@ -127,7 +127,7 @@ xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 
 	auto propertiesNode = ObjectNode->first_node("properties");
 	if (propertiesNode == nullptr ) {
-		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) +" sem propriedade \"ObjectType\"");
+		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) +" sem propriedades");
 		return objLayer->next_sibling();
 	}
 
@@ -137,6 +137,14 @@ xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 		properties.emplace(std::make_pair(prop->first_attribute("name")->value(), prop->first_attribute("value")->value()));
 		prop = prop->next_sibling();
 	}
+
+	if (properties.find("ObjectType") == properties.end) {
+		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) + " sem propriedade \"ObjectType\"");
+		return objLayer->next_sibling();
+	}
+
+	//new o objeto louco passando o dicionario de propriedades como parametro
+	//insere esse new louco no object array do currentState
 	printf("damn son");
 }
 
