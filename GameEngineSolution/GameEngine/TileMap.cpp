@@ -145,7 +145,8 @@ xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 
 	//new o objeto louco passando o dicionario de propriedades como parametro
 	//insere esse new louco no object array do currentState
-	printf("damn son");
+	//printf("damn son");
+	return objLayer->next_sibling();
 }
 
 /// <summary>
