@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "Text.h"
 #include "Timer.h"
+#include "Camera.h"
 
 class TitleState : public State{
 	public:
