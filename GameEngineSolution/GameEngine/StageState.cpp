@@ -11,8 +11,7 @@
 #include "EndState.h"
 #include "TileCollision.h"
 
-
-StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg("img/ocean.jpg"), stageMusic("audio/stageState.ogg") {
+StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg1("img/back1.png", 0.2), stageMusic("audio/stageState.ogg") {
 	this->tileMap = TileMap("map/map.tmx", &tileSet);
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
@@ -46,7 +45,7 @@ void StageState::Update(float dt) {
 }
 
 void StageState::Render() {
-	bg.Render(0, 0);
+	bg1.Render(Camera::pos.X, Camera::pos.Y);
 	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y));
 	RenderArray();
 }
