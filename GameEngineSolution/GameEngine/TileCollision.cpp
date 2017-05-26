@@ -28,17 +28,18 @@ TileCollision::CollisionType TileCollision::isCollinding(Rect box) {
 	
 	for (int i = left_tile; i <= right_tile; i++)
 	{
-		for (int j = top_tile; j <= bottom_tile; j++)
-		{
+		for (int j = top_tile; j <= bottom_tile; j++) {
 			int* tile = map.At(i, j);
-			if (map.GetTileSet()->GetTileProperty(*tile)==Solid) {
-				if (any_collision < Solid) {
-					any_collision = Solid;
+			if (tile != nullptr) {
+				if (map.GetTileSet()->GetTileProperty(*tile) == Solid) {
+					if (any_collision < Solid) {
+						any_collision = Solid;
+					}
 				}
-			}
-			if (map.GetTileSet()->GetTileProperty(*tile) ==Snow ) {
-				if (any_collision < Snow) {
-					any_collision = Snow;
+				else if (map.GetTileSet()->GetTileProperty(*tile) == Snow) {
+					if (any_collision < Snow) {
+						any_collision = Snow;
+					}
 				}
 			}
 		}

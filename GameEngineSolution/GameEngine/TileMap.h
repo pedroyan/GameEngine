@@ -82,7 +82,7 @@ class TileMap {
 		/// <param name="tileNode">Tile que esta sendo lido</param>
 		/// <param name="indexNode">Index do tile que esta sendo lido</param>
 		/// <returns></returns>
-		xml_node<>* AddPropertie(xml_node<>* tileNode, int indexNode);
+		xml_node<>* AddProperty(xml_node<>* tileNode, int indexNode);
 
 };
 

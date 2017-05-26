@@ -5,25 +5,21 @@
 #include <math.h>
 #include "InputManager.h"
 #include "Alien.h"
-#include "Penguins.h"
+#include "Player.h"
 #include "Collision.h"
 #include "Game.h"
 #include "EndState.h"
 #include "TileCollision.h"
 
-StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg1("img/back1.png",2160, 1080, 0.2), stageMusic("audio/stageState.ogg") {
+StageState::StageState() : tileSet(64,64,"img/tileset.png"), bg1("img/back1.png", 0.2), stageMusic("audio/stageState.ogg") {
 	this->tileMap = TileMap("map/map.tmx", &tileSet);
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
 	stageMusic.Play(-1);
 
-	objectArray.emplace_back(new Alien(512, 300, 3));
-	//objectArray.emplace_back(new Alien(900, 0, 4)); //retirado para testes
-	//objectArray.emplace_back(new Alien(0, 900, 5));
-
-	auto penguim = new Penguins(704, 640);
-	Camera::Follow(penguim);
-	AddObject(penguim);
+	auto player = new Player(704, 1000);
+	Camera::Follow(player);
+	AddObject(player);
 
 }
 
@@ -39,10 +35,10 @@ void StageState::Update(float dt) {
 
 	UpdateArray(dt);
 
-	if (Alien::alienCount < 1) {
+	if (false) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(true)));
-	} else if (Penguins::player == nullptr) {
+	} else if (Player::playerInstance == nullptr) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}

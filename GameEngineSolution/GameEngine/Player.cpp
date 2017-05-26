@@ -1,4 +1,4 @@
-#include "Penguins.h"
+#include "Player.h"
 #include "Bullet.h"
 #include "Game.h"
 #include "Animation.h"
@@ -7,21 +7,19 @@
 #include "StageState.h"
 #include "TileCollision.h"
 
-Penguins* Penguins::player = nullptr;
-float acceleration = 200;
+Player* Player::playerInstance = nullptr;
 //Limite para velocidade adiante
-float fSpeedLimit = 400;
-//Limite para velocidade de ré
-float bSpeedLimit = -300;
-//Velocidade angular de virara
-float turningSpeed = M_PI / 16;
+const float SpeedLimit = 400;
+
+const float jumpHeight = 2; // em blocos
+const float Gravity = 2 * 9.8;
 
 //cooldown de tiro em segundos
-float coolDown = 0.5;
+const float coolDown = 0.5;
 
-Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/cubngun.png"),speed(0,0){
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
-	Penguins::player = this;
+	Player::playerInstance = this;
 	hp = 900000;//vida alterada pra teste
 	cooldownCounter = Timer();
 
@@ -29,16 +27,15 @@ Penguins::Penguins(float x, float y) : bodySP("img/penguin.png"), cannonSp("img/
 	box.Y = y;
 	box.W = bodySP.GetWidth();
 	box.H = bodySP.GetHeight();
-	
-	
 
+	jumpCount = 0;
 }
 
-Penguins::~Penguins() {
-	Penguins::player = nullptr;
+Player::~Player() {
+	Player::playerInstance = nullptr;
 }
 
-void Penguins::Update(float dt) {
+void Player::Update(float dt) {
 	auto& input = InputManager::GetInstance();
 	if (cooldownCounter.Get() != 0) {
 		cooldownCounter.Update(dt);
@@ -49,20 +46,22 @@ void Penguins::Update(float dt) {
 
 	//Rotaciona caso D ou A sejam apertados
 	if (input.IsKeyDown(SDLK_d)) {
-		rotation += turningSpeed;
-		speed.Rotate(turningSpeed);
+		speed.X = SpeedLimit;
 	} else if (input.IsKeyDown(SDLK_a)) {
-		rotation -= turningSpeed;
-		speed.Rotate(-turningSpeed);
+		speed.X = -SpeedLimit;
+	} else {
+		speed.X = 0;
 	}
 
-	//Acelera caso W ou S sejam apertados
-	if (input.IsKeyDown(SDLK_w) && linearSpeed < fSpeedLimit) {
-		Accelerate(true, dt);
-	} else if (input.IsKeyDown(SDLK_s) && linearSpeed > bSpeedLimit) {
-		Accelerate(false, dt);
+	if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
+		auto k1 = 2 * Gravity * jumpHeight;
+		speed.Y = -64 *sqrt(k1);
+		jumpCount++;
+	} else {
+		speed.Y += 64 * Gravity*dt;
 	}
-	applyTileEffect(dt);
+
+	Move(dt);
 	UpdateCannonAngle(input);
 
 	if (input.MousePress(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
@@ -70,8 +69,8 @@ void Penguins::Update(float dt) {
 	}
 }
 
-void Penguins::Render() {
-	bodySP.Render(box.GetWorldPosition(), rotation);
+void Player::Render() {
+	bodySP.Render(box.GetWorldPosition(), 0);
 
 	auto centerPosition = box.GetCenter();
 
@@ -82,21 +81,21 @@ void Penguins::Render() {
 	cannonSp.Render(renderPosition,cannonAngle);
 }
 
-bool Penguins::IsDead() {
+bool Player::IsDead() {
 	return hp <= 0;
 }
 
-void Penguins::NotifyCollision(GameObject & other) {
+void Player::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
 		takeDamage(10);
 	}
 }
 
-bool Penguins::Is(string type) {
-	return type == "Penguins";
+bool Player::Is(string type) {
+	return type == "Player";
 }
 
-void Penguins::Shoot() {
+void Player::Shoot() {
 	Vec2 cannonOffset(50, 0);
 	cannonOffset.Rotate(cannonAngle);
 	
@@ -109,46 +108,21 @@ void Penguins::Shoot() {
 	cooldownCounter.Update(-coolDown);
 }
 
-void Penguins::Accelerate(bool forward, float dt) {
-	float accelarationValue = 0;
-	auto realAcceletarion = acceleration*dt;
-	if (forward) {
-		auto newLinearSpeed = linearSpeed + realAcceletarion;
-		accelarationValue = newLinearSpeed < fSpeedLimit // mesmo raciocinio explicado na desaceleração
-			? realAcceletarion
-			: fSpeedLimit - linearSpeed;
-	} else {
-		auto newLinearSpeed = linearSpeed - realAcceletarion;
-		accelarationValue = newLinearSpeed > bSpeedLimit //se a nova velocidade linear não for menor do que o limite inferior
-			? realAcceletarion							//desacelera a velocidade pela constante completa
-			: -(bSpeedLimit - linearSpeed);		//caso contrário, só desacelera oque falta para a velocidade atingir o limite inferior
-	}
 
-	//Lembrando que accelarationValue é sempre positivo. Quem irá dizer
-	//sua orientação é o vetor
-
-	Vec2 accelerationVector(accelarationValue, 0);
-
-	linearSpeed = forward ? linearSpeed + accelarationValue : linearSpeed - accelarationValue;
-	auto accAngle = forward ? rotation : M_PI + rotation;
-	accelerationVector.Rotate(accAngle);
-	speed = accelerationVector + speed;
-}
-
-void Penguins::UpdateCannonAngle(InputManager & manager) {
+void Player::UpdateCannonAngle(InputManager & manager) {
 	Vec2 mousePosition(manager.GetWorldMouseX(), manager.GetWorldMouseY());
 	Vec2 cannonAxis = box.GetCenter();
 
 	cannonAngle = cannonAxis.GetDistanceVectorAngle(mousePosition);
 }
 
-float Penguins::getInertialBulletSpeed() {
+float Player::getInertialBulletSpeed() {
 	Vec2 bulletSpeed(1000, 0);
 	bulletSpeed.Rotate(cannonAngle);
 	return (bulletSpeed + speed).Magnitude();
 }
 
-void Penguins::takeDamage(int damage) {
+void Player::takeDamage(int damage) {
 	hp -= damage;
 	if (IsDead()) {
 		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
@@ -156,7 +130,7 @@ void Penguins::takeDamage(int damage) {
 	}
 }
 
-void Penguins::applyTileEffect(float dt){
+void Player::Move(float dt){
 	// TileCollision collisionAnalysis;
 	Rect previousRect = box;
 	
@@ -174,8 +148,11 @@ void Penguins::applyTileEffect(float dt){
 	box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 	auto collisionAnalysisY = TileCollision::isCollinding(this->box);
 	if (collisionAnalysisY == TileCollision::Solid) {
+		speed.Y = 0;
+		jumpCount = 0;
 		box.Y = previousRect.Y;
 	}
+
 	if (collisionAnalysisY == TileCollision::Snow) {
 		box.Y = box.Y - (speed.Y*dt / 2);
 	}

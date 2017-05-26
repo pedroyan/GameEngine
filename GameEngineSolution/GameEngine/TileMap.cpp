@@ -35,11 +35,17 @@ void TileMap::Load(string fileName) {
 	while (tilesNode != nullptr) {
 		tilesNode =GetTilesProperties(tilesNode);
 	}
-	xml_node<>* layerNode = mapNode->first_node("layer");
+	xml_node<>* Node = mapNode->first_node("layer");
 
-	while (layerNode != nullptr) {
-		layerNode = parseLayer(layerNode);
-		mapDepth++;
+	while (Node != nullptr) {
+		string NodeName(Node->name());
+		if (NodeName == "layer") {
+			Node = parseLayer(Node);
+			mapDepth++;
+		} else if (NodeName == "objectgroup") {
+			Node = Node->next_sibling();
+		}
+		
 	}
 
 	free(input_TMX);
@@ -182,13 +188,13 @@ xml_node<>* TileMap::GetTilesProperties(xml_node<>* tileNode){
 	sscanf(indexNodeS.c_str(), "%d", &indexNode);
 	auto propertiesNode = tileNode->first_node("properties")->first_node("property");	
 	while (propertiesNode != nullptr) {
-		propertiesNode = AddPropertie(propertiesNode,indexNode);
+		propertiesNode = AddProperty(propertiesNode,indexNode);
 	}
 
 	return tileNode->next_sibling();
 }
 
-xml_node<>* TileMap::AddPropertie(xml_node<>* propertiesNode, int indexNode){
+xml_node<>* TileMap::AddProperty(xml_node<>* propertiesNode, int indexNode){
 	string propertieType = propertiesNode->first_attribute("name")->value();
 
 	if (propertieType == "Solid") {
@@ -214,7 +220,7 @@ int * TileMap::At(int x, int y, int z) {
 	}
 
 	if (x >= mapWidth || y >= mapHeight || z >= mapDepth) {
-		throw std::exception(); // não é possivel utilizar valores fora do indice
+		return nullptr;
 	}
 
 	int heigthOffset = y*mapWidth;
