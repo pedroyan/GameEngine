@@ -2,6 +2,7 @@
 #include "RapidXML\rapidxml_print.hpp"
 #include <fstream>
 #include <stdio.h>
+#include "Logger.h"
 
 using std::ifstream;
 using std::getline;
@@ -107,6 +108,24 @@ xml_node<>* TileMap::parseLayer(xml_node<>* layerNode) {
 	setTileMatrix(ss);
 
 	return layerNode->next_sibling();
+}
+
+xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
+	auto ObjectNode = objLayer->first_node("object");
+	if (ObjectNode == nullptr) {
+		return nullptr; //Caso não tenha Object
+	}
+	float x, y, w, h;
+
+	x = atof(ObjectNode->first_attribute("x")->value());
+	y = atof(ObjectNode->first_attribute("y")->value());
+	w = atof(ObjectNode->first_attribute("width")->value());
+	h = atof(ObjectNode->first_attribute("height")->value());
+
+	auto propertiesNode = ObjectNode->first_node("properties");
+	if (propertiesNode == nullptr ) {
+		Logger::LogError("WARNING: Objeto sem propriedade \"ObjectType\"");
+	}
 }
 
 /// <summary>

@@ -3,13 +3,14 @@
 #include <fstream>
 
 using std::string;
-using std::ofstream;
+
+ofstream Logger::myfile;
 
 void Logger::LogError(string error) {
-	ofstream myfile;
-	myfile.open("ErrorDump.txt");
-	myfile << error;
-	myfile.close();
+	if (!myfile.is_open()) {
+		myfile.open("ErrorDump.txt");
+	}
+	myfile << error + "\n";
 }
 
 Logger::Logger() {

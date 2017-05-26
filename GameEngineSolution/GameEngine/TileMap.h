@@ -56,6 +56,8 @@ class TileMap {
 		/// <returns>Ponteiro para proxima layer. Null caso não exista proxima layer</returns>
 		xml_node<>* parseLayer(xml_node<>* layerNode);
 
+		xml_node<>* parseObjectLayer(xml_node<>* objLayer);
+
 		/// <summary>
 		/// Seta a matriz de tiles
 		/// </summary>
