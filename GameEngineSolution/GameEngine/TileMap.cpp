@@ -3,6 +3,7 @@
 #include <fstream>
 #include <stdio.h>
 #include "Logger.h"
+#include <map>
 
 using std::ifstream;
 using std::getline;
@@ -44,7 +45,7 @@ void TileMap::Load(string fileName) {
 			Node = parseLayer(Node);
 			mapDepth++;
 		} else if (NodeName == "objectgroup") {
-			Node = Node->next_sibling();
+			Node = parseObjectLayer(Node);
 		}
 		
 	}
@@ -116,17 +117,27 @@ xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 		return objLayer->next_sibling(); //Caso não tenha Object
 	}
 	float x, y, w, h;
+	int id;
 
 	x = atof(ObjectNode->first_attribute("x")->value());
 	y = atof(ObjectNode->first_attribute("y")->value());
 	w = atof(ObjectNode->first_attribute("width")->value());
 	h = atof(ObjectNode->first_attribute("height")->value());
+	id = atoi(ObjectNode->first_attribute("id")->value());
 
 	auto propertiesNode = ObjectNode->first_node("properties");
 	if (propertiesNode == nullptr ) {
-		Logger::LogError("WARNING: Objeto sem propriedade \"ObjectType\"");
+		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) +" sem propriedade \"ObjectType\"");
 		return objLayer->next_sibling();
 	}
+
+	std::map<string, string> properties;
+	auto prop = propertiesNode->first_node();
+	while (prop != nullptr) {
+		properties.emplace(std::make_pair(prop->first_attribute("name")->value(), prop->first_attribute("value")->value()));
+		prop = prop->next_sibling();
+	}
+	printf("damn son");
 }
 
 /// <summary>
