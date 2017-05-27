@@ -25,6 +25,7 @@ class Player : public GameObject {
 	Sprite bodySP;
 	Sprite cannonSp;
 	Vec2 speed;
+	Vec2 speedStairs;
 	TileMap map;
 
 

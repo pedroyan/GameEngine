@@ -132,7 +132,8 @@ void Player::takeDamage(int damage) {
 
 void Player::Move(float dt){
 	Rect previousRect = box;
-	//Analise 
+	
+	//Analise(tentar otimizar a analize pois esta usando o isCoolding 2x);
 	auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box,1);
 	auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box,0);
 	
@@ -140,14 +141,19 @@ void Player::Move(float dt){
 		currentLayer = 1;
 	}
 	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
-		auto k1 = 2 * Gravity * jumpHeight;
-		speed.Y = -64 * sqrt(k1);
-		if (collisionAnalysisLayer1 == TileCollision::noCollision && currentLayer == 1) {
+		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
+		auto collisionAnalysisLayer1Y = TileCollision::isCollinding(this->box, currentLayer);
+		
+		if (collisionAnalysisLayer1Y == TileCollision::noCollision && currentLayer == 1) {
 			currentLayer = 0;
 		}
-		if (collisionAnalysisLayer1 == TileCollision::Stairs && currentLayer == 1) {
+		if (collisionAnalysisLayer1Y == TileCollision::Stairs && currentLayer == 1) {
 			speed.X = 0;
-			box.Y += speed.Y*dt;
+		}
+		if (collisionAnalysisLayer1Y == TileCollision::Solid && currentLayer == 1) {
+			currentLayer = 0;
+			box.Y = previousRect.Y;
+			
 		}
 	}
 	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
