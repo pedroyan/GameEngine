@@ -131,29 +131,40 @@ void Player::takeDamage(int damage) {
 }
 
 void Player::Move(float dt){
-	// TileCollision collisionAnalysis;
 	Rect previousRect = box;
+	//Analise 
+	auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box,1);
+	auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box,0);
 	
-	//EIXO X
-	box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
-	auto collisionAnalysisX = TileCollision::isCollinding(this->box,currentLayer);
-	if (collisionAnalysisX == TileCollision::Solid) {
-		box.X = previousRect.X;
+	if (collisionAnalysisLayer1 == TileCollision::Stairs && currentLayer == 0 && InputManager::GetInstance().KeyPress(SDLK_w)) {
+		currentLayer = 1;
 	}
-	if (collisionAnalysisX == TileCollision::Stairs) {
-		box.X = box.X - (speed.X*dt / 2);
+	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
+		auto k1 = 2 * Gravity * jumpHeight;
+		speed.Y = -64 * sqrt(k1);
+		if (collisionAnalysisLayer1 == TileCollision::noCollision && currentLayer == 1) {
+			currentLayer = 0;
+		}
+		if (collisionAnalysisLayer1 == TileCollision::Stairs && currentLayer == 1) {
+			speed.X = 0;
+			box.Y += speed.Y*dt;
+		}
 	}
+	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
+		//EIXO X
+		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
+		auto collisionAnalysisX = TileCollision::isCollinding(this->box, currentLayer);
+		if (collisionAnalysisX == TileCollision::Solid && currentLayer == 0) {
+			box.X = previousRect.X;
+		}
 
-	//EIXO Y
-	box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
-	auto collisionAnalysisY = TileCollision::isCollinding(this->box,currentLayer);
-	if (collisionAnalysisY == TileCollision::Solid) {
-		speed.Y = 0;
-		jumpCount = 0;
-		box.Y = previousRect.Y;
-	}
-
-	if (collisionAnalysisY == TileCollision::Stairs) {
-		box.Y = box.Y - (speed.Y*dt / 2);
+		//EIXO Y
+		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
+		auto collisionAnalysisY = TileCollision::isCollinding(this->box, currentLayer);
+		if (collisionAnalysisY == TileCollision::Solid && currentLayer == 0) {
+			speed.Y = 0;
+			jumpCount = 0;
+			box.Y = previousRect.Y;
+		}
 	}
 }
