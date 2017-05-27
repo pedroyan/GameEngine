@@ -203,10 +203,10 @@ xml_node<>* TileMap::AddProperty(xml_node<>* propertiesNode, int indexNode){
 			this->tileSet->AddTileProperty(indexNode, TileSet::Solid);
 		}
 	}
-	if (propertieType == "Snow") {
+	if (propertieType == "Stairs") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
 		if (propertiesNodeSolid == "true") {
-			this->tileSet->AddTileProperty(indexNode, TileSet::Snow);
+			this->tileSet->AddTileProperty(indexNode, TileSet::Stairs);
 		} 
 		
 	}

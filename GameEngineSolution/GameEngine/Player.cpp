@@ -136,24 +136,24 @@ void Player::Move(float dt){
 	
 	//EIXO X
 	box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
-	auto collisionAnalysisX = TileCollision::isCollinding(this->box);
+	auto collisionAnalysisX = TileCollision::isCollinding(this->box,currentLayer);
 	if (collisionAnalysisX == TileCollision::Solid) {
 		box.X = previousRect.X;
 	}
-	if (collisionAnalysisX == TileCollision::Snow) {
+	if (collisionAnalysisX == TileCollision::Stairs) {
 		box.X = box.X - (speed.X*dt / 2);
 	}
 
 	//EIXO Y
 	box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
-	auto collisionAnalysisY = TileCollision::isCollinding(this->box);
+	auto collisionAnalysisY = TileCollision::isCollinding(this->box,currentLayer);
 	if (collisionAnalysisY == TileCollision::Solid) {
 		speed.Y = 0;
 		jumpCount = 0;
 		box.Y = previousRect.Y;
 	}
 
-	if (collisionAnalysisY == TileCollision::Snow) {
+	if (collisionAnalysisY == TileCollision::Stairs) {
 		box.Y = box.Y - (speed.Y*dt / 2);
 	}
 }

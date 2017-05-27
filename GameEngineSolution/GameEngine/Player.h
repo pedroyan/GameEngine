@@ -33,6 +33,7 @@ class Player : public GameObject {
 	int hp;
 	Timer cooldownCounter;
 	int jumpCount;
+	int currentLayer=0;
 
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
