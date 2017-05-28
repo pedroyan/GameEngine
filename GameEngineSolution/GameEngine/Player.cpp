@@ -152,7 +152,10 @@ void Player::Move(float dt){
 		currentLayer = 1;
 	}
 	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
-		box.Y += speedStairs.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
+		box.Y += speedStairs.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em 
+		if (InputManager::GetInstance().KeyPress(SDLK_SPACE)) {
+			currentLayer = 0;
+		}
 		auto collisionAnalysisLayer1Y = TileCollision::isCollinding(this->box, currentLayer);
 		
 		if (collisionAnalysisLayer1Y == TileCollision::noCollision && currentLayer == 1) {
