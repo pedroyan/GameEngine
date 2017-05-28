@@ -143,7 +143,7 @@ void Player::Move(float dt){
 	
 	//Analise(tentar otimizar a analize pois esta usando o isCoolding 2x);
 	
-	auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box,0);
+
 	box.Y += speedStairs.Y*dt;
 	auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, 1);
 	box.Y += -speedStairs.Y*dt;
@@ -185,7 +185,12 @@ void Player::Move(float dt){
 
 		//EIXO Y
 		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
+		
 		auto collisionAnalysisY = TileCollision::isCollinding(this->box, currentLayer);
+		if (collisionAnalysisY == TileCollision::Stairs && (InputManager::GetInstance().KeyPress(SDLK_w) || InputManager::GetInstance().KeyPress(SDLK_s))) {
+			jumpCount = 0;
+			currentLayer = 1;
+		}
 		if (collisionAnalysisY == TileCollision::Solid && currentLayer == 0) {
 			speed.Y = 0;
 			if (box.Y - previousRect.Y > 0) {
