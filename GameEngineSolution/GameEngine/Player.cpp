@@ -160,7 +160,7 @@ void Player::Move(float dt){
 		
 		if (collisionAnalysisLayer1Y == TileCollision::noCollision && currentLayer == 1) {
 			currentLayer = 0;
-			box.Y += speedStairs.Y*dt*3.9;
+			return;
 		}
 		if (collisionAnalysisLayer1Y == TileCollision::Stairs && currentLayer == 1) {
 			speed.X = 0;
@@ -168,6 +168,7 @@ void Player::Move(float dt){
 		if (collisionAnalysisLayer1Y == TileCollision::Solid && currentLayer == 1) {
 			currentLayer = 0;
 			box.Y = previousRect.Y;
+			return;
 			
 		}
 	}
@@ -182,10 +183,6 @@ void Player::Move(float dt){
 		//EIXO Y
 		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 		auto collisionAnalysisY = TileCollision::isCollinding(this->box, currentLayer);
-		/********************************/
-
-
-		/************************/
 		if (collisionAnalysisY == TileCollision::Solid && currentLayer == 0) {
 			speed.Y = 0;
 			jumpCount = 0;
