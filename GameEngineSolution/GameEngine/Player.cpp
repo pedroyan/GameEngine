@@ -52,6 +52,14 @@ void Player::Update(float dt) {
 	} else {
 		speed.X = 0;
 	}
+	
+	if (input.IsKeyDown(SDLK_w)) {
+		speedStairs.Y = -SpeedLimit;
+	} else if (input.IsKeyDown(SDLK_s)) {
+		speedStairs.Y = +SpeedLimit;
+	} else {
+		speedStairs.Y = 0;
+	}
 
 	if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 		auto k1 = 2 * Gravity * jumpHeight;
@@ -134,18 +142,22 @@ void Player::Move(float dt){
 	Rect previousRect = box;
 	
 	//Analise(tentar otimizar a analize pois esta usando o isCoolding 2x);
-	auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box,1);
-	auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box,0);
 	
-	if (collisionAnalysisLayer1 == TileCollision::Stairs && currentLayer == 0 && InputManager::GetInstance().KeyPress(SDLK_w)) {
+	auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box,0);
+	box.Y += speedStairs.Y*dt;
+	auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, 1);
+	box.Y += -speedStairs.Y*dt;
+	
+	if (collisionAnalysisLayer1 == TileCollision::Stairs && currentLayer == 0 && (InputManager::GetInstance().KeyPress(SDLK_w)|| InputManager::GetInstance().KeyPress(SDLK_s))) {
 		currentLayer = 1;
 	}
 	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
-		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
+		box.Y += speedStairs.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 		auto collisionAnalysisLayer1Y = TileCollision::isCollinding(this->box, currentLayer);
 		
 		if (collisionAnalysisLayer1Y == TileCollision::noCollision && currentLayer == 1) {
 			currentLayer = 0;
+			box.Y += speedStairs.Y*dt*3.9;
 		}
 		if (collisionAnalysisLayer1Y == TileCollision::Stairs && currentLayer == 1) {
 			speed.X = 0;
@@ -167,6 +179,10 @@ void Player::Move(float dt){
 		//EIXO Y
 		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 		auto collisionAnalysisY = TileCollision::isCollinding(this->box, currentLayer);
+		/********************************/
+
+
+		/************************/
 		if (collisionAnalysisY == TileCollision::Solid && currentLayer == 0) {
 			speed.Y = 0;
 			jumpCount = 0;
