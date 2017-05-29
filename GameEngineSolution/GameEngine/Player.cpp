@@ -87,7 +87,7 @@ void Player::Render() {
 	} else if (input.IsKeyDown(SDLK_a)) {
 		bodyRunSP.Render(box.GetWorldPosition(), 0,true);
 	} else if(movedLeft) {
-			bodySP.Render(box.GetWorldPosition(), 0,true);
+		bodySP.Render(box.GetWorldPosition(), 0,true);
 	}
 	else {
 		bodySP.Render(box.GetWorldPosition(), 0);

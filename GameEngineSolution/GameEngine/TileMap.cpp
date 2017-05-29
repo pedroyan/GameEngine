@@ -195,15 +195,15 @@ xml_node<>* TileMap::GetTilesProperties(xml_node<>* tileNode){
 }
 
 xml_node<>* TileMap::AddProperty(xml_node<>* propertiesNode, int indexNode){
-	string propertieType = propertiesNode->first_attribute("name")->value();
+	string propertyeType = propertiesNode->first_attribute("name")->value();
 
-	if (propertieType == "Solid") {
+	if (propertyeType == "Solid") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
 		if (propertiesNodeSolid == "true") {
 			this->tileSet->AddTileProperty(indexNode, TileSet::Solid);
 		}
 	}
-	if (propertieType == "Stairs") {
+	if (propertyeType == "Stairs") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
 		if (propertiesNodeSolid == "true") {
 			this->tileSet->AddTileProperty(indexNode, TileSet::Stairs);
