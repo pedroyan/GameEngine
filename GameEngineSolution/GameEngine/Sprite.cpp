@@ -17,7 +17,7 @@ Sprite::Sprite(string file, int VframeCount, float VframeTime) {
 	frameCount = VframeCount;
 	frameTime = VframeTime;
 
-	Open(file);
+ 	Open(file);
 
 	currentFrame = 0;
 	timeElapsed = 0;
@@ -45,7 +45,7 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y, float angle) {
+void Sprite::Render(int x, int y, float angle,bool flip) {
 	float degreeAngle = angle * 180 / M_PI;
 
 	SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
@@ -55,11 +55,16 @@ void Sprite::Render(int x, int y, float angle) {
 	destinyRectangl.y = y;
 	destinyRectangl.h = clipRect.h*scaleY;
 	destinyRectangl.w = clipRect.w*scaleY;
-	SDL_RenderCopyEx(renderer, texture.get(), &clipRect, &destinyRectangl,degreeAngle,nullptr,SDL_FLIP_NONE);
+	if (flip) {
+		SDL_RenderCopyEx(renderer, texture.get(), &clipRect, &destinyRectangl, degreeAngle, nullptr, SDL_FLIP_HORIZONTAL);
+	}
+	else {
+		SDL_RenderCopyEx(renderer, texture.get(), &clipRect, &destinyRectangl, degreeAngle, nullptr, SDL_FLIP_NONE);
+	}
 }
 
-void Sprite::Render(Vec2 pos, float angle) {
-	Render(pos.X, pos.Y, angle);
+void Sprite::Render(Vec2 pos, float angle, bool flip) {
+	Render(pos.X, pos.Y, angle,flip);
 }
 
 int Sprite::GetWidth() {

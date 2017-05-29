@@ -10,7 +10,7 @@ int wmain(int argc, char ** argv) {
 	int Width = DEFAULT_GAME_WIDTH;
 
 
-	Game* game = new Game("PedroYan_140158995",Width,Height);
+	Game* game = new Game("Jogo Final",Width,Height);
 	game->Push(new TitleState());
 	game->Run();
 	Game::ClearResources();

@@ -17,7 +17,7 @@ const float Gravity = 2 * 9.8;
 //cooldown de tiro em segundos
 const float coolDown = 0.5;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), cannonSp("img/cubngun.png"),speed(0,0){
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
 	Player::playerInstance = this;
 	hp = 900000;//vida alterada pra teste
@@ -37,6 +37,7 @@ Player::~Player() {
 
 void Player::Update(float dt) {
 	auto& input = InputManager::GetInstance();
+	bodyRunSP.Update(dt);
 	if (cooldownCounter.Get() != 0) {
 		cooldownCounter.Update(dt);
 		if (cooldownCounter.Get() > 0) {
@@ -47,8 +48,10 @@ void Player::Update(float dt) {
 	//Rotaciona caso D ou A sejam apertados
 	if (input.IsKeyDown(SDLK_d)) {
 		speed.X = SpeedLimit;
+		movedLeft = false;
 	} else if (input.IsKeyDown(SDLK_a)) {
 		speed.X = -SpeedLimit;
+		movedLeft = true;
 	} else {
 		speed.X = 0;
 	}
@@ -78,15 +81,24 @@ void Player::Update(float dt) {
 }
 
 void Player::Render() {
-	bodySP.Render(box.GetWorldPosition(), 0);
-
+	auto& input = InputManager::GetInstance();
+	if (input.IsKeyDown(SDLK_d)) {
+		bodyRunSP.Render(box.GetWorldPosition(), 0);
+	} else if (input.IsKeyDown(SDLK_a)) {
+		bodyRunSP.Render(box.GetWorldPosition(), 0,true);
+	} else if(movedLeft) {
+			bodySP.Render(box.GetWorldPosition(), 0,true);
+	}
+	else {
+		bodySP.Render(box.GetWorldPosition(), 0);
+	}
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
 	renderPosition.X = centerPosition.X - cannonSp.GetWidth() / 2 - Camera::pos.X;
 	renderPosition.Y = centerPosition.Y - cannonSp.GetHeight() / 2 - Camera::pos.Y;
 
-	cannonSp.Render(renderPosition,cannonAngle);
+	//cannonSp.Render(renderPosition,cannonAngle); SERA O BRACO
 }
 
 bool Player::IsDead() {

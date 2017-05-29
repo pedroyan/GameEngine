@@ -23,6 +23,7 @@ class Player : public GameObject {
 
 	private:
 	Sprite bodySP;
+	Sprite bodyRunSP;//posteiormente juntar todos os sprites em 1,caso precise melhorar rendimento
 	Sprite cannonSp;
 	Vec2 speed;
 	Vec2 speedStairs;
@@ -34,7 +35,8 @@ class Player : public GameObject {
 	int hp;
 	Timer cooldownCounter;
 	int jumpCount;
-	int currentLayer=0;
+	int currentLayer = 0; 
+	bool movedLeft=false;
 
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
