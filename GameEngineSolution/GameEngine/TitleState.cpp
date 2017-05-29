@@ -4,8 +4,9 @@
 #include "Game.h"
 float blinKFrequency = 3; //hz
 float period = 1 / blinKFrequency;
-TitleState::TitleState() : bg("img/title.jpg"), mainText("font/Call me maybe.ttf", 40, Text::TextStyle::BLENDED, "Pressione espaco para comecar", {255,255,255,255}) {
+TitleState::TitleState() : bg("img/title.jpg"), mainText("font/Call me maybe.ttf", 40, Text::TextStyle::BLENDED, "Pressione espaco para comecar", {255,255,255,255}), menuMusic("audio/Opening.wav") {
 	mainText.SetPos(bg.GetWidth() / 2, bg.GetHeight() - 80, true, false);
+	menuMusic.Play(-1);
 }
 
 

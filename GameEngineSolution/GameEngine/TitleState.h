@@ -4,6 +4,7 @@
 #include "Text.h"
 #include "Timer.h"
 #include "Camera.h"
+#include "Music.h"
 
 class TitleState : public State{
 	public:
@@ -20,5 +21,6 @@ class TitleState : public State{
 		Sprite bg;
 		Text mainText;
 		Timer textTimer;
+		Music  menuMusic;
 };
 

@@ -11,7 +11,7 @@
 #include "EndState.h"
 #include "TileCollision.h"
 
-StageState::StageState() : tileSet(32,32,"img/tileset.png"), bg1("img/ParalaxBlackCraftV1.png", 0.2), stageMusic("audio/stageState.ogg") {
+StageState::StageState() : tileSet(32,32,"img/tileset.png"), bg1("img/ParalaxBlackCraftV1.png", 0.2), stageMusic("audio/CenarioDeGuerra.wav") {
 	this->tileMap = TileMap("map/map.tmx", &tileSet);
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
