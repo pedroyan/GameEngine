@@ -142,29 +142,6 @@ void Player::Move(float dt){
 	Rect previousRect = box;
 	Rect stairsAnalisys= previousRect;
 	     stairsAnalisys.Y += speedStairs.Y*dt;
-
-	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
-		box.Y += speedStairs.Y*dt;
-
-		if (InputManager::GetInstance().KeyPress(SDLK_SPACE) || InputManager::GetInstance().KeyPress(SDLK_d) || InputManager::GetInstance().KeyPress(SDLK_a)) {
-			currentLayer = 0;
-			speed.Y = 0;
-			return;
-		}
-		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, currentLayer);
-		
-		
-		if (collisionAnalysisLayer1 == TileCollision::noCollision) {
-			currentLayer = 0;
-			return;
-		}
-		if (collisionAnalysisLayer1 == TileCollision::Solid) {
-			currentLayer = 0;
-			box.Y = previousRect.Y;
-			return;
-			
-		}
-	}
 	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
 		//EIXO X
 		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
@@ -190,6 +167,26 @@ void Player::Move(float dt){
 			}
 			box.Y = previousRect.Y;
 			
+		}
+	}
+	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
+		box.Y += speedStairs.Y*dt;
+		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, currentLayer);
+		if (InputManager::GetInstance().KeyPress(SDLK_SPACE) || InputManager::GetInstance().KeyPress(SDLK_d) || InputManager::GetInstance().KeyPress(SDLK_a)) {
+			currentLayer = 0;
+			speed.Y = 0;
+			return;
+		}
+
+		if (collisionAnalysisLayer1 == TileCollision::noCollision) {
+			currentLayer = 0;
+			return;
+		}
+		if (collisionAnalysisLayer1 == TileCollision::Solid) {
+			currentLayer = 0;
+			box.Y = previousRect.Y;
+			return;
+
 		}
 	}
 }
