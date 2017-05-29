@@ -48,9 +48,11 @@ void Player::Update(float dt) {
 	//Rotaciona caso D ou A sejam apertados
 	if (input.IsKeyDown(SDLK_d)) {
 		speed.X = SpeedLimit;
+		//speedStairs.X = SpeedLimit;
 		movedLeft = false;
 	} else if (input.IsKeyDown(SDLK_a)) {
 		speed.X = -SpeedLimit;
+		//speedStairs.X = -SpeedLimit;
 		movedLeft = true;
 	} else {
 		speed.X = 0;
@@ -82,16 +84,21 @@ void Player::Update(float dt) {
 
 void Player::Render() {
 	auto& input = InputManager::GetInstance();
-	if (input.IsKeyDown(SDLK_d)) {
-		bodyRunSP.Render(box.GetWorldPosition(), 0);
-	} else if (input.IsKeyDown(SDLK_a)) {
-		bodyRunSP.Render(box.GetWorldPosition(), 0,true);
-	} else if(movedLeft) {
-		bodySP.Render(box.GetWorldPosition(), 0,true);
+	if (currentLayer == 0) {
+		if (input.IsKeyDown(SDLK_d)) {
+			bodyRunSP.Render(box.GetWorldPosition(), 0);
+		} else if (input.IsKeyDown(SDLK_a)) {
+			bodyRunSP.Render(box.GetWorldPosition(), 0, true);
+		} else if (movedLeft) {
+			bodySP.Render(box.GetWorldPosition(), 0, true);
+		} else {
+			bodySP.Render(box.GetWorldPosition(), 0);
+		}
 	}
-	else {
-		bodySP.Render(box.GetWorldPosition(), 0);
+	if (currentLayer == 1) {
+		bodySP.Render(box.GetWorldPosition(), 0);//SERA FUTURAMENTE O SPRITE DE SUBIR A ESCADA
 	}
+	
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
@@ -182,14 +189,14 @@ void Player::Move(float dt){
 	}
 	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
 		box.Y += speedStairs.Y*dt;
-		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, currentLayer);
-		if (InputManager::GetInstance().KeyPress(SDLK_SPACE) || InputManager::GetInstance().KeyPress(SDLK_d) || InputManager::GetInstance().KeyPress(SDLK_a)) {
+		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, 1);
+		auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box, 0);
+		if ( InputManager::GetInstance().KeyPress(SDLK_SPACE) && collisionAnalysisLayer0 != TileCollision::Solid) {
 			currentLayer = 0;
-			speed.Y = 0;
 			return;
 		}
 
-		if (collisionAnalysisLayer1 == TileCollision::noCollision) {
+		if (collisionAnalysisLayer1 == TileCollision::noCollision && collisionAnalysisLayer0 != TileCollision::Solid) {
 			currentLayer = 0;
 			return;
 		}

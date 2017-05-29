@@ -15,7 +15,7 @@ StageState::StageState() : tileSet(32,32,"img/tileset.png"), bg1("img/ParalaxBla
 	this->tileMap = TileMap("map/map.tmx", &tileSet);
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
-	stageMusic.Play(-1);
+//	stageMusic.Play(-1);
 
 	auto player = new Player(704, 0);
 	Camera::Follow(player);
