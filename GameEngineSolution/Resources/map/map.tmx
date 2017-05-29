@@ -15,7 +15,6 @@
   <tile id="2">
    <properties>
     <property name="Solid" type="bool" value="true"/>
-    <property name="Stairs" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="3">
@@ -119,7 +118,7 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="25" height="25">
+ <layer name="Tile Layer 1" width="25" height="25" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -148,7 +147,7 @@
 18,18,18,10,18,18,18,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19
 </data>
  </layer>
- <objectgroup name="Object Layer 1">
+ <objectgroup name="Object Layer 1" visible="0">
   <object id="4" x="213" y="552.33" width="49" height="54">
    <properties>
     <property name="Message" value="Press F to Teleport"/>
@@ -156,7 +155,7 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="Tile Layer 2" width="25" height="25" visible="0">
+ <layer name="Tile Layer 2" width="25" height="25">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -181,7 +180,7 @@
 0,0,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,14,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,0,14,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,15,16,16,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>

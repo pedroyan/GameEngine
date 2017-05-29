@@ -54,9 +54,9 @@ void Player::Update(float dt) {
 	}
 	
 	if (input.IsKeyDown(SDLK_w)) {
-		speedStairs.Y = -SpeedLimit;
+		speedStairs.Y = -SpeedLimit/2;
 	} else if (input.IsKeyDown(SDLK_s)) {
-		speedStairs.Y = +SpeedLimit;
+		speedStairs.Y = +SpeedLimit/2;
 	} else {
 		speedStairs.Y = 0;
 	}
@@ -140,10 +140,12 @@ void Player::takeDamage(int damage) {
 
 void Player::Move(float dt){
 	Rect previousRect = box;
-	Rect stairsAnalisys= previousRect+ speedStairs;
+	Rect stairsAnalisys= previousRect;
+	     stairsAnalisys.Y += speedStairs.Y*dt;
 
 	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
-		box.Y += speedStairs.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em 
+		box.Y += speedStairs.Y*dt;
+
 		if (InputManager::GetInstance().KeyPress(SDLK_SPACE) || InputManager::GetInstance().KeyPress(SDLK_d) || InputManager::GetInstance().KeyPress(SDLK_a)) {
 			currentLayer = 0;
 			speed.Y = 0;
@@ -151,11 +153,12 @@ void Player::Move(float dt){
 		}
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, currentLayer);
 		
-		if (collisionAnalysisLayer1 == TileCollision::noCollision && currentLayer == 1) {
+		
+		if (collisionAnalysisLayer1 == TileCollision::noCollision) {
 			currentLayer = 0;
 			return;
 		}
-		if (collisionAnalysisLayer1 == TileCollision::Solid && currentLayer == 1) {
+		if (collisionAnalysisLayer1 == TileCollision::Solid) {
 			currentLayer = 0;
 			box.Y = previousRect.Y;
 			return;
@@ -171,17 +174,15 @@ void Player::Move(float dt){
 		}
 		//EIXO Y
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
-
 		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 		auto collisionAnalysisY = TileCollision::isCollinding(this->box,0);
+		printf("%d---%d---%d= %d\n", collisionAnalysisLayer1, InputManager::GetInstance().KeyPress(SDLK_w),InputManager::GetInstance().KeyPress(SDLK_s), collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().KeyPress(SDLK_w) || InputManager::GetInstance().KeyPress(SDLK_s)));
+			if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().KeyPress(SDLK_w) || InputManager::GetInstance().KeyPress(SDLK_s))) {
+				jumpCount = 0;
+				currentLayer = 1;
+				return;
+			}
 		
-		/****************************/
-		if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().KeyPress(SDLK_w) || InputManager::GetInstance().KeyPress(SDLK_s))) {
-			jumpCount = 0;
-			currentLayer = 1;
-			return;
-		}
-		/***************************/
 		if (collisionAnalysisY == TileCollision::Solid && currentLayer == 0) {
 			speed.Y = 0;
 			if (box.Y - previousRect.Y > 0) {
