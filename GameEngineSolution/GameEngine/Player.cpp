@@ -83,14 +83,10 @@ void Player::Update(float dt) {
 void Player::Render() {
 	auto& input = InputManager::GetInstance();
 	if (currentLayer == 0) {
-		if (input.IsKeyDown(SDLK_d)) {
-			bodyRunSP.Render(box.GetWorldPosition(), 0);
-		} else if (input.IsKeyDown(SDLK_a)) {
-			bodyRunSP.Render(box.GetWorldPosition(), 0, true);
-		} else if (movedLeft) {
-			bodySP.Render(box.GetWorldPosition(), 0, true);
+		if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
+			bodyRunSP.Render(box.GetWorldPosition(),0, movedLeft);
 		} else {
-			bodySP.Render(box.GetWorldPosition(), 0);
+			bodySP.Render(box.GetWorldPosition(),0,movedLeft);
 		}
 	}
 	if (currentLayer == 1) {
