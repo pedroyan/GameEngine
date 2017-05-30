@@ -82,19 +82,20 @@ void Player::Update(float dt) {
 
 void Player::Render() {
 	auto& input = InputManager::GetInstance();
-	if (currentLayer == 0) {
-		if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
-			bodyRunSP.Render(box.GetWorldPosition(), 0, movedLeft);
+	
+	
+	if(currentLayer == 0) {
+		if ((input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) ) {
+			UpdateSP(bodyRunSP);
 		} else {
-			bodySP.Render(box.GetWorldPosition(), 0, movedLeft);
+			UpdateSP(bodySP);
 		}
 	}
-
 	if (currentLayer == 1) {
-		bodySP.Render(box.GetWorldPosition(), 0);//SERA FUTURAMENTE O SPRITE DE SUBIR A ESCADA
+		UpdateSP(bodySP);//sera o sprite dele subindo a escada
 	}
-	
 	auto centerPosition = box.GetCenter();
+	actualSP.Render(box.GetWorldPosition(), 0, movedLeft);
 
 	Vec2 renderPosition;
 	renderPosition.X = centerPosition.X - cannonSp.GetWidth() / 2 - Camera::pos.X;
@@ -115,6 +116,12 @@ void Player::NotifyCollision(GameObject & other) {
 
 bool Player::Is(string type) {
 	return type == "Player";
+}
+
+void Player::UpdateSP(Sprite newSprite) {
+	box.W = newSprite.GetWidth();
+	box.H = newSprite.GetHeight();
+	actualSP = newSprite;
 }
 
 void Player::Shoot() {
