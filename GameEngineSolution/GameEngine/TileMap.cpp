@@ -3,7 +3,7 @@
 #include <fstream>
 #include <stdio.h>
 #include "Logger.h"
-#include <map>
+
 
 using std::ifstream;
 using std::getline;
@@ -118,30 +118,21 @@ xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 	}
 	float x, y, w, h;
 	int id;
+	string objectType;
 
 	x = atof(ObjectNode->first_attribute("x")->value());
 	y = atof(ObjectNode->first_attribute("y")->value());
 	w = atof(ObjectNode->first_attribute("width")->value());
 	h = atof(ObjectNode->first_attribute("height")->value());
 	id = atoi(ObjectNode->first_attribute("id")->value());
+	auto typeAttribute = ObjectNode->first_attribute("type");
 
-	auto propertiesNode = ObjectNode->first_node("properties");
-	if (propertiesNode == nullptr ) {
-		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) +" sem propriedades");
+	if (typeAttribute == nullptr) {
+		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) + " sem tipo");
 		return objLayer->next_sibling();
 	}
-
-	std::map<string, string> properties;
-	auto prop = propertiesNode->first_node();
-	while (prop != nullptr) {
-		properties.emplace(std::make_pair(prop->first_attribute("name")->value(), prop->first_attribute("value")->value()));
-		prop = prop->next_sibling();
-	}
-
-	if (properties.find("ObjectType") == properties.end()) {
-		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) + " sem propriedade \"ObjectType\"");
-		return objLayer->next_sibling();
-	}
+	objectType = typeAttribute->value();
+	auto properties = GetObjectProperties(ObjectNode);
 
 	//new o objeto louco passando o dicionario de propriedades como parametro
 	//insere esse new louco no object array do currentState
@@ -252,6 +243,23 @@ xml_node<>* TileMap::AddProperty(xml_node<>* propertiesNode, int indexNode){
 	}
 	
 	return propertiesNode->next_sibling();
+}
+
+unordered_map<string, string> TileMap::GetObjectProperties(xml_node<>* objectNode) {
+	unordered_map<string, string> toReturn;
+
+	auto propertiesNode = objectNode->first_node("properties");
+	if (propertiesNode == nullptr) {
+		return toReturn;
+	}
+
+	auto prop = propertiesNode->first_node();
+	while (prop != nullptr) {
+		toReturn.emplace(std::make_pair(prop->first_attribute("name")->value(), prop->first_attribute("value")->value()));
+		prop = prop->next_sibling();
+	}
+
+	return toReturn;
 }
 
 int * TileMap::At(int x, int y, int z) {
