@@ -43,5 +43,6 @@ class Player : public GameObject {
 	void takeDamage(int damage);
 	void Move(float dt);
 
+	void CenterOnCurrentTile();
 };
 

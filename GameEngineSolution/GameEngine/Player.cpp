@@ -48,11 +48,9 @@ void Player::Update(float dt) {
 	//Rotaciona caso D ou A sejam apertados
 	if (input.IsKeyDown(SDLK_d)) {
 		speed.X = SpeedLimit;
-		//speedStairs.X = SpeedLimit;
 		movedLeft = false;
 	} else if (input.IsKeyDown(SDLK_a)) {
 		speed.X = -SpeedLimit;
-		//speedStairs.X = -SpeedLimit;
 		movedLeft = true;
 	} else {
 		speed.X = 0;
@@ -65,13 +63,13 @@ void Player::Update(float dt) {
 	} else {
 		speedStairs.Y = 0;
 	}
-
+	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 		auto k1 = 2 * Gravity * jumpHeight;
-		speed.Y = -64 *sqrt(k1);
+		speed.Y = -tileHeight *sqrt(k1);
 		jumpCount++;
 	} else {
-		speed.Y += 64 * Gravity*dt;
+		speed.Y += tileHeight * Gravity*dt;
 	}
 
 	Move(dt);
@@ -168,16 +166,18 @@ void Player::Move(float dt){
 		if (collisionAnalysisX == TileCollision::Solid && currentLayer == 0) {
 			box.X = previousRect.X;
 		}
+
 		//EIXO Y
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
+		if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().IsKeyDown(SDLK_w) || InputManager::GetInstance().IsKeyDown(SDLK_s))) {
+			jumpCount = 0;
+			currentLayer = 1;
+			CenterOnCurrentTile();
+			return;
+		}
+		
 		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 		auto collisionAnalysisY = TileCollision::isCollinding(this->box,0);
-			if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().IsKeyDown(SDLK_w) || InputManager::GetInstance().IsKeyDown(SDLK_s))) {
-				jumpCount = 0;
-				currentLayer = 1;
-				return;
-			}
-		
 		if (collisionAnalysisY == TileCollision::Solid && currentLayer == 0) {
 			speed.Y = 0;
 			if (box.Y - previousRect.Y > 0) {
@@ -187,6 +187,7 @@ void Player::Move(float dt){
 			
 		}
 	}
+
 	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
 		box.Y += speedStairs.Y*dt;
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, 1);
@@ -207,4 +208,15 @@ void Player::Move(float dt){
 
 		}
 	}
+}
+
+void Player::CenterOnCurrentTile() {
+	auto tileWidth = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileWidth();
+	auto center = box.GetCenter();
+	int x = (int)center.X;
+
+	int initialTileX = x - (x % tileWidth);
+	int midTileX = initialTileX + (tileWidth / 2 - 1);
+
+	box.SetCenter((float)midTileX, box.Y);
 }
