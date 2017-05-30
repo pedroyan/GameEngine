@@ -10,7 +10,7 @@ class TileSet {
 	public:
 		enum CollisionType {//quanto maior o enum,maior a prioridade da colissao
 			noCollision = 0,
-			Snow,
+			Stairs,
 			Solid
 		}type;
 

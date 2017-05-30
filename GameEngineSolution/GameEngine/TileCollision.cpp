@@ -3,7 +3,7 @@
  TileMap TileCollision::map;
  int  TileCollision::tile_height;
  int TileCollision::tile_width;
-TileCollision::CollisionType TileCollision::isCollinding(Rect box) {
+TileCollision::CollisionType TileCollision::isCollinding(Rect box,int layer) {
 	
 
 	int left_tile =  box.X / tile_width;
@@ -29,16 +29,16 @@ TileCollision::CollisionType TileCollision::isCollinding(Rect box) {
 	for (int i = left_tile; i <= right_tile; i++)
 	{
 		for (int j = top_tile; j <= bottom_tile; j++) {
-			int* tile = map.At(i, j);
+			int* tile = map.At(i, j,layer);
 			if (tile != nullptr) {
 				if (map.GetTileSet()->GetTileProperty(*tile) == Solid) {
 					if (any_collision < Solid) {
 						any_collision = Solid;
 					}
 				}
-				else if (map.GetTileSet()->GetTileProperty(*tile) == Snow) {
-					if (any_collision < Snow) {
-						any_collision = Snow;
+				else if (map.GetTileSet()->GetTileProperty(*tile) == Stairs) {
+					if (any_collision < Stairs) {
+						any_collision = Stairs;
 					}
 				}
 			}
