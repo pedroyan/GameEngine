@@ -172,7 +172,7 @@ void Player::Move(float dt){
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
 		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 		auto collisionAnalysisY = TileCollision::isCollinding(this->box,0);
-			if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().KeyPress(SDLK_w) || InputManager::GetInstance().KeyPress(SDLK_s))) {
+			if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().IsKeyDown(SDLK_w) || InputManager::GetInstance().IsKeyDown(SDLK_s))) {
 				jumpCount = 0;
 				currentLayer = 1;
 				return;
