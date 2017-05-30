@@ -1,7 +1,10 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include <fstream>
 
 using std::string;
+using std::ofstream;
 
 class Logger {
 	public:
@@ -9,5 +12,6 @@ class Logger {
 	private:
 		// Não é possivel instanciar essa classe
 		Logger();
+		static ofstream myfile;
 };
 

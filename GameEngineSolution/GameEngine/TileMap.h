@@ -2,11 +2,13 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <unordered_map>
 #include "TileSet.h"
 #include "RapidXML\rapidxml.hpp"
 
 using std::string;
 using std::stringstream;
+using std::unordered_map;
 using namespace rapidxml;
 
 /// <summary>
@@ -56,6 +58,8 @@ class TileMap {
 		/// <returns>Ponteiro para proxima layer. Null caso não exista proxima layer</returns>
 		xml_node<>* parseLayer(xml_node<>* layerNode);
 
+		xml_node<>* parseObjectLayer(xml_node<>* objLayer);
+
 		/// <summary>
 		/// Seta a matriz de tiles
 		/// </summary>
@@ -76,6 +80,7 @@ class TileMap {
 		/// <param name="tileNode">Nome do no a ser lido</param>
 		/// <returns>Proximo no a ser lido</returns>
 		xml_node<>* GetTilesProperties(xml_node<>* node);
+
 		/// <summary>
 		/// Adiciona uma propiedade ao tile.
 		/// </summary>
@@ -84,5 +89,7 @@ class TileMap {
 		/// <returns></returns>
 		xml_node<>* AddProperty(xml_node<>* tileNode, int indexNode);
 
+		
+		unordered_map<string, string> GetObjectProperties(xml_node<>* objectNode);
 };
 
