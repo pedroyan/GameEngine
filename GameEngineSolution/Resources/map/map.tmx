@@ -148,9 +148,9 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="4" type="Chest" x="222" y="575.33" width="35" height="31">
+  <object id="4" type="NextStage" x="222" y="575.33" width="35" height="31">
    <properties>
-    <property name="Message" value="Press F to open"/>
+    <property name="Message" value="Press F for next stage"/>
    </properties>
   </object>
  </objectgroup>
