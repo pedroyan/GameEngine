@@ -1,5 +1,5 @@
 #include "Bullet.h"
-
+#include "TileCollision.h"
 Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite, int frameCount, bool targetsPlayerv):sp(sprite, frameCount,0.1),speed(speedArg,0) {
 	box.X = x;
 	box.Y = y;
@@ -22,6 +22,11 @@ void Bullet::Update(float dt) {
 
 	box.SetCenter(bulletCenter.X, bulletCenter.Y);
 	distanceLeft -= realSpeed.Magnitude();
+	
+	auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box, 0);
+	if (collisionAnalysisLayer0 == TileCollision::Solid) {
+		distanceLeft = 0;
+	}
 	sp.Update(dt);
 }
 
