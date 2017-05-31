@@ -160,6 +160,8 @@ void Player::Move(float dt){
 	Rect previousRect = box;
 	Rect stairsAnalisys= previousRect;
 	     stairsAnalisys.Y += speedStairs.Y*dt;
+		 stairsAnalisys.W = 1;
+		 stairsAnalisys.X += actualSP.GetWidth() / 2;
 	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
 		//EIXO X
 		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
