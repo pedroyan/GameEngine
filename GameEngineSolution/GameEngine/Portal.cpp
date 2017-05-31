@@ -1,7 +1,7 @@
 #include "Portal.h"
 
 
-Portal::Portal(string text, Rect dimensions) : portalText("adam-cg-pro.regular.otf",12,Text::TextStyle::BLENDED, text, { 255,255,255,255 }){
+Portal::Portal(string text, Rect dimensions) : portalText("font/Call me maybe.ttf",12,Text::TextStyle::BLENDED, text, { 255,255,255,255 },dimensions.X,dimensions.Y){
 	box = dimensions;
 }
 

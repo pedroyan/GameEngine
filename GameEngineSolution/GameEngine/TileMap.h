@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <unordered_map>
+#include "Rect.h"
 #include "TileSet.h"
 #include "RapidXML\rapidxml.hpp"
 
@@ -69,12 +70,6 @@ class TileMap {
 		void readTileIndex(stringstream &stream, char buffer[]);
 
 		/// <summary>
-		/// Carrega o arquivo XML para a memória.
-		/// </summary>
-		/// <param name="fileName">Nome do arquivo a ser carregado</param>
-		/// <returns>string contendo o XML carregado</returns>
-		char* loadTMXtoMemory(string fileName);
-		/// <summary>
 		/// Carrega as propiedades dos tiles
 		/// </summary>
 		/// <param name="tileNode">Nome do no a ser lido</param>
@@ -89,7 +84,13 @@ class TileMap {
 		/// <returns></returns>
 		xml_node<>* AddProperty(xml_node<>* tileNode, int indexNode);
 
-		
+		/// <summary>
+		/// Extrai as propriedades do objeto
+		/// </summary>
+		/// <param name="objectNode">Nó xml do objeto</param>
+		/// <returns>propriedades do objeto extraidas</returns>
 		unordered_map<string, string> GetObjectProperties(xml_node<>* objectNode);
+
+		void CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties);
 };
 

@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include "Logger.h"
 
+#include "Portal.h"
+#include "StringLibrary.h"
+#include "Game.h"
 
 using std::ifstream;
 using std::getline;
@@ -37,7 +40,7 @@ void TileMap::Load(string fileName) {
 	while (tilesNode != nullptr) {
 		tilesNode =GetTilesProperties(tilesNode);
 	}
-	xml_node<>* Node = mapNode->first_node("layer");
+	xml_node<>* Node = mapNode->first_node();
 
 	while (Node != nullptr) {
 		string NodeName(Node->name());
@@ -116,27 +119,30 @@ xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
 	if (ObjectNode == nullptr) {
 		return objLayer->next_sibling(); //Caso não tenha Object
 	}
-	float x, y, w, h;
-	int id;
-	string objectType;
 
-	x = atof(ObjectNode->first_attribute("x")->value());
-	y = atof(ObjectNode->first_attribute("y")->value());
-	w = atof(ObjectNode->first_attribute("width")->value());
-	h = atof(ObjectNode->first_attribute("height")->value());
-	id = atoi(ObjectNode->first_attribute("id")->value());
+	Rect dimensions;
+	float x, y, w, h;
+	string objectType, id;
+
+	dimensions.X = atof(ObjectNode->first_attribute("x")->value());
+	dimensions.Y = atof(ObjectNode->first_attribute("y")->value());
+	dimensions.W = atof(ObjectNode->first_attribute("width")->value());
+	dimensions.H = atof(ObjectNode->first_attribute("height")->value());
+
+	id = ObjectNode->first_attribute("id")->value();
 	auto typeAttribute = ObjectNode->first_attribute("type");
 
 	if (typeAttribute == nullptr) {
-		Logger::LogError("WARNING: Objeto de id" + std::to_string(id) + " sem tipo");
+		Logger::LogError("WARNING: Objeto de id" + id + " sem tipo");
 		return objLayer->next_sibling();
 	}
-	objectType = typeAttribute->value();
+	objectType = StringLibrary::ToLower(typeAttribute->value());
 	auto properties = GetObjectProperties(ObjectNode);
 
 	//new o objeto louco passando o dicionario de propriedades como parametro
 	//insere esse new louco no object array do currentState
 	//printf("damn son");
+	CreateMapObject(objectType, dimensions, properties);
 	return objLayer->next_sibling();
 }
 
@@ -260,6 +266,15 @@ unordered_map<string, string> TileMap::GetObjectProperties(xml_node<>* objectNod
 	}
 
 	return toReturn;
+}
+
+void TileMap::CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties) {
+	if (type == "portal") {
+		Game::GetInstance().GetCurrentState().AddObject(new Portal(properties["Message"], dimensions));
+	} else {
+		Logger::LogError("Objeto " + type + " nï¿½o suportado");
+	}
+
 }
 
 int * TileMap::At(int x, int y, int z) {
