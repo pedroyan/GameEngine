@@ -34,7 +34,7 @@
   </tile>
   <tile id="6">
    <properties>
-    <property name="Solid" type="bool" value="true"/>
+    <property name="Solid" type="bool" value="false"/>
    </properties>
   </tile>
   <tile id="8">
@@ -138,7 +138,7 @@
 12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 12,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,2,2,2,2,4,0,0,0,0,
-12,0,0,0,0,0,0,0,0,0,0,0,0,0,25,27,27,27,27,27,28,0,0,0,0,
+12,0,0,0,0,0,0,7,0,0,0,0,0,0,25,27,27,27,27,27,28,0,0,0,0,
 12,0,0,0,0,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 28,10,0,0,0,10,19,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 19,19,0,0,0,0,0,11,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,19,
@@ -148,10 +148,9 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="4" x="213" y="552.33" width="49" height="54">
+  <object id="4" type="Portal" x="222" y="575.33" width="35" height="31">
    <properties>
-    <property name="Message" value="Press F to Teleport"/>
-    <property name="ObjectType" value="Portal"/>
+    <property name="Message" value="Press F for next stage"/>
    </properties>
   </object>
  </objectgroup>
