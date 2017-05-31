@@ -126,27 +126,23 @@ bool Player::Is(string type) {
 void Player::UpdateSP(Sprite newSprite) {
 	
 	if (box.W < newSprite.GetWidth()) {
-		needUpdateBox = true;
+		UpdateBoxSP(newSprite);
 	} else {
 		box.W = newSprite.GetWidth();
 		box.H = newSprite.GetHeight();
 		actualSP = newSprite;
-		needUpdateBox = false;
 	}
 	
 }
 void Player::UpdateBoxSP(Sprite newSprite) {
-	if (needUpdateBox) {
-		Rect newBox = box;
-		newBox.W = newSprite.GetWidth();
-		auto collisionAnalysisLayer0 = TileCollision::isCollinding(newBox, 0);
+	Rect newBox = box;
+	newBox.W = newSprite.GetWidth();
+	auto collisionAnalysisLayer0 = TileCollision::isCollinding(newBox, 0);
 		
-		if (collisionAnalysisLayer0 != TileCollision::Solid) {
- 			box.W = newSprite.GetWidth();
-			box.H = newSprite.GetHeight();
-			actualSP = newSprite;
-			needUpdateBox = false;
-		}
+	if (collisionAnalysisLayer0 != TileCollision::Solid) {
+ 		box.W = newSprite.GetWidth();
+		box.H = newSprite.GetHeight();
+		actualSP = newSprite;
 	}
 }
 
