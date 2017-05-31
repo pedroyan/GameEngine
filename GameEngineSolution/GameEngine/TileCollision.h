@@ -27,6 +27,6 @@ private:
 	static TileMap map;
 	static int tile_height;
 	static int tile_width;
-
-
+	static int map_height;
+	static int map_width;
 };
