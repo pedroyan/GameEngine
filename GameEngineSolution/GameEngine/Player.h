@@ -17,6 +17,7 @@ class Player : public GameObject {
 	void NotifyCollision(GameObject& other);
 	bool Is(string type);
 	void UpdateSP(Sprite newSprite);
+	void UpdateBoxSP(Sprite newSprite);
 
 	void Shoot();
 
@@ -39,6 +40,7 @@ class Player : public GameObject {
 	int jumpCount;
 	int currentLayer = 0; 
 	bool movedLeft=false;
+	bool needUpdateBox = false;
 
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();

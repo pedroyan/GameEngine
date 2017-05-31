@@ -87,8 +87,10 @@ void Player::Render() {
 	if(currentLayer == 0) {
 		if ((input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) ) {
 			UpdateSP(bodyRunSP);
+			UpdateBoxSP(bodyRunSP);
 		} else {
 			UpdateSP(bodySP);
+			UpdateBoxSP(bodySP);
 		}
 	}
 	if (currentLayer == 1) {
@@ -119,9 +121,28 @@ bool Player::Is(string type) {
 }
 
 void Player::UpdateSP(Sprite newSprite) {
-	box.W = newSprite.GetWidth();
-	box.H = newSprite.GetHeight();
+	
+	if (box.W < newSprite.GetWidth()) {
+		needUpdateBox = true;
+	} else {
+		box.W = newSprite.GetWidth();
+		box.H = newSprite.GetHeight();
+		needUpdateBox = false;
+	}
 	actualSP = newSprite;
+}
+void Player::UpdateBoxSP(Sprite newSprite) {
+	if (needUpdateBox) {
+		Rect newBox = box;
+		newBox.W = newSprite.GetWidth();
+		auto collisionAnalysisLayer0 = TileCollision::isCollinding(newBox, 0);
+		
+		if (collisionAnalysisLayer0 != TileCollision::Solid) {
+ 			box.W = newSprite.GetWidth();
+			box.H = newSprite.GetHeight();
+			needUpdateBox = false;
+		}
+	}
 }
 
 void Player::Shoot() {
