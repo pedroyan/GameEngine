@@ -91,7 +91,20 @@ void Game::Run() {
 	}
 	bool quit = false;
 	while (!stateStack.empty() && !quit) {
+		
+#ifdef _DEBUG
+		if (InputManager::GetInstance().KeyPress(SDLK_b)) {
+			BreakFrame();
+			CalculateDeltaTime();
+		}
+		if (debugDeltaT) {
+			dt = 1 / 30.0;
+		} else {
+			CalculateDeltaTime();
+		}
+#else
 		CalculateDeltaTime();
+#endif// DEBUG
 
 		auto& currentState = GetCurrentState();
 
@@ -124,6 +137,12 @@ void Game::ClearResources() {
 	Resources::ClearSound();
 	Resources::ClearFont();
 }
+
+#ifdef _DEBUG
+void Game::BreakFrame() {
+	debugDeltaT = !debugDeltaT;
+}
+#endif // _DEBUG
 
 void Game::CalculateDeltaTime() {
 	int actualTicks = SDL_GetTicks();
