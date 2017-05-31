@@ -8,7 +8,7 @@
  int TileCollision::map_height;
  int TileCollision::map_width;
 
-TileCollision::CollisionType TileCollision::isCollinding(Rect box,int layer) {
+TileCollision::CollisionType TileCollision::isColliding(Rect box,int layer) {
 	
 
 	int left_tile =  box.X / tile_width;
@@ -50,6 +50,11 @@ TileCollision::CollisionType TileCollision::isCollinding(Rect box,int layer) {
 		}
 	}
 	return any_collision;
+}
+
+TileCollision::CollisionType TileCollision::isColliding(Vec2 point, int layer) {
+	Rect singleBox(point.X, point.Y, 1, 1);
+	return isColliding(singleBox, layer);
 }
 
 void TileCollision::GetParameters(TileMap mapa){

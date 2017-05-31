@@ -124,7 +124,7 @@ bool Player::Is(string type) {
 }
 
 void Player::UpdateSP(Sprite newSprite) {
-	
+	auto previousCenter = box.GetCenter();
 	if (box.W < newSprite.GetWidth()) {
 		UpdateBoxSP(newSprite);
 	} else {
@@ -132,12 +132,13 @@ void Player::UpdateSP(Sprite newSprite) {
 		box.H = newSprite.GetHeight();
 		actualSP = newSprite;
 	}
+	box.SetCenter(previousCenter);
 	
 }
 void Player::UpdateBoxSP(Sprite newSprite) {
 	Rect newBox = box;
 	newBox.W = newSprite.GetWidth();
-	auto collisionAnalysisLayer0 = TileCollision::isCollinding(newBox, 0);
+	auto collisionAnalysisLayer0 = TileCollision::isColliding(newBox, 0);
 		
 	if (collisionAnalysisLayer0 != TileCollision::Solid) {
  		box.W = newSprite.GetWidth();
@@ -188,14 +189,15 @@ void Player::Move(float dt){
 	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
 		//EIXO X
 		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
-		auto collisionAnalysisX = TileCollision::isCollinding(this->box, currentLayer);
+		auto collisionAnalysisX = TileCollision::isColliding(this->box, currentLayer);
 		if (collisionAnalysisX == TileCollision::Solid && currentLayer == 0) {
 			box.X = previousRect.X;
 		}
 
 		//EIXO Y
-		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
-		if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().IsKeyDown(SDLK_w) || InputManager::GetInstance().IsKeyDown(SDLK_s))) {
+		auto& manager = InputManager::GetInstance();
+		auto collisionAnalysisLayer1 = TileCollision::isColliding(stairsAnalisys.GetCenter(), 1);
+		if (collisionAnalysisLayer1 == TileCollision::Stairs && (manager.IsKeyDown(SDLK_w) || manager.IsKeyDown(SDLK_s))) {
 			jumpCount = 0;
 			currentLayer = 1;
 			CenterOnCurrentTile();
@@ -203,7 +205,7 @@ void Player::Move(float dt){
 		}
 		
 		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
-		auto collisionAnalysisY = TileCollision::isCollinding(this->box,0);
+		auto collisionAnalysisY = TileCollision::isColliding(this->box,0);
 		if (collisionAnalysisY == TileCollision::Solid) {
 			speed.Y = 0;
 			if (box.Y - previousRect.Y > 0) {
@@ -216,8 +218,8 @@ void Player::Move(float dt){
 
 	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
 		box.Y += speedStairs.Y*dt;
-		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, 1);
-		auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box, 0);
+		auto collisionAnalysisLayer1 = TileCollision::isColliding(this->box, 1);
+		auto collisionAnalysisLayer0 = TileCollision::isColliding(this->box, 0);
 		if ( InputManager::GetInstance().KeyPress(SDLK_SPACE) && collisionAnalysisLayer0 != TileCollision::Solid) {
 			currentLayer = 0;
 			return;
@@ -244,6 +246,7 @@ void Player::CenterOnCurrentTile() {
 
 	int initialTileX = x - (x % tileWidth);
 	int midTileX = initialTileX + (tileWidth / 2 - 1);
+
 
 	box.SetCenter((float)midTileX, center.Y);
 }
