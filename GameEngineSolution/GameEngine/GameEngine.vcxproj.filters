@@ -111,9 +111,6 @@
     <ClCompile Include="EndState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="StateData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TileCollision.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
@@ -126,7 +123,13 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="StateData.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
     <ClCompile Include="StringLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -234,6 +237,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StringLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
