@@ -1,5 +1,5 @@
 #include "State.h"
-
+#include "Game.h"
 
 
 State::State() {
@@ -25,6 +25,11 @@ void State::RenderArray() {
 
 TileMap State::GetMap(){
 	return TileMap();
+}
+
+void State::Swap(State * state) {
+	quitRequested = true;
+	Game::GetInstance().Push(state);
 }
 
 void State::AddObject(GameObject * object) {
