@@ -1,8 +1,13 @@
 #include "TileCollision.h"
 #include "Game.h"
+#include "InputManager.h"
+
  TileMap TileCollision::map;
  int  TileCollision::tile_height;
  int TileCollision::tile_width;
+ int TileCollision::map_height;
+ int TileCollision::map_width;
+
 TileCollision::CollisionType TileCollision::isCollinding(Rect box,int layer) {
 	
 
@@ -14,18 +19,18 @@ TileCollision::CollisionType TileCollision::isCollinding(Rect box,int layer) {
 	if (left_tile < 0) {
 		left_tile = 0;
 	}
-	if (right_tile > tile_width) {
-		right_tile = tile_width;
+	if (right_tile > map_width) {
+		right_tile = map_width;
 	}
 	if (top_tile < 0) {
 		top_tile = 0;
 	}
-	if (bottom_tile > tile_height) {
+	if (bottom_tile > map_height) {
 		bottom_tile = tile_height;
 	}
 
 	TileCollision::CollisionType	any_collision=noCollision;
-	
+
 	for (int i = left_tile; i <= right_tile; i++)
 	{
 		for (int j = top_tile; j <= bottom_tile; j++) {
@@ -51,6 +56,8 @@ void TileCollision::GetParameters(TileMap mapa){
 	map = mapa;
 	tile_height = map.GetTileSet()->GetTileHeight();
 	tile_width = map.GetTileSet()->GetTileWidth();
+	map_height = map.GetHeight();
+	map_width = map.GetWidth();
 }
 
 
