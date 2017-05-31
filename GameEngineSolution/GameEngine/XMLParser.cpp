@@ -56,7 +56,6 @@ xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*
 
 	while (ObjectNode != nullptr) {
 		Rect dimensions;
-		float x, y, w, h;
 		string objectType, id;
 
 		dimensions.X = atof(ObjectNode->first_attribute("x")->value());

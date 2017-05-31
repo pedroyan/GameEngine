@@ -12,8 +12,10 @@
 #include "TileCollision.h"
 #include "XMLParser.h"
 
-StageState::StageState() : tileSet(32,32,"img/tileset.png"), bg1("img/ParalaxBlackCraftV1.png", 0.2), stageMusic("audio/CenarioDeGuerra.wav") {
-	this->tileMap = TileMap("map/map.tmx", &tileSet);
+StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
+	this->tileSet = new TileSet(32, 32, tileSet);
+	this->tileMap = TileMap(map, this->tileSet);
+
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
 
@@ -101,4 +103,5 @@ void StageState::UpdateArray(float dt) {
 
 StageState::~StageState() {
 	objectArray.clear();
+	delete tileSet;
 }
