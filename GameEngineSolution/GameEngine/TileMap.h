@@ -2,11 +2,14 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <unordered_map>
+#include "Rect.h"
 #include "TileSet.h"
 #include "RapidXML\rapidxml.hpp"
 
 using std::string;
 using std::stringstream;
+using std::unordered_map;
 using namespace rapidxml;
 
 /// <summary>
@@ -65,17 +68,12 @@ class TileMap {
 		void readTileIndex(stringstream &stream, char buffer[]);
 
 		/// <summary>
-		/// Carrega o arquivo XML para a memória.
-		/// </summary>
-		/// <param name="fileName">Nome do arquivo a ser carregado</param>
-		/// <returns>string contendo o XML carregado</returns>
-		char* loadTMXtoMemory(string fileName);
-		/// <summary>
 		/// Carrega as propiedades dos tiles
 		/// </summary>
 		/// <param name="tileNode">Nome do no a ser lido</param>
 		/// <returns>Proximo no a ser lido</returns>
 		xml_node<>* GetTilesProperties(xml_node<>* node);
+
 		/// <summary>
 		/// Adiciona uma propiedade ao tile.
 		/// </summary>
@@ -83,6 +81,5 @@ class TileMap {
 		/// <param name="indexNode">Index do tile que esta sendo lido</param>
 		/// <returns></returns>
 		xml_node<>* AddProperty(xml_node<>* tileNode, int indexNode);
-
 };
 

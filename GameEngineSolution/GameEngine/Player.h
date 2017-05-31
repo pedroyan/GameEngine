@@ -16,6 +16,8 @@ class Player : public GameObject {
 	bool IsDead();
 	void NotifyCollision(GameObject& other);
 	bool Is(string type);
+	void UpdateSP(Sprite newSprite);
+	void UpdateBoxSP(Sprite newSprite);
 
 	void Shoot();
 
@@ -23,7 +25,8 @@ class Player : public GameObject {
 
 	private:
 	Sprite bodySP;
-	Sprite bodyRunSP;//posteiormente juntar todos os sprites em 1,caso precise melhorar rendimento
+	Sprite bodyRunSP;
+	Sprite actualSP;
 	Sprite cannonSp;
 	Vec2 speed;
 	Vec2 speedStairs;
@@ -37,12 +40,14 @@ class Player : public GameObject {
 	int jumpCount;
 	int currentLayer = 0; 
 	bool movedLeft=false;
+	float deltaX;
 
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
 	void takeDamage(int damage);
 	void Move(float dt);
-
-	void CenterOnCurrentTile();
+	
+	void MoveCenterToTileStairs(InputManager& manager, Vec2 center, int tileWidth);
+	void CenterOnCurrentTile(int tileWidth, int tileHeight);
 };
 

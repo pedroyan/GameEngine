@@ -2,6 +2,11 @@
 #include "RapidXML\rapidxml_print.hpp"
 #include <fstream>
 #include <stdio.h>
+#include "Logger.h"
+#include "Portal.h"
+#include "StringLibrary.h"
+#include "XMLParser.h"
+#include "Game.h"
 
 using std::ifstream;
 using std::getline;
@@ -23,7 +28,7 @@ TileMap::TileMap(string file, TileSet * tileSetVariable) {
 
 void TileMap::Load(string fileName) {
 
-	char* input_TMX = loadTMXtoMemory(fileName);
+	char* input_TMX = XMLParser::loadTMXtoMemory(fileName);
 	xml_document<> doc;
 	doc.parse<0>(input_TMX);
 
@@ -35,14 +40,14 @@ void TileMap::Load(string fileName) {
 	while (tilesNode != nullptr) {
 		tilesNode =GetTilesProperties(tilesNode);
 	}
-	xml_node<>* Node = mapNode->first_node("layer");
+	xml_node<>* Node = mapNode->first_node();
 
 	while (Node != nullptr) {
 		string NodeName(Node->name());
 		if (NodeName == "layer") {
 			Node = parseLayer(Node);
 			mapDepth++;
-		} else if (NodeName == "objectgroup") {
+		} else {
 			Node = Node->next_sibling();
 		}
 		
@@ -154,28 +159,6 @@ void TileMap::readTileIndex(stringstream & stream, char buffer[]) {
 }
 
 /// <summary>
-/// Carrega o arquivo TMX para a memória. Lança exceção caso o arquivo não consiga ser carregado
-/// </summary>
-/// <param name="filename">Nome do arquivo a ser carregado</param>
-/// <returns>string contendo o TMX carregado</returns>
-char* TileMap::loadTMXtoMemory(string fileName) {
-	ifstream file(fileName);
-
-	if (!file.is_open()) {
-		printf("Nao foi possivel abrir o arquivo %s", fileName.c_str());
-		throw new std::exception();
-		exit(0);
-	}
-
-	string line;
-	string input_TMX;
-	while (getline(file, line))
-		input_TMX += line + "\n";
-
-	char* chr = _strdup(input_TMX.c_str());
-	return chr;
-}
-/// <summary>
 /// Carrega as propiedades dos tiles
 /// </summary>
 /// <param name="tileNode">Nome do no a ser lido</param>
@@ -200,19 +183,20 @@ xml_node<>* TileMap::AddProperty(xml_node<>* propertiesNode, int indexNode){
 	if (propertyeType == "Solid") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
 		if (propertiesNodeSolid == "true") {
-			this->tileSet->AddTileProperty(indexNode, TileSet::Solid);
+			this->tileSet->AddTileProperty(indexNode, CollisionType::Solid );
 		}
 	}
 	if (propertyeType == "Stairs") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
 		if (propertiesNodeSolid == "true") {
-			this->tileSet->AddTileProperty(indexNode, TileSet::Stairs);
+			this->tileSet->AddTileProperty(indexNode, CollisionType::Stairs );
 		} 
 		
 	}
 	
 	return propertiesNode->next_sibling();
 }
+
 
 int * TileMap::At(int x, int y, int z) {
 	if (x < 0 || y < 0 || z < 0) {
