@@ -212,11 +212,12 @@ void Player::Move(float dt){
 
 void Player::CenterOnCurrentTile() {
 	auto tileWidth = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileWidth();
+	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	auto center = box.GetCenter();
 	int x = (int)center.X;
 
 	int initialTileX = x - (x % tileWidth);
 	int midTileX = initialTileX + (tileWidth / 2 - 1);
 
-	box.SetCenter((float)midTileX, box.Y);
+	box.SetCenter((float)midTileX, center.Y);
 }
