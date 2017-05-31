@@ -59,8 +59,6 @@ class TileMap {
 		/// <returns>Ponteiro para proxima layer. Null caso não exista proxima layer</returns>
 		xml_node<>* parseLayer(xml_node<>* layerNode);
 
-		xml_node<>* parseObjectLayer(xml_node<>* objLayer);
-
 		/// <summary>
 		/// Seta a matriz de tiles
 		/// </summary>
@@ -83,14 +81,5 @@ class TileMap {
 		/// <param name="indexNode">Index do tile que esta sendo lido</param>
 		/// <returns></returns>
 		xml_node<>* AddProperty(xml_node<>* tileNode, int indexNode);
-
-		/// <summary>
-		/// Extrai as propriedades do objeto
-		/// </summary>
-		/// <param name="objectNode">Nó xml do objeto</param>
-		/// <returns>propriedades do objeto extraidas</returns>
-		unordered_map<string, string> GetObjectProperties(xml_node<>* objectNode);
-
-		void CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties);
 };
 

@@ -47,8 +47,8 @@ void TileMap::Load(string fileName) {
 		if (NodeName == "layer") {
 			Node = parseLayer(Node);
 			mapDepth++;
-		} else if (NodeName == "objectgroup") {
-			Node = parseObjectLayer(Node);
+		} else {
+			Node = Node->next_sibling();
 		}
 		
 	}
@@ -112,38 +112,6 @@ xml_node<>* TileMap::parseLayer(xml_node<>* layerNode) {
 	setTileMatrix(ss);
 
 	return layerNode->next_sibling();
-}
-
-xml_node<>* TileMap::parseObjectLayer(xml_node<>* objLayer) {
-	auto ObjectNode = objLayer->first_node("object");
-	if (ObjectNode == nullptr) {
-		return objLayer->next_sibling(); //Caso não tenha Object
-	}
-
-	Rect dimensions;
-	float x, y, w, h;
-	string objectType, id;
-
-	dimensions.X = atof(ObjectNode->first_attribute("x")->value());
-	dimensions.Y = atof(ObjectNode->first_attribute("y")->value());
-	dimensions.W = atof(ObjectNode->first_attribute("width")->value());
-	dimensions.H = atof(ObjectNode->first_attribute("height")->value());
-
-	id = ObjectNode->first_attribute("id")->value();
-	auto typeAttribute = ObjectNode->first_attribute("type");
-
-	if (typeAttribute == nullptr) {
-		Logger::LogError("WARNING: Objeto de id" + id + " sem tipo");
-		return objLayer->next_sibling();
-	}
-	objectType = StringLibrary::ToLower(typeAttribute->value());
-	auto properties = GetObjectProperties(ObjectNode);
-
-	//new o objeto louco passando o dicionario de propriedades como parametro
-	//insere esse new louco no object array do currentState
-	//printf("damn son");
-	CreateMapObject(objectType, dimensions, properties);
-	return objLayer->next_sibling();
 }
 
 /// <summary>
@@ -229,31 +197,6 @@ xml_node<>* TileMap::AddProperty(xml_node<>* propertiesNode, int indexNode){
 	return propertiesNode->next_sibling();
 }
 
-unordered_map<string, string> TileMap::GetObjectProperties(xml_node<>* objectNode) {
-	unordered_map<string, string> toReturn;
-
-	auto propertiesNode = objectNode->first_node("properties");
-	if (propertiesNode == nullptr) {
-		return toReturn;
-	}
-
-	auto prop = propertiesNode->first_node();
-	while (prop != nullptr) {
-		toReturn.emplace(std::make_pair(prop->first_attribute("name")->value(), prop->first_attribute("value")->value()));
-		prop = prop->next_sibling();
-	}
-
-	return toReturn;
-}
-
-void TileMap::CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties) {
-	if (type == "portal") {
-		Game::GetInstance().GetCurrentState().AddObject(new Portal(properties["Message"], dimensions));
-	} else {
-		Logger::LogError("Objeto " + type + " não suportado");
-	}
-
-}
 
 int * TileMap::At(int x, int y, int z) {
 	if (x < 0 || y < 0 || z < 0) {
