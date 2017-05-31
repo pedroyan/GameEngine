@@ -83,20 +83,17 @@ void Player::Update(float dt) {
 void Player::Render() {
 	auto& input = InputManager::GetInstance();
 	if (currentLayer == 0) {
-		if (input.IsKeyDown(SDLK_d)) {
-			bodyRunSP.Render(box.GetWorldPosition(), 0);
-		} else if (input.IsKeyDown(SDLK_a)) {
-			bodyRunSP.Render(box.GetWorldPosition(), 0, true);
-		} else if (movedLeft) {
-			bodySP.Render(box.GetWorldPosition(), 0, true);
+		if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
+			UpdateSP(bodyRunSP);		
 		} else {
-			bodySP.Render(box.GetWorldPosition(), 0);
+			UpdateSP(bodySP);
 		}
 	}
 	if (currentLayer == 1) {
-		bodySP.Render(box.GetWorldPosition(), 0);//SERA FUTURAMENTE O SPRITE DE SUBIR A ESCADA
+		UpdateSP(bodySP);
 	}
-	
+
+	actualSP.Render(box.GetWorldPosition(), 0,movedLeft);
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
@@ -118,6 +115,10 @@ void Player::NotifyCollision(GameObject & other) {
 
 bool Player::Is(string type) {
 	return type == "Player";
+}
+
+void Player::UpdateSP(Sprite newSprite) {
+	actualSP = newSprite;
 }
 
 void Player::Shoot() {
@@ -159,6 +160,8 @@ void Player::Move(float dt){
 	Rect previousRect = box;
 	Rect stairsAnalisys= previousRect;
 	     stairsAnalisys.Y += speedStairs.Y*dt;
+		 stairsAnalisys.W = 1;
+		 stairsAnalisys.X += actualSP.GetWidth() / 2;
 	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
 		//EIXO X
 		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
