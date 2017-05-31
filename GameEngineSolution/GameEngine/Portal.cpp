@@ -1,17 +1,16 @@
 #include "Portal.h"
+#include "Camera.h"
 
 
-Portal::Portal(string text, Rect dimensions) : portalText("font/Call me maybe.ttf",12,Text::TextStyle::BLENDED, text, { 255,255,255,255 },dimensions.X,dimensions.Y){
+Portal::Portal(string text, Rect dimensions) : portalText("font/Call me maybe.ttf",20,Text::TextStyle::BLENDED, text, { 0,0,0,255 }){
 	box = dimensions;
+	portalText.SetPos(dimensions.GetCenter().X, dimensions.Y - 20, true, false);
 }
 
 void Portal::Update(float dt) {
 }
 
 void Portal::Render() {
-	if (renderText) {
-		portalText.Render();
-	}
 }
 
 bool Portal::IsDead() {
@@ -20,7 +19,7 @@ bool Portal::IsDead() {
 
 void Portal::NotifyCollision(GameObject & other) {
 	if (other.Is("Player")) {
-		renderText = true;
+		portalText.Render(Camera::pos.X, Camera::pos.Y);
 	}
 }
 

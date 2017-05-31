@@ -42,12 +42,13 @@ vector<GameObject*> XMLParser::LoadMapObjects() {
 
 	xml_node<>* Node = mapNode->first_node("objectgroup");
 	while (Node != nullptr) {
-		Node = ParseObjectLayer(Node);
+		Node = ParseObjectLayer(Node, vec);
 	}
+
 	return vec;
 }
 
-xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer) {
+xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*>& objectsToAdd) {
 	auto ObjectNode = objLayer->first_node("object");
 	if (ObjectNode == nullptr) {
 		return objLayer->next_sibling(); //Caso não tenha Object
@@ -76,7 +77,10 @@ xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer) {
 		//new o objeto louco passando o dicionario de propriedades como parametro
 		//insere esse new louco no object array do currentState
 		//printf("damn son");
-		CreateMapObject(objectType, dimensions, properties);
+		auto obj = CreateMapObject(objectType, dimensions, properties);
+		if (obj!=nullptr) {
+			objectsToAdd.push_back(obj);
+		}
 		ObjectNode = ObjectNode->next_sibling();
 	}
 
@@ -100,10 +104,11 @@ unordered_map<string, string> XMLParser::GetObjectProperties(xml_node<>* objectN
 	return toReturn;
 }
 
-void XMLParser::CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties) {
+GameObject* XMLParser::CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties) {
 	if (type == "portal") {
-		Game::GetInstance().GetCurrentState().AddObject(new Portal(properties["Message"], dimensions));
+		return new Portal(properties["Message"], dimensions);
 	} else {
 		Logger::LogError("Objeto " + type + " não suportado");
+		return nullptr;
 	}
 }
