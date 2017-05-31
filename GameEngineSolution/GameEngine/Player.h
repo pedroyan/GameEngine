@@ -46,7 +46,8 @@ class Player : public GameObject {
 	float getInertialBulletSpeed();
 	void takeDamage(int damage);
 	void Move(float dt);
-
-	void CenterOnCurrentTile();
+	
+	void MoveCenterToTileStairs(InputManager& manager, Vec2 center, int tileWidth);
+	void CenterOnCurrentTile(int tileWidth, int tileHeight);
 };
 

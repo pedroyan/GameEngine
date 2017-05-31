@@ -24,7 +24,7 @@ void Bullet::Update(float dt) {
 	distanceLeft -= realSpeed.Magnitude();
 	
 	auto collisionAnalysisLayer0 = TileCollision::isColliding(this->box, 0);
-	if (collisionAnalysisLayer0 == TileCollision::Solid) {
+	if (collisionAnalysisLayer0 == CollisionType::Solid) {
 		distanceLeft = 0;
 	}
 	sp.Update(dt);

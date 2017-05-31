@@ -2,17 +2,13 @@
 #include <string>
 #include "Sprite.h"
 #include <unordered_map>
+#include "TileCollision.h"
 
 using std::unordered_map;
 
 using std::string;
 class TileSet {
 	public:
-		enum CollisionType {//quanto maior o enum,maior a prioridade da colissao
-			noCollision = 0,
-			Stairs,
-			Solid
-		}type;
 
 		TileSet(int Width, int Height, string file);
 		~TileSet();

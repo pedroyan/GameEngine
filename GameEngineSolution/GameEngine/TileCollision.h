@@ -1,14 +1,31 @@
 #pragma once
 #include "Rect.h"
-#include "TileMap.h"
+
+class TileMap;
+
+//flag
+enum class collisionDirection {
+	Left = 1,
+	Top=2,
+	Right=4,
+	Bottom=8
+};
+
+//menor numero = maior prioridade
+enum class CollisionType {
+	noCollision = 0,
+	Stairs,
+	Solid
+};
+
+struct CollisionDTO {
+	unsigned char directionFlags;
+	CollisionType type;
+};
+
 class TileCollision{
 public:
 
-	enum CollisionType {//quanto maior o enum,maior a prioridade da colissao
-		noCollision = 0,
-		Stairs,
-		Solid
-	}type;
 	/// <summary>
 	/// Analisa se a box passada está colidindo com um tile
 	/// </summary>
