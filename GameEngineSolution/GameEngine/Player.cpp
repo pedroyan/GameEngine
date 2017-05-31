@@ -37,6 +37,7 @@ Player::~Player() {
 
 void Player::Update(float dt) {
 	auto& input = InputManager::GetInstance();
+	float previousX;
 	bodyRunSP.Update(dt);
 	if (cooldownCounter.Get() != 0) {
 		cooldownCounter.Update(dt);
@@ -72,7 +73,10 @@ void Player::Update(float dt) {
 		speed.Y += tileHeight * Gravity*dt;
 	}
 
+	previousX = box.X;
 	Move(dt);
+	deltaX = box.X - previousX;
+
 	UpdateCannonAngle(input);
 
 	if (input.MousePress(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
@@ -83,9 +87,8 @@ void Player::Update(float dt) {
 void Player::Render() {
 	auto& input = InputManager::GetInstance();
 	
-	
 	if(currentLayer == 0) {
-		if ((input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) ) {
+		if ((input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a))  ) {//&& deltaX!=0d
 			UpdateSP(bodyRunSP);
 			UpdateBoxSP(bodyRunSP);
 		} else {
@@ -127,9 +130,10 @@ void Player::UpdateSP(Sprite newSprite) {
 	} else {
 		box.W = newSprite.GetWidth();
 		box.H = newSprite.GetHeight();
+		actualSP = newSprite;
 		needUpdateBox = false;
 	}
-	actualSP = newSprite;
+	
 }
 void Player::UpdateBoxSP(Sprite newSprite) {
 	if (needUpdateBox) {
@@ -140,6 +144,7 @@ void Player::UpdateBoxSP(Sprite newSprite) {
 		if (collisionAnalysisLayer0 != TileCollision::Solid) {
  			box.W = newSprite.GetWidth();
 			box.H = newSprite.GetHeight();
+			actualSP = newSprite;
 			needUpdateBox = false;
 		}
 	}
@@ -203,13 +208,13 @@ void Player::Move(float dt){
 		
 		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 		auto collisionAnalysisY = TileCollision::isCollinding(this->box,0);
-		if (collisionAnalysisY == TileCollision::Solid && currentLayer == 0) {
+		if (collisionAnalysisY == TileCollision::Solid) {
 			speed.Y = 0;
 			if (box.Y - previousRect.Y > 0) {
 				jumpCount = 0;
 			}
 			box.Y = previousRect.Y;
-			
+			return;
 		}
 	}
 

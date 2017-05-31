@@ -41,6 +41,7 @@ class Player : public GameObject {
 	int currentLayer = 0; 
 	bool movedLeft=false;
 	bool needUpdateBox = false;
+	float deltaX;
 
 	void UpdateCannonAngle(InputManager& manager);
 	float getInertialBulletSpeed();
