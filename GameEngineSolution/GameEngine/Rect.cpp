@@ -52,7 +52,7 @@ Vec2 Rect::GetWorldPosition() {
 
 void Rect::SetCenter(float x, float y) {
 	X = x - W / 2;
-	Y = y;
+	Y = y - H / 2;
 }
 
 void Rect::SetCenter(Vec2 vector) {
