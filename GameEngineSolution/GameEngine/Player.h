@@ -16,6 +16,7 @@ class Player : public GameObject {
 	bool IsDead();
 	void NotifyCollision(GameObject& other);
 	bool Is(string type);
+	void UpdateSP(Sprite newSprite);
 
 	void Shoot();
 
@@ -23,7 +24,8 @@ class Player : public GameObject {
 
 	private:
 	Sprite bodySP;
-	Sprite bodyRunSP;//posteiormente juntar todos os sprites em 1,caso precise melhorar rendimento
+	Sprite bodyRunSP;
+	Sprite actualSP;
 	Sprite cannonSp;
 	Vec2 speed;
 	Vec2 speedStairs;
