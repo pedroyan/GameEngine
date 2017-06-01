@@ -23,6 +23,12 @@ class XMLParser {
 		/// <returns>vetor de objetos</returns>
 		vector<GameObject*> LoadMapObjects();
 
+		/// <summary>
+		/// Retorna o tmx carregado em memoria.
+		/// IMPORTANTE: Não é necessário dar free no ponteiro retornado, uma vez
+		/// que ele é liberado quando o parser for deletado
+		/// </summary>
+		/// <returns></returns>
 		char* GetStoredTmx();
 	private:
 		char* tmx;

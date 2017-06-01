@@ -9,6 +9,9 @@
 using std::ifstream;
 XMLParser::XMLParser(string fileName) {
 	tmx = loadTMXtoMemory(fileName);
+	if (tmx == nullptr) {
+		throw std::exception();
+	}
 }
 
 
@@ -17,14 +20,6 @@ XMLParser::~XMLParser() {
 }
 
 char * XMLParser::loadTMXtoMemory(string fileName) {
-	//ifstream file(fileName);
-
-	//if (!file.is_open()) {
-	//	printf("Nao foi possivel abrir o arquivo %s", fileName.c_str());
-	//	throw new std::exception();
-	//	exit(0);
-	//}
-
 	ifstream file;
 	string outError;
 	if (!FileLibrary::VerifyFile(fileName.c_str(), "tmx", "Engine aceita somente formato TMX como mapa", &file, outError)) {
@@ -72,8 +67,11 @@ xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*
 
 		dimensions.X = atof(ObjectNode->first_attribute("x")->value());
 		dimensions.Y = atof(ObjectNode->first_attribute("y")->value());
-		dimensions.W = atof(ObjectNode->first_attribute("width")->value());
-		dimensions.H = atof(ObjectNode->first_attribute("height")->value());
+
+		auto widthAtt = ObjectNode->first_attribute("width");
+		dimensions.W = widthAtt != nullptr ? atof(widthAtt->value()) : 0;
+		auto heightAtt = ObjectNode->first_attribute("height");
+		dimensions.H = heightAtt != nullptr ? atof(heightAtt->value()) : 0;
 
 		id = ObjectNode->first_attribute("id")->value();
 		auto typeAttribute = ObjectNode->first_attribute("type");
@@ -108,7 +106,9 @@ unordered_map<string, string> XMLParser::GetObjectProperties(xml_node<>* objectN
 
 	auto prop = propertiesNode->first_node();
 	while (prop != nullptr) {
-		toReturn.emplace(std::make_pair(prop->first_attribute("name")->value(), prop->first_attribute("value")->value()));
+		auto valueAtrib = prop->first_attribute("value");
+		string value = valueAtrib == nullptr ? prop->value() : valueAtrib->value();
+		toReturn.emplace(std::make_pair(prop->first_attribute("name")->value(), value));
 		prop = prop->next_sibling();
 	}
 
