@@ -58,8 +58,6 @@ void TileMap::Load(XMLParser & parser) {
 		}
 		
 	}
-
-	free(input_TMX);
 }
 
 /// <summary>
