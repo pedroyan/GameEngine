@@ -205,7 +205,9 @@ void Player::Move(float dt){
 			return;
 		}
 		if (collisionAnalysisLayer1 == TileCollision::Solid) {
-			currentLayer = 0;
+			if (speedStairs.Y > 0) {
+				currentLayer = 0;
+			}
 			box.Y = previousRect.Y;
 			return;
 
