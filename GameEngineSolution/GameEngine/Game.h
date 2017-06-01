@@ -32,6 +32,13 @@ class Game {
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 		State* storedState;
+
+#ifdef _DEBUG
+		bool debugDeltaT;
+		void BreakFrame();
+#endif // DEBUG
+
+
 		int frameStart;
 		float dt;
 		std::stack<std::unique_ptr<State>> stateStack;
