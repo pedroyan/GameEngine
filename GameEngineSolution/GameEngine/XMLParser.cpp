@@ -8,10 +8,7 @@
 
 using std::ifstream;
 XMLParser::XMLParser(string fileName) {
-	tmx = loadTMXtoMemory(fileName);
-	if (tmx == nullptr) {
-		throw std::exception();
-	}
+	parseTMX(fileName);
 }
 
 
@@ -19,12 +16,27 @@ XMLParser::~XMLParser() {
 	free(tmx);
 }
 
-char * XMLParser::loadTMXtoMemory(string fileName) {
+vector<GameObject*>& XMLParser::GetMapObjects() {
+	return objectsParsed;
+}
+
+void XMLParser::GetTileDimensions(int * const tileHeight, int * const tileWidth) {
+	*tileHeight = this->tileHeight;
+	*tileWidth = this->tileWidth;
+}
+
+xml_node<char>* XMLParser::GetMapNode() {
+	return mapnode;
+}
+
+void XMLParser::parseTMX(string fileName) {
 	ifstream file;
 	string outError;
+	this->fileName = fileName;
+
 	if (!FileLibrary::VerifyFile(fileName.c_str(), "tmx", "Engine aceita somente formato TMX como mapa", &file, outError)) {
 		Logger::LogError(outError);
-		return nullptr;
+		throw std::exception();
 	}
 
 	string line;
@@ -32,28 +44,34 @@ char * XMLParser::loadTMXtoMemory(string fileName) {
 	while (getline(file, line))
 		input_TMX += line + "\n";
 
-	char* chr = _strdup(input_TMX.c_str());
-	return chr;
+	tmx = _strdup(input_TMX.c_str());
+	doc.parse<0>(tmx);
+	mapnode = doc.first_node("map", 0U, true);
+	LoadMapObjects();
+	LoadTileDimensions();
 }
 
-vector<GameObject*> XMLParser::LoadMapObjects() {
-	xml_document<> doc;
-	vector<GameObject*> vec;
+void XMLParser::LoadMapObjects() {
 
-	doc.parse<0>(tmx);
-	auto mapNode = doc.first_node("map", 0U, true);
-
-	xml_node<>* Node = mapNode->first_node("objectgroup");
+	xml_node<>* Node = mapnode->first_node("objectgroup");
 	while (Node != nullptr) {
-		Node = ParseObjectLayer(Node, vec);
+		Node = ParseObjectLayer(Node, objectsParsed);
 	}
 
-	return vec;
 }
 
-char * XMLParser::GetStoredTmx() {
-	return tmx;
+void XMLParser::LoadTileDimensions() {
+	auto tileSetNode = mapnode->first_node("tileset");
+
+	if (tileSetNode == nullptr) {
+		Logger::LogError("É obrigatório definir um tileset para o mapa " + fileName);
+		throw std::exception();
+	}
+
+	this ->tileHeight = atoi(tileSetNode->first_attribute("tileheight")->value());
+	this ->tileWidth = atoi(tileSetNode->first_attribute("tilewidth")->value());
 }
+
 
 xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*>& objectsToAdd) {
 	auto ObjectNode = objLayer->first_node("object");

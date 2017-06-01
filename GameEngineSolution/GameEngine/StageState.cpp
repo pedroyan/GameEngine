@@ -14,8 +14,10 @@
 
 StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
+	int th, tw;
+	parser.GetTileDimensions(&th, &tw);
 
-	this->tileSet = new TileSet(32, 32, tileSet);
+	this->tileSet = new TileSet(tw, th, tileSet);
 	this->tileMap = TileMap(map, this->tileSet);
 
 	TileCollision::GetParameters(tileMap);
@@ -25,7 +27,7 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	Camera::Follow(player);
 	AddObject(player);
 
-	auto objects = parser.LoadMapObjects();
+	auto objects = parser.GetMapObjects();
 	for (auto& obj : objects) {
 		AddObject(obj);
 	}

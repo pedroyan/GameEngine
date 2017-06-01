@@ -16,29 +16,54 @@ class XMLParser {
 		XMLParser(string fileName);
 		~XMLParser();
 
+		
 
 		/// <summary>
 		/// Obtem os objetos a partir do TMX
 		/// </summary>
 		/// <returns>vetor de objetos</returns>
-		vector<GameObject*> LoadMapObjects();
+		vector<GameObject*>& GetMapObjects();
 
 		/// <summary>
-		/// Retorna o tmx carregado em memoria.
+		/// Busca as dimensões do Tileset
+		/// </summary>
+		/// <param name="tileHeight">Endereço de memoria da variável que armazena a altura do tile</param>
+		/// <param name="tileWidth">Endereco de memoria da variável que armazena a largura do tile</param>
+		void GetTileDimensions(int* const tileHeight, int* const tileWidth);
+
+		/// <summary>
+		/// Retorna o mapnode
 		/// IMPORTANTE: Não é necessário dar free no ponteiro retornado, uma vez
 		/// que ele é liberado quando o parser for deletado
 		/// </summary>
 		/// <returns></returns>
-		char* GetStoredTmx();
+		xml_node<char>*  GetMapNode();
 	private:
+		//Variaveis que mantem o ciclo de vida do parser
 		char* tmx;
+		xml_document<> doc;
+		xml_node<char>* mapnode;
+
+		string fileName;
+		vector<GameObject*> objectsParsed;
+		int tileHeight,tileWidth;
 
 		/// <summary>
 		/// Carrega o arquivo XML para a memória.
 		/// </summary>
 		/// <param name="fileName">Nome do arquivo a ser carregado</param>
 		/// <returns>string contendo o XML carregado</returns>
-		char* loadTMXtoMemory(string fileName);
+		void parseTMX(string fileName);
+
+
+		/// <summary>
+		/// Obtem os objetos a partir do TMX
+		/// </summary>
+		/// <returns>vetor de objetos</returns>
+		void LoadMapObjects();
+
+		
+		void LoadTileDimensions();
 
 		/// <summary>
 		/// Faz o parsing da layer de objetos

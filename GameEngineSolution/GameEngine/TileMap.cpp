@@ -34,11 +34,7 @@ TileMap::TileMap(XMLParser & parser, TileSet * tilesetVariable) {
 
 void TileMap::Load(XMLParser & parser) {
 
-	char* input_TMX = parser.GetStoredTmx();
-	xml_document<> doc;
-	doc.parse<0>(input_TMX);
-
-	auto mapNode = doc.first_node("map", 0U, true);
+	auto mapNode = parser.GetMapNode();
 	GetDimensionProperties(mapNode,&mapWidth,&mapHeight);
 	xml_node<>* TileSetNode = mapNode->first_node("tileset");
 	auto tilesNode = TileSetNode->first_node("tile");
