@@ -13,6 +13,8 @@
 #include "XMLParser.h"
 
 StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
+	XMLParser parser(map);
+
 	this->tileSet = new TileSet(32, 32, tileSet);
 	this->tileMap = TileMap(map, this->tileSet);
 
@@ -23,7 +25,6 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	Camera::Follow(player);
 	AddObject(player);
 
-	XMLParser parser("map/map.tmx");
 	auto objects = parser.LoadMapObjects();
 	for (auto& obj : objects) {
 		AddObject(obj);

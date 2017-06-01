@@ -4,6 +4,7 @@
 #include "Logger.h"
 #include "Game.h"
 #include "Portal.h"
+#include "FileLibrary.h"
 
 using std::ifstream;
 XMLParser::XMLParser(string fileName) {
@@ -16,12 +17,19 @@ XMLParser::~XMLParser() {
 }
 
 char * XMLParser::loadTMXtoMemory(string fileName) {
-	ifstream file(fileName);
+	//ifstream file(fileName);
 
-	if (!file.is_open()) {
-		printf("Nao foi possivel abrir o arquivo %s", fileName.c_str());
-		throw new std::exception();
-		exit(0);
+	//if (!file.is_open()) {
+	//	printf("Nao foi possivel abrir o arquivo %s", fileName.c_str());
+	//	throw new std::exception();
+	//	exit(0);
+	//}
+
+	ifstream file;
+	string outError;
+	if (!FileLibrary::VerifyFile(fileName.c_str(), "tmx", "Engine aceita somente formato TMX como mapa", &file, outError)) {
+		Logger::LogError(outError);
+		return nullptr;
 	}
 
 	string line;
@@ -46,6 +54,10 @@ vector<GameObject*> XMLParser::LoadMapObjects() {
 	}
 
 	return vec;
+}
+
+char * XMLParser::GetStoredTmx() {
+	return tmx;
 }
 
 xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*>& objectsToAdd) {

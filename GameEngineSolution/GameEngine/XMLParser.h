@@ -4,22 +4,18 @@
 #include <unordered_map>
 #include "RapidXML\rapidxml.hpp"
 #include "GameObject.h"
+#include <memory>
 
 using std::string;
 using std::vector;
 using std::unordered_map;
+
 using namespace rapidxml;
 class XMLParser {
 	public:
 		XMLParser(string fileName);
 		~XMLParser();
 
-		/// <summary>
-		/// Carrega o arquivo XML para a memória.
-		/// </summary>
-		/// <param name="fileName">Nome do arquivo a ser carregado</param>
-		/// <returns>string contendo o XML carregado</returns>
-		static char* loadTMXtoMemory(string fileName);
 
 		/// <summary>
 		/// Obtem os objetos a partir do TMX
@@ -27,9 +23,16 @@ class XMLParser {
 		/// <returns>vetor de objetos</returns>
 		vector<GameObject*> LoadMapObjects();
 
-
+		char* GetStoredTmx();
 	private:
 		char* tmx;
+
+		/// <summary>
+		/// Carrega o arquivo XML para a memória.
+		/// </summary>
+		/// <param name="fileName">Nome do arquivo a ser carregado</param>
+		/// <returns>string contendo o XML carregado</returns>
+		char* loadTMXtoMemory(string fileName);
 
 		/// <summary>
 		/// Faz o parsing da layer de objetos

@@ -5,7 +5,6 @@
 #include "Logger.h"
 #include "Portal.h"
 #include "StringLibrary.h"
-#include "XMLParser.h"
 #include "Game.h"
 
 using std::ifstream;
@@ -22,13 +21,20 @@ TileMap::TileMap(){
 TileMap::TileMap(string file, TileSet * tileSetVariable) {
 	mapDepth = 0;
 	tileSet = tileSetVariable;
-	Load(file);
+	XMLParser parser(file);
+	Load(parser);
 	
 }
 
-void TileMap::Load(string fileName) {
+TileMap::TileMap(XMLParser & parser, TileSet * tilesetVariable) {
+	mapDepth = 0;
+	tileSet = tilesetVariable;
+	Load(parser);
+}
 
-	char* input_TMX = XMLParser::loadTMXtoMemory(fileName);
+void TileMap::Load(XMLParser & parser) {
+
+	char* input_TMX = parser.GetStoredTmx();
 	xml_document<> doc;
 	doc.parse<0>(input_TMX);
 
