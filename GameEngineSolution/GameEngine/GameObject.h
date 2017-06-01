@@ -10,6 +10,7 @@ public:
 	virtual bool IsDead() = 0;
 	virtual void NotifyCollision(GameObject& other) = 0;
 	virtual bool Is(string type) = 0;
+	virtual bool IsEnemy();
 
 	GameObject();
 
