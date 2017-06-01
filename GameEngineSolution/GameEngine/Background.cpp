@@ -1,6 +1,6 @@
 #include "Background.h"
 
-Background::Background(char* sprite, float velocity) : bg(sprite) {
+Background::Background(string sprite, float velocity) : bg(sprite) {
 	this->width = bg.GetWidth();
 	this->height = bg.GetHeight();
 	this->velocity = velocity;

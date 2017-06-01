@@ -24,7 +24,7 @@ void EndState::Update(float dt) {
 	popRequested = scapePressed || spacePressed;
 
 	if (spacePressed) {
-		Game::GetInstance().Push(new StageState());
+		Game::GetInstance().Push(new StageState("map/map.tmx","img/tileset.png"));
 	}
 }
 

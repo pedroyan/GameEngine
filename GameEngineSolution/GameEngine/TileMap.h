@@ -6,6 +6,7 @@
 #include "Rect.h"
 #include "TileSet.h"
 #include "RapidXML\rapidxml.hpp"
+#include "XMLParser.h"
 
 using std::string;
 using std::stringstream;
@@ -19,8 +20,9 @@ class TileMap {
 	public:
 		TileMap();
 		TileMap(string file, TileSet* tileSetVariable);
+		TileMap(XMLParser& parser, TileSet* tilesetVariable);
 
-		void Load(string fileName);
+		void Load(XMLParser& parser);
 
 		void SetTileSet(TileSet*  tileSetVariable);
 
