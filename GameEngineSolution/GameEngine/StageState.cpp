@@ -52,7 +52,9 @@ void StageState::Update(float dt) {
 void StageState::Render() {
 	bg1.Render(Camera::pos.X, Camera::pos.Y);
 	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y));
+	//tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y),0,2);
 	RenderArray();
+	//tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y),2);
 }
 
 void StageState::Pause() {

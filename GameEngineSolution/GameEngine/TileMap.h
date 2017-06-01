@@ -26,7 +26,7 @@ class TileMap {
 
 		int* At(int x, int y, int z = 0);
 
-		void Render(int cameraX = 0, int cameraY = 0);
+		void Render(int cameraX = 0, int cameraY = 0, int layerInitial=0, int layerFinal= -1);
 
 		void RenderLayer(int layer, int cameraX = 0, int cameraY = 0);
 

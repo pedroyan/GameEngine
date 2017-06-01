@@ -215,8 +215,11 @@ int * TileMap::At(int x, int y, int z) {
 	return &tileMatrix[index];
 }
 
-void TileMap::Render(int cameraX, int cameraY) {
-	for (int i = 0; i < mapDepth; i++) {
+void TileMap::Render(int cameraX, int cameraY,int layerInitial, int layerFinal) {
+	if (layerFinal < 0) {
+		layerFinal = mapDepth;
+	}
+	for (int i = layerInitial; i < layerFinal; i++) {
 		RenderLayer(i, cameraX, cameraY);
 	}
 }
