@@ -38,11 +38,15 @@ class XMLParser {
 		/// </summary>
 		/// <returns></returns>
 		xml_node<char>*  GetMapNode();
+
+		bool PlayerDefinedOnMap();
 	private:
 		//Variaveis que mantem o ciclo de vida do parser
 		char* tmx;
 		xml_document<> doc;
 		xml_node<char>* mapnode;
+
+		bool hasPlayer;
 
 		string fileName;
 		vector<GameObject*> objectsParsed;
@@ -87,6 +91,6 @@ class XMLParser {
 		/// <param name="dimensions">dimensões do objeto</param>
 		/// <param name="properties">propriedades do objeto</param>
 		/// <returns>Objeto alocado</returns>
-		GameObject* CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties);
+		GameObject* CreateMapObject(string type, Rect dimensions, unordered_map<string, string>& properties);
 };
 

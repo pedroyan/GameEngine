@@ -18,15 +18,17 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	parser.GetTileDimensions(&th, &tw);
 
 	this->tileSet = new TileSet(tw, th, tileSet);
-	this->tileMap = TileMap(map, this->tileSet);
+	this->tileMap = TileMap(parser, this->tileSet);
 
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
 
-	auto player = new Player(704, 0);
-	Camera::Follow(player);
-	AddObject(player);
-
+	if (!parser.PlayerDefinedOnMap()) {
+		auto player = new Player(704, 0);
+		Camera::Follow(player);
+		AddObject(player);
+	}
+	
 	auto objects = parser.GetMapObjects();
 	for (auto& obj : objects) {
 		AddObject(obj);

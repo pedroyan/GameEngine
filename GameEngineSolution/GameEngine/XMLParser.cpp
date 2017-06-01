@@ -5,6 +5,8 @@
 #include "Game.h"
 #include "Portal.h"
 #include "FileLibrary.h"
+#include "Player.h"
+#include "Camera.h"
 
 using std::ifstream;
 XMLParser::XMLParser(string fileName) {
@@ -27,6 +29,10 @@ void XMLParser::GetTileDimensions(int * const tileHeight, int * const tileWidth)
 
 xml_node<char>* XMLParser::GetMapNode() {
 	return mapnode;
+}
+
+bool XMLParser::PlayerDefinedOnMap() {
+	return hasPlayer;
 }
 
 void XMLParser::parseTMX(string fileName) {
@@ -101,9 +107,6 @@ xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*
 		objectType = StringLibrary::ToLower(typeAttribute->value());
 		auto properties = GetObjectProperties(ObjectNode);
 
-		//new o objeto louco passando o dicionario de propriedades como parametro
-		//insere esse new louco no object array do currentState
-		//printf("damn son");
 		auto obj = CreateMapObject(objectType, dimensions, properties);
 		if (obj!=nullptr) {
 			objectsToAdd.push_back(obj);
@@ -133,9 +136,18 @@ unordered_map<string, string> XMLParser::GetObjectProperties(xml_node<>* objectN
 	return toReturn;
 }
 
-GameObject* XMLParser::CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties) {
+GameObject* XMLParser::CreateMapObject(string type, Rect dimensions,unordered_map<string, string>& properties) {
 	if (type == "portal") {
-		return new Portal(properties["Message"], dimensions);
+		if (properties.find("Message") == properties.end()) {
+			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions);
+		} else {
+			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions, properties["Message"]);
+		}
+	} else if (type == "playerspawn") {
+		hasPlayer = true;
+		auto player =  new Player(dimensions.X, dimensions.Y);
+		Camera::Follow(player);
+		return player;
 	} else {
 		Logger::LogError("Objeto " + type + " não suportado");
 		return nullptr;
