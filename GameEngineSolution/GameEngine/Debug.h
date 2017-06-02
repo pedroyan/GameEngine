@@ -13,6 +13,6 @@ class Debug {
 	/// <param name="b">numero de 0 a 255 do blue</param>
 	static void MakeDebugSquare(float x, float y, float w, float h, int r, int g, int b);
 	private:
-	// Não é possivel instanciar essa classe
+	Debug();
 };
 

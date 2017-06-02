@@ -12,4 +12,7 @@ void Debug::MakeDebugSquare(float x, float y, float w, float h, int r, int g, in
 
 	}
 
+Debug::Debug() {
+}
+
 
