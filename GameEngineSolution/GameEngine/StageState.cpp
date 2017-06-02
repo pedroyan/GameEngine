@@ -12,7 +12,7 @@
 #include "TileCollision.h"
 #include "XMLParser.h"
 
-StageState::StageState(string map, string tileSet ,string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
+StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
 	int th, tw;
 	parser.GetTileDimensions(&th, &tw);
@@ -59,7 +59,6 @@ void StageState::Update(float dt) {
 
 void StageState::Render() {
 	bg1.Render(Camera::pos.X, Camera::pos.Y);
-	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y));
 	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y),0,playerLayer);
 	RenderArray();
 	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y),playerLayer);

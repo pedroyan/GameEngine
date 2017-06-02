@@ -10,9 +10,6 @@
 using std::ifstream;
 using std::getline;
 
-using std::atoi;
-
-
 TileMap::~TileMap() {
 }
 
@@ -94,7 +91,6 @@ xml_node<>* TileMap::parseLayer(xml_node<>* layerNode) {
 	int altura;
 	int largura;
 
-	int playerLayer;
 	GetDimensionProperties(layerNode, &largura, &altura);
 
 	if (largura != mapWidth) {
