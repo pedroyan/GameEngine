@@ -4,10 +4,13 @@
 #include "Logger.h"
 #include "Game.h"
 #include "Portal.h"
+#include "FileLibrary.h"
+#include "Player.h"
+#include "Camera.h"
 
 using std::ifstream;
 XMLParser::XMLParser(string fileName) {
-	tmx = loadTMXtoMemory(fileName);
+	parseTMX(fileName);
 }
 
 
@@ -15,13 +18,31 @@ XMLParser::~XMLParser() {
 	free(tmx);
 }
 
-char * XMLParser::loadTMXtoMemory(string fileName) {
-	ifstream file(fileName);
+vector<GameObject*>& XMLParser::GetMapObjects() {
+	return objectsParsed;
+}
 
-	if (!file.is_open()) {
-		printf("Nao foi possivel abrir o arquivo %s", fileName.c_str());
-		throw new std::exception();
-		exit(0);
+void XMLParser::GetTileDimensions(int * const tileHeight, int * const tileWidth) {
+	*tileHeight = this->tileHeight;
+	*tileWidth = this->tileWidth;
+}
+
+xml_node<char>* XMLParser::GetMapNode() {
+	return mapnode;
+}
+
+bool XMLParser::PlayerDefinedOnMap() {
+	return hasPlayer;
+}
+
+void XMLParser::parseTMX(string fileName) {
+	ifstream file;
+	string outError;
+	this->fileName = fileName;
+
+	if (!FileLibrary::VerifyFile(fileName.c_str(), "tmx", "Engine aceita somente formato TMX como mapa", &file, outError)) {
+		Logger::LogError(outError);
+		throw std::exception();
 	}
 
 	string line;
@@ -29,24 +50,34 @@ char * XMLParser::loadTMXtoMemory(string fileName) {
 	while (getline(file, line))
 		input_TMX += line + "\n";
 
-	char* chr = _strdup(input_TMX.c_str());
-	return chr;
+	tmx = _strdup(input_TMX.c_str());
+	doc.parse<0>(tmx);
+	mapnode = doc.first_node("map", 0U, true);
+	LoadMapObjects();
+	LoadTileDimensions();
 }
 
-vector<GameObject*> XMLParser::LoadMapObjects() {
-	xml_document<> doc;
-	vector<GameObject*> vec;
+void XMLParser::LoadMapObjects() {
 
-	doc.parse<0>(tmx);
-	auto mapNode = doc.first_node("map", 0U, true);
-
-	xml_node<>* Node = mapNode->first_node("objectgroup");
+	xml_node<>* Node = mapnode->first_node("objectgroup");
 	while (Node != nullptr) {
-		Node = ParseObjectLayer(Node, vec);
+		Node = ParseObjectLayer(Node, objectsParsed);
 	}
 
-	return vec;
 }
+
+void XMLParser::LoadTileDimensions() {
+	auto tileSetNode = mapnode->first_node("tileset");
+
+	if (tileSetNode == nullptr) {
+		Logger::LogError("É obrigatório definir um tileset para o mapa " + fileName);
+		throw std::exception();
+	}
+
+	this ->tileHeight = atoi(tileSetNode->first_attribute("tileheight")->value());
+	this ->tileWidth = atoi(tileSetNode->first_attribute("tilewidth")->value());
+}
+
 
 xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*>& objectsToAdd) {
 	auto ObjectNode = objLayer->first_node("object");
@@ -56,13 +87,15 @@ xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*
 
 	while (ObjectNode != nullptr) {
 		Rect dimensions;
-		float x, y, w, h;
 		string objectType, id;
 
 		dimensions.X = atof(ObjectNode->first_attribute("x")->value());
 		dimensions.Y = atof(ObjectNode->first_attribute("y")->value());
-		dimensions.W = atof(ObjectNode->first_attribute("width")->value());
-		dimensions.H = atof(ObjectNode->first_attribute("height")->value());
+
+		auto widthAtt = ObjectNode->first_attribute("width");
+		dimensions.W = widthAtt != nullptr ? atof(widthAtt->value()) : 0;
+		auto heightAtt = ObjectNode->first_attribute("height");
+		dimensions.H = heightAtt != nullptr ? atof(heightAtt->value()) : 0;
 
 		id = ObjectNode->first_attribute("id")->value();
 		auto typeAttribute = ObjectNode->first_attribute("type");
@@ -74,9 +107,6 @@ xml_node<>* XMLParser::ParseObjectLayer(xml_node<>* objLayer, vector<GameObject*
 		objectType = StringLibrary::ToLower(typeAttribute->value());
 		auto properties = GetObjectProperties(ObjectNode);
 
-		//new o objeto louco passando o dicionario de propriedades como parametro
-		//insere esse new louco no object array do currentState
-		//printf("damn son");
 		auto obj = CreateMapObject(objectType, dimensions, properties);
 		if (obj!=nullptr) {
 			objectsToAdd.push_back(obj);
@@ -97,16 +127,27 @@ unordered_map<string, string> XMLParser::GetObjectProperties(xml_node<>* objectN
 
 	auto prop = propertiesNode->first_node();
 	while (prop != nullptr) {
-		toReturn.emplace(std::make_pair(prop->first_attribute("name")->value(), prop->first_attribute("value")->value()));
+		auto valueAtrib = prop->first_attribute("value");
+		string value = valueAtrib == nullptr ? prop->value() : valueAtrib->value();
+		toReturn.emplace(std::make_pair(prop->first_attribute("name")->value(), value));
 		prop = prop->next_sibling();
 	}
 
 	return toReturn;
 }
 
-GameObject* XMLParser::CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties) {
+GameObject* XMLParser::CreateMapObject(string type, Rect dimensions,unordered_map<string, string>& properties) {
 	if (type == "portal") {
-		return new Portal(properties["Message"], dimensions);
+		if (properties.find("Message") == properties.end()) {
+			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions);
+		} else {
+			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions, properties["Message"]);
+		}
+	} else if (type == "playerspawn") {
+		hasPlayer = true;
+		auto player =  new Player(dimensions.X, dimensions.Y);
+		Camera::Follow(player);
+		return player;
 	} else {
 		Logger::LogError("Objeto " + type + " não suportado");
 		return nullptr;

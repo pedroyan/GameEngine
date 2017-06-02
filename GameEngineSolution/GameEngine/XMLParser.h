@@ -4,32 +4,70 @@
 #include <unordered_map>
 #include "RapidXML\rapidxml.hpp"
 #include "GameObject.h"
+#include <memory>
 
 using std::string;
 using std::vector;
 using std::unordered_map;
+
 using namespace rapidxml;
 class XMLParser {
 	public:
 		XMLParser(string fileName);
 		~XMLParser();
 
-		/// <summary>
-		/// Carrega o arquivo XML para a memória.
-		/// </summary>
-		/// <param name="fileName">Nome do arquivo a ser carregado</param>
-		/// <returns>string contendo o XML carregado</returns>
-		static char* loadTMXtoMemory(string fileName);
+		
 
 		/// <summary>
 		/// Obtem os objetos a partir do TMX
 		/// </summary>
 		/// <returns>vetor de objetos</returns>
-		vector<GameObject*> LoadMapObjects();
+		vector<GameObject*>& GetMapObjects();
 
+		/// <summary>
+		/// Busca as dimensões do Tileset
+		/// </summary>
+		/// <param name="tileHeight">Endereço de memoria da variável que armazena a altura do tile</param>
+		/// <param name="tileWidth">Endereco de memoria da variável que armazena a largura do tile</param>
+		void GetTileDimensions(int* const tileHeight, int* const tileWidth);
 
+		/// <summary>
+		/// Retorna o mapnode
+		/// IMPORTANTE: Não é necessário dar free no ponteiro retornado, uma vez
+		/// que ele é liberado quando o parser for deletado
+		/// </summary>
+		/// <returns></returns>
+		xml_node<char>*  GetMapNode();
+
+		bool PlayerDefinedOnMap();
 	private:
+		//Variaveis que mantem o ciclo de vida do parser
 		char* tmx;
+		xml_document<> doc;
+		xml_node<char>* mapnode;
+
+		bool hasPlayer;
+
+		string fileName;
+		vector<GameObject*> objectsParsed;
+		int tileHeight,tileWidth;
+
+		/// <summary>
+		/// Carrega o arquivo XML para a memória.
+		/// </summary>
+		/// <param name="fileName">Nome do arquivo a ser carregado</param>
+		/// <returns>string contendo o XML carregado</returns>
+		void parseTMX(string fileName);
+
+
+		/// <summary>
+		/// Obtem os objetos a partir do TMX
+		/// </summary>
+		/// <returns>vetor de objetos</returns>
+		void LoadMapObjects();
+
+		
+		void LoadTileDimensions();
 
 		/// <summary>
 		/// Faz o parsing da layer de objetos
@@ -53,6 +91,6 @@ class XMLParser {
 		/// <param name="dimensions">dimensões do objeto</param>
 		/// <param name="properties">propriedades do objeto</param>
 		/// <returns>Objeto alocado</returns>
-		GameObject* CreateMapObject(string type, Rect dimensions, unordered_map<string, string> properties);
+		GameObject* CreateMapObject(string type, Rect dimensions, unordered_map<string, string>& properties);
 };
 
