@@ -185,6 +185,11 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
+  <object id="2" type="Portal" x="129.333" y="1536" width="33.3333" height="33.3333">
+-   <properties>
+-    <property name="Message">Parabéns, você nao conseguiu absolutamente nada</property>
+-   </properties>
+-  </object>
   <object id="7" type="PlayerSpawn" x="64" y="1877.33"/>
  </objectgroup>
  <layer name="Tile Layer 2" width="64" height="64">
