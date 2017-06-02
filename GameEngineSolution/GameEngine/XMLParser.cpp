@@ -139,9 +139,9 @@ unordered_map<string, string> XMLParser::GetObjectProperties(xml_node<>* objectN
 GameObject* XMLParser::CreateMapObject(string type, Rect dimensions,unordered_map<string, string>& properties) {
 	if (type == "portal") {
 		if (properties.find("Message") == properties.end()) {
-			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions,2);
+			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions, properties["NextPlayerLayer"]);
 		} else {
-			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions,2, properties["Message"]);
+			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions, properties["NextPlayerLayer"], properties["Message"]);
 		}
 	} else if (type == "playerspawn") {
 		hasPlayer = true;

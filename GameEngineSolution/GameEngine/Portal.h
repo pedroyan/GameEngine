@@ -3,7 +3,7 @@
 #include "Text.h"
 class Portal : public GameObject {
 	public:
-		Portal(string nextMap, string nextTileSet, Rect dimensions,int nextPlayerLayer, string text = "Pressione F para a Proxima Fase");
+		Portal(string nextMap, string nextTileSet, Rect dimensions,string nextPlayerLayer, string text = "Pressione F para a Proxima Fase");
 		void Update(float dt);
 		void Render();
 		bool IsDead();

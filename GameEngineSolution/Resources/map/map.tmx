@@ -152,6 +152,7 @@
    <properties>
     <property name="Message" value="Press F for next stage"/>
     <property name="NextMap" value="map/lvl2.tmx"/>
+    <property name="NextPlayerLayer" type="int" value="1"/>
     <property name="NextTileset" value="img/tileset.png"/>
    </properties>
   </object>
