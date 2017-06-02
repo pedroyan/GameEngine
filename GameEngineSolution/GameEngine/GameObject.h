@@ -15,6 +15,7 @@ public:
 
 	Rect box;
 	float rotation;
+	int damage;
 
 	virtual ~GameObject();
 
