@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="8">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="10">
  <properties>
   <property name="playerLayer" type="int" value="0"/>
  </properties>
@@ -185,13 +185,12 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="2" type="Portal" x="129.333" y="1536" width="33.3333" height="33.3333">
--   <properties>
--    <property name="Message">Parabéns, você nao conseguiu 
--absolutamente nada</property>
--   </properties>
--  </object>
   <object id="7" type="PlayerSpawn" x="64" y="1877.33"/>
+  <object id="8" type="Portal" x="131" y="1536" width="28" height="29">
+   <properties>
+    <property name="Message" value="Aperte F para travar o jogo"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Tile Layer 2" width="64" height="64">
   <data encoding="csv">
