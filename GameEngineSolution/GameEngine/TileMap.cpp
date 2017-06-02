@@ -216,7 +216,7 @@ int * TileMap::At(int x, int y, int z) {
 }
 
 void TileMap::Render(int cameraX, int cameraY,int layerInitial, int layerFinal) {
-	if (layerFinal < 0) {
+	if (layerFinal < 0 || layerFinal >mapDepth) {
 		layerFinal = mapDepth;
 	}
 	for (int i = layerInitial; i < layerFinal; i++) {
