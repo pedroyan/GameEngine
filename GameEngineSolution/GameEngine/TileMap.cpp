@@ -10,6 +10,7 @@
 using std::ifstream;
 using std::getline;
 
+using std::atoi;
 
 
 TileMap::~TileMap() {
@@ -36,6 +37,16 @@ void TileMap::Load(XMLParser & parser) {
 
 	auto mapNode = parser.GetMapNode();
 	GetDimensionProperties(mapNode,&mapWidth,&mapHeight);
+	
+	auto propertiesNode = mapNode->first_node("properties")->first_node("property");
+	if (propertiesNode != nullptr) {
+		string propertyeType = propertiesNode->first_attribute("name")->value();
+		if (propertyeType == "playerLayer") {
+			string playerLayerString = propertiesNode->first_attribute("value")->value();
+			sscanf(playerLayerString.c_str(), "%d", &this->playerLayer);
+		}
+
+	}
 	xml_node<>* TileSetNode = mapNode->first_node("tileset");
 	auto tilesNode = TileSetNode->first_node("tile");
 	
@@ -83,6 +94,7 @@ xml_node<>* TileMap::parseLayer(xml_node<>* layerNode) {
 	int altura;
 	int largura;
 
+	int playerLayer;
 	GetDimensionProperties(layerNode, &largura, &altura);
 
 	if (largura != mapWidth) {
@@ -249,6 +261,10 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 
 int TileMap::GetWidth() {
 	return mapWidth;
+}
+
+int TileMap::GetPlayerLayer() {
+	return this->playerLayer;
 }
 
 int TileMap::GetHeight() {

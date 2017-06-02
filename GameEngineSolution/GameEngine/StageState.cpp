@@ -12,14 +12,14 @@
 #include "TileCollision.h"
 #include "XMLParser.h"
 
-StageState::StageState(string map, string tileSet,int playerLayer ,string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
+StageState::StageState(string map, string tileSet ,string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
 	int th, tw;
 	parser.GetTileDimensions(&th, &tw);
 
 	this->tileSet = new TileSet(tw, th, tileSet);
 	this->tileMap = TileMap(parser, this->tileSet);
-	this->playerLayer = playerLayer;
+	this->playerLayer = tileMap.GetPlayerLayer();
 
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;

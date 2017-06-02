@@ -12,7 +12,7 @@
 
 class StageState : public State{
 	public:
-		StageState(string map, string tileSet,int playerLayer=0,string paralax = "img/ParalaxBlackCraftV1.png", string music = "audio/CenarioDeGuerra.wav");
+		StageState(string map, string tileSet,string paralax = "img/ParalaxBlackCraftV1.png", string music = "audio/CenarioDeGuerra.wav");
 		~StageState();
 		void LoadAssets();
 		void Update(float dt);
