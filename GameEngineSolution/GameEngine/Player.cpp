@@ -16,6 +16,7 @@ const float Gravity = 2 * 9.8;
 
 //cooldown de tiro em segundos
 const float coolDown = 0.5;
+const float chargingTimeLimit = 1.0;
 
 Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
@@ -45,6 +46,9 @@ void Player::Update(float dt) {
 		}
 	}
 
+	if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
+		chargeCounter.Update(dt);
+	}
 	//Rotaciona caso D ou A sejam apertados
 	if (input.IsKeyDown(SDLK_d)) {
 		speed.X = SpeedLimit;
@@ -75,7 +79,7 @@ void Player::Update(float dt) {
 	Move(dt);
 	UpdateCannonAngle(input);
 
-	if (input.MousePress(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
+	if ((input.MousePress(LEFT_MOUSE_BUTTON) || input.MouseRelease(LEFT_MOUSE_BUTTON) )  && cooldownCounter.Get() == 0  ) {
 		Shoot();
 	}
 }
@@ -92,8 +96,10 @@ void Player::Render() {
 	if (currentLayer == 1) {
 		UpdateSP(bodySP);
 	}
-
 	actualSP.Render(box.GetWorldPosition(), 0,movedLeft);
+	#ifdef _DEBUG
+		CreateDebugBox(box.GetWorldPosition());
+	#endif
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
@@ -109,7 +115,7 @@ bool Player::IsDead() {
 
 void Player::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
-		takeDamage(10);
+		takeDamage(other.damage);
 	}
 }
 
@@ -128,10 +134,18 @@ void Player::Shoot() {
 	//Subtrai um Vetor(-15,15) do centro do sprite para se tornar o centro do canhão
 	Vec2 spawnPoint = box.GetCenter() + Vec2(-15,-15) + cannonOffset;
 
-	auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/penguinbullet.png",4, false);
-	Game::GetInstance().GetCurrentState().AddObject(bullet);
-
-	cooldownCounter.Update(-coolDown);
+	
+	if (chargeCounter.Get() > chargingTimeLimit) {
+		auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/tiroCarregadoPlayer.png",1, false,100);
+		chargeCounter.Restart();
+		Game::GetInstance().GetCurrentState().AddObject(bullet);
+	}
+	else {
+		auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/tiroPlayer.png", 4, false, 10);
+		chargeCounter.Restart();
+		Game::GetInstance().GetCurrentState().AddObject(bullet);
+		cooldownCounter.Update(-coolDown);
+	}
 }
 
 
@@ -160,16 +174,9 @@ void Player::Move(float dt){
 	Rect previousRect = box;
 	Rect stairsAnalisys= previousRect;
 	     stairsAnalisys.Y += speedStairs.Y*dt;
-		 stairsAnalisys.W = 1;
-		 stairsAnalisys.X += actualSP.GetWidth() / 2;
+		 stairsAnalisys.W =0;
+		 stairsAnalisys.X += box.W/2;
 	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
-		//EIXO X
-		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
-		auto collisionAnalysisX = TileCollision::isCollinding(this->box, currentLayer);
-		if (collisionAnalysisX == TileCollision::Solid && currentLayer == 0) {
-			box.X = previousRect.X;
-		}
-
 		//EIXO Y
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
 		if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().IsKeyDown(SDLK_w) || InputManager::GetInstance().IsKeyDown(SDLK_s))) {
@@ -189,6 +196,13 @@ void Player::Move(float dt){
 			box.Y = previousRect.Y;
 			
 		}
+		//EIXO X
+		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
+		auto collisionAnalysisX = TileCollision::isCollinding(this->box, currentLayer);
+		if (collisionAnalysisX == TileCollision::Solid && currentLayer == 0) {
+			box.X = previousRect.X;
+		}
+
 	}
 
 	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1

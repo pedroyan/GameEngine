@@ -46,6 +46,7 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 }
 
 void Sprite::Render(int x, int y, float angle,bool flip) {
+	
 	float degreeAngle = angle * 180 / M_PI;
 
 	SDL_Renderer* renderer = Game::GetInstance().GetRenderer();

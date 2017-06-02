@@ -1,4 +1,6 @@
 #include "TileSet.h"
+#include "Game.h"
+#include "Debug.h"
 
 
 TileSet::TileSet(int width, int height, string file) : tileSet(file) {
@@ -14,6 +16,7 @@ TileSet::~TileSet() {
 }
 
 void TileSet::Render(unsigned int index, float x, float y) {
+	
 	unsigned int numberOfTiles = columns*rows;
 
 	if (index >= numberOfTiles) {
@@ -28,6 +31,11 @@ void TileSet::Render(unsigned int index, float x, float y) {
 
 	tileSet.SetClip(positionX, positionY, tileWidth, tileHeight);
 	tileSet.Render(x, y);
+	#ifdef _DEBUG
+		Debug::MakeDebugSquare(x, y, tileWidth, tileHeight, 0, 255, 0);
+	#endif
+
+	
 }
 
 int TileSet::GetTileWidth() {

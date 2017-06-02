@@ -36,6 +36,7 @@ class Player : public GameObject {
 	float cannonAngle;
 	int hp;
 	Timer cooldownCounter;
+	Timer chargeCounter;
 	int jumpCount;
 	int currentLayer = 0; 
 	bool movedLeft=false;
