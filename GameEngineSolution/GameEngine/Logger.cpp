@@ -13,7 +13,6 @@ void Logger::LogError(string error) {
 	printf("%s", error.c_str());
 	myfile << error + "\n";
 }
-
 Logger::Logger() {
 }
 
