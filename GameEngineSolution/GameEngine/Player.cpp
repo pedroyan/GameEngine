@@ -136,13 +136,13 @@ void Player::Shoot() {
 	if (chargeCounter.Get() > chargingTimeLimit) {
 		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 1);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
-		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, 2, 1000, bulletSprite, false,100);
+		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 	} else {
 		bulletSprite = Sprite("img/tiroPlayer.png", 4);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
-		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, 2, 1000, bulletSprite, false, 10);
+		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 		cooldownCounter.Update(-coolDown);
