@@ -22,6 +22,7 @@ ItemPowerUp::ItemPowerUp(int x,int y,ItemType tipo) {
 }
 
 void ItemPowerUp::Render() {
+	sp.Render(box.GetWorldPosition());
 }
 
 void ItemPowerUp::Update(float dt) {

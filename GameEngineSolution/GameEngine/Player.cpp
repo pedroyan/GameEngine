@@ -159,7 +159,10 @@ void Player::Shoot() {
 	}
 	else {
 		auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/tiroPlayer.png", 4, false, 10);
+		/*******************/
 		auto item = new ItemPowerUp(InputManager::GetInstance().GetWorldMouseX(), InputManager::GetInstance().GetWorldMouseY(), ItemPowerUp::Red); // tirar depois
+		Game::GetInstance().GetCurrentState().AddObject(item);//apagar
+		/***********************/
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 		cooldownCounter.Update(-coolDown);
