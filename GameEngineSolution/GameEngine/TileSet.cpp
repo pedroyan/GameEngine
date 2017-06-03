@@ -32,7 +32,7 @@ void TileSet::Render(unsigned int index, float x, float y) {
 	tileSet.SetClip(positionX, positionY, tileWidth, tileHeight);
 	tileSet.Render(x, y);
 	#ifdef _DEBUG
-		Debug::MakeDebugSquare(x, y, tileWidth, tileHeight, 0, 255, 0);
+		Debug::MakeDebugSquare(x, y, tileWidth, tileHeight, 0, 0, 255);
 	#endif
 
 	

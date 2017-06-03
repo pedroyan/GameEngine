@@ -6,6 +6,7 @@
 #include <math.h>
 #include "StageState.h"
 #include "TileCollision.h"
+#include "Debug.h"
 
 Player* Player::playerInstance = nullptr;
 //Limite para velocidade adiante
@@ -118,6 +119,10 @@ void Player::NotifyCollision(GameObject & other) {
 
 bool Player::Is(string type) {
 	return type == "Player";
+}
+
+void Player::CreateDebugBox() {
+	Debug::MakeCenteredDebugSquare(box, { 0, 244, 0 });
 }
 
 void Player::UpdateSP(Sprite newSprite) {
