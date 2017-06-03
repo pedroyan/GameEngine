@@ -1,4 +1,5 @@
 #include "ItemPowerUp.h"
+#include "Debug.h"
 
 ItemPowerUp::ItemPowerUp(int x,int y,ItemType tipo) {
 	switch (tipo) {
@@ -68,4 +69,9 @@ bool ItemPowerUp::Is(string type) {
 }
 
 ItemPowerUp::~ItemPowerUp() {
+}
+void ItemPowerUp::CreateDebugBox(Vec2 position) {
+	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H, 255, 239, 22);
+	Debug::MakeDebugSquare(position.X, position.Y, box.W/2, box.H, 255, 239, 22);
+	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H/2, 255, 239, 22);
 }

@@ -5,9 +5,9 @@
 
 
 void GameObject::CreateDebugBox(Vec2 position) {
-	Debug::MakeDebugSquare(position.X, position.Y,box.W, box.H, 255, 0, 0);
-	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H/2, 255, 0, 0);
-	Debug::MakeDebugSquare(position.X, position.Y, box.W/2, box.H, 255, 0, 0);
+	Debug::MakeDebugSquare(position.X, position.Y,box.W, box.H, 0, 0, 255);
+	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H/2, 0, 0, 255);
+	Debug::MakeDebugSquare(position.X, position.Y, box.W/2, box.H, 0, 0, 255);
 }
 
 GameObject::GameObject() {

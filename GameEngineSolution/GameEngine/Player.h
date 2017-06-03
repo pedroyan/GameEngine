@@ -17,6 +17,7 @@ class Player : public GameObject {
 	void NotifyCollision(GameObject& other);
 	bool Is(string type);
 	void UpdateSP(Sprite newSprite);
+	void CreateDebugBox(Vec2 position);
 
 	void Shoot();
 

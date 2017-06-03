@@ -7,6 +7,7 @@
 #include "StageState.h"
 #include "TileCollision.h"
 #include "ItemPowerUp.h"
+#include "Debug.h"
 
 Player* Player::playerInstance = nullptr;
 //Limite para velocidade adiante
@@ -98,9 +99,6 @@ void Player::Render() {
 		UpdateSP(bodySP);
 	}
 	actualSP.Render(box.GetWorldPosition(), 0,movedLeft);
-	#ifdef _DEBUG
-		CreateDebugBox(box.GetWorldPosition());
-	#endif
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
@@ -142,6 +140,13 @@ bool Player::Is(string type) {
 
 void Player::UpdateSP(Sprite newSprite) {
 	actualSP = newSprite;
+}
+
+void Player::CreateDebugBox(Vec2 position) {
+	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H, 225, 0, 0);
+	Debug::MakeDebugSquare(position.X, position.Y, box.W / 2, box.H, 225, 0, 0);
+	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H / 2, 225, 0, 0);
+
 }
 
 void Player::Shoot() {
