@@ -1,16 +1,12 @@
 #include "Bullet.h"
 #include "TileCollision.h"
 Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite, int frameCount, bool targetsPlayerv,int damage):sp(sprite, frameCount,0.1),speed(speedArg,0) {
-	box.X = x;
-	box.Y = y;
-	box.W = sp.GetWidth();
-	box.H = sp.GetHeight();
+	Init(x, y, angle, maxDistance, targetsPlayerv, damage);
+}
 
-	distanceLeft = maxDistance;
-	speed.Rotate(angle);
-	rotation = angle;
-	this->damage = damage;
-	targetsPlayer = targetsPlayerv;
+Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, Sprite & sprite, int frameCount, bool targetsPlayerv, int damage):speed(speedArg,0) {
+	sp = sprite;
+	Init(x, y, angle, maxDistance, targetsPlayerv, damage);
 }
 
 Bullet::~Bullet() {
@@ -47,4 +43,17 @@ void Bullet::NotifyCollision(GameObject & other) {
 
 bool Bullet::Is(string type) {
 	return type == "Bullet";
+}
+
+void Bullet::Init(float x, float y, float angle, float maxDistance, bool targetsPlayerv, int damage) {
+	box.X = x;
+	box.Y = y;
+	box.W = sp.GetWidth();
+	box.H = sp.GetHeight();
+
+	distanceLeft = maxDistance;
+	speed.Rotate(angle);
+	rotation = angle;
+	this->damage = damage;
+	targetsPlayer = targetsPlayerv;
 }
