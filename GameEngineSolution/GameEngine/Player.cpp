@@ -79,7 +79,7 @@ void Player::Update(float dt) {
 	Move(dt);
 	UpdateCannonAngle(input);
 
-	if ((input.MousePress(LEFT_MOUSE_BUTTON) || input.MouseRelease(LEFT_MOUSE_BUTTON) )  && cooldownCounter.Get() == 0  ) {
+	if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
 		Shoot();
 	}
 }
