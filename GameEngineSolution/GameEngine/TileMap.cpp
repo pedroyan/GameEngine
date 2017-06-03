@@ -6,6 +6,8 @@
 #include "Portal.h"
 #include "StringLibrary.h"
 #include "Game.h"
+#include "TileCollision.h"
+#include "Debug.h"
 
 using std::ifstream;
 using std::getline;
@@ -23,6 +25,7 @@ TileMap::TileMap(string file, TileSet * tileSetVariable) {
 	tileSet = tileSetVariable;
 	XMLParser parser(file);
 	Load(parser);
+	ObtainSpawnTile(spaceSpawn, 0);
 	
 }
 
@@ -30,6 +33,7 @@ TileMap::TileMap(XMLParser & parser, TileSet * tilesetVariable) {
 	mapDepth = 0;
 	tileSet = tilesetVariable;
 	Load(parser);
+	ObtainSpawnTile(spaceSpawn, 0);
 }
 
 void TileMap::Load(XMLParser & parser) {
@@ -221,6 +225,33 @@ void TileMap::Render(int cameraX, int cameraY) {
 	}
 }
 
+void TileMap::ObtainSpawnTile(int deltaY, int layer) {
+	int layerSize = mapHeight*mapWidth;
+	int startIndex = layer*layerSize;
+	
+	for (int j = deltaY; j < mapHeight; j++) {
+		for (int i = 0; i < mapWidth; i++) {
+			int index = i*mapWidth + j + startIndex;
+			int* tile = At(i, j, layer);
+			Vec2 coodernadaTile;
+			coodernadaTile.X = i;
+			coodernadaTile.Y = j-1;
+			if (GetTileSet()->GetTileProperty(*tile) == TileCollision::Solid) {
+				bool canSpawnEnemy = true;
+				for (int z = 1; z <= deltaY; z++) {
+					int* tile = At(i, j -z, layer);
+					canSpawnEnemy = canSpawnEnemy && (GetTileSet()->GetTileProperty(*tile) == TileCollision::noCollision);
+				}
+				if (canSpawnEnemy) {
+					spawnTiles.push_back(coodernadaTile);
+				}
+			}
+		}
+	}
+
+	
+}
+
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 
 	if (layer < 0 || layer >= mapDepth) {
@@ -241,7 +272,14 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 			tileSet->Render(tileMatrix[index],column , row);
 		}
 	}
-
+	/**********************/
+#ifdef _DEBUG
+	int spawnTilesSize = this->spawnTiles.size();
+		for(int t = 0; t < spawnTilesSize; t++) {
+			Debug::MakeDebugSquare(spawnTiles[t].X *tileSet->GetTileHeight() - cameraX, spawnTiles[t].Y * tileSet->GetTileHeight() - cameraY, tileSet->GetTileHeight(), tileSet->GetTileHeight(), 120, 0, 120);
+	}
+#endif
+	/************************/
 }
 
 int TileMap::GetWidth() {

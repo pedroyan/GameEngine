@@ -29,6 +29,12 @@ class TileMap {
 		int* At(int x, int y, int z = 0);
 
 		void Render(int cameraX = 0, int cameraY = 0);
+		/// <summary>
+		/// Obtem os tiles que podem spawnar criaturas
+		/// </summary>
+		/// <param name="deltaY">Distancia minima do tileSolid em relacao a outro tileSolid</param>
+		/// <param name="layer">Layer na qual sera feita essa analise</param>
+		void ObtainSpawnTile(int deltaY, int layer);
 
 		void RenderLayer(int layer, int cameraX = 0, int cameraY = 0);
 
@@ -39,9 +45,11 @@ class TileMap {
 
 		~TileMap();
 	private:
+		std::vector<Vec2> spawnTiles;
 		std::vector<int> tileMatrix;
 		TileSet* tileSet;
 
+		int spaceSpawn = 3;
 		int mapWidth;
 		int mapHeight;
 		int mapDepth;
