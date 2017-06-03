@@ -294,6 +294,10 @@ int TileMap::GetDepth() {
 	return mapDepth;
 }
 
+std::vector<Vec2> TileMap::GetSpawnTiles() {
+	return spawnTiles;
+}
+
 TileSet * TileMap::GetTileSet(){
 	return tileSet;
 }

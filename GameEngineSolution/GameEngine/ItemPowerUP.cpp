@@ -19,6 +19,31 @@ ItemPowerUp::ItemPowerUp(int x,int y,ItemType tipo) {
 	box.Y = y;
 	box.W = sp.GetWidth();
 	box.H = sp.GetHeight();
+	this->type = tipo;
+}
+ItemPowerUp::ItemPowerUp(int x, int y) {
+	int randomItem = rand() % 3;
+	switch (randomItem) {
+	case Red:
+		sp = Sprite("img/itemRed.png");
+		this->type =Red;
+		break;
+	case Blue:
+		sp = Sprite("img/itemBlue.png");
+		this->type = Blue;
+		break;
+	case Green:
+		sp = Sprite("img/itemGreen.png");
+		this->type = Green;
+		break;
+	default:
+		sp = Sprite("img/itemBlue.png");
+		break;
+	}
+	box.X = x;
+	box.Y = y;
+	box.W = sp.GetWidth();
+	box.H = sp.GetHeight();
 }
 
 void ItemPowerUp::Render() {

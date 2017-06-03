@@ -9,6 +9,7 @@ class ItemPowerUp : public GameObject {
 		Blue
 	}type;
 	ItemPowerUp(int x, int y, ItemType tipo);
+	ItemPowerUp(int x, int y);
 	void Render();
 	void Update(float dt);
 	bool IsDead();
