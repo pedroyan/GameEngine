@@ -6,6 +6,7 @@
 #include <math.h>
 #include "StageState.h"
 #include "TileCollision.h"
+#include "ItemPowerUp.h"
 
 Player* Player::playerInstance = nullptr;
 //Limite para velocidade adiante
@@ -117,6 +118,22 @@ void Player::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
 		takeDamage(other.damage);
 	}
+	if (other.Is("ItemPowerUp")) {
+		switch (static_cast<const ItemPowerUp&>(other).type) {
+		case ItemPowerUp::Red:
+			printf("REDD \n");
+			break;
+		case ItemPowerUp::Blue:
+			printf("Blue \n");
+			break;
+		case ItemPowerUp::Green:
+			printf("Green \n");
+			break;
+		default:
+			break;
+		}
+		
+	}
 }
 
 bool Player::Is(string type) {
@@ -142,6 +159,7 @@ void Player::Shoot() {
 	}
 	else {
 		auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/tiroPlayer.png", 4, false, 10);
+		auto item = new ItemPowerUp(InputManager::GetInstance().GetWorldMouseX(), InputManager::GetInstance().GetWorldMouseY(), ItemPowerUp::Red); // tirar depois
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 		cooldownCounter.Update(-coolDown);
