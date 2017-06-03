@@ -20,6 +20,10 @@ void State::UpdateArray(float dt) {
 void State::RenderArray() {
 	for (unsigned int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Render();
+#ifdef _DEBUG
+		objectArray[i]->CreateDebugBox();
+#endif // _DEBUG
+
 	}
 }
 

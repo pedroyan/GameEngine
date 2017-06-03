@@ -4,10 +4,12 @@
 
 
 
-void GameObject::CreateDebugBox(Vec2 position) {
-	Debug::MakeDebugSquare(position.X, position.Y,box.W, box.H, 255, 0, 0);
-	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H/2, 255, 0, 0);
-	Debug::MakeDebugSquare(position.X, position.Y, box.W/2, box.H, 255, 0, 0);
+void GameObject::CreateDebugBox() {
+	Debug::MakeCenteredDebugSquare(box, { 250, 244, 29 });
+}
+
+bool GameObject::IsEnemy() {
+	return false;
 }
 
 GameObject::GameObject() {
