@@ -28,11 +28,12 @@ class TileMap {
 
 		int* At(int x, int y, int z = 0);
 
-		void Render(int cameraX = 0, int cameraY = 0);
+		void Render(int cameraX = 0, int cameraY = 0, int layerInitial=0, int layerFinal= -1);
 
 		void RenderLayer(int layer, int cameraX = 0, int cameraY = 0);
 
 		int GetWidth();
+		int GetPlayerLayer();
 		int GetHeight();
 		int GetDepth();
 		TileSet* GetTileSet();
@@ -45,6 +46,7 @@ class TileMap {
 		int mapWidth;
 		int mapHeight;
 		int mapDepth;
+		int playerLayer;
 
 		/// <summary>
 		/// Pega as dimensões especificadas no nó

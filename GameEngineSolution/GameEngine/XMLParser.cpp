@@ -141,7 +141,7 @@ GameObject* XMLParser::CreateMapObject(string type, Rect dimensions,unordered_ma
 		if (properties.find("Message") == properties.end()) {
 			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions);
 		} else {
-			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions, properties["Message"]);
+			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions);
 		}
 	} else if (type == "playerspawn") {
 		hasPlayer = true;

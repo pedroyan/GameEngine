@@ -9,6 +9,7 @@ Portal::Portal(string nextMap, string nextTileSet, Rect dimensions, string text)
 	portalText.SetPos(dimensions.GetCenter().X, dimensions.Y - 20, true, false);
 	this->nextMap = nextMap;
 	this->nextTileSet = nextTileSet;
+	
 }
 
 void Portal::Update(float dt) {

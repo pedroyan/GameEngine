@@ -10,8 +10,6 @@
 using std::ifstream;
 using std::getline;
 
-
-
 TileMap::~TileMap() {
 }
 
@@ -36,6 +34,16 @@ void TileMap::Load(XMLParser & parser) {
 
 	auto mapNode = parser.GetMapNode();
 	GetDimensionProperties(mapNode,&mapWidth,&mapHeight);
+	
+	auto propertiesNode = mapNode->first_node("properties")->first_node("property");
+	if (propertiesNode != nullptr) {
+		string propertyeType = propertiesNode->first_attribute("name")->value();
+		if (propertyeType == "playerLayer") {
+			string playerLayerString = propertiesNode->first_attribute("value")->value();
+			sscanf(playerLayerString.c_str(), "%d", &this->playerLayer);
+		}
+
+	}
 	xml_node<>* TileSetNode = mapNode->first_node("tileset");
 	auto tilesNode = TileSetNode->first_node("tile");
 	
@@ -215,8 +223,11 @@ int * TileMap::At(int x, int y, int z) {
 	return &tileMatrix[index];
 }
 
-void TileMap::Render(int cameraX, int cameraY) {
-	for (int i = 0; i < mapDepth; i++) {
+void TileMap::Render(int cameraX, int cameraY,int layerInitial, int layerFinal) {
+	if (layerFinal < 0 || layerFinal >mapDepth) {
+		layerFinal = mapDepth;
+	}
+	for (int i = layerInitial; i < layerFinal; i++) {
 		RenderLayer(i, cameraX, cameraY);
 	}
 }
@@ -246,6 +257,10 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 
 int TileMap::GetWidth() {
 	return mapWidth;
+}
+
+int TileMap::GetPlayerLayer() {
+	return this->playerLayer;
 }
 
 int TileMap::GetHeight() {
