@@ -5,10 +5,7 @@
 
 
 void GameObject::CreateDebugBox() {
-	auto pos = box.GetWorldPosition();
-	Debug::MakeDebugSquare(pos.X, pos.Y,box.W, box.H, 255, 0, 0);
-	Debug::MakeDebugSquare(pos.X, pos.Y, box.W, box.H/2, 255, 0, 0);
-	Debug::MakeDebugSquare(pos.X, pos.Y, box.W/2, box.H, 255, 0, 0);
+	Debug::MakeCenteredDebugSquare(box, { 250, 244, 29 });
 }
 
 bool GameObject::IsEnemy() {
