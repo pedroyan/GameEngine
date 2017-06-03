@@ -41,6 +41,15 @@ class Sprite {
 		void SetFrameCount(int frameCount);
 		void SetFrameTime(float frameTime);
 
+		/// <summary>
+		/// Retorna as coordenadas x, y de onde o canto superior esquerdo do sprite
+		/// precisa ser renderizado para que o sprite fique centralizado na posicao
+		/// passada
+		/// </summary>
+		/// <param name="center">Ponto onde o sprite deve ser centralizado</param>
+		/// <returns>Coordenadas de renderização do sprite</returns>
+		Vec2 GetCentralizedRenderPoint(Vec2 center);
+
 		void SetScaleX(float scale);
 		void SetScaleY(float scale);
 
