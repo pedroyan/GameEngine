@@ -33,6 +33,7 @@ class StageState : public State{
 		Sprite bg;
 		Music stageMusic;
 		Background bg1;
+		int playerLayer;
 
 		//metodos
 		void CheckCollisions();

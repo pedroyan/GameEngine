@@ -81,7 +81,7 @@ void Player::Update(float dt) {
 	Move(dt);
 	UpdateCannonAngle(input);
 
-	if ((input.MousePress(LEFT_MOUSE_BUTTON) || input.MouseRelease(LEFT_MOUSE_BUTTON) )  && cooldownCounter.Get() == 0  ) {
+	if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
 		Shoot();
 	}
 }
@@ -138,32 +138,31 @@ bool Player::Is(string type) {
 	return type == "Player";
 }
 
+void Player::CreateDebugBox() {
+	Debug::MakeCenteredDebugSquare(box, { 0, 244, 0 });
+}
+
 void Player::UpdateSP(Sprite newSprite) {
 	actualSP = newSprite;
 }
 
-void Player::CreateDebugBox(Vec2 position) {
-	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H, 225, 0, 0);
-	Debug::MakeDebugSquare(position.X, position.Y, box.W / 2, box.H, 225, 0, 0);
-	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H / 2, 225, 0, 0);
-
-}
 
 void Player::Shoot() {
 	Vec2 cannonOffset(50, 0);
 	cannonOffset.Rotate(cannonAngle);
 	
-	//Subtrai um Vetor(-15,15) do centro do sprite para se tornar o centro do canhão
-	Vec2 spawnPoint = box.GetCenter() + Vec2(-15,-15) + cannonOffset;
-
+	Sprite bulletSprite;
 	
 	if (chargeCounter.Get() > chargingTimeLimit) {
-		auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/tiroCarregadoPlayer.png",1, false,100);
+		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 1);
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
+		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
-	}
-	else {
-		auto bullet = new Bullet(spawnPoint.X, spawnPoint.Y, cannonAngle, getInertialBulletSpeed(), 1000, "img/tiroPlayer.png", 4, false, 10);
+	} else {
+		bulletSprite = Sprite("img/tiroPlayer.png", 4);
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
+		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 		cooldownCounter.Update(-coolDown);

@@ -106,6 +106,12 @@ void Sprite::SetFrameTime(float vframeTime) {
 	frameTime = vframeTime;
 }
 
+Vec2 Sprite::GetCentralizedRenderPoint(Vec2 center) {
+	Rect spRect(0, 0, clipRect.w, clipRect.h);
+	spRect.SetCenter(center);
+	return Vec2(spRect.X,spRect.Y);
+}
+
 void Sprite::SetScaleX(float scale) {
 	scaleX = scale;
 }

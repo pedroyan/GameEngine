@@ -43,7 +43,7 @@ bool Rect::IsInside(float x, float y) {
 	return IsInside(Vec2(x, y));
 }
 
-Vec2 Rect::GetWorldPosition() {
+Vec2 Rect::GetWorldPosition() const {
 	auto cameraPosition = Camera::pos;
 	int x = X - cameraPosition.X;
 	int y = Y - cameraPosition.Y;

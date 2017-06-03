@@ -16,9 +16,9 @@ class Player : public GameObject {
 	bool IsDead();
 	void NotifyCollision(GameObject& other);
 	bool Is(string type);
-	void UpdateSP(Sprite newSprite);
-	void CreateDebugBox(Vec2 position);
+	void CreateDebugBox();
 
+	void UpdateSP(Sprite newSprite);
 	void Shoot();
 
 	static Player* playerInstance;

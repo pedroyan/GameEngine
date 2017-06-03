@@ -23,6 +23,7 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 
 	this->tileSet = new TileSet(tw, th, tileSet);
 	this->tileMap = TileMap(parser, this->tileSet);
+	this->playerLayer = tileMap.GetPlayerLayer();
 
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
@@ -66,8 +67,9 @@ void StageState::Update(float dt) {
 
 void StageState::Render() {
 	bg1.Render(Camera::pos.X, Camera::pos.Y);
-	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y));
+	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y),0,playerLayer);
 	RenderArray();
+	tileMap.Render(ceil(Camera::pos.X), ceil(Camera::pos.Y),playerLayer);
 }
 
 void StageState::Pause() {
