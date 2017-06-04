@@ -46,7 +46,17 @@ class Rect {
 		/// <returns>booleano indicando se o ponto se encontra dentro do retângulo</returns>
 		bool IsInside(float x, float y);
 
+		/// <summary>
+		/// Pega a posição do player no mundo, considerando os parametros de camera
+		/// </summary>
+		/// <param name="withZoom">Flag booleana indicando se o zoom da camera deve ser considerado</param>
+		/// <returns>Posicao do canto superior esquerdo do player</returns>
 		Vec2 GetWorldPosition(bool withZoom=false) const;
+
+		/// <summary>
+		/// Pega a box do player no mundo, considerando TODOS os parametros de camera
+		/// </summary>
+		/// <returns>A box do player no mundo</returns>
 		Rect GetWorldBox() const;
 
 		void SetCenter(float x, float y);
