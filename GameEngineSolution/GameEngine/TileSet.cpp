@@ -1,6 +1,7 @@
 #include "TileSet.h"
 #include "Game.h"
 #include "Debug.h"
+#include "Camera.h"
 
 
 TileSet::TileSet(int width, int height, string file) : tileSet(file) {
@@ -30,7 +31,7 @@ void TileSet::Render(unsigned int index, float x, float y) {
 	int positionY = tileRow*tileHeight;
 
 	tileSet.SetClip(positionX, positionY, tileWidth, tileHeight);
-	tileSet.Render(x, y);
+	tileSet.Render(x, y,0,false,Camera::Zoom);
 	#ifdef _DEBUG
 		Debug::MakeDebugSquare(x, y, tileWidth, tileHeight, 0, 0, 255);
 	#endif

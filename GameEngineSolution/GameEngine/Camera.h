@@ -9,6 +9,7 @@ class Camera {
 		static bool IsBeeingFollowed(GameObject* followed);
 		static Vec2 pos;
 		static Vec2 speed;
+		static float Zoom;
 
 	private:
 		static GameObject* focus;

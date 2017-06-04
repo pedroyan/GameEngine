@@ -6,6 +6,7 @@
 
 Vec2 Camera::speed(1000, 1000);
 Vec2 Camera::pos;
+float Camera::Zoom = 0.5;
 GameObject* Camera::focus = nullptr;
 
 void Camera::Follow(GameObject * newFocus) {

@@ -31,8 +31,8 @@ class Sprite {
 		/// <param name="x">Posicao x</param>
 		/// <param name="y">Posicao Y</param>
 		/// <param name="angle">Angulo, em radianos, que o sprite será girado no sentido horario</param>
-		void Render(int x, int y, float angle = 0, bool flip=false);
-		void Render(Vec2 pos, float angle = 0, bool flip = false);
+		void Render(int x, int y, float angle = 0, bool flip=false, float Zoom =1);
+		void Render(Vec2 pos, float angle = 0, bool flip = false, float Zoom=1);
 		int GetWidth();
 		int GetHeight();
 		bool IsOpen();
