@@ -23,15 +23,15 @@ Text::~Text() {
 	}
 }
 
-void Text::Render(int cameraX, int cameraY) {
+void Text::Render(int cameraX, int cameraY, float cameraZoom) {
 	if (texture != nullptr) {
 		auto renderer = Game::GetInstance().GetRenderer();
 
 		SDL_Rect destiny;
-		destiny.h = box.H;
-		destiny.w = box.W;
-		destiny.x = box.X - cameraX;
-		destiny.y = box.Y - cameraY;
+		destiny.h = box.H*cameraZoom;
+		destiny.w = box.W*cameraZoom;
+		destiny.x = (box.X - cameraX)*cameraZoom;
+		destiny.y = (box.Y - cameraY)*cameraZoom;
 
 		int result = SDL_RenderCopy(renderer, texture, NULL, &destiny);
 

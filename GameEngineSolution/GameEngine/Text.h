@@ -12,7 +12,7 @@ class Text {
 			 string text,SDL_Color color, int x = 0, int y =  0);
 		~Text();
 		
-		void Render(int cameraX = 0, int cameraY = 0);
+		void Render(int cameraX = 0, int cameraY = 0, float cameraZoom=1);
 		void SetPos(int x, int y, bool centerX = false, bool centerY = false);
 		void SetText(string text);
 		void SetColor(SDL_Color color);
