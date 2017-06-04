@@ -45,9 +45,14 @@ bool Rect::IsInside(float x, float y) {
 
 Vec2 Rect::GetWorldPosition() const {
 	auto cameraPosition = Camera::pos;
-	int x = X - cameraPosition.X;
-	int y = Y - cameraPosition.Y;
+	float x = (X - cameraPosition.X)*Camera::Zoom;
+	float y = (Y - cameraPosition.Y)*Camera::Zoom;
 	return Vec2(x, y);
+}
+
+Rect Rect::GetWorldBox() const {
+	auto pos = GetWorldPosition();
+	return Rect(pos.X,pos.Y,W*Camera::Zoom, H*Camera::Zoom);
 }
 
 void Rect::SetCenter(float x, float y) {

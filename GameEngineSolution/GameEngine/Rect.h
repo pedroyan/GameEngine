@@ -47,6 +47,7 @@ class Rect {
 		bool IsInside(float x, float y);
 
 		Vec2 GetWorldPosition() const;
+		Rect GetWorldBox() const;
 
 		void SetCenter(float x, float y);
 		void SetCenter(Vec2 vector);

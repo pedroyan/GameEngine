@@ -97,7 +97,7 @@ void Player::Render() {
 	if (currentLayer == 1) {
 		UpdateSP(bodySP);
 	}
-	actualSP.Render(box.GetWorldPosition(), 0,movedLeft);
+	actualSP.Render(box.GetWorldPosition(), 0, movedLeft, Camera::Zoom);
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
