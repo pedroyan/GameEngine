@@ -46,7 +46,7 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y, float angle,bool flip, float zoom) {
+void Sprite::Render(int x, int y, float angle, bool flip, float zoom) {
 	
 	float degreeAngle = angle * 180 / M_PI;
 
