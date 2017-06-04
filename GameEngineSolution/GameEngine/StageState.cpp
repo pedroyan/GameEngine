@@ -59,9 +59,9 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
-#ifdef _DEBUG
+
 	SpawnEnemy(dt);
-#endif
+
 
 }
 
