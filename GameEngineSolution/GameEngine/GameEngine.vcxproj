@@ -186,8 +186,10 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Minion.h" />
     <ClInclude Include="Music.h" />
+    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="RapidXML\rapidxml.hpp" />
     <ClInclude Include="RapidXML\rapidxml_iterators.hpp" />
     <ClInclude Include="RapidXML\rapidxml_print.hpp" />
