@@ -16,7 +16,7 @@ class ItemPowerUp : public GameObject {
 	void NotifyCollision(GameObject& other);
 	bool Is(string type);
 	~ItemPowerUp();
-	void CreateDebugBox(Vec2 position);
+	void CreateDebugBox();
 
 	private:
 	bool isTaked=false;

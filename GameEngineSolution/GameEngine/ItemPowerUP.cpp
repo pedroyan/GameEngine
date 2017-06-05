@@ -70,8 +70,7 @@ bool ItemPowerUp::Is(string type) {
 
 ItemPowerUp::~ItemPowerUp() {
 }
-void ItemPowerUp::CreateDebugBox(Vec2 position) {
-	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H, 255, 239, 22);
-	Debug::MakeDebugSquare(position.X, position.Y, box.W/2, box.H, 255, 239, 22);
-	Debug::MakeDebugSquare(position.X, position.Y, box.W, box.H/2, 255, 239, 22);
+void ItemPowerUp::CreateDebugBox() {
+	Debug::MakeCenteredDebugSquare(box,{ 255, 239, 22});
+	
 }

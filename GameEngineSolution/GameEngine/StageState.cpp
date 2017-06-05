@@ -13,8 +13,8 @@
 #include "XMLParser.h"
 #include "ItemPowerUp.h"
 
-//cooldown de tiro em segundos
-const float coolDown = 3.0;
+//coolDownSpawn de tiro em segundos
+const float coolDownSpawn = 3.0;
 
 StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
@@ -89,14 +89,14 @@ void StageState::AddObject(GameObject * ptr) {
 
 void StageState::SpawnEnemy(float dt) {
 	int numberOfEnemys = rand() % 3;
-	cooldownCounter.Update(dt);
-	if (this->cooldownCounter.Get() >coolDown) {
+	coolDownSpawnCounter.Update(dt);
+	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
 			int tileSpawn = rand() % this->tileMap.GetSpawnTiles().size();
 			auto enemy = new ItemPowerUp(this->tileMap.GetSpawnTiles()[tileSpawn].X*tileSet->GetTileHeight(), this->tileMap.GetSpawnTiles()[tileSpawn].Y*tileSet->GetTileHeight()); // trocar por enemy depois
 			Game::GetInstance().GetCurrentState().AddObject(enemy); 
 		}
-		cooldownCounter.Restart();
+		coolDownSpawnCounter.Restart();
 	}
 
 }

@@ -27,7 +27,7 @@ class StageState : public State{
 		
 	private:
 		//variaveis
-		Timer cooldownCounter;
+		Timer coolDownSpawnCounter;
 		TileSet* tileSet;
 		TileMap tileMap;
 		Sprite bg;

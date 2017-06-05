@@ -23,7 +23,7 @@ TileMap::TileMap(string file, TileSet * tileSetVariable) {
 	tileSet = tileSetVariable;
 	XMLParser parser(file);
 	Load(parser);
-	ObtainSpawnTile(spaceSpawn, 0);
+	ObtainSpawnTile(0);
 	
 }
 
@@ -31,7 +31,7 @@ TileMap::TileMap(XMLParser & parser, TileSet * tilesetVariable) {
 	mapDepth = 0;
 	tileSet = tilesetVariable;
 	Load(parser);
-	ObtainSpawnTile(spaceSpawn, 0);
+	ObtainSpawnTile(0);
 }
 
 void TileMap::Load(XMLParser & parser) {
@@ -236,11 +236,11 @@ void TileMap::Render(int cameraX, int cameraY,int layerInitial, int layerFinal) 
 	}
 }
 
-void TileMap::ObtainSpawnTile(int deltaY, int layer) {
+void TileMap::ObtainSpawnTile(int layer) {
 	int layerSize = mapHeight*mapWidth;
 	int startIndex = layer*layerSize;
 	
-	for (int j = deltaY; j < mapHeight; j++) {
+	for (int j = spaceSpawn; j < mapHeight; j++) {
 		for (int i = 0; i < mapWidth; i++) {
 			int index = i*mapWidth + j + startIndex;
 			int* tile = At(i, j, layer);
@@ -249,7 +249,7 @@ void TileMap::ObtainSpawnTile(int deltaY, int layer) {
 			coodernadaTile.Y = j-1;
 			if (GetTileSet()->GetTileProperty(*tile) == TileCollision::Solid) {
 				bool canSpawnEnemy = true;
-				for (int z = 1; z <= deltaY; z++) {
+				for (int z = 1; z <= spaceSpawn; z++) {
 					int* tile = At(i, j -z, layer);
 					canSpawnEnemy = canSpawnEnemy && (GetTileSet()->GetTileProperty(*tile) == TileCollision::noCollision);
 				}
