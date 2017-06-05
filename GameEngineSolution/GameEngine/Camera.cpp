@@ -7,6 +7,9 @@
 Vec2 Camera::speed(1000, 1000);
 Vec2 Camera::pos;
 float Camera::Zoom = 0.5;
+float Camera::targetZoom = 0.5;
+float Camera::zoomPerSec = 0;
+
 GameObject* Camera::focus = nullptr;
 
 void Camera::Follow(GameObject * newFocus) {
@@ -23,14 +26,25 @@ void Camera::Update(float dt) {
 	} else {
 		UpdateOnFocus();
 	}
+
+	if (Zoom != targetZoom) {
+		UpdateZoom(dt);
+	}
 }
 
 bool Camera::IsBeeingFollowed(GameObject * followed) {
 	return followed == focus;
 }
 
+void Camera::ZoomTo(float zoom, float time) {
+	auto deltaZoom = zoom - Zoom;
+	zoomPerSec = deltaZoom / time;
+	targetZoom = zoom;
+}
+
 void Camera::UpdateOnInput(float dt) {
 	Vec2 direction;
+
 	auto& input = InputManager::GetInstance();
 
 	direction.X = input.IsKeyDown(LEFT_ARROW_KEY) ? -1 : 0;
@@ -53,4 +67,15 @@ void Camera::UpdateOnFocus() {
 
 	pos.X = center.X + Camera::pos.X - gameWidth / 2.0; // anula o offset de camera gerado pelo WorldBox para que o foco fique centralizado na tela
 	pos.Y = center.Y + Camera::pos.Y - gameHeight / 2.0;
+}
+
+void Camera::UpdateZoom(float dt) {
+	auto newZoomValue = zoomPerSec*dt + Zoom;
+
+	if ((zoomPerSec < 0 && newZoomValue < targetZoom) || zoomPerSec>0 && newZoomValue > targetZoom) {
+		Zoom = targetZoom; // Seta instantaneamente o zoom como o targetZoom caso a variação ultrapasse o target
+		return;
+	}
+
+	Zoom = newZoomValue;
 }
