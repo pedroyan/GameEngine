@@ -16,10 +16,10 @@ void Debug::MakeDebugSquare(float x, float y, float w, float h, SDL_Color color)
 }
 
 void Debug::MakeCenteredDebugSquare(const Rect& positionBox, SDL_Color boxColor) {
-	auto pos = positionBox.GetWorldPosition();
-	Debug::MakeDebugSquare(pos.X, pos.Y, positionBox.W, positionBox.H, boxColor);
-	Debug::MakeDebugSquare(pos.X, pos.Y, positionBox.W, positionBox.H / 2, boxColor);
-	Debug::MakeDebugSquare(pos.X, pos.Y, positionBox.W / 2, positionBox.H, boxColor);
+	auto worldBox = positionBox.GetWorldBox();
+	Debug::MakeDebugSquare(worldBox.X, worldBox.Y, worldBox.W, worldBox.H, boxColor);
+	Debug::MakeDebugSquare(worldBox.X, worldBox.Y, worldBox.W, worldBox.H / 2, boxColor);
+	Debug::MakeDebugSquare(worldBox.X, worldBox.Y, worldBox.W / 2, worldBox.H, boxColor);
 }
 
 Debug::Debug() {

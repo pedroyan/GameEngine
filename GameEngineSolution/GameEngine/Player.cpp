@@ -61,6 +61,10 @@ void Player::Update(float dt) {
 		speed.X = 0;
 	}
 	
+	if (input.KeyPress(SDLK_l)) {
+		Camera::ZoomTo(1.3, 5);
+	}
+	
 	if (input.IsKeyDown(SDLK_w)) {
 		speedStairs.Y = -SpeedLimit/2;
 	} else if (input.IsKeyDown(SDLK_s)) {
@@ -97,7 +101,7 @@ void Player::Render() {
 	if (currentLayer == 1) {
 		UpdateSP(bodySP);
 	}
-	actualSP.Render(box.GetWorldPosition(), 0,movedLeft);
+	actualSP.Render(box.GetWorldPosition(), 0, movedLeft, Camera::Zoom);
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;

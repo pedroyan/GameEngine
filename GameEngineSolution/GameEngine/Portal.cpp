@@ -24,7 +24,7 @@ bool Portal::IsDead() {
 
 void Portal::NotifyCollision(GameObject & other) {
 	if (other.Is("Player")) {
-		portalText.Render(Camera::pos.X, Camera::pos.Y);
+		portalText.Render(Camera::pos.X, Camera::pos.Y, Camera::Zoom);
 		if (InputManager::GetInstance().KeyPress(SDLK_f)) {
 			Game::GetInstance().GetCurrentState().Swap(new StageState(nextMap, nextTileSet));
 		}

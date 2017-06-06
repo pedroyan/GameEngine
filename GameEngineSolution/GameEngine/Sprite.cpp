@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Logger.h"
 #include "Resources.h"
+#include "Camera.h"
 
 Sprite::Sprite() {
 	texture = nullptr;
@@ -45,17 +46,17 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y, float angle,bool flip) {
+void Sprite::Render(int x, int y, float angle, bool flip, float zoom) {
 	
 	float degreeAngle = angle * 180 / M_PI;
 
 	SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
 	SDL_Rect destinyRectangl;
 
-	destinyRectangl.x = x;
-	destinyRectangl.y = y;
-	destinyRectangl.h = clipRect.h*scaleY;
-	destinyRectangl.w = clipRect.w*scaleY;
+	destinyRectangl.x = x*zoom;
+	destinyRectangl.y = y*zoom;
+	destinyRectangl.h = clipRect.h*scaleY*zoom;
+	destinyRectangl.w = clipRect.w*scaleX*zoom;
 	if (flip) {
 		SDL_RenderCopyEx(renderer, texture.get(), &clipRect, &destinyRectangl, degreeAngle, nullptr, SDL_FLIP_HORIZONTAL);
 	}
@@ -64,8 +65,8 @@ void Sprite::Render(int x, int y, float angle,bool flip) {
 	}
 }
 
-void Sprite::Render(Vec2 pos, float angle, bool flip) {
-	Render(pos.X, pos.Y, angle,flip);
+void Sprite::Render(Vec2 pos, float angle, bool flip, float zoom) {
+	Render(pos.X, pos.Y, angle,flip,zoom);
 }
 
 int Sprite::GetWidth() {
