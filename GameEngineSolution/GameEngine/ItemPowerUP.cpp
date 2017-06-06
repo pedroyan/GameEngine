@@ -1,5 +1,6 @@
 #include "ItemPowerUp.h"
 #include "Debug.h"
+#include "Camera.h"
 
 ItemPowerUp::ItemPowerUp(int x,int y,ItemType tipo) {
 	switch (tipo) {
@@ -48,7 +49,7 @@ ItemPowerUp::ItemPowerUp(int x, int y) {
 }
 
 void ItemPowerUp::Render() {
-	sp.Render(box.GetWorldPosition());
+	sp.Render(box.GetWorldPosition(),0,false, Camera::Zoom);
 }
 
 void ItemPowerUp::Update(float dt) {
