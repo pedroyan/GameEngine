@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "TileCollision.h"
 #include "Debug.h"
+#include "Camera.h"
 
 using std::ifstream;
 using std::getline;
@@ -287,7 +288,9 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 #ifdef _DEBUG
 	int spawnTilesSize = this->spawnTiles.size();
 		for(int t = 0; t < spawnTilesSize; t++) {
-			Debug::MakeDebugSquare(spawnTiles[t].X *tileSet->GetTileHeight() - cameraX, spawnTiles[t].Y * tileSet->GetTileHeight() - cameraY, tileSet->GetTileHeight(), tileSet->GetTileHeight(), 120, 0, 120);
+			auto positionX = (spawnTiles[t].X *tileSet->GetTileWidth() - cameraX)*Camera::Zoom;
+			auto positionY = (spawnTiles[t].Y * tileSet->GetTileHeight() - cameraY)*Camera::Zoom;
+			Debug::MakeDebugSquare(positionX, positionY, tileSet->GetTileWidth()*Camera::Zoom, tileSet->GetTileHeight()*Camera::Zoom, 120, 0, 120);
 	}
 #endif
 	/************************/

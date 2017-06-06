@@ -56,12 +56,12 @@ void ItemPowerUp::Update(float dt) {
 }
 
 bool ItemPowerUp::IsDead() {
-	return isTaked;
+	return isTaken;
 }
 
 void ItemPowerUp::NotifyCollision(GameObject & other) {
 	if (other.Is("Player")) {
-		isTaked = true;
+		isTaken = true;
 	}
 }
 
