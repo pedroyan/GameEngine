@@ -32,6 +32,7 @@ Game::Game(string title, int width, int height) {
 	srand(std::time(0));
 	dt = 0;
 	frameStart = 0;
+	BreakFrame();
 }
 
 Game* Game::Instance = nullptr;

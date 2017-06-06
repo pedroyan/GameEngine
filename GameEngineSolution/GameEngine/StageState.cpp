@@ -11,6 +11,7 @@
 #include "EndState.h"
 #include "TileCollision.h"
 #include "XMLParser.h"
+#include "Enemy.h"
 
 StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
@@ -34,6 +35,10 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	for (auto& obj : objects) {
 		AddObject(obj);
 	}
+
+	auto enemy = new Enemy(0, 500);
+	enemy->Focus(Player::playerInstance);
+	AddObject(enemy);
 }
 
 void StageState::LoadAssets() {

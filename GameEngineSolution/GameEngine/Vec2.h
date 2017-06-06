@@ -41,6 +41,8 @@ class Vec2 {
 		/// <returns></returns>
 		float GetDistance(Vec2 otherPoint);
 
+		float GetDistance1(Vec2 otherPoint);
+
 		/// <summary>
 		/// Calcula o ângulo do vetor distância entre dois pontos, considerando
 		/// a instancia atual como o ponto de partida e a instancia passada como

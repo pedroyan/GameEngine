@@ -103,7 +103,6 @@ void Player::Render() {
 	Vec2 renderPosition;
 	renderPosition.X = centerPosition.X - cannonSp.GetWidth() / 2 - Camera::pos.X;
 	renderPosition.Y = centerPosition.Y - cannonSp.GetHeight() / 2 - Camera::pos.Y;
-
 	//cannonSp.Render(renderPosition,cannonAngle); SERA O BRACO
 }
 

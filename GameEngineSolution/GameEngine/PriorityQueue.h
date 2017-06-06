@@ -21,4 +21,9 @@ struct PriorityQueue {
 		elements.pop();
 		return best_item;
 	}
+
+	inline priority_t getPriority() {
+		priority_t best_item = elements.top().first;
+		return best_item;
+	}
 };

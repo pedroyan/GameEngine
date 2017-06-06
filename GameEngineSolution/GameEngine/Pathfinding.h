@@ -23,7 +23,7 @@ list<Vec2> FindNeighbors(Vec2 node, int tileWidth, int tileHeight) {
 }
 
 inline double heuristic(Vec2 a, Vec2 b) {
-	return abs(a.X - b.X) + abs(a.Y - b.Y);
+	return a.GetDistance1(b);
 }
 
 struct Vec2Hasher {
@@ -40,13 +40,15 @@ std::ostream &operator<<(std::ostream &os, Vec2 const &m) {
 	return os << "X: " << m.X << " Y: " << m.Y;
 }
 
-void Run(Vec2 start, Vec2 destination, unordered_map<Vec2, Vec2, Vec2Hasher> came_from, unordered_map<Vec2, int, Vec2Hasher> cost_so_far){
+Vec2 Run(Vec2 start, Vec2 destination, unordered_map<Vec2, Vec2, Vec2Hasher> came_from, unordered_map<Vec2, int, Vec2Hasher> cost_so_far){
 	auto current = destination;
 	while (current != start) {
-		std::cout << current << endl;
+		if (came_from[current] == start) {
+			return current;
+		}
+
 		current = came_from[current];
 	}
-	std::cout << current << endl;
 }
 
 Vec2 Pathfinding(Vec2 start, Vec2 destination) {
@@ -65,7 +67,7 @@ Vec2 Pathfinding(Vec2 start, Vec2 destination) {
 		}
 
 		for (auto next : FindNeighbors(current, 1, 1)) {
-			double new_cost = cost_so_far[current] + current.GetDistance(next);
+			double new_cost = cost_so_far[current];
 			if (!cost_so_far.count(next) || new_cost < cost_so_far[next]) {
 				cost_so_far[next] = new_cost;
 				double priority = new_cost + heuristic(destination, next);
@@ -75,7 +77,28 @@ Vec2 Pathfinding(Vec2 start, Vec2 destination) {
 		}
 	}
 
-	Run(start, destination, came_from, cost_so_far);
+	auto next = Run(start, destination, came_from, cost_so_far);
+	cout << next << endl;
 
-	return came_from[destination];
+	return next;
+}
+
+Vec2 NextMove(Vec2 start, Vec2 destination) {
+	cout << start << "->" << destination << endl;
+	PriorityQueue<Vec2, double> frontier;
+
+	unordered_map<Vec2, Vec2, Vec2Hasher> came_from;
+	unordered_map<Vec2, int, Vec2Hasher> cost_so_far;
+
+	for (auto next : FindNeighbors(start, 1, 1)) {
+		double new_cost = cost_so_far[start];
+		if (!cost_so_far.count(next) || new_cost < cost_so_far[next]) {
+			cost_so_far[next] = new_cost;
+			double priority = new_cost + heuristic(destination, next);
+			frontier.put(next, priority);
+			came_from[next] = start;
+		}
+	}
+
+	return frontier.get();
 }
