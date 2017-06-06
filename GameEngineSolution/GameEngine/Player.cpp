@@ -6,6 +6,7 @@
 #include <math.h>
 #include "StageState.h"
 #include "TileCollision.h"
+#include "ItemPowerUp.h"
 #include "Debug.h"
 
 Player* Player::playerInstance = nullptr;
@@ -45,6 +46,9 @@ void Player::Update(float dt) {
 		if (cooldownCounter.Get() > 0) {
 			cooldownCounter.Restart();
 		}
+	}
+	if (input.KeyPress(SDLK_l)) {
+		Camera::ZoomTo(1.3, 5);
 	}
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	if(currentLayer==0){//caso o player esteja na layer de colisao com os tiles(teto,piso)
@@ -110,7 +114,7 @@ void Player::Render() {
 	if (currentLayer == 1) {
 		UpdateSP(bodySP);
 	}
-	actualSP.Render(box.GetWorldPosition(), 0,movedLeft);
+	actualSP.Render(box.GetWorldPosition(), 0, movedLeft, Camera::Zoom);
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
@@ -128,6 +132,22 @@ void Player::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
 		takeDamage(other.damage);
 	}
+	if (other.Is("ItemPowerUp")) {
+		switch (static_cast<const ItemPowerUp&>(other).type) {
+		case ItemPowerUp::Red:
+			printf("REDD \n");
+			break;
+		case ItemPowerUp::Blue:
+			printf("Blue \n");
+			break;
+		case ItemPowerUp::Green:
+			printf("Green \n");
+			break;
+		default:
+			break;
+		}
+		
+	}
 }
 
 bool Player::Is(string type) {
@@ -141,6 +161,7 @@ void Player::CreateDebugBox() {
 void Player::UpdateSP(Sprite newSprite) {
 	actualSP = newSprite;
 }
+
 
 void Player::Shoot() {
 	Vec2 cannonOffset(50, 0);

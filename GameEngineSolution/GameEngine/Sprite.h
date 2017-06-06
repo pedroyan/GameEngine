@@ -31,8 +31,18 @@ class Sprite {
 		/// <param name="x">Posicao x</param>
 		/// <param name="y">Posicao Y</param>
 		/// <param name="angle">Angulo, em radianos, que o sprite será girado no sentido horario</param>
-		void Render(int x, int y, float angle = 0, bool flip=false);
-		void Render(Vec2 pos, float angle = 0, bool flip = false);
+		///	<param name="flip">Flag indicando se o sprite será flipado</param>
+		///	<param name="Zoom">Fator de zoom aplicado á renderização</param>
+		void Render(int x, int y, float angle = 0, bool flip = false, float Zoom = 1);
+
+		/// <summary>
+		/// Realiza a renderização do sprite
+		/// </summary>
+		/// <param name="x">Posicao do canto superior esquerdo de renderização do sprite</param>
+		/// <param name="angle">Angulo, em radianos, que o sprite será girado no sentido horario</param>
+		///	<param name="flip">Flag indicando se o sprite será flipado</param>
+		///	<param name="Zoom">Fator de zoom aplicado á renderização</param>
+		void Render(Vec2 pos, float angle = 0, bool flip = false, float Zoom = 1);
 		int GetWidth();
 		int GetHeight();
 		bool IsOpen();
