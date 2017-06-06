@@ -6,6 +6,7 @@
 #include <math.h>
 #include "StageState.h"
 #include "TileCollision.h"
+#include "ItemPowerUp.h"
 #include "Debug.h"
 
 Player* Player::playerInstance = nullptr;
@@ -119,6 +120,22 @@ void Player::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
 		takeDamage(other.damage);
 	}
+	if (other.Is("ItemPowerUp")) {
+		switch (static_cast<const ItemPowerUp&>(other).type) {
+		case ItemPowerUp::Red:
+			printf("REDD \n");
+			break;
+		case ItemPowerUp::Blue:
+			printf("Blue \n");
+			break;
+		case ItemPowerUp::Green:
+			printf("Green \n");
+			break;
+		default:
+			break;
+		}
+		
+	}
 }
 
 bool Player::Is(string type) {
@@ -132,6 +149,7 @@ void Player::CreateDebugBox() {
 void Player::UpdateSP(Sprite newSprite) {
 	actualSP = newSprite;
 }
+
 
 void Player::Shoot() {
 	Vec2 cannonOffset(50, 0);

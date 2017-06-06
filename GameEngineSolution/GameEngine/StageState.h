@@ -9,6 +9,7 @@
 #include "Music.h"
 #include "Sound.h"
 #include "Background.h"
+#include "Timer.h"
 
 class StageState : public State{
 	public:
@@ -21,9 +22,12 @@ class StageState : public State{
 		void Resume();
 		TileMap GetMap();
 		void AddObject(GameObject* ptr);
+		void SpawnEnemy(float dt);
+
+		
 	private:
 		//variaveis
-
+		Timer coolDownSpawnCounter;
 		TileSet* tileSet;
 		TileMap tileMap;
 		Sprite bg;
