@@ -19,7 +19,7 @@ class ItemPowerUp : public GameObject {
 	void CreateDebugBox();
 
 	private:
-	bool isTaked=false;
+	bool isTaken=false;
 	Sprite sp;
 };
 
