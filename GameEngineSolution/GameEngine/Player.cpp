@@ -64,13 +64,7 @@ void Player::Update(float dt) {
 		} else {
 			speed.X = 0;
 		}
-		if (input.IsKeyDown(SDLK_w)) {
-			speedStairs.Y = -SpeedLimit / 2;
-		} else if (input.IsKeyDown(SDLK_s)) {
-			speedStairs.Y = +SpeedLimit / 2;
-		} else {
-			speedStairs.Y = 0;
-		}
+		UpdateSpeedStairs(input);
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 			auto k1 = 2 * Gravity * jumpHeight;
 			speed.Y = -tileHeight *sqrt(k1);
@@ -85,13 +79,7 @@ void Player::Update(float dt) {
 	
 	
 	else if(currentLayer == 1) {//caso o player esteja na layer de escada
-		if (input.IsKeyDown(SDLK_w)) {
-			speedStairs.Y = -SpeedLimit / 2;
-		} else if (input.IsKeyDown(SDLK_s)) {
-			speedStairs.Y = +SpeedLimit / 2;
-		} else {
-			speedStairs.Y = 0;
-		}
+		UpdateSpeedStairs(input);
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 			auto k1 = 2 * Gravity * jumpHeight;
 			speed.Y = -tileHeight *sqrt(k1);
@@ -263,6 +251,15 @@ void Player::Move(float dt){
 			return;
 
 		}
+	}
+}
+void Player::UpdateSpeedStairs(InputManager& input) {
+	if (input.IsKeyDown(SDLK_w)) {
+		speedStairs.Y = -SpeedLimit / 2;
+	} else if (input.IsKeyDown(SDLK_s)) {
+		speedStairs.Y = +SpeedLimit / 2;
+	} else {
+		speedStairs.Y = 0;
 	}
 }
 
