@@ -46,7 +46,7 @@ class Player : public GameObject {
 	float getInertialBulletSpeed();
 	void takeDamage(int damage);
 	void Move(float dt);
-
+	void UpdateSpeedStairs(InputManager& input);
 	void CenterOnCurrentTile();
 };
 

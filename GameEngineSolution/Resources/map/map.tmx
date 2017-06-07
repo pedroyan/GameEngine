@@ -158,7 +158,7 @@
     <property name="NextTileset" value="img/tileset.png"/>
    </properties>
   </object>
-  <object id="10" type="PlayerSpawn" x="37" y="392" width="28" height="99"/>
+  <object id="10" type="PlayerSpawn" x="35" y="476" width="28" height="99"/>
  </objectgroup>
  <layer name="Tile Layer 2" width="50" height="25">
   <data encoding="csv">
