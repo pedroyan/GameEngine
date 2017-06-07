@@ -71,7 +71,7 @@ void Player::Update(float dt) {
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 		auto k1 = 2 * Gravity * jumpHeight;
-		speed.Y = -tileHeight *sqrt(k1);
+		speed.Y = -tileHeight * sqrt(k1);
 		jumpCount++;
 	} else {
 		speed.Y += tileHeight * Gravity*dt;

@@ -36,9 +36,15 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 		AddObject(obj);
 	}
 
-	auto enemy = new Enemy(0, 500);
+	auto enemy = new Enemy(100, 650, "img/jolteon.png");
 	enemy->Focus(Player::playerInstance);
 	AddObject(enemy);
+
+	//for (int i = 1; i < 20; i++) {
+	//	enemy = new Enemy(50*i, 500);
+	//	enemy->Focus(Player::playerInstance);
+	//	AddObject(enemy);
+	//}
 }
 
 void StageState::LoadAssets() {

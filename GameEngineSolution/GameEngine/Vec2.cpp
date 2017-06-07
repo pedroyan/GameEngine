@@ -21,10 +21,6 @@ float Vec2::GetDistance(Vec2 destinyPoint) {
 	return diferenceVector.Magnitude();
 }
 
-float Vec2::GetDistance1(Vec2 destinyPoint) {
-	return sqrt(pow(X - destinyPoint.X,2) + pow(Y - destinyPoint.Y,2));
-}
-
 float Vec2::GetDistanceVectorAngle(Vec2 destinyPoint) {
 	Vec2 distanceVector = destinyPoint - (*this);
 	return distanceVector.GetXAxisAngle();
