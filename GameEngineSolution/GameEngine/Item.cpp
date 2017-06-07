@@ -1,8 +1,8 @@
-#include "ItemPowerUp.h"
+#include "Item.h"
 #include "Debug.h"
 #include "Camera.h"
 
-ItemPowerUp::ItemPowerUp(int x,int y,ItemType tipo) {
+Item::Item(int x,int y,ItemType tipo) {
 	switch (tipo) {
 	case Red:
 		sp=Sprite("img/itemRed.png");
@@ -23,7 +23,7 @@ ItemPowerUp::ItemPowerUp(int x,int y,ItemType tipo) {
 	box.H = sp.GetHeight();
 	this->type = tipo;
 }
-ItemPowerUp::ItemPowerUp(int x, int y) {
+Item::Item(int x, int y) {
 	int randomItem = rand() % 3;
 	switch (randomItem) {
 	case Red:
@@ -48,30 +48,30 @@ ItemPowerUp::ItemPowerUp(int x, int y) {
 	box.H = sp.GetHeight();
 }
 
-void ItemPowerUp::Render() {
+void Item::Render() {
 	sp.Render(box.GetWorldPosition(),0,false, Camera::Zoom);
 }
 
-void ItemPowerUp::Update(float dt) {
+void Item::Update(float dt) {
 }
 
-bool ItemPowerUp::IsDead() {
+bool Item::IsDead() {
 	return isTaken;
 }
 
-void ItemPowerUp::NotifyCollision(GameObject & other) {
+void Item::NotifyCollision(GameObject & other) {
 	if (other.Is("Player")) {
 		isTaken = true;
 	}
 }
 
-bool ItemPowerUp::Is(string type) {
-	return type == "ItemPowerUp";
+bool Item::Is(string type) {
+	return type == "Item";
 }
 
-ItemPowerUp::~ItemPowerUp() {
+Item::~Item() {
 }
-void ItemPowerUp::CreateDebugBox() {
+void Item::CreateDebugBox() {
 	Debug::MakeCenteredDebugSquare(box,{ 255, 239, 22});
 	
 }

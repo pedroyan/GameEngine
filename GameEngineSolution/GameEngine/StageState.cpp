@@ -11,7 +11,7 @@
 #include "EndState.h"
 #include "TileCollision.h"
 #include "XMLParser.h"
-#include "ItemPowerUp.h"
+#include "Item.h"
 
 //coolDownSpawn de tiro em segundos
 const float coolDownSpawn = 3.0;
@@ -93,7 +93,7 @@ void StageState::SpawnEnemy(float dt) {
 	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
 			auto spawn = tileMap.GetRandomSpawnPosition();
-			auto enemy = new ItemPowerUp(spawn.X, spawn.Y); // trocar por enemy depois
+			auto enemy = new Item(spawn.X, spawn.Y); // trocar por enemy depois
 			Game::GetInstance().GetCurrentState().AddObject(enemy); 
 		}
 		coolDownSpawnCounter.Restart();
