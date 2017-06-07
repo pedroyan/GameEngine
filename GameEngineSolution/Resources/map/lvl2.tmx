@@ -185,7 +185,7 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="7" type="PlayerSpawn" x="64" y="1877.33"/>
+  <object id="7" type="PlayerSpawn" x="69" y="1796.33"/>
   <object id="8" type="Portal" x="131" y="1536" width="28" height="29">
    <properties>
     <property name="Message" value="Aperte F para travar o jogo"/>
