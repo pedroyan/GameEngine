@@ -92,8 +92,8 @@ void StageState::SpawnEnemy(float dt) {
 	coolDownSpawnCounter.Update(dt);
 	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
-			int tileSpawn = rand() % this->tileMap.GetSpawnTiles().size();
-			auto enemy = new ItemPowerUp(this->tileMap.GetSpawnTiles()[tileSpawn].X*tileSet->GetTileHeight(), this->tileMap.GetSpawnTiles()[tileSpawn].Y*tileSet->GetTileHeight()); // trocar por enemy depois
+			auto spawn = tileMap.GetRandomSpawnPosition();
+			auto enemy = new ItemPowerUp(spawn.X, spawn.Y); // trocar por enemy depois
 			Game::GetInstance().GetCurrentState().AddObject(enemy); 
 		}
 		coolDownSpawnCounter.Restart();

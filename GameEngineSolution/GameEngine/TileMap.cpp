@@ -316,6 +316,16 @@ std::vector<Vec2> TileMap::GetSpawnTiles() {
 	return spawnTiles;
 }
 
+Vec2 TileMap::GetRandomSpawnPosition() {
+	int tileIndex = rand() % spawnTiles.size();
+
+	Vec2 toReturn = spawnTiles[tileIndex];
+	toReturn.X = toReturn.X*tileSet->GetTileWidth();
+	toReturn.Y = toReturn.Y*tileSet->GetTileHeight();
+
+	return toReturn;
+}
+
 TileSet * TileMap::GetTileSet(){
 	return tileSet;
 }
