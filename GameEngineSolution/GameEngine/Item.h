@@ -1,25 +1,29 @@
 #pragma once
 #include "GameObject.h"
 #include "Sprite.h"
+#include <string>
+
+using std::string;
+
+enum class ItemType {
+	Key
+};
+
 class Item : public GameObject {
 	public:
-	enum ItemType {//quanto maior o enum,maior a prioridade da colissao
-		Red = 0,
-		Green,
-		Blue
-	}type;
-	Item(int x, int y, ItemType tipo);
-	Item(int x, int y);
-	void Render();
-	void Update(float dt);
-	bool IsDead();
-	void NotifyCollision(GameObject& other);
-	bool Is(string type);
-	~Item();
-	void CreateDebugBox();
+		Item(int x, int y, ItemType tipo);
+		void Render();
+		void Update(float dt);
+		bool IsDead();
+		void NotifyCollision(GameObject& other);
+		bool Is(string type);
+		~Item();
+		void CreateDebugBox();
+		ItemType GetType();
 
 	private:
-	bool isTaken=false;
-	Sprite sp;
+		bool isTaken=false;
+		Sprite sp;
+		ItemType itemType;
 };
 

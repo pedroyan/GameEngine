@@ -32,6 +32,7 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 	box.H = bodySP.GetHeight();
 
 	jumpCount = 0;
+	keyCount = 0;
 }
 
 Player::~Player() {
@@ -121,20 +122,15 @@ void Player::NotifyCollision(GameObject & other) {
 		takeDamage(other.damage);
 	}
 	if (other.Is("Item")) {
-		switch (static_cast<const Item&>(other).type) {
-		case Item::Red:
-			printf("REDD \n");
-			break;
-		case Item::Blue:
-			printf("Blue \n");
-			break;
-		case Item::Green:
-			printf("Green \n");
-			break;
-		default:
-			break;
+		auto item = static_cast<const Item&>(other);
+		auto type = item.GetType();
+		switch (type) {
+			case ItemType::Key:
+				keyCount++;
+				break;
+			default:
+				break;
 		}
-		
 	}
 }
 

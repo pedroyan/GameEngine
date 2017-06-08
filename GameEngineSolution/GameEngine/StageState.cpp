@@ -38,6 +38,7 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	for (auto& obj : objects) {
 		AddObject(obj);
 	}
+	SpawnKeys();
 }
 
 void StageState::LoadAssets() {
@@ -60,9 +61,7 @@ void StageState::Update(float dt) {
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
 
-	SpawnEnemy(dt);
-
-
+	//SpawnEnemy(dt);
 }
 
 void StageState::Render() {
@@ -93,12 +92,20 @@ void StageState::SpawnEnemy(float dt) {
 	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
 			auto spawn = tileMap.GetRandomSpawnPosition();
-			auto enemy = new Item(spawn.X, spawn.Y); // trocar por enemy depois
+			auto enemy = new Item(spawn.X, spawn.Y, ItemType::Key);
 			Game::GetInstance().GetCurrentState().AddObject(enemy); 
 		}
 		coolDownSpawnCounter.Restart();
 	}
 
+}
+
+void StageState::SpawnKeys() {
+	for (size_t i = 0; i < 3; i++) {
+		auto spawn = tileMap.GetRandomSpawnPosition();
+		auto key = new Item(spawn.X, spawn.Y, ItemType::Key);
+		AddObject(key);
+	}
 }
 
 void StageState::CheckCollisions() {

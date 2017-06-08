@@ -3,50 +3,22 @@
 #include "Camera.h"
 
 Item::Item(int x,int y,ItemType tipo) {
+
+	itemType = tipo;
 	switch (tipo) {
-	case Red:
-		sp=Sprite("img/itemRed.png");
-		break;
-	case Blue:
-		sp = Sprite("img/itemBlue.png");
-		break;
-	case Green:
-		sp = Sprite("img/itemGreen.png");
-		break;
-	default:
-		sp = Sprite("img/itemBlue.png");
-		break;
+		case ItemType::Key:
+			sp = Sprite("img/itemRed.png");
+			break;
+		default:
+			break;
 	}
-	box.X = x;
-	box.Y = y;
-	box.W = sp.GetWidth();
-	box.H = sp.GetHeight();
-	this->type = tipo;
-}
-Item::Item(int x, int y) {
-	int randomItem = rand() % 3;
-	switch (randomItem) {
-	case Red:
-		sp = Sprite("img/itemRed.png");
-		this->type =Red;
-		break;
-	case Blue:
-		sp = Sprite("img/itemBlue.png");
-		this->type = Blue;
-		break;
-	case Green:
-		sp = Sprite("img/itemGreen.png");
-		this->type = Green;
-		break;
-	default:
-		sp = Sprite("img/itemBlue.png");
-		break;
-	}
+
 	box.X = x;
 	box.Y = y;
 	box.W = sp.GetWidth();
 	box.H = sp.GetHeight();
 }
+
 
 void Item::Render() {
 	sp.Render(box.GetWorldPosition(),0,false, Camera::Zoom);
@@ -74,4 +46,8 @@ Item::~Item() {
 void Item::CreateDebugBox() {
 	Debug::MakeCenteredDebugSquare(box,{ 255, 239, 22});
 	
+}
+
+ItemType Item::GetType() {
+	return itemType;
 }
