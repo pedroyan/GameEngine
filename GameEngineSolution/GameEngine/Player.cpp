@@ -64,7 +64,7 @@ void Player::Update(float dt) {
 	}
 	
 	if (input.KeyPress(SDLK_l)) {
-		Camera::ZoomTo(1.3, 5);
+		Camera::ZoomTo(1.0f, 5);
 	}
 	
 	if (input.IsKeyDown(SDLK_w)) {
@@ -140,6 +140,10 @@ bool Player::Is(string type) {
 
 void Player::CreateDebugBox() {
 	Debug::MakeCenteredDebugSquare(box, { 0, 244, 0 });
+}
+
+int Player::GetKeyCount() const {
+	return keyCount;
 }
 
 void Player::UpdateSP(Sprite newSprite) {
