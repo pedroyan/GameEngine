@@ -93,7 +93,7 @@ void StageState::SpawnEnemy(float dt) {
 		for (int i = 0; i < numberOfEnemys; i++) {
 			auto spawn = tileMap.GetRandomSpawnPosition();
 			auto enemy = new Item(spawn.X, spawn.Y, ItemType::Key);
-			Game::GetInstance().GetCurrentState().AddObject(enemy); 
+			AddObject(enemy); 
 		}
 		coolDownSpawnCounter.Restart();
 	}
