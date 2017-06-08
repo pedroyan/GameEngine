@@ -48,47 +48,47 @@ void Player::Update(float dt) {
 			cooldownCounter.Restart();
 		}
 	}
-
-	if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
-		chargeCounter.Update(dt);
-	}
-	//Rotaciona caso D ou A sejam apertados
-	if (input.IsKeyDown(SDLK_d)) {
-		speed.X = SpeedLimit;
-		movedLeft = false;
-	} else if (input.IsKeyDown(SDLK_a)) {
-		speed.X = -SpeedLimit;
-		movedLeft = true;
-	} else {
-		speed.X = 0;
-	}
-	
 	if (input.KeyPress(SDLK_l)) {
 		Camera::ZoomTo(1.0f, 5);
 	}
-	
-	if (input.IsKeyDown(SDLK_w)) {
-		speedStairs.Y = -SpeedLimit/2;
-	} else if (input.IsKeyDown(SDLK_s)) {
-		speedStairs.Y = +SpeedLimit/2;
-	} else {
-		speedStairs.Y = 0;
-	}
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-	if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
-		auto k1 = 2 * Gravity * jumpHeight;
-		speed.Y = -tileHeight *sqrt(k1);
-		jumpCount++;
-	} else {
-		speed.Y += tileHeight * Gravity*dt;
+	if(currentLayer==0){//caso o player esteja na layer de colisao com os tiles(teto,piso)
+		if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
+			chargeCounter.Update(dt);
+		}
+		if (input.IsKeyDown(SDLK_d)) {
+			speed.X = SpeedLimit;
+			movedLeft = false;
+		} else if (input.IsKeyDown(SDLK_a)) {
+			speed.X = -SpeedLimit;
+			movedLeft = true;
+		} else {
+			speed.X = 0;
+		}
+		UpdateSpeedStairs(input);
+		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
+			auto k1 = 2 * Gravity * jumpHeight;
+			speed.Y = -tileHeight *sqrt(k1);
+			jumpCount++;
+		} else {
+			speed.Y += tileHeight * Gravity*dt;
+		}
+		if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
+			Shoot();
+		}
 	}
-
+	
+	
+	else if(currentLayer == 1) {//caso o player esteja na layer de escada
+		UpdateSpeedStairs(input);
+		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
+			auto k1 = 2 * Gravity * jumpHeight;
+			speed.Y = -tileHeight *sqrt(k1);
+			jumpCount++;
+		}
+	}
 	Move(dt);
 	UpdateCannonAngle(input);
-
-	if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
-		Shoot();
-	}
 }
 
 void Player::Render() {
@@ -251,6 +251,15 @@ void Player::Move(float dt){
 			return;
 
 		}
+	}
+}
+void Player::UpdateSpeedStairs(InputManager& input) {
+	if (input.IsKeyDown(SDLK_w)) {
+		speedStairs.Y = -SpeedLimit / 2;
+	} else if (input.IsKeyDown(SDLK_s)) {
+		speedStairs.Y = +SpeedLimit / 2;
+	} else {
+		speedStairs.Y = 0;
 	}
 }
 

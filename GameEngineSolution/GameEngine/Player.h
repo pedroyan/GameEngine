@@ -49,6 +49,7 @@ class Player : public GameObject {
 		void takeDamage(int damage);
 		void Move(float dt);
 
+		void UpdateSpeedStairs(InputManager& input);
 		void CenterOnCurrentTile();
 };
 
