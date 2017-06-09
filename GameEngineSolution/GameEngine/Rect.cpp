@@ -43,7 +43,7 @@ bool Rect::IsInside(float x, float y) {
 	return IsInside(Vec2(x, y));
 }
 
-Vec2 Rect::GetWorldPosition(bool withZoom) const {
+Vec2 Rect::GetWorldRenderPosition(bool withZoom) const {
 	auto cameraPosition = Camera::pos;
 	float x = X - cameraPosition.X;
 	float y = Y - cameraPosition.Y;
@@ -54,8 +54,8 @@ Vec2 Rect::GetWorldPosition(bool withZoom) const {
 	
 }
 
-Rect Rect::GetWorldBox() const {
-	auto pos = GetWorldPosition(true);
+Rect Rect::GetWorldRenderBox() const {
+	auto pos = GetWorldRenderPosition(true);
 	return Rect(pos.X,pos.Y,W*Camera::Zoom, H*Camera::Zoom);
 }
 

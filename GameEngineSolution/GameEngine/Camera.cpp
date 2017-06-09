@@ -6,8 +6,8 @@
 
 Vec2 Camera::speed(1000, 1000);
 Vec2 Camera::pos;
-float Camera::Zoom = 0.5;
-float Camera::targetZoom = 0.5;
+float Camera::Zoom = 1;
+float Camera::targetZoom = 1;
 float Camera::zoomPerSec = 0;
 
 GameObject* Camera::focus = nullptr;
@@ -63,7 +63,7 @@ void Camera::UpdateOnFocus() {
 	float gameWidth = DEFAULT_GAME_WIDTH;
 	float gameHeight = DEFAULT_GAME_HEIGHT;
 
-	Vec2 center = focus->box.GetWorldBox().GetCenter();
+	Vec2 center = focus->box.GetWorldRenderBox().GetCenter();
 
 	pos.X = center.X + Camera::pos.X - gameWidth / 2.0; // anula o offset de camera gerado pelo WorldBox para que o foco fique centralizado na tela
 	pos.Y = center.Y + Camera::pos.Y - gameHeight / 2.0;

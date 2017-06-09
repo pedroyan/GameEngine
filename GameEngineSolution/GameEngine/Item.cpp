@@ -21,7 +21,7 @@ Item::Item(int x,int y,ItemType tipo) {
 
 
 void Item::Render() {
-	sp.Render(box.GetWorldPosition(),0,false, Camera::Zoom);
+	sp.Render(box.GetWorldRenderPosition(),0,false, Camera::Zoom);
 }
 
 void Item::Update(float dt) {

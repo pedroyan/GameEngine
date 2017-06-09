@@ -18,7 +18,7 @@ void Animation::Update(float dt) {
 }
 
 void Animation::Render() {
-	sp.Render(box.GetWorldPosition(), rotation);
+	sp.Render(box.GetWorldRenderPosition(), rotation);
 }
 
 bool Animation::IsDead() {

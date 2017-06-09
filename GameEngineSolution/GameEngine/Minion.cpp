@@ -38,7 +38,7 @@ void Minion::Update(float dt) {
 }
 
 void Minion::Render() {
-	sp.Render(box.GetWorldPosition(), rotation);
+	sp.Render(box.GetWorldRenderPosition(), rotation);
 }
 
 bool Minion::IsDead() {
