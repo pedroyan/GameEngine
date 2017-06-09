@@ -22,7 +22,6 @@ class StageState : public State{
 		void Resume();
 		TileMap GetMap();
 		void AddObject(GameObject* ptr);
-		void SpawnEnemy(float dt);
 
 		
 	private:
@@ -38,5 +37,7 @@ class StageState : public State{
 		//metodos
 		void CheckCollisions();
 		void UpdateArray(float dt);
+		void SpawnEnemy(float dt);
+		void SpawnKeys();
 };
 

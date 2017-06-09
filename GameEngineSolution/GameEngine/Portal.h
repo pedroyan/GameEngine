@@ -12,8 +12,10 @@ class Portal : public GameObject {
 		~Portal();
 
 	private:
-		Text portalText;
+		Text displayText;
+		string text;
 		string nextMap;
 		string nextTileSet;
+		void CenterDisplayText();
 };
 

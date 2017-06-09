@@ -6,7 +6,7 @@
 #include <math.h>
 #include "StageState.h"
 #include "TileCollision.h"
-#include "ItemPowerUp.h"
+#include "Item.h"
 #include "Debug.h"
 
 Player* Player::playerInstance = nullptr;
@@ -32,6 +32,7 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 	box.H = bodySP.GetHeight();
 
 	jumpCount = 0;
+	keyCount = 0;
 }
 
 Player::~Player() {
@@ -48,7 +49,7 @@ void Player::Update(float dt) {
 		}
 	}
 	if (input.KeyPress(SDLK_l)) {
-		Camera::ZoomTo(1.3, 5);
+		Camera::ZoomTo(1.0f, 5);
 	}
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	if(currentLayer==0){//caso o player esteja na layer de colisao com os tiles(teto,piso)
@@ -120,21 +121,16 @@ void Player::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
 		takeDamage(other.damage);
 	}
-	if (other.Is("ItemPowerUp")) {
-		switch (static_cast<const ItemPowerUp&>(other).type) {
-		case ItemPowerUp::Red:
-			printf("REDD \n");
-			break;
-		case ItemPowerUp::Blue:
-			printf("Blue \n");
-			break;
-		case ItemPowerUp::Green:
-			printf("Green \n");
-			break;
-		default:
-			break;
+	if (other.Is("Item")) {
+		auto item = static_cast<const Item&>(other);
+		auto type = item.GetType();
+		switch (type) {
+			case ItemType::Key:
+				keyCount++;
+				break;
+			default:
+				break;
 		}
-		
 	}
 }
 
@@ -144,6 +140,10 @@ bool Player::Is(string type) {
 
 void Player::CreateDebugBox() {
 	Debug::MakeCenteredDebugSquare(box, { 0, 244, 0 });
+}
+
+int Player::GetKeyCount() const {
+	return keyCount;
 }
 
 void Player::UpdateSP(Sprite newSprite) {

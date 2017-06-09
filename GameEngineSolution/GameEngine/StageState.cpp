@@ -11,7 +11,7 @@
 #include "EndState.h"
 #include "TileCollision.h"
 #include "XMLParser.h"
-#include "ItemPowerUp.h"
+#include "Item.h"
 
 //coolDownSpawn de tiro em segundos
 const float coolDownSpawn = 3.0;
@@ -38,6 +38,7 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	for (auto& obj : objects) {
 		AddObject(obj);
 	}
+	SpawnKeys();
 }
 
 void StageState::LoadAssets() {
@@ -60,9 +61,7 @@ void StageState::Update(float dt) {
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
 
-	SpawnEnemy(dt);
-
-
+	//SpawnEnemy(dt);
 }
 
 void StageState::Render() {
@@ -92,13 +91,21 @@ void StageState::SpawnEnemy(float dt) {
 	coolDownSpawnCounter.Update(dt);
 	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
-			int tileSpawn = rand() % this->tileMap.GetSpawnTiles().size();
-			auto enemy = new ItemPowerUp(this->tileMap.GetSpawnTiles()[tileSpawn].X*tileSet->GetTileHeight(), this->tileMap.GetSpawnTiles()[tileSpawn].Y*tileSet->GetTileHeight()); // trocar por enemy depois
-			Game::GetInstance().GetCurrentState().AddObject(enemy); 
+			auto spawn = tileMap.GetRandomSpawnPosition();
+			auto enemy = new Item(spawn.X, spawn.Y, ItemType::Key);
+			AddObject(enemy); 
 		}
 		coolDownSpawnCounter.Restart();
 	}
 
+}
+
+void StageState::SpawnKeys() {
+	for (size_t i = 0; i < 3; i++) {
+		auto spawn = tileMap.GetRandomSpawnPosition();
+		auto key = new Item(spawn.X, spawn.Y, ItemType::Key);
+		AddObject(key);
+	}
 }
 
 void StageState::CheckCollisions() {
