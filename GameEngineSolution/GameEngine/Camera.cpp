@@ -6,8 +6,8 @@
 
 Vec2 Camera::speed(1000, 1000);
 Vec2 Camera::pos;
-float Camera::Zoom = 1;
-float Camera::targetZoom = 1;
+float Camera::Zoom = 0.5;
+float Camera::targetZoom = 0.5;
 float Camera::zoomPerSec = 0;
 
 GameObject* Camera::focus = nullptr;
