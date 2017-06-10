@@ -28,7 +28,7 @@ void Bullet::Update(float dt) {
 }
 
 void Bullet::Render() {
-	sp.Render(box.GetWorldRenderPosition(true), rotation);
+	sp.Render(box.GetWorldRenderPosition(), rotation,false,Camera::Zoom);
 }
 
 bool Bullet::IsDead() {

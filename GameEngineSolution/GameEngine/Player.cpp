@@ -166,7 +166,7 @@ void Player::Shoot() {
 	} else {
 		bulletSprite = Sprite("img/tiroPlayer.png", 4);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
-		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
+		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, 1, 1000, bulletSprite, false, 10);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 		cooldownCounter.Update(-coolDown);
@@ -176,11 +176,15 @@ void Player::Shoot() {
 
 void Player::UpdateCannonAngle(InputManager & manager) {
 	Vec2 mousePosition(manager.GetWorldMouseX(), manager.GetWorldMouseY());
+
+#ifdef _DEBUG
 	Rect mouseRect;
 	mouseRect.W = 50;
 	mouseRect.H = 50;
 	mouseRect.SetCenter(mousePosition);
-	Debug::MakeCenteredDebugSquare(mouseRect, {255,255,255});
+	Debug::MakeCenteredDebugSquare(mouseRect, { 255,255,255 });
+#endif // _DEBUG
+
 	Vec2 cannonAxis = box.GetCenter();
 
 	cannonAngle = cannonAxis.GetDistanceVectorAngle(mousePosition);
