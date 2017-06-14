@@ -104,7 +104,6 @@ void Player::Render() {
 			UpdateConcertaArm(40, 28,-5);
 		}
 		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom); 
-		printf("%f \n", cannonAngle);
 		renderPosition.X = centerPosition.X -concertaX-concertaLeft - Camera::pos.X;
 		renderPosition.Y = centerPosition.Y -concertaY - Camera::pos.Y;
 		armSp.Render(renderPosition, cannonAngle, false, Camera::Zoom);
