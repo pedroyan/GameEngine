@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 class Vec2 {
 	public:
 		//Variaveis
@@ -13,6 +14,9 @@ class Vec2 {
 		Vec2 operator*(const float escalar) const;
 		Vec2 operator/(const float escalar);
 		Vec2& operator+=(const Vec2 rhs);
+		bool Vec2::operator==(const Vec2 rhs) const;
+		bool Vec2::operator!=(const Vec2 rhs) const;
+		bool Vec2::operator<(const Vec2 rhs) const;
 
 		//Métodos
 
