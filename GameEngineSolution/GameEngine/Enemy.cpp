@@ -18,7 +18,7 @@ void Enemy::MoveTo(Vec2 pos) {
 	//Pathfinding do carlos
 }
 
-void Enemy::Focus(GameObject * focus) {
+void Enemy::Focus(Player* focus) {
 	this->focus = focus;
 }
 

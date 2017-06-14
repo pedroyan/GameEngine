@@ -3,6 +3,7 @@
 float attackRange = 13;
 
 MeleeEnemy::MeleeEnemy() {
+	damage = 10;
 }
 
 
@@ -23,4 +24,5 @@ void MeleeEnemy::NotifyCollision(GameObject & other) {
 }
 
 void MeleeEnemy::Attack() {
+	focus->TakeDamage(10);
 }

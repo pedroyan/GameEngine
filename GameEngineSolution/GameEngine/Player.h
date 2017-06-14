@@ -18,7 +18,7 @@ class Player : public GameObject {
 		bool Is(string type);
 		void CreateDebugBox();
 		int GetKeyCount() const;
-
+		void TakeDamage(int damage);
 		void UpdateSP(Sprite newSprite);
 		void Shoot();
 
@@ -46,7 +46,6 @@ class Player : public GameObject {
 
 		void UpdateCannonAngle(InputManager& manager);
 		float getInertialBulletSpeed();
-		void takeDamage(int damage);
 		void Move(float dt);
 
 		void UpdateSpeedStairs(InputManager& input);

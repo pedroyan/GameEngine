@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Player.h"
 class Enemy : public GameObject {
 	public:
 		Enemy();
@@ -8,11 +9,11 @@ class Enemy : public GameObject {
 		bool inline IsEnemy() { return true; }
 		bool inline IsDead() { return hp <= 0; }
 		virtual void MoveTo(Vec2 pos);
-		virtual void Focus(GameObject* focus);
+		virtual void Focus(Player* focus);
 		virtual void Attack() = 0;
 
 	protected:
-		GameObject* focus;
+		Player* focus;
 		int hp;
 
 		/// <summary>

@@ -23,7 +23,7 @@ const float chargingTimeLimit = 1.0;
 Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), cannonSp("img/cubngun.png"),speed(0,0){
 	rotation = 0;
 	Player::playerInstance = this;
-	hp = 900000;//vida alterada pra teste
+	hp = 100;
 	cooldownCounter = Timer();
 
 	box.X = x;
@@ -119,8 +119,9 @@ bool Player::IsDead() {
 
 void Player::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && static_cast<const Bullet&>(other).targetsPlayer) {
-		takeDamage(other.damage);
+		TakeDamage(other.damage);
 	}
+
 	if (other.Is("Item")) {
 		auto item = static_cast<const Item&>(other);
 		auto type = item.GetType();
@@ -196,7 +197,7 @@ float Player::getInertialBulletSpeed() {
 	return (bulletSpeed + speed).Magnitude();
 }
 
-void Player::takeDamage(int damage) {
+void Player::TakeDamage(int damage) {
 	hp -= damage;
 	if (IsDead()) {
 		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
