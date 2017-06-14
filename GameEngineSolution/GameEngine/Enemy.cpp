@@ -7,6 +7,7 @@ const float SpeedLimit = 200;
 
 const float jumpHeight = 2;
 const float Gravity = 2 * 9.8;
+const float sqrK1 = sqrt(2 * Gravity * jumpHeight);
 
 Enemy::Enemy() {
 	focus = nullptr;
@@ -36,9 +37,8 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 	Vec2 newPos;
 
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-	auto k1 = 2 * Gravity * jumpHeight;
 
-	auto neig = FindNeighbors(SpeedLimit * dt, tileHeight * sqrt(k1) * dt, pos);
+	auto neig = FindNeighbors(SpeedLimit * dt, tileHeight * sqrK1 * dt, pos);
 
 	if (!neig.empty()) {
 		for (auto next : neig) {
@@ -61,7 +61,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 					if (ground == 1 && speed.Y == 0) { //posso pular?
 						box.X = newPos.X;
 						speed.X = SpeedLimit;
-						speed.Y = -tileHeight * sqrt(k1);
+						speed.Y = -tileHeight * sqrK1;
 						break;
 					}
 					else {
@@ -80,15 +80,15 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 	if (box.X != newPos.X) {//não andei
 		Rect newPosBox = box;
 		newPosBox.X = box.X + SpeedLimit * dt;
-		newPosBox.Y = box.Y + tileHeight * sqrt(k1);
+		newPosBox.Y = box.Y + tileHeight * sqrK1;
 		auto collisionAnalysisR = TileCollision::isCollinding(newPosBox, 0);
 
 		newPosBox.X = box.X - SpeedLimit * dt;
-		newPosBox.Y = box.Y + tileHeight * sqrt(k1);
+		newPosBox.Y = box.Y + tileHeight * sqrK1;
 		auto collisionAnalysisL = TileCollision::isCollinding(newPosBox, 0);
 		if (collisionAnalysisL == TileCollision::noCollision || collisionAnalysisR == TileCollision::noCollision) {//se eu pular eu contorno
 			if (ground == 1 && speed.Y == 0) { //posso pular?
-				speed.Y = -tileHeight * sqrt(k1);
+				speed.Y = -tileHeight * sqrK1;
 			}
 		}
 	}
@@ -134,7 +134,6 @@ void Enemy::Update(float dt) {
 	}
 
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-	auto k1 = 2 * Gravity * jumpHeight;
 	speed.Y += tileHeight * Gravity * dt;
 	box.Y += speed.Y*dt;
 

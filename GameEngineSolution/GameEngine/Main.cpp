@@ -6,7 +6,6 @@
 #include "Resources.h"
 
 int wmain(int argc, char ** argv) {
-	int a;
 	int Height = DEFAULT_GAME_HEIGHT;
 	int Width = DEFAULT_GAME_WIDTH;
 
