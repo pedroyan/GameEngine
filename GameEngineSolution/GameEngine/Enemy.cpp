@@ -21,3 +21,7 @@ void Enemy::MoveTo(Vec2 pos) {
 void Enemy::Focus(GameObject * focus) {
 	this->focus = focus;
 }
+
+void Enemy::MoveToDumbly(Vec2 pos) {
+	//pathfinding tosco e menos custoso
+}
