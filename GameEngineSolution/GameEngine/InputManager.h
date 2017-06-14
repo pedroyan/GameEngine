@@ -23,8 +23,8 @@ class InputManager {
 		int GetMouseX();
 		int GetMouseY();
 
-		int GetWorldMouseX();
-		int GetWorldMouseY();
+		float GetWorldMouseX();
+		float GetWorldMouseY();
 
 		bool QuitRequested();
 		static InputManager& GetInstance();

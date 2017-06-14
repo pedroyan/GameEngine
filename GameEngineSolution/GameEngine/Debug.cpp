@@ -16,7 +16,7 @@ void Debug::MakeDebugSquare(float x, float y, float w, float h, SDL_Color color)
 }
 
 void Debug::MakeCenteredDebugSquare(const Rect& positionBox, SDL_Color boxColor) {
-	auto worldBox = positionBox.GetWorldBox();
+	Rect worldBox = positionBox.GetWorldRenderBox();
 	Debug::MakeDebugSquare(worldBox.X, worldBox.Y, worldBox.W, worldBox.H, boxColor);
 	Debug::MakeDebugSquare(worldBox.X, worldBox.Y, worldBox.W, worldBox.H / 2, boxColor);
 	Debug::MakeDebugSquare(worldBox.X, worldBox.Y, worldBox.W / 2, worldBox.H, boxColor);

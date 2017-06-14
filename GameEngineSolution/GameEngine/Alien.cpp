@@ -51,7 +51,7 @@ void Alien::Update(float dt) {
 }
 
 void Alien::Render() {
-	auto position = box.GetWorldPosition();
+	auto position = box.GetWorldRenderPosition();
 
 	sp.Render(position, rotation);
 	for (auto& minion : minionArray) {

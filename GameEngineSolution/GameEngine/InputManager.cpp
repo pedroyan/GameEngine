@@ -97,11 +97,11 @@ int InputManager::GetMouseY() {
 	return mouseY;
 }
 
-int InputManager::GetWorldMouseX() {
-	return mouseX + Camera::pos.X;
+float InputManager::GetWorldMouseX() {
+	return mouseX/Camera::Zoom + Camera::pos.X;
 }
 
-int InputManager::GetWorldMouseY() {
-	return mouseY + Camera::pos.Y;
+float InputManager::GetWorldMouseY() {
+	return mouseY/Camera::Zoom + Camera::pos.Y;
 }
 

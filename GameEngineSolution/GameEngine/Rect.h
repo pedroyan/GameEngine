@@ -51,13 +51,13 @@ class Rect {
 		/// </summary>
 		/// <param name="withZoom">Flag booleana indicando se o zoom da camera deve ser considerado</param>
 		/// <returns>Posicao do canto superior esquerdo do player</returns>
-		Vec2 GetWorldPosition(bool withZoom=false) const;
+		Vec2 GetWorldRenderPosition(bool withZoom=false) const;
 
 		/// <summary>
 		/// Pega a box do player no mundo, considerando TODOS os parametros de camera
 		/// </summary>
 		/// <returns>A box do player no mundo</returns>
-		Rect GetWorldBox() const;
+		Rect GetWorldRenderBox() const;
 
 		void SetCenter(float x, float y);
 		void SetCenter(Vec2 vector);

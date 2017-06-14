@@ -103,7 +103,7 @@ void Player::Render() {
 	if (currentLayer == 1) {
 		UpdateSP(bodySP);
 	}
-	actualSP.Render(box.GetWorldPosition(), 0, movedLeft, Camera::Zoom);
+	actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom);
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
@@ -176,6 +176,15 @@ void Player::Shoot() {
 
 void Player::UpdateCannonAngle(InputManager & manager) {
 	Vec2 mousePosition(manager.GetWorldMouseX(), manager.GetWorldMouseY());
+
+#ifdef _DEBUG
+	Rect mouseRect;
+	mouseRect.W = 50;
+	mouseRect.H = 50;
+	mouseRect.SetCenter(mousePosition);
+	Debug::MakeCenteredDebugSquare(mouseRect, { 255,255,255 });
+#endif // _DEBUG
+
 	Vec2 cannonAxis = box.GetCenter();
 
 	cannonAngle = cannonAxis.GetDistanceVectorAngle(mousePosition);
