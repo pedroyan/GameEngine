@@ -20,7 +20,7 @@ const float Gravity = 2 * 9.8;
 const float coolDown = 0.5;
 const float chargingTimeLimit = 1.0;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), cannonSp("img/cubngun.png"),speed(0,0){
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), armSp("img/armPlayer.png"),speed(0,0){
 	rotation = 0;
 	Player::playerInstance = this;
 	hp = 900000;//vida alterada pra teste
@@ -95,7 +95,7 @@ void Player::Render() {
 	auto& input = InputManager::GetInstance();
 	if (currentLayer == 0) {
 		if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
-			UpdateSP(bodyRunSP);		
+			UpdateSP(bodyRunSP);
 		} else {
 			UpdateSP(bodySP);
 		}
@@ -107,10 +107,10 @@ void Player::Render() {
 	auto centerPosition = box.GetCenter();
 
 	Vec2 renderPosition;
-	renderPosition.X = centerPosition.X - cannonSp.GetWidth() / 2 - Camera::pos.X;
-	renderPosition.Y = centerPosition.Y - cannonSp.GetHeight() / 2 - Camera::pos.Y;
+	renderPosition.X = centerPosition.X - armSp.GetWidth()/1.8  - Camera::pos.X;
+	renderPosition.Y = centerPosition.Y - armSp.GetHeight()*2 - Camera::pos.Y;
 
-	//cannonSp.Render(renderPosition,cannonAngle); SERA O BRACO
+	armSp.Render(renderPosition, cannonAngle, false, Camera::Zoom);
 }
 
 bool Player::IsDead() {
