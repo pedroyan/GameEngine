@@ -48,6 +48,11 @@ class Player : public GameObject {
 		float getInertialBulletSpeed();
 		void takeDamage(int damage);
 		void Move(float dt);
+		void UpdateConcertaArm(int correcaoX,int correcaoY,int correcaoLeft);
+		int concertaX;
+		int concertaY;
+		int concertaLeft;
+
 
 		void UpdateSpeedStairs(InputManager& input);
 		void CenterOnCurrentTile();
