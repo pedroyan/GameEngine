@@ -18,10 +18,10 @@ class Enemy : public GameObject {
 
 		Sprite* actualSprite;
 		Sprite stillSprite;
-		Sprite attackingSprite;
 		Sprite walkingSprite;
+		bool walkingLeft;
 
-		Enemy(string stillSprite, string attackingSprite, string walkingSprite);
+		Enemy(Sprite stillSprite, Sprite walkingSprite);
 
 		/// <summary>
 		/// Versão menos custosa do pathfinding, onde os inimigos só se movimentam para a esquerda e direita, sem considerar escadas

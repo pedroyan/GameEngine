@@ -1,12 +1,6 @@
 #include "Enemy.h"
 #include "Debug.h"
 
-
-Enemy::Enemy() {
-	focus = nullptr;
-}
-
-
 Enemy::~Enemy() {
 }
 
@@ -20,6 +14,11 @@ void Enemy::MoveTo(Vec2 pos) {
 
 void Enemy::Focus(Player* focus) {
 	this->focus = focus;
+}
+
+Enemy::Enemy(Sprite stillSprite, Sprite walkingSprite) : stillSprite(stillSprite), walkingSprite(walkingSprite) {
+	focus = nullptr;
+	actualSprite = &this->stillSprite;
 }
 
 void Enemy::MoveToDumbly(Vec2 pos) {
