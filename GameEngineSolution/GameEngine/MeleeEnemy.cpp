@@ -2,7 +2,7 @@
 
 float attackRange = 13;
 
-MeleeEnemy::MeleeEnemy() {
+MeleeEnemy::MeleeEnemy(){
 	damage = 10;
 }
 

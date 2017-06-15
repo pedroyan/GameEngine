@@ -1,20 +1,27 @@
 #pragma once
 #include "GameObject.h"
 #include "Player.h"
+#include "Sprite.h"
 class Enemy : public GameObject {
 	public:
-		Enemy();
-		virtual ~Enemy();
 		void CreateDebugBox();
 		bool inline IsEnemy() { return true; }
 		bool inline IsDead() { return hp <= 0; }
 		virtual void MoveTo(Vec2 pos);
 		virtual void Focus(Player* focus);
 		virtual void Attack() = 0;
+		virtual ~Enemy();
 
 	protected:
 		Player* focus;
 		int hp;
+
+		Sprite* actualSprite;
+		Sprite stillSprite;
+		Sprite attackingSprite;
+		Sprite walkingSprite;
+
+		Enemy(string stillSprite, string attackingSprite, string walkingSprite);
 
 		/// <summary>
 		/// Versão menos custosa do pathfinding, onde os inimigos só se movimentam para a esquerda e direita, sem considerar escadas

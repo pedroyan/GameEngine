@@ -10,10 +10,5 @@ class MeleeEnemy : public Enemy {
 		void NotifyCollision(GameObject& other);
 		bool inline Is(string type) { return type == "MeleeEnemy"; }
 		void Attack();
-
-	private:
-		Sprite actualSprite;
-		Sprite attackingSprite;
-		Sprite walkingSprite;
 };
 
