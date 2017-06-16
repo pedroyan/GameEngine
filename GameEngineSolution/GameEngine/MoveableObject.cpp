@@ -26,8 +26,8 @@ unsigned char MoveableObject::Move(float dt) {
 
 	if (CurrentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0 (fora das escadas)
 		//EIXO Y
-		auto collisionAnalysisLayer1 = TileCollision::PriorityCollision(stairsAnalisys, 1);
-		if (collisionAnalysisLayer1 == CollisionType::Stairs && GoToStairs) {
+		auto CollidingStairs = TileCollision::HasCollision(stairsAnalisys, 1, CollisionType::Stairs);
+		if (CollidingStairs && GoToStairs) {
 			CurrentLayer = 1;
 			Speed.X = 0;
 			CenterOnCurrentTile();

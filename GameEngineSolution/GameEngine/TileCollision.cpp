@@ -14,6 +14,7 @@
 CollisionType TileCollision::PriorityCollision(Rect box,int layer) {
 	
 	auto collisions = GetCollisions(box, layer);
+	std::sort(collisions.begin(), collisions.end());
 	return collisions.back();
 }
 
@@ -48,8 +49,17 @@ vector<CollisionType> TileCollision::GetCollisions(Rect box, int layer) {
 			}
 		}
 	}
-	std::sort(toReturn.begin(), toReturn.end());
 	return toReturn;
+}
+
+bool TileCollision::HasCollision(Rect box, int layer, CollisionType type) {
+	auto collisions = GetCollisions(box, layer);
+	for (auto& t : collisions) {
+		if (t == type) {
+			return true;
+		}
+	}
+	return false;
 }
 
 void TileCollision::GetParameters(TileMap mapa){
