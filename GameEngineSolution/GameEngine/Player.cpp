@@ -87,7 +87,7 @@ void Player::Update(float dt) {
 			jumpCount++;
 		}
 	}
-	Move(dt);
+	MovePlayer(dt);
 	UpdateCannonAngle(input);
 }
 
@@ -205,12 +205,13 @@ void Player::TakeDamage(int damage) {
 	}
 }
 
-void Player::Move(float dt){
+void Player::MovePlayer(float dt){
 	Rect previousRect = box;
 	Rect stairsAnalisys= previousRect;
 	     stairsAnalisys.Y += speedStairs.Y*dt;
 		 stairsAnalisys.W =0;
 		 stairsAnalisys.X += box.W/2;
+
 	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
 		//EIXO Y
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
@@ -229,8 +230,8 @@ void Player::Move(float dt){
 				jumpCount = 0;
 			}
 			box.Y = previousRect.Y;
-			
 		}
+
 		//EIXO X
 		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
 		auto collisionAnalysisX = TileCollision::isCollinding(this->box, currentLayer);

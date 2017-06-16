@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "Timer.h"
 #include "TileMap.h"
+#include "MoveableObject.h"
 
 class Player : public GameObject {
 	public:
@@ -46,7 +47,7 @@ class Player : public GameObject {
 
 		void UpdateCannonAngle(InputManager& manager);
 		float getInertialBulletSpeed();
-		void Move(float dt);
+		void MovePlayer(float dt);
 
 		void UpdateSpeedStairs(InputManager& input);
 		void CenterOnCurrentTile();
