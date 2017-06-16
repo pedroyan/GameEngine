@@ -20,7 +20,7 @@ const float Gravity = 2 * 9.8;
 const float coolDown = 0.5;
 const float chargingTimeLimit = 1.0;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), cannonSp("img/cubngun.png"),speed(0,0){
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), cannonSp("img/cubngun.png"){
 	rotation = 0;
 	Player::playerInstance = this;
 	hp = 100;
@@ -51,43 +51,7 @@ void Player::Update(float dt) {
 	if (input.KeyPress(SDLK_l)) {
 		Camera::ZoomTo(1.0f, 5);
 	}
-	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-	if(currentLayer==0){//caso o player esteja na layer de colisao com os tiles(teto,piso)
-		if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
-			chargeCounter.Update(dt);
-		}
-		if (input.IsKeyDown(SDLK_d)) {
-			speed.X = SpeedLimit;
-			movedLeft = false;
-		} else if (input.IsKeyDown(SDLK_a)) {
-			speed.X = -SpeedLimit;
-			movedLeft = true;
-		} else {
-			speed.X = 0;
-		}
-		UpdateSpeedStairs(input);
-		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
-			auto k1 = 2 * Gravity * jumpHeight;
-			speed.Y = -tileHeight *sqrt(k1);
-			jumpCount++;
-		} else {
-			speed.Y += tileHeight * Gravity*dt;
-		}
-		if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
-			Shoot();
-		}
-	}
-	
-	
-	else if(currentLayer == 1) {//caso o player esteja na layer de escada
-		UpdateSpeedStairs(input);
-		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
-			auto k1 = 2 * Gravity * jumpHeight;
-			speed.Y = -tileHeight *sqrt(k1);
-			jumpCount++;
-		}
-	}
-	MovePlayer(dt);
+	MovePlayer(dt, input);
 	UpdateCannonAngle(input);
 }
 
@@ -194,7 +158,7 @@ void Player::UpdateCannonAngle(InputManager & manager) {
 float Player::getInertialBulletSpeed() {
 	Vec2 bulletSpeed(1000, 0);
 	bulletSpeed.Rotate(cannonAngle);
-	return (bulletSpeed + speed).Magnitude();
+	return (bulletSpeed + Speed).Magnitude();
 }
 
 void Player::TakeDamage(int damage) {
@@ -205,72 +169,63 @@ void Player::TakeDamage(int damage) {
 	}
 }
 
-void Player::MovePlayer(float dt){
-	Rect previousRect = box;
-	Rect stairsAnalisys= previousRect;
-	     stairsAnalisys.Y += speedStairs.Y*dt;
-		 stairsAnalisys.W =0;
-		 stairsAnalisys.X += box.W/2;
+void Player::MovePlayer(float dt, InputManager& input){
 
-	if (currentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0
-		//EIXO Y
-		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
-		if (collisionAnalysisLayer1 == TileCollision::Stairs && (InputManager::GetInstance().IsKeyDown(SDLK_w) || InputManager::GetInstance().IsKeyDown(SDLK_s))) {
-			jumpCount = 0;
-			currentLayer = 1;
-			CenterOnCurrentTile();
-			return;
+	//Primeira faz o calculo da velocidade resultante final
+	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
+	if (currentLayer == 0) {//caso o player NÃO esteja na esada
+		if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
+			chargeCounter.Update(dt);
 		}
-		
-		box.Y += speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
-		auto collisionAnalysisY = TileCollision::isCollinding(this->box,0);
-		if (collisionAnalysisY == TileCollision::Solid && currentLayer == 0) {
-			speed.Y = 0;
-			if (box.Y - previousRect.Y > 0) {
-				jumpCount = 0;
-			}
-			box.Y = previousRect.Y;
+		if (input.IsKeyDown(SDLK_d)) {
+			Speed.X = SpeedLimit;
+			movedLeft = false;
+		} else if (input.IsKeyDown(SDLK_a)) {
+			Speed.X = -SpeedLimit;
+			movedLeft = true;
+		} else {
+			Speed.X = 0;
 		}
 
-		//EIXO X
-		box.X += speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
-		auto collisionAnalysisX = TileCollision::isCollinding(this->box, currentLayer);
-		if (collisionAnalysisX == TileCollision::Solid && currentLayer == 0) {
-			box.X = previousRect.X;
+		GoToStairs = input.IsKeyDown(SDLK_w) || input.IsKeyDown(SDLK_s);
+		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
+			jumpPlayer();
+		} else {
+			Speed.Y += tileHeight * Gravity*dt;
 		}
-
-	}
-
-	if (currentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
-		box.Y += speedStairs.Y*dt;
-		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, 1);
-		auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box, 0);
-		if ( InputManager::GetInstance().KeyPress(SDLK_SPACE) && collisionAnalysisLayer0 != TileCollision::Solid) {
-			currentLayer = 0;
-			return;
+		if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
+			Shoot();
 		}
-
-		if (collisionAnalysisLayer1 == TileCollision::noCollision && collisionAnalysisLayer0 != TileCollision::Solid) {
-			currentLayer = 0;
-			return;
-		}
-		if (collisionAnalysisLayer1 == TileCollision::Solid) {
-			if (speedStairs.Y > 0) {
-				currentLayer = 0;
-			}
-			box.Y = previousRect.Y;
-			return;
-
+	} 
+	else if (currentLayer == 1) {//caso o player esteja na layer de escada
+		UpdateSpeedStairs(input);
+		QuitStairs = input.KeyPress(SDLK_SPACE);
+		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
+			jumpPlayer();
 		}
 	}
+
+	//Depois movimenta o objeto
+	auto collisionResult = Move(dt);
+
+	if (collisionResult & (int)CollisionFlags::Bottom) {
+		jumpCount = 0;
+	}
+
 }
+
+void Player::jumpPlayer() {
+	Jump(jumpHeight);
+	jumpCount++;
+}
+
 void Player::UpdateSpeedStairs(InputManager& input) {
 	if (input.IsKeyDown(SDLK_w)) {
-		speedStairs.Y = -SpeedLimit / 2;
+		Speed.Y = -SpeedLimit / 2;
 	} else if (input.IsKeyDown(SDLK_s)) {
-		speedStairs.Y = +SpeedLimit / 2;
+		Speed.Y = +SpeedLimit / 2;
 	} else {
-		speedStairs.Y = 0;
+		Speed.Y = 0;
 	}
 }
 

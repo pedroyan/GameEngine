@@ -7,7 +7,7 @@
 #include "TileMap.h"
 #include "MoveableObject.h"
 
-class Player : public GameObject {
+class Player : public MoveableObject {
 	public:
 		Player(float x, float y);
 		~Player();
@@ -30,8 +30,6 @@ class Player : public GameObject {
 		Sprite bodyRunSP;
 		Sprite actualSP;
 		Sprite cannonSp;
-		Vec2 speed;
-		Vec2 speedStairs;
 		TileMap map;
 		int keyCount;
 
@@ -47,7 +45,8 @@ class Player : public GameObject {
 
 		void UpdateCannonAngle(InputManager& manager);
 		float getInertialBulletSpeed();
-		void MovePlayer(float dt);
+		void MovePlayer(float dt, InputManager& manager);
+		void jumpPlayer();
 
 		void UpdateSpeedStairs(InputManager& input);
 		void CenterOnCurrentTile();
