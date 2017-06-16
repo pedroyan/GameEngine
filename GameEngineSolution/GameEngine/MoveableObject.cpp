@@ -83,7 +83,7 @@ unsigned char MoveableObject::Move(float dt) {
 
 void MoveableObject::Jump(int height) {
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-	auto k1 = 2 * Gravity * Gravity;
+	auto k1 = 2 * Gravity * height;
 	Speed.Y = -tileHeight *sqrt(k1);
 }
 

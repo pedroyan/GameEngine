@@ -208,6 +208,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 	//Depois movimenta o objeto
 	auto collisionResult = Move(dt);
 
+	//E finalmente trata as colisões
 	if (collisionResult & (int)CollisionFlags::Bottom) {
 		jumpCount = 0;
 	}
