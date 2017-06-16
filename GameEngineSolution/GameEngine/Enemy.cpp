@@ -149,7 +149,7 @@ void Enemy::Update(float dt) {
 }
 
 void Enemy::Render() {
-	sp.Render(box.GetWorldPosition(), 0);
+	sp.Render(box.GetWorldRenderPosition(), 0);
 }
 
 bool Enemy::IsDead() {
