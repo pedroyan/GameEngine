@@ -22,7 +22,7 @@ public:
 	/// <param name="box">Box(codernadas x,y e tamanhos w,h) do objeto a qual ira ser analisado</param>
 	/// <param name="layer">Layer na qual ira ser analisada a colisao</param>
 	/// <returns>Quais colisões foram encontradas</returns>
-	static vector<CollisionType> IsCollidingV(Rect box, int layer);
+	static vector<CollisionType> GetCollisions(Rect box, int layer);
 
 	/// <summary>
 	/// Obtem os parametros do mapa
