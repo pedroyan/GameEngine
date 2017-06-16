@@ -39,8 +39,7 @@ class Player : public MoveableObject {
 		int hp;
 		Timer cooldownCounter;
 		Timer chargeCounter;
-		int jumpCount;
-		int currentLayer = 0; 
+		int jumpCount; 
 		bool movedLeft=false;
 
 		void UpdateCannonAngle(InputManager& manager);

@@ -57,14 +57,14 @@ void Player::Update(float dt) {
 
 void Player::Render() {
 	auto& input = InputManager::GetInstance();
-	if (currentLayer == 0) {
+	if (CurrentLayer == 0) {
 		if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
 			UpdateSP(bodyRunSP);		
 		} else {
 			UpdateSP(bodySP);
 		}
 	}
-	if (currentLayer == 1) {
+	if (CurrentLayer == 1) {
 		UpdateSP(bodySP);
 	}
 	actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom);
@@ -173,7 +173,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 
 	//Primeira faz o calculo da velocidade resultante final
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-	if (currentLayer == 0) {//caso o player NÃO esteja na esada
+	if (CurrentLayer == 0) {//caso o player NÃO esteja na esada
 		if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
 			chargeCounter.Update(dt);
 		}
@@ -197,7 +197,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 			Shoot();
 		}
 	} 
-	else if (currentLayer == 1) {//caso o player esteja na layer de escada
+	else if (CurrentLayer == 1) {//caso o player esteja na layer de escada
 		UpdateSpeedStairs(input);
 		QuitStairs = input.KeyPress(SDLK_SPACE);
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
