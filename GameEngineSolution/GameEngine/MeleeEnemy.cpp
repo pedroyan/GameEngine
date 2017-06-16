@@ -20,16 +20,14 @@ MeleeEnemy::~MeleeEnemy() {
 void MeleeEnemy::Update(float dt) {
 	MoveToDumbly(focus->box.GetCenter());
 
-	if (this->focus->box.DistanceFrom(box) <= 13) {
-		Attack();
-	}
-
 	if (attackTimer.Get() != 0) {
 		attackTimer.Update(dt);
 		if (attackTimer.Get() > 0) {
 			attackTimer.Restart();
 			actualSprite = &stillSprite;
 		}
+	} else if (this->focus->box.DistanceFrom(box) <= 13) {
+		Attack();
 	}
 }
 

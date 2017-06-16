@@ -165,7 +165,7 @@ void Player::Shoot() {
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 	} else {
-		bulletSprite = Sprite("img/tiroPlayer.png", 4);
+		bulletSprite = Sprite("img/tiroPlayer.png", 4,0.1);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
 		chargeCounter.Restart();
