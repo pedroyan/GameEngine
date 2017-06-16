@@ -10,7 +10,7 @@
 
  bool Order(int i, int j) { return (i<j); }
 
-CollisionType TileCollision::isCollinding(Rect box,int layer) {
+CollisionType TileCollision::PriorityCollision(Rect box,int layer) {
 	
 
 	int left_tile =  box.X / tile_width;

@@ -20,7 +20,7 @@ void Bullet::Update(float dt) {
 	box.SetCenter(bulletCenter.X, bulletCenter.Y);
 	distanceLeft -= realSpeed.Magnitude();
 	
-	auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box, 0);
+	auto collisionAnalysisLayer0 = TileCollision::PriorityCollision(this->box, 0);
 	if (collisionAnalysisLayer0 == CollisionType::Solid) {
 		distanceLeft = 0;
 	}

@@ -14,7 +14,7 @@ public:
 	/// <param name="box">Box(codernadas x,y e tamanhos w,h) do objeto a qual ira ser analisado</param>
 	/// <param name="layer">Layer na qual ira ser analisada a colisao</param>
 	/// <returns>Tipo de colisao que o player esta sofrendo de maior prioridade</returns>
-	static CollisionType isCollinding(Rect box,int layer);
+	static CollisionType PriorityCollision(Rect box,int layer);
 
 	/// <summary>
 	///  Analisa se o player esta colidindo com algo

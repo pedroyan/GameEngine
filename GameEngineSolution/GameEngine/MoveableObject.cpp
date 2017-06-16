@@ -26,7 +26,7 @@ unsigned char MoveableObject::Move(float dt) {
 
 	if (CurrentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0 (fora das escadas)
 		//EIXO Y
-		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
+		auto collisionAnalysisLayer1 = TileCollision::PriorityCollision(stairsAnalisys, 1);
 		if (collisionAnalysisLayer1 == CollisionType::Stairs && GoToStairs) {
 			CurrentLayer = 1;
 			Speed.X = 0;
@@ -35,7 +35,7 @@ unsigned char MoveableObject::Move(float dt) {
 		}
 
 		box.Y += Speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
-		auto collisionAnalysisY = TileCollision::isCollinding(this->box, CurrentLayer);
+		auto collisionAnalysisY = TileCollision::PriorityCollision(this->box, CurrentLayer);
 		if (collisionAnalysisY == CollisionType::Solid) {
 			if (box.Y > previousRect.Y) {
 				collisionFlags = collisionFlags | (int)CollisionFlags::Bottom;
@@ -48,7 +48,7 @@ unsigned char MoveableObject::Move(float dt) {
 
 		//EIXO X
 		box.X += Speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
-		auto collisionAnalysisX = TileCollision::isCollinding(this->box, CurrentLayer);
+		auto collisionAnalysisX = TileCollision::PriorityCollision(this->box, CurrentLayer);
 		if (collisionAnalysisX == CollisionType::Solid) {
 			if (box.X > previousRect.X) {
 				collisionFlags = collisionFlags | (int)CollisionFlags::Right;
@@ -62,8 +62,8 @@ unsigned char MoveableObject::Move(float dt) {
 
 	if (CurrentLayer == 1) {//Tratamento de acoes caso o player esteja no layer 1
 		box.Y += Speed.Y*dt;
-		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, 1);
-		auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box, 0);
+		auto collisionAnalysisLayer1 = TileCollision::PriorityCollision(this->box, 1);
+		auto collisionAnalysisLayer0 = TileCollision::PriorityCollision(this->box, 0);
 		if (QuitStairs && collisionAnalysisLayer0 != CollisionType::Solid) {
 			CurrentLayer = 0;
 			return (int)CollisionFlags::None;
