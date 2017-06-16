@@ -20,8 +20,6 @@ unsigned char MoveableObject::Move(float dt) {
 	stairsAnalisys.H = box.H/2 + 2;
 	stairsAnalisys.W = 0;
 	stairsAnalisys.X += box.W / 2;
-
-	Debug::MakeCenteredDebugSquare(stairsAnalisys, { 250, 0, 0 });
 	unsigned char collisionFlags = (int)CollisionFlags::None;
 
 	if (CurrentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0 (fora das escadas)

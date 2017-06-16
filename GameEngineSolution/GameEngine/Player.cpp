@@ -198,7 +198,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 	} 
 	else if (CurrentLayer == 1) {//caso o player esteja na layer de escada
 		UpdateSpeedStairs(input);
-		QuitStairs = input.KeyPress(SDLK_SPACE);
+		QuitStairs = input.KeyPress(SDLK_SPACE) || input.KeyPress(SDLK_d) || input.KeyPress(SDLK_a);
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 			jumpPlayer();
 		}
