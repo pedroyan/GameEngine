@@ -15,7 +15,7 @@ unsigned char MoveableObject::Move(float dt) {
 
 	Rect previousRect = box;
 	Rect stairsAnalisys = previousRect;
-	stairsAnalisys.Y += Speed.Y*dt;
+	stairsAnalisys.Y += SpeedLimit/2*dt;
 	stairsAnalisys.W = 0;
 	stairsAnalisys.X += box.W / 2;
 	unsigned char collisionFlags = (int)CollisionFlags::None;

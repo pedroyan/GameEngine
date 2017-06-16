@@ -10,8 +10,6 @@
 #include "Debug.h"
 
 Player* Player::playerInstance = nullptr;
-//Limite para velocidade adiante
-const float SpeedLimit = 400;
 
 const float jumpHeight = 2; // em blocos
 const float Gravity = 2 * 9.8;
@@ -30,6 +28,7 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 	box.Y = y;
 	box.W = bodySP.GetWidth();
 	box.H = bodySP.GetHeight();
+	SpeedLimit = 400; 
 
 	jumpCount = 0;
 	keyCount = 0;

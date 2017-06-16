@@ -16,6 +16,7 @@ class MoveableObject : public GameObject {
 		Vec2 Speed;
 		bool GoToStairs;
 		bool QuitStairs;
+		float SpeedLimit;
 
 		int CurrentLayer = 0;
 
