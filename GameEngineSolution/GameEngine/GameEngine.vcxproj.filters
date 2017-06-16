@@ -281,6 +281,12 @@
     <ClInclude Include="CollisionTypeh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Pathfinding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
