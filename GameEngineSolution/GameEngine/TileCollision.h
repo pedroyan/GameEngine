@@ -1,14 +1,13 @@
 #pragma once
 #include "Rect.h"
 #include "TileMap.h"
+#include <vector>
+#include "CollisionTypeh.h"
+
+using std::vector;
 class TileCollision{
 public:
 
-	enum CollisionType {//quanto maior o enum,maior a prioridade da colissao
-		noCollision = 0,
-		Stairs,
-		Solid
-	}type;
 	/// <summary>
 	/// Analisa se o player esta colidindo com algo
 	/// </summary>
@@ -16,6 +15,14 @@ public:
 	/// <param name="layer">Layer na qual ira ser analisada a colisao</param>
 	/// <returns>Tipo de colisao que o player esta sofrendo de maior prioridade</returns>
 	static CollisionType isCollinding(Rect box,int layer);
+
+	/// <summary>
+	///  Analisa se o player esta colidindo com algo
+	/// </summary>
+	/// <param name="box">Box(codernadas x,y e tamanhos w,h) do objeto a qual ira ser analisado</param>
+	/// <param name="layer">Layer na qual ira ser analisada a colisao</param>
+	/// <returns>Quais colisões foram encontradas</returns>
+	static vector<CollisionType> IsCollidingV(Rect box, int layer);
 
 	/// <summary>
 	/// Obtem os parametros do mapa

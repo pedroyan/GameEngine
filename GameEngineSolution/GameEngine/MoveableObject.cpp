@@ -1,6 +1,7 @@
 #include "MoveableObject.h"
 #include "TileCollision.h"
 #include "Game.h"
+#include "Debug.h"
 
 const float MoveableObject::Gravity = 2 * 9.8;
 
@@ -15,15 +16,18 @@ unsigned char MoveableObject::Move(float dt) {
 
 	Rect previousRect = box;
 	Rect stairsAnalisys = previousRect;
-	stairsAnalisys.Y += SpeedLimit/2*dt;
+	stairsAnalisys.Y += +box.H/2;
+	stairsAnalisys.H = box.H/2 + 2;
 	stairsAnalisys.W = 0;
 	stairsAnalisys.X += box.W / 2;
+
+	Debug::MakeCenteredDebugSquare(stairsAnalisys, { 250, 0, 0 });
 	unsigned char collisionFlags = (int)CollisionFlags::None;
 
 	if (CurrentLayer == 0) {//Tratamento de acoes caso o player esteja no layer 0 (fora das escadas)
 		//EIXO Y
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(stairsAnalisys, 1);
-		if (collisionAnalysisLayer1 == TileCollision::Stairs && GoToStairs) {
+		if (collisionAnalysisLayer1 == CollisionType::Stairs && GoToStairs) {
 			CurrentLayer = 1;
 			Speed.X = 0;
 			CenterOnCurrentTile();
@@ -32,7 +36,7 @@ unsigned char MoveableObject::Move(float dt) {
 
 		box.Y += Speed.Y*dt;//caso nao tenha colisao,aplicado a movimentacao normal em Y
 		auto collisionAnalysisY = TileCollision::isCollinding(this->box, CurrentLayer);
-		if (collisionAnalysisY == TileCollision::Solid) {
+		if (collisionAnalysisY == CollisionType::Solid) {
 			if (box.Y > previousRect.Y) {
 				collisionFlags = collisionFlags | (int)CollisionFlags::Bottom;
 			} else {
@@ -45,7 +49,7 @@ unsigned char MoveableObject::Move(float dt) {
 		//EIXO X
 		box.X += Speed.X*dt;//caso nao tenha colisao,aplicado a movimentacao normal em X
 		auto collisionAnalysisX = TileCollision::isCollinding(this->box, CurrentLayer);
-		if (collisionAnalysisX == TileCollision::Solid) {
+		if (collisionAnalysisX == CollisionType::Solid) {
 			if (box.X > previousRect.X) {
 				collisionFlags = collisionFlags | (int)CollisionFlags::Right;
 			} else {
@@ -60,16 +64,16 @@ unsigned char MoveableObject::Move(float dt) {
 		box.Y += Speed.Y*dt;
 		auto collisionAnalysisLayer1 = TileCollision::isCollinding(this->box, 1);
 		auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box, 0);
-		if (QuitStairs && collisionAnalysisLayer0 != TileCollision::Solid) {
+		if (QuitStairs && collisionAnalysisLayer0 != CollisionType::Solid) {
 			CurrentLayer = 0;
 			return (int)CollisionFlags::None;
 		}
 
-		if (collisionAnalysisLayer1 == TileCollision::noCollision && collisionAnalysisLayer0 != TileCollision::Solid) {
+		if (collisionAnalysisLayer1 == CollisionType::noCollision && collisionAnalysisLayer0 != CollisionType::Solid) {
 			CurrentLayer = 0;
 			return (int)CollisionFlags::None;
 		}
-		if (collisionAnalysisLayer1 == TileCollision::Solid) {
+		if (collisionAnalysisLayer1 == CollisionType::Solid) {
 			if (Speed.Y > 0) {
 				CurrentLayer = 0;
 			}

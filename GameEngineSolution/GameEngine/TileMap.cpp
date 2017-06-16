@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "TileCollision.h"
 #include "Debug.h"
+#include "CollisionTypeh.h"
 #include "Camera.h"
 
 using std::ifstream;
@@ -196,13 +197,13 @@ xml_node<>* TileMap::AddProperty(xml_node<>* propertiesNode, int indexNode){
 	if (propertyeType == "Solid") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
 		if (propertiesNodeSolid == "true") {
-			this->tileSet->AddTileProperty(indexNode, TileSet::Solid);
+			this->tileSet->AddTileProperty(indexNode, CollisionType::Solid);
 		}
 	}
 	if (propertyeType == "Stairs") {
 		string propertiesNodeSolid = propertiesNode->first_attribute("value")->value();
 		if (propertiesNodeSolid == "true") {
-			this->tileSet->AddTileProperty(indexNode, TileSet::Stairs);
+			this->tileSet->AddTileProperty(indexNode, CollisionType::Stairs);
 		} 
 		
 	}
@@ -248,11 +249,11 @@ void TileMap::ObtainSpawnTile(int layer) {
 			Vec2 coodernadaTile;
 			coodernadaTile.X = i;
 			coodernadaTile.Y = j-1;
-			if (GetTileSet()->GetTileProperty(*tile) == TileCollision::Solid) {
+			if (GetTileSet()->GetTileProperty(*tile) == CollisionType::Solid) {
 				bool canSpawnEnemy = true;
 				for (int z = 1; z <= spaceSpawn; z++) {
 					int* tile = At(i, j -z, layer);
-					canSpawnEnemy = canSpawnEnemy && (GetTileSet()->GetTileProperty(*tile) == TileCollision::noCollision);
+					canSpawnEnemy = canSpawnEnemy && (GetTileSet()->GetTileProperty(*tile) == CollisionType::noCollision);
 				}
 				if (canSpawnEnemy) {
 					spawnTiles.push_back(coodernadaTile);
