@@ -77,7 +77,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 		}
 	}
 
-	if (box.X != newPos.X) {//n„o andei
+	if (box.X != newPos.X) {//n√£o andei
 		Rect newPosBox = box;
 		newPosBox.X = box.X + SpeedLimit * dt;
 		newPosBox.Y = box.Y + tileHeight * sqrK1;
@@ -149,7 +149,7 @@ void Enemy::Update(float dt) {
 }
 
 void Enemy::Render() {
-//	sp.Render(box.GetWorldPosition(), 0);
+	sp.Render(box.GetWorldRenderPosition(), 0);
 }
 
 bool Enemy::IsDead() {
