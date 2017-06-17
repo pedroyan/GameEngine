@@ -29,7 +29,7 @@ class Player : public MoveableObject {
 		Sprite bodySP;
 		Sprite bodyRunSP;
 		Sprite actualSP;
-		Sprite cannonSp;
+		Sprite armSp;
 		TileMap map;
 		int keyCount;
 
@@ -46,6 +46,10 @@ class Player : public MoveableObject {
 		float getInertialBulletSpeed();
 		void MovePlayer(float dt, InputManager& manager);
 		void jumpPlayer();
+		void UpdateConcertaArm(int correcaoX, int correcaoY, int correcaoLeft);
+		int concertaX;
+		int concertaY;
+		int concertaLeft;
 
 		void UpdateSpeedStairs(InputManager& input);
 		void CenterOnCurrentTile();
