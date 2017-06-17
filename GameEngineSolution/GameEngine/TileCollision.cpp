@@ -15,7 +15,7 @@ CollisionType TileCollision::PriorityCollision(Rect box,int layer) {
 	
 	auto collisions = GetCollisions(box, layer);
 	std::sort(collisions.begin(), collisions.end());
-	return collisions.back();
+	return collisions.empty() ? CollisionType::noCollision : collisions.back();
 }
 
 vector<CollisionType> TileCollision::GetCollisions(Rect box, int layer) {
