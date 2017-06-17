@@ -4,7 +4,7 @@ Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance,
 	Init(x, y, angle, maxDistance, targetsPlayerv, damage);
 }
 
-Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, Sprite & sprite, int frameCount, bool targetsPlayerv, int damage):speed(speedArg,0) {
+Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, Sprite & sprite, bool targetsPlayerv, int damage):speed(speedArg,0) {
 	sp = sprite;
 	Init(x, y, angle, maxDistance, targetsPlayerv, damage);
 }

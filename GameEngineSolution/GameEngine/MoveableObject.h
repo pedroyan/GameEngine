@@ -28,16 +28,20 @@ class MoveableObject : public GameObject {
 		/// <summary>
 		/// Movimenta o Moveable Object de acordo com a sua velocidade
 		/// </summary>
-		/// <param name="dt"></param>
-		/// <returns></returns>
+		/// <param name="dt">Tempo, em segundos, decorrido entre a passagem de um frame e outro</param>
+		/// <returns>Flags de colisão, indicando a direção onde ela ocorreu</returns>
 		unsigned char MoveOnSpeed(float dt);
 
 		/// <summary>
 		/// Faz com que o moveable object pule
 		/// </summary>
-		/// <param name="height">Altura em tiles do pulo</param>
+		/// <param name="height">Altura, em tiles, do pulo</param>
 		void Jump(int height);
 
+		/// <summary>
+		/// Aplica a gravidade ao vetor velocidade do Moveable Object
+		/// </summary>
+		/// <param name="dt">Tempo, em segundos, decorrido entre a passagem de um frame e outro</param>
 		void ApplyGravity(float dt);
 	private:
 		/// <summary>

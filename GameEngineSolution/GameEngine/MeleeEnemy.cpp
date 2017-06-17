@@ -1,5 +1,6 @@
 #include "MeleeEnemy.h"
 #include "Camera.h"
+#include "Bullet.h"
 
 float attackDuration = 1;
 
@@ -32,6 +33,9 @@ void MeleeEnemy::Render() {
 }
 
 void MeleeEnemy::NotifyCollision(GameObject & other) {
+	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
+		hp -= other.damage;
+	}
 }
 
 void MeleeEnemy::Attack() {
