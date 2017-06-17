@@ -2,7 +2,8 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Sprite.h"
-class Enemy : public GameObject {
+#include "MoveableObject.h"
+class Enemy : public MoveableObject {
 	public:
 		void CreateDebugBox();
 		bool inline IsEnemy() { return true; }

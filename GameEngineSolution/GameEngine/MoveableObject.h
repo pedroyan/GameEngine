@@ -24,14 +24,21 @@ class MoveableObject : public GameObject {
 		static const float Gravity;
 
 	protected:
-
-		unsigned char Move(float dt);
+		
+		/// <summary>
+		/// Movimenta o Moveable Object de acordo com a sua velocidade
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <returns></returns>
+		unsigned char MoveOnSpeed(float dt);
 
 		/// <summary>
 		/// Faz com que o moveable object pule
 		/// </summary>
 		/// <param name="height">Altura em tiles do pulo</param>
 		void Jump(int height);
+
+		void ApplyGravity(float dt);
 	private:
 		/// <summary>
 		/// Centraliza o Moveable Object no tile em que ele se encontra

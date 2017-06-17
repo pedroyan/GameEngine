@@ -12,7 +12,7 @@ MoveableObject::MoveableObject() {
 MoveableObject::~MoveableObject() {
 }
 
-unsigned char MoveableObject::Move(float dt) {
+unsigned char MoveableObject::MoveOnSpeed(float dt) {
 
 	Rect previousRect = box;
 	Rect stairsAnalisys = previousRect;
@@ -87,6 +87,11 @@ void MoveableObject::Jump(int height) {
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	auto k1 = 2 * Gravity * height;
 	Speed.Y = -tileHeight *sqrt(k1);
+}
+
+void MoveableObject::ApplyGravity(float dt) {
+	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
+	Speed.Y += tileHeight * Gravity*dt;
 }
 
 void MoveableObject::CenterOnCurrentTile() {

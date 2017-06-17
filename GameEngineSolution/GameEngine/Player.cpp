@@ -185,7 +185,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 
 	//Primeira faz o calculo da velocidade resultante final
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-	if (CurrentLayer == 0) {//caso o player NÃO esteja na esada
+	if (CurrentLayer == 0) {//caso o player NÃO esteja na escada
 		if (input.IsMouseDown(LEFT_MOUSE_BUTTON)) {
 			chargeCounter.Update(dt);
 		}
@@ -203,7 +203,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 			jumpPlayer();
 		} else {
-			Speed.Y += tileHeight * Gravity*dt;
+			ApplyGravity(dt);
 		}
 		if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
 			Shoot();
@@ -218,7 +218,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 	}
 
 	//Depois movimenta o objeto
-	auto collisionResult = Move(dt);
+	auto collisionResult = MoveOnSpeed(dt);
 
 	//E finalmente trata as colisões
 	if (collisionResult & (int)CollisionFlags::Bottom) {
