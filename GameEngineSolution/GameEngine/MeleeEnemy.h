@@ -15,6 +15,7 @@ class MeleeEnemy : public Enemy {
 
 	private:
 		Sprite attackingSprite;
+		int attackRange;
 		Timer attackTimer;
 		void CheckAttack(float dt);
 };

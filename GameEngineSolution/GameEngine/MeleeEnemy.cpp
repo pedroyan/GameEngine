@@ -1,7 +1,6 @@
 #include "MeleeEnemy.h"
 #include "Camera.h"
 
-float attackRange = 13;
 float attackDuration = 1;
 
 MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), Sprite("img/MeleeEnemy.png",6,0.1)), attackingSprite("img/MeleeEnemy_atk.png",6,attackDuration/6){
@@ -11,6 +10,7 @@ MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), S
 	box.Y = y;
 	box.W = actualSprite->GetWidth();
 	box.H = actualSprite->GetHeight();
+	attackRange = box.W;
 }
 
 
