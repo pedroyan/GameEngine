@@ -25,7 +25,10 @@ void MeleeEnemy::Update(float dt) {
 		CheckAttack(dt);
 	}
 	actualSprite->Update(dt);
-	MoveOnSpeed(dt);
+	auto result = MoveOnSpeed(dt);
+	if (result & (int)CollisionFlags::Bottom) {
+		Jump(3);
+	}
 }
 
 void MeleeEnemy::Render() {

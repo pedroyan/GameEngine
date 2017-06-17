@@ -13,14 +13,42 @@ class MoveableObject : public GameObject {
 		MoveableObject();
 		~MoveableObject();
 
+		/// <summary>
+		/// Velocidade do moveable object
+		/// </summary>
 		Vec2 Speed;
+
+		/// <summary>
+		/// Booleano indicando se o objeto quer ir para as escadas.
+		/// Essa flag pode estar ativada mesmo sem nenhuma colisão com a escada
+		/// </summary>
 		bool GoToStairs;
+
+		/// <summary>
+		/// Booleano indicando se objeto quer sair das escadas
+		/// Essa flag pode estar ativada mesmo sem nenhuma colisão com a escada
+		/// </summary>
 		bool QuitStairs;
+
+		/// <summary>
+		/// Limite do modulo da velocidade do moveable object
+		/// </summary>
 		float SpeedLimit;
 
+		/// <summary>
+		/// Layer em que o moveable object se encontra
+		/// </summary>
 		int CurrentLayer = 0;
 
+		/// <summary>
+		/// Indica se o moveable object está na layer de escadas
+		/// </summary>
+		/// <returns></returns>
 		bool inline OnStairs() { return CurrentLayer == 1; }
+
+		/// <summary>
+		/// Constante de gravidade
+		/// </summary>
 		static const float Gravity;
 
 	protected:
