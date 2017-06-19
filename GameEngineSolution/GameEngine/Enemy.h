@@ -1,30 +1,34 @@
 #pragma once
 #include "GameObject.h"
+#include "Player.h"
 #include "Sprite.h"
-#include <list>
-
-class Enemy : public GameObject {
+#include "MoveableObject.h"
+class Enemy : public MoveableObject {
 	public:
-		Enemy();
-		Enemy(int x, int y, string sprite);
-		virtual ~Enemy();
 		void CreateDebugBox();
 		bool inline IsEnemy() { return true; }
-		virtual void MoveTo(Vec2 pos, float dt);
-		virtual void Focus(GameObject* focus);
-		void Update(float dt);
-		void Render();
-		bool IsDead();
-		void NotifyCollision(GameObject& other);
-		bool Is(string type);
-		std::list<Vec2> FindNeighbors(float tileWidth, float tileHeight, Vec2 pos);
+		bool inline IsDead() { return hp <= 0; }
+		virtual void MoveTo(Vec2 pos);
+		virtual void Focus(Player* focus);
+		virtual void Attack() = 0;
+		virtual ~Enemy();
 
-	private:
-		GameObject* focus;
-		Sprite sp;
-		int hp, x, y;
-		Vec2 speed;
-		Vec2 speedStairs;
-		int ground;
+	protected:
+		Player* focus;
+		int hp;
+
+		Sprite* actualSprite;
+		Sprite stillSprite;
+		Sprite walkingSprite;
+		bool walkingLeft;
+
+		Enemy(Sprite stillSprite, Sprite walkingSprite);
+
+		/// <summary>
+		/// Versão menos custosa do pathfinding, onde os inimigos só se movimentam para a esquerda e direita, sem considerar escadas
+		/// </summary>
+		/// <param name="pos">posição de destino</param>
+		void MoveToDumbly(Vec2 pos);
+		
 };
 

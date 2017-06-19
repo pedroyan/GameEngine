@@ -47,16 +47,16 @@ int TileSet::GetTileHeight() {
 	return tileHeight;
 }
 
-TileSet::CollisionType TileSet::GetTileProperty(int tileIndex){
+CollisionType TileSet::GetTileProperty(int tileIndex){
 	auto iterator = tilesProperties.find(tileIndex);
 	if (iterator == tilesProperties.end()) {
-		return noCollision;
+		return CollisionType::noCollision;
 	} else {
 		return iterator->second;
 	}
 }
 
-void TileSet::AddTileProperty(int tileIndex, TileSet::CollisionType tileType){
+void TileSet::AddTileProperty(int tileIndex, CollisionType tileType){
 	auto map = tilesProperties.find(tileIndex);
 	if (map == tilesProperties.end()) {
 		this->tilesProperties.emplace(tileIndex,tileType);

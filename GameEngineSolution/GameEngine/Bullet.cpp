@@ -4,7 +4,7 @@ Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance,
 	Init(x, y, angle, maxDistance, targetsPlayerv, damage);
 }
 
-Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, Sprite & sprite, int frameCount, bool targetsPlayerv, int damage):speed(speedArg,0) {
+Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, Sprite & sprite, bool targetsPlayerv, int damage):speed(speedArg,0) {
 	sp = sprite;
 	Init(x, y, angle, maxDistance, targetsPlayerv, damage);
 }
@@ -20,8 +20,8 @@ void Bullet::Update(float dt) {
 	box.SetCenter(bulletCenter.X, bulletCenter.Y);
 	distanceLeft -= realSpeed.Magnitude();
 	
-	auto collisionAnalysisLayer0 = TileCollision::isCollinding(this->box, 0);
-	if (collisionAnalysisLayer0 == TileCollision::Solid) {
+	auto collisionAnalysisLayer0 = TileCollision::PriorityCollision(this->box, 0);
+	if (collisionAnalysisLayer0 == CollisionType::Solid) {
 		distanceLeft = 0;
 	}
 	sp.Update(dt);
@@ -36,7 +36,7 @@ bool Bullet::IsDead() {
 }
 
 void Bullet::NotifyCollision(GameObject & other) {
-	if ((other.Is("Penguins") && targetsPlayer) || (other.Is("Alien") && !targetsPlayer) ||other.Is("Minion")) {
+	if ((other.Is("Player") && targetsPlayer) || (other.IsEnemy() && !targetsPlayer)) {
 		distanceLeft = 0;
 	}
 }

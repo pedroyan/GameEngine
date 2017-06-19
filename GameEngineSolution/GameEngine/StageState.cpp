@@ -12,6 +12,7 @@
 #include "TileCollision.h"
 #include "XMLParser.h"
 #include "Item.h"
+#include "MeleeEnemy.h"
 
 //coolDownSpawn de tiro em segundos
 const float coolDownSpawn = 3.0;
@@ -27,17 +28,25 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 
 	TileCollision::GetParameters(tileMap);
 	quitRequested = false;
+	Player* player = nullptr;
 
 	if (!parser.PlayerDefinedOnMap()) {
-		auto player = new Player(704, 0);
+		player = new Player(704, 0);
 		Camera::Follow(player);
-		AddObject(player);
 	}
-	
+
 	auto objects = parser.GetMapObjects();
 	for (auto& obj : objects) {
+		if (obj->Is("Player")) {
+			player = static_cast<Player*>(obj);
+		}
 		AddObject(obj);
 	}
+
+	//1122,544
+	auto enemy = new MeleeEnemy(1122, 544);
+	enemy->Focus(player);
+	AddObject(enemy);
 	SpawnKeys();
 }
 

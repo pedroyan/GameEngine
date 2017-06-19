@@ -5,8 +5,9 @@
 #include "InputManager.h"
 #include "Timer.h"
 #include "TileMap.h"
+#include "MoveableObject.h"
 
-class Player : public GameObject {
+class Player : public MoveableObject {
 	public:
 		Player(float x, float y);
 		~Player();
@@ -18,7 +19,7 @@ class Player : public GameObject {
 		bool Is(string type);
 		void CreateDebugBox();
 		int GetKeyCount() const;
-
+		void TakeDamage(int damage);
 		void UpdateSP(Sprite newSprite);
 		void Shoot();
 
@@ -29,8 +30,6 @@ class Player : public GameObject {
 		Sprite bodyRunSP;
 		Sprite actualSP;
 		Sprite armSp;
-		Vec2 speed;
-		Vec2 speedStairs;
 		TileMap map;
 		int keyCount;
 
@@ -40,19 +39,17 @@ class Player : public GameObject {
 		int hp;
 		Timer cooldownCounter;
 		Timer chargeCounter;
-		int jumpCount;
-		int currentLayer = 0; 
+		int jumpCount; 
 		bool movedLeft=false;
 
 		void UpdateCannonAngle(InputManager& manager);
 		float getInertialBulletSpeed();
-		void takeDamage(int damage);
-		void Move(float dt);
-		void UpdateConcertaArm(int correcaoX,int correcaoY,int correcaoLeft);
+		void MovePlayer(float dt, InputManager& manager);
+		void jumpPlayer();
+		void UpdateConcertaArm(int correcaoX, int correcaoY, int correcaoLeft);
 		int concertaX;
 		int concertaY;
 		int concertaLeft;
-
 
 		void UpdateSpeedStairs(InputManager& input);
 		void CenterOnCurrentTile();
