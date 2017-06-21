@@ -21,7 +21,7 @@ const float chargingTimeLimit = 1.0;
 Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), armSp("img/armPlayer.png"){
 	rotation = 0;
 	Player::playerInstance = this;
-	hp = 100;
+	hp = 10000;//vida aumentada pra teste
 	cooldownCounter = Timer();
 
 	box.X = x;

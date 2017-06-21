@@ -73,8 +73,7 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
-
-	//SpawnEnemy(dt);
+	SpawnEnemy(dt);
 }
 
 void StageState::Render() {
@@ -100,13 +99,33 @@ void StageState::AddObject(GameObject * ptr) {
 }
 
 void StageState::SpawnEnemy(float dt) {
+	//int numberOfEnemys = 20;
 	int numberOfEnemys = rand() % 3;
+	
 	coolDownSpawnCounter.Update(dt);
 	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
+			int randomEnemy = rand() % 2;
 			auto spawn = tileMap.GetRandomSpawnPosition();
-			auto enemy = new Item(spawn.X, spawn.Y, ItemType::Key);
-			AddObject(enemy); 
+			
+			switch (randomEnemy) {
+			case 0:{
+				auto enemy = new MeleeEnemy(spawn.X, spawn.Y - 64);
+				enemy->Focus(Player::playerInstance);
+				AddObject(enemy);
+			}
+				break;
+			case 1:{
+				auto enemy2 = new RangedEnemy(spawn.X, spawn.Y - 64);
+				enemy2->Focus(Player::playerInstance);
+				AddObject(enemy2);
+			}
+				break;
+			default:
+				break;
+			}
+
+			
 		}
 		coolDownSpawnCounter.Restart();
 	}

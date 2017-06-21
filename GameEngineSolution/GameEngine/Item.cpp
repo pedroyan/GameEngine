@@ -7,7 +7,7 @@ Item::Item(int x,int y,ItemType tipo) {
 	itemType = tipo;
 	switch (tipo) {
 		case ItemType::Key:
-			sp = Sprite("img/itemRed.png");
+			sp = Sprite("img/ChavePNG.png");
 			break;
 		default:
 			break;
