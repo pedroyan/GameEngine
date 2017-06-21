@@ -13,6 +13,7 @@
 #include "XMLParser.h"
 #include "Item.h"
 #include "MeleeEnemy.h"
+#include "RangedEnemy.h"
 
 //coolDownSpawn de tiro em segundos
 const float coolDownSpawn = 3.0;
@@ -45,8 +46,11 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 
 	//1122,544
 	auto enemy = new MeleeEnemy(1122, 544);
+	auto enemyRanged = new RangedEnemy(1160, 544);
 	enemy->Focus(player);
+	enemyRanged->Focus(player);
 	AddObject(enemy);
+	AddObject(enemyRanged);
 	SpawnKeys();
 }
 

@@ -155,6 +155,7 @@
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="RangedEnemy.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Sound.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="RangedEnemy.h" />
     <ClInclude Include="RapidXML\rapidxml.hpp" />
     <ClInclude Include="RapidXML\rapidxml_iterators.hpp" />
     <ClInclude Include="RapidXML\rapidxml_print.hpp" />
