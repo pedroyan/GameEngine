@@ -20,7 +20,6 @@ class Enemy : public MoveableObject {
 	protected:
 		Player* focus;
 		int hp, x, y;
-		Vec2 speed;
 		Vec2 speedStairs;
 		int ground;
 

@@ -5,7 +5,7 @@
 #include "Pathfinding.h"
 #include "Game.h"
 
-const float jumpHeight = 2;
+const float jumpHeight = 3;
 const float Gravity = 2 * 9.8;
 const float sqrK1 = sqrt(2 * Gravity * jumpHeight);
 
@@ -19,82 +19,92 @@ void Enemy::CreateDebugBox() {
 void Enemy::MoveTo(Vec2 pos, float dt) {
 	PriorityQueue<Vec2, double> frontier;
 	Vec2 newPos;
-	
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-	
-	auto neig = FindNeighbors(SpeedLimit * dt, tileHeight * sqrK1 * dt, pos);
-	
-	if (!neig.empty()) {
-		for (auto next : neig) {
-			frontier.put(next, heuristic(pos, next));
-		}
-		
-		while (!frontier.empty()) {
-			newPos = frontier.get();
-			Rect newPosBox = box;
-			newPosBox.X = newPos.X;
-			newPosBox.Y = newPos.Y;
-			auto collisionAnalysis = TileCollision::PriorityCollision(newPosBox, 0);
-			
-			if (collisionAnalysis == CollisionType::Solid) {
-				continue;
+	auto neig = FindNeighbors(200 * dt, tileHeight * sqrK1 * dt, pos);
+
+	if (CurrentLayer == 0) {
+		if (!neig.empty()) {
+			for (auto next : neig) {
+				frontier.put(next, heuristic(pos, next));
 			}
-			
-			if (collisionAnalysis == CollisionType::noCollision) {
-				if (box.Y > newPos.Y) { //quero pular
-					if (ground == 1 && speed.Y == 0) { //posso pular?
+
+			while (!frontier.empty()) {
+				newPos = frontier.get();
+				Rect newPosBox = box;
+				newPosBox.X = newPos.X;
+				newPosBox.Y = newPos.Y;
+				auto collisionAnalysis = TileCollision::PriorityCollision(newPosBox, 0);
+
+				if (collisionAnalysis == CollisionType::Solid) {
+					continue;
+				}
+
+
+				if (collisionAnalysis == CollisionType::noCollision) {
+					if (box.Y > newPos.Y) { //quero pular
+						if (ground == 1 && Speed.Y == 0) { //posso pular?
+							box.X = newPos.X;
+							Speed.X = SpeedLimit;
+							Speed.Y = -tileHeight * sqrK1;
+							break;
+						}
+						else {
+							continue;
+						}
+					}
+					else {
 						box.X = newPos.X;
-						speed.X = SpeedLimit;
-						speed.Y = -tileHeight * sqrK1;
+						Speed.X = SpeedLimit;
 						break;
-						
-					} else {
-						continue;
 					}
 				}
-				else {
-					box.X = newPos.X;
-					speed.X = SpeedLimit;
-					break;
+			}
+		}
+
+		if (box.X != newPos.X) {//não andei
+			Rect newPosBox = box;
+			newPosBox.X = box.X + SpeedLimit * dt;
+			newPosBox.Y = box.Y + tileHeight * sqrK1;
+			auto collisionAnalysisR = TileCollision::PriorityCollision(newPosBox, 0);
+
+			newPosBox.X = box.X - SpeedLimit * dt;
+			newPosBox.Y = box.Y + tileHeight * sqrK1;
+			auto collisionAnalysisL = TileCollision::PriorityCollision(newPosBox, 0);
+			if (collisionAnalysisL == CollisionType::noCollision || collisionAnalysisR == CollisionType::noCollision) {//se eu pular eu contorno
+				if (ground == 1 && Speed.Y == 0) { //posso pular?
+					Speed.Y = -tileHeight * sqrK1;
 				}
 			}
 		}
-	}
 
-	if (box.X != newPos.X) {//não andei
-		Rect newPosBox = box;
-		newPosBox.X = box.X + SpeedLimit * dt;
-		newPosBox.Y = box.Y + tileHeight * sqrK1;
-		auto collisionAnalysisR = TileCollision::PriorityCollision(newPosBox, 0);
-		
-		newPosBox.X = box.X - SpeedLimit * dt;
-		newPosBox.Y = box.Y + tileHeight * sqrK1;
-		auto collisionAnalysisL = TileCollision::PriorityCollision(newPosBox, 0);
-		if (collisionAnalysisL == CollisionType::noCollision || collisionAnalysisR == CollisionType::noCollision) {//se eu pular eu contorno
-			if (ground == 1 && speed.Y == 0) { //posso pular?
-				speed.Y = -tileHeight * sqrK1;
-			}
-		}
-	}
-	
-	if (box.X == pos.X && box.Y != pos.Y) {
-		if (speedStairs.Y == 0) {
-			if (box.Y > pos.Y) {
-				speedStairs.Y = -SpeedLimit / 2;
-			}
-			else {
-				speedStairs.Y = -SpeedLimit / 2;
-			}
-		}
 
-		Rect previousRect = box;
-		Rect stairsAnalisys = previousRect;
-		stairsAnalisys.Y += speedStairs.Y*dt;
-		stairsAnalisys.W = 0;
-		stairsAnalisys.X += box.W / 2;
+		if (box.X - pos.X < 100 && box.Y != pos.Y) {
+			if (speedStairs.Y == 0) {
+				if (box.Y > pos.Y) {
+					speedStairs.Y = 200 / 2;
+				}
+				else {
+					speedStairs.Y = -200 / 2;
+				}
+			}
 
-		auto collisionAnalysisLayer1 = TileCollision::PriorityCollision(stairsAnalisys, 1);
-		if (collisionAnalysisLayer1 == CollisionType::Stairs) {
+			Rect previousRect = box;
+			Rect stairsAnalisys = previousRect;
+			stairsAnalisys.Y += speedStairs.Y*dt;
+			stairsAnalisys.W = 0;
+			stairsAnalisys.X += box.W / 2;
+
+			auto collisionAnalysisLayer1 = TileCollision::PriorityCollision(stairsAnalisys, 1);
+			if (collisionAnalysisLayer1 == CollisionType::Stairs) {
+				CenterOnCurrentTile();
+				CurrentLayer = 1;
+				if (box.Y > pos.Y) {
+					Speed.Y = -tileHeight * sqrK1;
+				}
+				else {
+					Speed.Y = tileHeight * sqrK1;
+				}
+			}
 		}
 	}
 }
