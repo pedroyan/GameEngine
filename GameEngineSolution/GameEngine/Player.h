@@ -27,6 +27,7 @@ class Player : public MoveableObject {
 
 	private:
 		Sprite bodySP;
+		Sprite stairsSP;
 		Sprite bodyRunSP;
 		Sprite actualSP;
 		Sprite armSp;

@@ -13,6 +13,7 @@
 #include "XMLParser.h"
 #include "Item.h"
 #include "MeleeEnemy.h"
+#include "RangedEnemy.h"
 
 //coolDownSpawn de tiro em segundos
 const float coolDownSpawn = 3.0;
@@ -45,8 +46,11 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 
 	//1122,544
 	auto enemy = new MeleeEnemy(1122, 544);
+	auto enemyRanged = new RangedEnemy(1160, 544);
 	enemy->Focus(player);
+	enemyRanged->Focus(player);
 	AddObject(enemy);
+	AddObject(enemyRanged);
 	SpawnKeys();
 }
 
@@ -69,8 +73,7 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
-
-	//SpawnEnemy(dt);
+	SpawnEnemy(dt);
 }
 
 void StageState::Render() {
@@ -96,13 +99,32 @@ void StageState::AddObject(GameObject * ptr) {
 }
 
 void StageState::SpawnEnemy(float dt) {
+	//int numberOfEnemys = 20;
 	int numberOfEnemys = rand() % 3;
+	
 	coolDownSpawnCounter.Update(dt);
 	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
+			int randomEnemy = rand() % 3;
 			auto spawn = tileMap.GetRandomSpawnPosition();
-			auto enemy = new Item(spawn.X, spawn.Y, ItemType::Key);
-			AddObject(enemy); 
+			
+			switch (randomEnemy) {
+				case 0:{
+					auto enemy = new MeleeEnemy(spawn.X, spawn.Y - 64);
+					enemy->Focus(Player::playerInstance);
+					AddObject(enemy);
+				}
+					break;
+				case 1 || 2:{
+					auto enemy2 = new RangedEnemy(spawn.X, spawn.Y - 64);
+					enemy2->Focus(Player::playerInstance);
+					AddObject(enemy2);
+				}
+					break;
+				default:
+					break;
+			}
+			
 		}
 		coolDownSpawnCounter.Restart();
 	}

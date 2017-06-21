@@ -18,10 +18,11 @@ const float Gravity = 2 * 9.8;
 const float coolDown = 0.5;
 const float chargingTimeLimit = 1.0;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), armSp("img/armPlayer.png"){
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), armSp("img/armPlayer.png")
+{
 	rotation = 0;
 	Player::playerInstance = this;
-	hp = 100;
+	hp = 100;//vida aumentada pra teste
 	cooldownCounter = Timer();
 
 	box.X = x;
