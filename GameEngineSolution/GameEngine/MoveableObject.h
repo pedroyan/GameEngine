@@ -52,7 +52,6 @@ class MoveableObject : public GameObject {
 		static const float Gravity;
 
 	protected:
-		
 		/// <summary>
 		/// Movimenta o Moveable Object de acordo com a sua velocidade
 		/// </summary>
@@ -71,7 +70,7 @@ class MoveableObject : public GameObject {
 		/// </summary>
 		/// <param name="dt">Tempo, em segundos, decorrido entre a passagem de um frame e outro</param>
 		void ApplyGravity(float dt);
-	private:
+
 		/// <summary>
 		/// Centraliza o Moveable Object no tile em que ele se encontra
 		/// </summary>

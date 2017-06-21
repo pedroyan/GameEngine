@@ -84,7 +84,6 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 			box.Y = previousRect.Y;
 			return (int)CollisionFlags::None;
 		}
-
 	}
 
 }

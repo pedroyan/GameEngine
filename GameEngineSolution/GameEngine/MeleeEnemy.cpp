@@ -1,6 +1,8 @@
 #include "MeleeEnemy.h"
 #include "Camera.h"
 #include "Bullet.h"
+#include "TileCollision.h"
+#include "Game.h"
 
 float attackDuration = 1;
 
@@ -12,6 +14,8 @@ MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), S
 	box.W = actualSprite->GetWidth();
 	box.H = actualSprite->GetHeight();
 	attackRange = box.W;
+	ground = 1;
+	CurrentLayer = 0;
 }
 
 
@@ -19,16 +23,16 @@ MeleeEnemy::~MeleeEnemy() {
 }
 
 void MeleeEnemy::Update(float dt) {
-	ApplyGravity(dt);
-	if (focus!= nullptr) {
-		MoveToDumbly(focus->box.GetCenter());
+	//ApplyGravity(dt);
+
+	if (focus != nullptr) {
+		MoveTo(focus->box.GetCenter(), dt);
 		CheckAttack(dt);
 	}
+
 	actualSprite->Update(dt);
-	auto result = MoveOnSpeed(dt);
-	if (result & (int)CollisionFlags::Bottom) {
-		Jump(3);
-	}
+	//auto result = MoveOnSpeed(dt);
+	EnemyMove(dt);
 }
 
 void MeleeEnemy::Render() {

@@ -3,19 +3,26 @@
 #include "Player.h"
 #include "Sprite.h"
 #include "MoveableObject.h"
+#include "Vec2.h"
+#include <list>
+
 class Enemy : public MoveableObject {
 	public:
 		void CreateDebugBox();
 		bool inline IsEnemy() { return true; }
 		bool inline IsDead() { return hp <= 0; }
-		virtual void MoveTo(Vec2 pos);
+		virtual void MoveTo(Vec2 pos, float dt);
 		virtual void Focus(Player* focus);
 		virtual void Attack() = 0;
+		virtual void EnemyMove(float dt);
 		virtual ~Enemy();
+		std::list<Vec2> FindNeighbors(float tileWidth, float tileHeight, Vec2 pos);
 
 	protected:
 		Player* focus;
-		int hp;
+		int hp, x, y;
+		Vec2 speedStairs;
+		int ground;
 
 		Sprite* actualSprite;
 		Sprite stillSprite;
