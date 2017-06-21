@@ -53,7 +53,7 @@ void RangedEnemy::Shoot() {
 	auto position = box.GetCenter();
 
 	auto angle = position.GetDistanceVectorAngle(this->focus->box.GetCenter());
-	auto bullet = new Bullet(position.X, position.Y, angle, 500, 1000, "img/itemRed.png", 1, true,10);
+	auto bullet = new Bullet(position.X, position.Y, angle, 500, 1000, "img/RangedEnemy_Bullet.png", 1, true,10);
 
 	State& state = Game::GetInstance().GetCurrentState();
 	state.AddObject(bullet);
