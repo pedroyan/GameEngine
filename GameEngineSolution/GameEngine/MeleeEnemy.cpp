@@ -26,44 +26,13 @@ void MeleeEnemy::Update(float dt) {
 	//ApplyGravity(dt);
 
 	if (focus != nullptr) {
-		auto goindTo = Vec2(focus->box.X, focus->box.Y + (focus->box.H - box.H));
 		MoveTo(focus->box.GetCenter(), dt);
 		CheckAttack(dt);
 	}
 
 	actualSprite->Update(dt);
 	//auto result = MoveOnSpeed(dt);
-	if (CurrentLayer == 0) {
-		auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
-		Speed.Y += tileHeight * Gravity * dt;
-		box.Y += Speed.Y*dt;
-
-		auto collisionAnalysisY = TileCollision::PriorityCollision(this->box, 0);
-		if (collisionAnalysisY == CollisionType::Solid) {
-			box.Y -= Speed.Y*dt;
-			ground = 1;
-			Speed.Y = 0;
-		}
-		else {
-			ground = 0;
-		}
-	} else if (CurrentLayer == 1) {
-		box.Y += Speed.Y*dt;
-		auto collisionAnalysisLayer1 = TileCollision::PriorityCollision(this->box, 1);
-		auto collisionAnalysisLayer0 = TileCollision::PriorityCollision(this->box, 0);
-
-		if (collisionAnalysisLayer1 == CollisionType::noCollision && collisionAnalysisLayer0 != CollisionType::Solid) {
-			CurrentLayer = 0;
-			GoToStairs = false;
-		}
-		if (collisionAnalysisLayer1 == CollisionType::Solid) {
-			if (Speed.Y > 0) {
-				CurrentLayer = 0;
-				GoToStairs = false;
-			}
-			box.Y -= Speed.Y*dt;
-		}
-	}
+	EnemyMove(dt);
 }
 
 void MeleeEnemy::Render() {
