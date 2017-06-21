@@ -105,26 +105,25 @@ void StageState::SpawnEnemy(float dt) {
 	coolDownSpawnCounter.Update(dt);
 	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
-			int randomEnemy = rand() % 2;
+			int randomEnemy = rand() % 3;
 			auto spawn = tileMap.GetRandomSpawnPosition();
 			
 			switch (randomEnemy) {
-			case 0:{
-				auto enemy = new MeleeEnemy(spawn.X, spawn.Y - 64);
-				enemy->Focus(Player::playerInstance);
-				AddObject(enemy);
+				case 0:{
+					auto enemy = new MeleeEnemy(spawn.X, spawn.Y - 64);
+					enemy->Focus(Player::playerInstance);
+					AddObject(enemy);
+				}
+					break;
+				case 1 || 2:{
+					auto enemy2 = new RangedEnemy(spawn.X, spawn.Y - 64);
+					enemy2->Focus(Player::playerInstance);
+					AddObject(enemy2);
+				}
+					break;
+				default:
+					break;
 			}
-				break;
-			case 1:{
-				auto enemy2 = new RangedEnemy(spawn.X, spawn.Y - 64);
-				enemy2->Focus(Player::playerInstance);
-				AddObject(enemy2);
-			}
-				break;
-			default:
-				break;
-			}
-
 			
 		}
 		coolDownSpawnCounter.Restart();
