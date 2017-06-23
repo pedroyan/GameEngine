@@ -50,6 +50,8 @@ void Player::Update(float dt) {
 	}
 	if (input.KeyPress(SDLK_l)) {
 		Camera::ZoomTo(1.0f, 5);
+	} else if (input.KeyPress(SDLK_k)) {
+		Camera::ZoomTo(0.5, 3);
 	}
 	MovePlayer(dt, input);
 	UpdateCannonAngle(input);
