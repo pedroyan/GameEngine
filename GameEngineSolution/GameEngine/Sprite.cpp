@@ -53,10 +53,10 @@ void Sprite::Render(int x, int y, float angle, bool flip, float zoom) {
 	SDL_Renderer* renderer = Game::GetInstance().GetRenderer();
 	SDL_Rect destinyRectangl;
 
-	destinyRectangl.x = x*zoom;
-	destinyRectangl.y = y*zoom;
-	destinyRectangl.h = clipRect.h*scaleY*zoom;
-	destinyRectangl.w = clipRect.w*scaleX*zoom;
+	destinyRectangl.x = ceil(x*zoom);
+	destinyRectangl.y = ceil(y*zoom);
+	destinyRectangl.h = ceil(clipRect.h*scaleY*zoom);
+	destinyRectangl.w = ceil(clipRect.w*scaleX*zoom);
 	if (flip) {
 		SDL_RenderCopyEx(renderer, texture.get(), &clipRect, &destinyRectangl, degreeAngle, nullptr, SDL_FLIP_HORIZONTAL);
 	}

@@ -33,7 +33,7 @@ void TileSet::Render(unsigned int index, float x, float y) {
 	tileSet.SetClip(positionX, positionY, tileWidth, tileHeight);
 	tileSet.Render(x, y,0,false,Camera::Zoom);
 	#ifdef _DEBUG
-		Debug::MakeDebugSquare(x*Camera::Zoom, y*Camera::Zoom, tileWidth*Camera::Zoom, tileHeight*Camera::Zoom, 0, 0, 255);
+		//Debug::MakeDebugSquare(x*Camera::Zoom, y*Camera::Zoom, tileWidth*Camera::Zoom, tileHeight*Camera::Zoom, 0, 0, 255);
 	#endif
 
 	
