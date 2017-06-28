@@ -25,7 +25,6 @@ class Barrier : public GameObject {
 		Sprite fullHp;
 		Sprite midHp;
 		Sprite lowHp;
-		Sprite dead;
 		Sprite currentSp;
 
 		void takeDamage(int dam);
