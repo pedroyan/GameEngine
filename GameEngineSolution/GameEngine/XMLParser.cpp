@@ -136,7 +136,7 @@ unordered_map<string, string> XMLParser::GetObjectProperties(xml_node<>* objectN
 	return toReturn;
 }
 
-GameObject* XMLParser::CreateMapObject(string type, Rect dimensions,unordered_map<string, string>& properties) {
+GameObject* XMLParser::CreateMapObject(string type, Rect dimensions, unordered_map<string, string>& properties) {
 	if (type == "portal") {
 		if (properties.find("Message") == properties.end()) {
 			return new Portal(properties["NextMap"], properties["NextTileset"], dimensions);
