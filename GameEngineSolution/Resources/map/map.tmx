@@ -162,7 +162,7 @@
    </properties>
   </object>
   <object id="10" type="PlayerSpawn" x="35" y="476" width="28" height="99"/>
-  <object id="14" type="Laser" x="768" y="544" width="31.3333" height="127.333">
+  <object id="14" type="Barrier" x="768" y="544" width="31.3333" height="127.333">
    <properties>
     <property name="HP" type="int" value="120"/>
    </properties>

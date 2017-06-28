@@ -41,11 +41,11 @@ Barrier::~Barrier() {
 void Barrier::takeDamage(int dam) {
 	hp -= dam;
 	float actualPercentage = (float)hp / (float)fullHealth;
-	if (actualPercentage < 0.66) {
-		currentSp = midHp;
-	} else if (actualPercentage < 0.33) {
-		currentSp = lowHp;
-	} else {
+	if (actualPercentage < 0) {
 		currentSp = dead;
+	} else if (actualPercentage <= 0.33) {
+		currentSp = lowHp;
+	} else if(actualPercentage <= 0.66) {
+		currentSp = midHp;
 	}
 }

@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Portal.h"
 #include "FileLibrary.h"
+#include "Barrier.h"
 #include "Player.h"
 #include "Camera.h"
 
@@ -148,6 +149,10 @@ GameObject* XMLParser::CreateMapObject(string type, Rect dimensions, unordered_m
 		auto player =  new Player(dimensions.X, dimensions.Y);
 		Camera::Follow(player);
 		return player;
+	} else if (type == "barrier") {
+		int hp;
+		hp = properties.find("HP") == properties.end() ? 100 : stoi(properties["HP"]);
+		return new Barrier(hp, dimensions);
 	} else {
 		Logger::LogError("Objeto " + type + " não suportado");
 		return nullptr;

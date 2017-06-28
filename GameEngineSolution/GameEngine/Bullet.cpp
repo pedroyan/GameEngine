@@ -36,7 +36,7 @@ bool Bullet::IsDead() {
 }
 
 void Bullet::NotifyCollision(GameObject & other) {
-	if ((other.Is("Player") && targetsPlayer) || (other.IsEnemy() && !targetsPlayer)) {
+	if ((other.Is("Player") && targetsPlayer) || (other.IsEnemy() && !targetsPlayer) || other.Is("Barrier")) {
 		distanceLeft = 0;
 	}
 }
