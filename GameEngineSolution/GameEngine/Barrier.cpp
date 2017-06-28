@@ -1,5 +1,7 @@
 #include "Barrier.h"
 #include "Camera.h"
+#include <math.h>
+#include "Player.h"
 
 float barrierPeriod = 0.25;
 Barrier::Barrier(int hp, Rect box) : fullHp("img/Laser_100.png",2,barrierPeriod),
@@ -15,6 +17,7 @@ Barrier::Barrier(int hp, Rect box) : fullHp("img/Laser_100.png",2,barrierPeriod)
 
 void Barrier::Update(float dt) {
 	currentSp.Update(dt);
+	frameDt = dt;
 }
 
 void Barrier::Render() {
@@ -28,6 +31,13 @@ bool Barrier::IsDead() {
 void Barrier::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet")) {
 		takeDamage(other.damage);
+	} else if (other.Is("Player")) {
+		auto player = static_cast<Player*>(&other);
+		Vec2 returnSpeed = player->Speed;
+		returnSpeed.Rotate(M_PI);
+		returnSpeed.Y = 0;
+
+		player->box += returnSpeed*frameDt;
 	}
 }
 

@@ -20,6 +20,7 @@ class Barrier : public GameObject {
 	private:
 		int hp;
 		int fullHealth;
+		float frameDt;
 
 		Sprite fullHp;
 		Sprite midHp;
