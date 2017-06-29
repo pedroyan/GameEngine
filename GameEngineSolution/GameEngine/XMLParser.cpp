@@ -50,7 +50,7 @@ void XMLParser::parseTMX(string fileName) {
 	while (getline(file, line))
 		input_TMX += line + "\n";
 
-	tmx = _strdup(input_TMX.c_str());
+	tmx = strdup(input_TMX.c_str());
 	doc.parse<0>(tmx);
 	mapnode = doc.first_node("map", 0U, true);
 	LoadMapObjects();
