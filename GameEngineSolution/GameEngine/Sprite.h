@@ -51,6 +51,10 @@ class Sprite {
 		void SetFrameCount(int frameCount);
 		void SetFrameTime(float frameTime);
 		void SetCurrentFrame(int newCurrentFrame);
+		int GetCurrentFrame();
+		int GetFrameCount();
+
+
 
 		/// <summary>
 		/// Retorna as coordenadas x, y de onde o canto superior esquerdo do sprite

@@ -41,7 +41,7 @@ void Sprite::Open(string file) {
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
-	clipRect.x = x;
+	clipRect.x = x;  
 	clipRect.y = y;
 	clipRect.w = w;
 	clipRect.h = h;
@@ -110,6 +110,14 @@ void Sprite::SetFrameTime(float vframeTime) {
 
 void Sprite::SetCurrentFrame(int newCurrentFrame) {
 	currentFrame = newCurrentFrame;
+}
+
+int Sprite::GetCurrentFrame() {
+	return currentFrame;
+}
+
+int Sprite::GetFrameCount() {
+	return frameCount;
 }
 
 Vec2 Sprite::GetCentralizedRenderPoint(Vec2 center) {

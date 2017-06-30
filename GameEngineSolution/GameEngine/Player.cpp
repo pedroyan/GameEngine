@@ -63,23 +63,30 @@ void Player::Render() {
 	auto& input = InputManager::GetInstance();
 	Vec2 renderPosition;
 	auto centerPosition = box.GetCenter();
+	renderPosition.X = centerPosition.X - concertaX - concertaLeft - Camera::pos.X;
+	renderPosition.Y = centerPosition.Y - concertaY - Camera::pos.Y;
+
 	if (CurrentLayer == 0) {
 		if (isJumping) {
 			UpdateSP(jumpSP);
-			UpdateConcertaArm(40, 28, -5);
+			UpdateConcertaArm(35, 28, -5);
+			if (actualSP.GetCurrentFrame() == actualSP.GetFrameCount()-1) {
+				armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
+			}
 
 		}
 		else if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
 			UpdateSP(bodyRunSP);
 			UpdateConcertaArm(20,26,20);
+			armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
 		} else {
 			UpdateSP(bodySP);
 			UpdateConcertaArm(40, 28,-5);
+			armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
+			
 		}
 		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom); 
-		renderPosition.X = centerPosition.X -concertaX-concertaLeft - Camera::pos.X;
-		renderPosition.Y = centerPosition.Y -concertaY - Camera::pos.Y;
-		armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
+	
 		
 	}
 	if (CurrentLayer == 1) {
