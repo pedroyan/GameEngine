@@ -10,13 +10,14 @@ Sprite::Sprite() {
 	scaleY = 1;
 }
 
-Sprite::Sprite(string file, int VframeCount, float VframeTime) {
+Sprite::Sprite(string file, int VframeCount, float VframeTime, bool endFinalFrame) {
 	texture = nullptr;
 	scaleX = 1;
 	scaleY = 1;
 
 	frameCount = VframeCount;
 	frameTime = VframeTime;
+	oneTimeOnly = endFinalFrame;
 
  	Open(file);
 
@@ -84,7 +85,7 @@ bool Sprite::IsOpen() {
 void Sprite::Update(float dt) {
 	timeElapsed += dt;
 
-	if (timeElapsed > frameTime) {
+	if (timeElapsed > frameTime && (currentFrame<frameCount-1 || !oneTimeOnly) ) {
 		currentFrame++;
 		SetFrame(currentFrame);
 		timeElapsed = 0;
@@ -105,6 +106,10 @@ void Sprite::SetFrameCount(int vframeCount) {
 
 void Sprite::SetFrameTime(float vframeTime) {
 	frameTime = vframeTime;
+}
+
+void Sprite::SetCurrentFrame(int newCurrentFrame) {
+	currentFrame = newCurrentFrame;
 }
 
 Vec2 Sprite::GetCentralizedRenderPoint(Vec2 center) {

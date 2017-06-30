@@ -35,6 +35,7 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 			CurrentLayer = 1;
 			Speed.X = 0;
 			CenterOnCurrentTile();
+			isJumping = false;
 			return collisionFlags;
 		}
 
@@ -46,6 +47,7 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 			} else {
 				collisionFlags = collisionFlags | (int)CollisionFlags::Top;
 			}
+			isJumping = false;
 			Speed.Y = 0;
 			box.Y = previousRect.Y; // caso acha colisão no eixo Y, o objeto permanece na sua antiga posição Y
 		}
@@ -59,6 +61,7 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 			} else {
 				collisionFlags = collisionFlags | (int)CollisionFlags::Left;
 			}
+			isJumping = false;
 			box.X = previousRect.X;
 		}
 		return collisionFlags;
@@ -92,6 +95,7 @@ void MoveableObject::Jump(int height) {
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	auto k1 = 2 * Gravity * height;
 	Speed.Y = -tileHeight *sqrt(k1);
+	isJumping = true;
 }
 
 void MoveableObject::ApplyGravity(float dt) {

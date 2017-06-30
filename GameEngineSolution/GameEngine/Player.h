@@ -30,7 +30,8 @@ class Player : public MoveableObject {
 		Sprite stairsSP;
 		Sprite bodyRunSP;
 		Sprite actualSP;
-		Sprite armSp;
+		Sprite jumpSP;
+		Sprite armSP;
 		TileMap map;
 		int keyCount;
 

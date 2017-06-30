@@ -18,7 +18,7 @@ const float Gravity = 2 * 9.8;
 const float coolDown = 0.5;
 const float chargingTimeLimit = 1.0;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), armSp("img/armPlayer.png")
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png")
 {
 	rotation = 0;
 	Player::playerInstance = this;
@@ -41,7 +41,9 @@ Player::~Player() {
 
 void Player::Update(float dt) {
 	auto& input = InputManager::GetInstance();
+	
 	bodyRunSP.Update(dt);
+	jumpSP.Update(dt);
 	if (cooldownCounter.Get() != 0) {
 		cooldownCounter.Update(dt);
 		if (cooldownCounter.Get() > 0) {
@@ -62,7 +64,12 @@ void Player::Render() {
 	Vec2 renderPosition;
 	auto centerPosition = box.GetCenter();
 	if (CurrentLayer == 0) {
-		if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
+		if (isJumping) {
+			UpdateSP(jumpSP);
+			UpdateConcertaArm(40, 28, -5);
+
+		}
+		else if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
 			UpdateSP(bodyRunSP);
 			UpdateConcertaArm(20,26,20);
 		} else {
@@ -72,7 +79,7 @@ void Player::Render() {
 		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom); 
 		renderPosition.X = centerPosition.X -concertaX-concertaLeft - Camera::pos.X;
 		renderPosition.Y = centerPosition.Y -concertaY - Camera::pos.Y;
-		armSp.Render(renderPosition, cannonAngle, false, Camera::Zoom);
+		armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
 		
 	}
 	if (CurrentLayer == 1) {
@@ -205,6 +212,8 @@ void Player::MovePlayer(float dt, InputManager& input){
 		GoToStairs = input.IsKeyDown(SDLK_w) || input.IsKeyDown(SDLK_s);
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 			jumpPlayer();
+			jumpSP.SetCurrentFrame(0);
+			
 		} else {
 			ApplyGravity(dt);
 		}
