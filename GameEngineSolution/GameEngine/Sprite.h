@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include "Vec2.h"
 #include <memory>
+#include <math.h>
 
 using std::string;
 using std::shared_ptr;

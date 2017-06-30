@@ -16,7 +16,7 @@ ifeq ($(OS), Windows_NT)
 RMDIR = rd /s /q
 RM = del
 SDL_PATH = C:/SDL-2.0.5
-DIRECTIVES += -I $(SDL_PATH)/include
+DIRECTIVES += -I $(SDL_PATH)/include/SDL2
 LIBS = -L $(SDL_PATH)/lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 EXEC := $(EXEC).exe
 
