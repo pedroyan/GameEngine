@@ -18,7 +18,7 @@ const float Gravity = 2 * 9.8;
 const float coolDown = 0.5;
 const float chargingTimeLimit = 1.0;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png")
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png"), stairsSP("img/stairsPlayer.png",2,0.2)
 {
 	rotation = 0;
 	Player::playerInstance = this;
@@ -41,9 +41,8 @@ Player::~Player() {
 
 void Player::Update(float dt) {
 	auto& input = InputManager::GetInstance();
+	UpdateAllSprites(dt,input);
 	
-	bodyRunSP.Update(dt);
-	jumpSP.Update(dt);
 	if (cooldownCounter.Get() != 0) {
 		cooldownCounter.Update(dt);
 		if (cooldownCounter.Get() > 0) {
@@ -90,7 +89,7 @@ void Player::Render() {
 		
 	}
 	if (CurrentLayer == 1) {
-		UpdateSP(bodySP);
+		UpdateSP(stairsSP);
 		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom);
 	}
 	
@@ -142,6 +141,15 @@ int Player::GetKeyCount() const {
 
 void Player::UpdateSP(Sprite newSprite) {
 	actualSP = newSprite;
+}
+
+void Player::UpdateAllSprites(float dt, InputManager& input) {
+	bodyRunSP.Update(dt);
+	jumpSP.Update(dt);
+	if(input.IsKeyDown(SDLK_w) || input.IsKeyDown(SDLK_s)) {
+		stairsSP.Update(dt);
+	}
+	
 }
 
 

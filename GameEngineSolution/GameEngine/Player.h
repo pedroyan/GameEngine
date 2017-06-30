@@ -21,6 +21,7 @@ class Player : public MoveableObject {
 		int GetKeyCount() const;
 		void TakeDamage(int damage);
 		void UpdateSP(Sprite newSprite);
+		void UpdateAllSprites(float dt, InputManager& input);
 		void Shoot();
 
 		static Player* playerInstance;
