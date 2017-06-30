@@ -20,7 +20,7 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 	Rect stairsAnalisys = previousRect;
 
 	//Monta uma ponto da cintura do player pra baixo. Essa linha se estende
-	//até 2 pixels abaixo do sprite (para detectar se há uma escada abaixo do player)
+	//até 5 pixels abaixo do sprite (para detectar se há uma escada abaixo do player)
 	stairsAnalisys.Y += box.H;
 	if (input.IsKeyDown(SDLK_w)) {
 		stairsAnalisys.Y += -5;

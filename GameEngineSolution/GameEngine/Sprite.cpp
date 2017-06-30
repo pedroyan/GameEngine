@@ -84,7 +84,7 @@ bool Sprite::IsOpen() {
 
 void Sprite::Update(float dt) {
 	timeElapsed += dt;
-
+	//devido a alguns sprites que param no ultimo frame, foi feita essa operacao logica para saber quando parar de atualizar os frames do sprite
 	if (timeElapsed > frameTime && (currentFrame<frameCount-1 || !oneTimeOnly) ) {
 		currentFrame++;
 		SetFrame(currentFrame);
