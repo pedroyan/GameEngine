@@ -80,11 +80,11 @@ void Player::Render() {
 			armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
 		} else {
 			UpdateSP(bodySP);
-			UpdateConcertaArm(40, 28,-5);
+			UpdateConcertaArm(35, 28,5);
 			armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
 			
 		}
-		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom); 
+		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom);
 	
 		
 	}
