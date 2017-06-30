@@ -31,7 +31,9 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 	stairsAnalisys.H = 0;
 	stairsAnalisys.W = 0;
 	stairsAnalisys.X += box.W / 2;
+#ifdef _DEBUG
 	Debug::MakeCenteredDebugSquare(stairsAnalisys, { 250, 244, 29 });
+#endif
 
 	unsigned char collisionFlags = (int)CollisionFlags::None;
 
