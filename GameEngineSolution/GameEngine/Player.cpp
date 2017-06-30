@@ -90,6 +90,7 @@ void Player::Render() {
 	}
 	if (CurrentLayer == 1) {
 		UpdateSP(stairsSP);
+	
 		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom);
 	}
 	
@@ -160,7 +161,7 @@ void Player::Shoot() {
 	Sprite bulletSprite;
 	
 	if (chargeCounter.Get() > chargingTimeLimit) {
-		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 1);
+		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 3,0.3,true);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
