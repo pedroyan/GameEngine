@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "State.h"
 #include "Game.h"
+#include "Sound.h"
 
 float attackDurationRanged = 1.5;
 
@@ -50,11 +51,12 @@ void RangedEnemy::Attack() {
 }
 
 void RangedEnemy::Shoot() {
+
 	auto position = box.GetCenter();
 
 	auto angle = position.GetDistanceVectorAngle(this->focus->box.GetCenter());
 	auto bullet = new Bullet(position.X, position.Y, angle, 500, 1000, "img/RangedEnemy_Bullet.png", 1, true,10);
-
+	Sound("audio/LazerCarregado.wav").Play(0);
 	State& state = Game::GetInstance().GetCurrentState();
 	state.AddObject(bullet);
 }

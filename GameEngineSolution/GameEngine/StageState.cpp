@@ -73,7 +73,7 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
-	//SpawnEnemy(dt);
+	SpawnEnemy(dt);
 }
 
 void StageState::Render() {

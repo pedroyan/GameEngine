@@ -77,6 +77,7 @@ void Player::Render() {
 		else if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
 			UpdateSP(bodyRunSP);
 			UpdateConcertaArm(20,26,20);
+		//	Sound("audio/passos.wav").Play(0);
 			armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
 		} else {
 			UpdateSP(bodySP);
@@ -162,12 +163,14 @@ void Player::Shoot() {
 	
 	if (chargeCounter.Get() > chargingTimeLimit) {
 		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 3,0.3,true);
+		Sound("audio/LazerCarregado.wav").Play(0);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 	} else {
-		bulletSprite = Sprite("img/tiroPlayer.png", 4,0.1);
+		bulletSprite = Sprite("img/tiroPlayer.png", 2,0.1);
+		Sound("audio/LazerSimples.wav").Play(0);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
 		chargeCounter.Restart();
