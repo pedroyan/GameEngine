@@ -2,10 +2,10 @@
 #include "StageState.h"
 #include "InputManager.h"
 #include "Game.h"
-float blinKFrequency = 3; //hz
+float blinKFrequency = 1; //hz
 float period = 1 / blinKFrequency;
-TitleState::TitleState() : bg("img/title.jpg"), mainText("font/Call me maybe.ttf", 40, Text::TextStyle::BLENDED, "Pressione espaco para comecar", {255,255,255,255}), menuMusic("audio/Opening.wav") {
-	mainText.SetPos(bg.GetWidth() / 2, bg.GetHeight() - 80, true, false);
+TitleState::TitleState() : bg1("img/title.png"), bg2("img/title2.png"), mainText("font/Call me maybe.ttf", 40, Text::TextStyle::BLENDED, "Pressione espaco para comecar", {255,255,255,255}), menuMusic("audio/Opening.wav") {
+	mainText.SetPos(bg1.GetWidth() / 2, bg1.GetHeight() - 80, true, false);
 	menuMusic.Play(-1);
 }
 
@@ -26,9 +26,10 @@ void TitleState::Update(float dt) {
 }
 
 void TitleState::Render() {
-	bg.Render(0, 0);
+	bg1.Render(0, 0);
 	if (textTimer.Get() <= period /2.0) {
-		mainText.Render();
+		
+		bg2.Render(0, 0);
 	}
 	
 }
