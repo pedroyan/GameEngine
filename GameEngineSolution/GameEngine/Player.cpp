@@ -18,7 +18,7 @@ const float Gravity = 2 * 9.8;
 const float coolDown = 0.5;
 const float chargingTimeLimit = 1.0;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), armSp("img/armPlayer.png")
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png"), stairsSP("img/stairsPlayer.png",2,0.2)
 {
 	rotation = 0;
 	Player::playerInstance = this;
@@ -41,7 +41,8 @@ Player::~Player() {
 
 void Player::Update(float dt) {
 	auto& input = InputManager::GetInstance();
-	bodyRunSP.Update(dt);
+	UpdateAllSprites(dt,input);
+	
 	if (cooldownCounter.Get() != 0) {
 		cooldownCounter.Update(dt);
 		if (cooldownCounter.Get() > 0) {
@@ -61,22 +62,36 @@ void Player::Render() {
 	auto& input = InputManager::GetInstance();
 	Vec2 renderPosition;
 	auto centerPosition = box.GetCenter();
+	renderPosition.X = centerPosition.X - concertaX - concertaLeft - Camera::pos.X;
+	renderPosition.Y = centerPosition.Y - concertaY - Camera::pos.Y;
+
 	if (CurrentLayer == 0) {
-		if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
+		if (isJumping) {
+			UpdateSP(jumpSP);
+			UpdateConcertaArm(35, 28, -5);
+			if (actualSP.GetCurrentFrame() == actualSP.GetFrameCount()-1) {
+				armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
+			}
+
+		}
+		else if (input.IsKeyDown(SDLK_d) || input.IsKeyDown(SDLK_a)) {
 			UpdateSP(bodyRunSP);
 			UpdateConcertaArm(20,26,20);
+		//	Sound("audio/passos.wav").Play(0);
+			armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
 		} else {
 			UpdateSP(bodySP);
-			UpdateConcertaArm(40, 28,-5);
+			UpdateConcertaArm(35, 28,5);
+			armSP.Render(renderPosition, cannonAngle, false, Camera::Zoom);
+			
 		}
-		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom); 
-		renderPosition.X = centerPosition.X -concertaX-concertaLeft - Camera::pos.X;
-		renderPosition.Y = centerPosition.Y -concertaY - Camera::pos.Y;
-		armSp.Render(renderPosition, cannonAngle, false, Camera::Zoom);
+		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom);
+	
 		
 	}
 	if (CurrentLayer == 1) {
-		UpdateSP(bodySP);
+		UpdateSP(stairsSP);
+	
 		actualSP.Render(box.GetWorldRenderPosition(), 0, movedLeft, Camera::Zoom);
 	}
 	
@@ -130,6 +145,15 @@ void Player::UpdateSP(Sprite newSprite) {
 	actualSP = newSprite;
 }
 
+void Player::UpdateAllSprites(float dt, InputManager& input) {
+	bodyRunSP.Update(dt);
+	jumpSP.Update(dt);
+	if(input.IsKeyDown(SDLK_w) || input.IsKeyDown(SDLK_s)) {
+		stairsSP.Update(dt);
+	}
+	
+}
+
 
 void Player::Shoot() {
 	Vec2 cannonOffset(50, 0);
@@ -138,13 +162,15 @@ void Player::Shoot() {
 	Sprite bulletSprite;
 	
 	if (chargeCounter.Get() > chargingTimeLimit) {
-		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 1);
+		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 3,0.3,true);
+		Sound("audio/LazerCarregado.wav").Play(0);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 	} else {
-		bulletSprite = Sprite("img/tiroPlayer.png", 4,0.1);
+		bulletSprite = Sprite("img/tiroPlayer.png", 2,0.1);
+		Sound("audio/LazerSimples.wav").Play(0);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
 		chargeCounter.Restart();
@@ -205,6 +231,8 @@ void Player::MovePlayer(float dt, InputManager& input){
 		GoToStairs = input.IsKeyDown(SDLK_w) || input.IsKeyDown(SDLK_s);
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 			jumpPlayer();
+			jumpSP.SetCurrentFrame(0);
+			
 		} else {
 			ApplyGravity(dt);
 		}

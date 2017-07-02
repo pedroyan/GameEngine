@@ -21,6 +21,12 @@ class Player : public MoveableObject {
 		int GetKeyCount() const;
 		void TakeDamage(int damage);
 		void UpdateSP(Sprite newSprite);
+		/// <summary>
+		/// Atualiza todos os sprites relacionados ao player,como subindo escada,corrida e etc
+		/// </summary>
+		/// <param name="dt">delta tempo dos trames</param>
+		/// <param name="input">input dos botoes do teclado</param>
+		void UpdateAllSprites(float dt, InputManager& input);
 		void Shoot();
 
 		static Player* playerInstance;
@@ -30,7 +36,8 @@ class Player : public MoveableObject {
 		Sprite stairsSP;
 		Sprite bodyRunSP;
 		Sprite actualSP;
-		Sprite armSp;
+		Sprite jumpSP;
+		Sprite armSP;
 		TileMap map;
 		int keyCount;
 

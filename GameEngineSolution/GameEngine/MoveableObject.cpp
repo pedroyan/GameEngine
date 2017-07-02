@@ -1,4 +1,5 @@
 #include "MoveableObject.h"
+#include "InputManager.h"
 #include "TileCollision.h"
 #include "Game.h"
 #include "Debug.h"
@@ -13,16 +14,26 @@ MoveableObject::~MoveableObject() {
 }
 
 unsigned char MoveableObject::MoveOnSpeed(float dt) {
+	auto& input = InputManager::GetInstance();
 
 	Rect previousRect = box;
 	Rect stairsAnalisys = previousRect;
 
-	//Monta uma linha da cintura do player pra baixo. Essa linha se estende
-	//até 2 pixels abaixo do sprite (para detectar se há uma escada abaixo do player)
-	stairsAnalisys.Y += +box.H/2;
-	stairsAnalisys.H = box.H/2 + 2;
+	//Monta uma ponto da cintura do player pra baixo. Essa linha se estende
+	//até 5 pixels abaixo do sprite (para detectar se há uma escada abaixo do player)
+	stairsAnalisys.Y += box.H;
+	if (input.IsKeyDown(SDLK_w)) {
+		stairsAnalisys.Y += -5;
+	}
+	if (input.IsKeyDown(SDLK_s)) {
+		stairsAnalisys.Y += +5;
+	}
+	stairsAnalisys.H = 0;
 	stairsAnalisys.W = 0;
 	stairsAnalisys.X += box.W / 2;
+#ifdef _DEBUG
+	Debug::MakeCenteredDebugSquare(stairsAnalisys, { 250, 244, 29 });
+#endif
 
 	unsigned char collisionFlags = (int)CollisionFlags::None;
 
@@ -35,6 +46,7 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 			CurrentLayer = 1;
 			Speed.X = 0;
 			CenterOnCurrentTile();
+			isJumping = false;
 			return collisionFlags;
 		}
 
@@ -46,6 +58,7 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 			} else {
 				collisionFlags = collisionFlags | (int)CollisionFlags::Top;
 			}
+			isJumping = false;
 			Speed.Y = 0;
 			box.Y = previousRect.Y; // caso acha colisão no eixo Y, o objeto permanece na sua antiga posição Y
 		}
@@ -59,6 +72,7 @@ unsigned char MoveableObject::MoveOnSpeed(float dt) {
 			} else {
 				collisionFlags = collisionFlags | (int)CollisionFlags::Left;
 			}
+			isJumping = false;
 			box.X = previousRect.X;
 		}
 		return collisionFlags;
@@ -92,6 +106,7 @@ void MoveableObject::Jump(int height) {
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	auto k1 = 2 * Gravity * height;
 	Speed.Y = -tileHeight *sqrt(k1);
+	isJumping = true;
 }
 
 void MoveableObject::ApplyGravity(float dt) {

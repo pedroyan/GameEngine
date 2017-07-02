@@ -10,13 +10,14 @@ Sprite::Sprite() {
 	scaleY = 1;
 }
 
-Sprite::Sprite(string file, int VframeCount, float VframeTime) {
+Sprite::Sprite(string file, int VframeCount, float VframeTime, bool endFinalFrame) {
 	texture = nullptr;
 	scaleX = 1;
 	scaleY = 1;
 
 	frameCount = VframeCount;
 	frameTime = VframeTime;
+	oneTimeOnly = endFinalFrame;
 
  	Open(file);
 
@@ -40,7 +41,7 @@ void Sprite::Open(string file) {
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
-	clipRect.x = x;
+	clipRect.x = x;  
 	clipRect.y = y;
 	clipRect.w = w;
 	clipRect.h = h;
@@ -83,8 +84,8 @@ bool Sprite::IsOpen() {
 
 void Sprite::Update(float dt) {
 	timeElapsed += dt;
-
-	if (timeElapsed > frameTime) {
+	//devido a alguns sprites que param no ultimo frame, foi feita essa operacao logica para saber quando parar de atualizar os frames do sprite
+	if (timeElapsed > frameTime && (currentFrame<frameCount-1 || !oneTimeOnly) ) {
 		currentFrame++;
 		SetFrame(currentFrame);
 		timeElapsed = 0;
@@ -105,6 +106,18 @@ void Sprite::SetFrameCount(int vframeCount) {
 
 void Sprite::SetFrameTime(float vframeTime) {
 	frameTime = vframeTime;
+}
+
+void Sprite::SetCurrentFrame(int newCurrentFrame) {
+	currentFrame = newCurrentFrame;
+}
+
+int Sprite::GetCurrentFrame() {
+	return currentFrame;
+}
+
+int Sprite::GetFrameCount() {
+	return frameCount;
 }
 
 Vec2 Sprite::GetCentralizedRenderPoint(Vec2 center) {

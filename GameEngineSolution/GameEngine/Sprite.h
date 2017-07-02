@@ -10,7 +10,7 @@ using std::shared_ptr;
 class Sprite {
 	public:
 		Sprite();
-		Sprite(string file, int frameCount = 1, float frameTime = 1);
+		Sprite(string file, int frameCount = 1, float frameTime = 1, bool  endFinalFrame=false);
 
 		~Sprite();
 
@@ -50,6 +50,11 @@ class Sprite {
 		void SetFrame(int frame);
 		void SetFrameCount(int frameCount);
 		void SetFrameTime(float frameTime);
+		void SetCurrentFrame(int newCurrentFrame);
+		int GetCurrentFrame();
+		int GetFrameCount();
+
+
 
 		/// <summary>
 		/// Retorna as coordenadas x, y de onde o canto superior esquerdo do sprite
@@ -75,6 +80,7 @@ class Sprite {
 		int currentFrame;
 		float timeElapsed;
 		float frameTime;
+		bool oneTimeOnly;
 
 		/// <summary>
 		/// Largura de cada frame
