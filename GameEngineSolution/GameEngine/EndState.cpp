@@ -6,7 +6,7 @@
 
 EndState::EndState(StateData stateData) : instruction("font/Call me maybe.ttf", 40, Text::TextStyle::BLENDED, "Esc para menu, Espaco para tentar novamente", { 255,255,255,255 }),
 bg(stateData.playerVictory ? "img/win.jpg" : "img/lose.jpg"),
-music(stateData.playerVictory ? "audio/endStateWin.ogg" : "audio/endStateLose.ogg") 
+music(stateData.playerVictory ? "audio/endStateWin.ogg" : "audio/endStateLose.wav") 
 {
 	instruction.SetPos(bg.GetWidth() / 2, bg.GetHeight() - 80, true, false);
 	music.Play(-1);
