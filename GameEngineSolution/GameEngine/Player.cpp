@@ -156,7 +156,7 @@ void Player::UpdateAllSprites(float dt, InputManager& input) {
 
 
 void Player::Shoot() {
-	Vec2 cannonOffset(50, 0);
+	Vec2 cannonOffset(30, -20);
 	cannonOffset.Rotate(cannonAngle);
 	
 	Sprite bulletSprite;
