@@ -8,6 +8,7 @@
 #include "TileCollision.h"
 #include "Item.h"
 #include "Debug.h"
+#include "Raio.h"
 
 Player* Player::playerInstance = nullptr;
 
@@ -156,27 +157,55 @@ void Player::UpdateAllSprites(float dt, InputManager& input) {
 
 
 void Player::Shoot() {
-	Vec2 cannonOffset(30, -20);
-	cannonOffset.Rotate(cannonAngle);
+	Vec2 finalOffSet;
+	Vec2 cannonOffset(210, -30);
+	finalOffSet = cannonOffset;
+	if (abs(cannonAngle) >1.5) {
+		Vec2 cannonOffset2(200, 15);
+		finalOffSet = cannonOffset2;
+	}
+	finalOffSet.Rotate(cannonAngle);
+
 	
 	Sprite bulletSprite;
 	
 	if (chargeCounter.Get() > chargingTimeLimit) {
 		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 3,0.3,true);
 		Sound("audio/LazerCarregado.wav").Play(0);
-		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + finalOffSet;
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 	} else {
 		bulletSprite = Sprite("img/tiroPlayer.png", 2,0.1);
 		Sound("audio/LazerSimples.wav").Play(0);
-		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + finalOffSet;
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 		cooldownCounter.Update(-coolDown);
 	}
+}
+
+void Player::Bolt() {
+	Vec2 finalOffSet;
+	Vec2 cannonOffset(210,-30);
+	finalOffSet = cannonOffset;
+	if (abs(cannonAngle) >1.5) {
+		Vec2 cannonOffset2(200,15);
+		finalOffSet = cannonOffset2;
+	}
+	finalOffSet.Rotate(cannonAngle);
+
+	Sprite bulletSprite;
+
+		bulletSprite = Sprite("img/raio.png", 6, 0.08);
+		Sound("audio/LazerCarregado.wav").Play(0);
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + finalOffSet;
+		auto raio = new Raio(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed()*2, 500, bulletSprite, false, 100);
+		chargeCounter.Restart();
+		Game::GetInstance().GetCurrentState().AddObject(raio);
+	
 }
 
 
@@ -198,6 +227,12 @@ void Player::UpdateCannonAngle(InputManager & manager) {
 
 float Player::getInertialBulletSpeed() {
 	Vec2 bulletSpeed(1000, 0);
+	bulletSpeed.Rotate(cannonAngle);
+	return (bulletSpeed + Speed).Magnitude();
+}
+
+float Player::getInertialBoltSpeed() {
+	Vec2 bulletSpeed(500, 0);
 	bulletSpeed.Rotate(cannonAngle);
 	return (bulletSpeed + Speed).Magnitude();
 }
@@ -238,6 +273,9 @@ void Player::MovePlayer(float dt, InputManager& input){
 		}
 		if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
 			Shoot();
+		}
+		if (input.KeyPress(SDLK_r)) {
+			Bolt();
 		}
 	} 
 	else if (CurrentLayer == 1) {//caso o player esteja na layer de escada
