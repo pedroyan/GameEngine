@@ -158,10 +158,10 @@ void Player::UpdateAllSprites(float dt, InputManager& input) {
 
 void Player::Shoot() {
 	Vec2 finalOffSet;
-	Vec2 cannonOffset(210, -30);
+	Vec2 cannonOffset(30, -20);
 	finalOffSet = cannonOffset;
 	if (abs(cannonAngle) >1.5) {
-		Vec2 cannonOffset2(200, 15);
+		Vec2 cannonOffset2(30, 20);
 		finalOffSet = cannonOffset2;
 	}
 	finalOffSet.Rotate(cannonAngle);
