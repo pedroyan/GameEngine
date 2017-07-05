@@ -5,6 +5,9 @@
  </properties>
  <tileset firstgid="1" name="TileSetMedieval" tilewidth="32" tileheight="32" tilecount="32" columns="4">
   <image source="../img/tileset.png" width="128" height="256"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="23"/>
+  </terraintypes>
   <tile id="0">
    <properties>
     <property name="Solid" type="bool" value="true"/>
@@ -88,6 +91,11 @@
   <tile id="20">
    <properties>
     <property name="Stairs" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Solid" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="24">
