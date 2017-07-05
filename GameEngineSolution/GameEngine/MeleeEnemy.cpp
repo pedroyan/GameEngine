@@ -3,6 +3,8 @@
 #include "Bullet.h"
 #include "TileCollision.h"
 #include "Game.h"
+#include "Animation.h"
+#include "Sound.h"
 
 float attackDuration = 1;
 
@@ -28,6 +30,22 @@ void MeleeEnemy::Update(float dt) {
 	if (focus != nullptr) {
 		MoveTo(focus->box.GetCenter(), dt);
 		CheckAttack(dt);
+		
+		if (abs(focus->box.DistanceFrom(box)) <30) {
+			actualSprite = &attackingSprite;
+
+		} else {
+			actualSprite = &walkingSprite;
+
+		}
+		if (focus->box.GetCenter().X - box.GetCenter().X <0) {
+			walkingLeft = true;
+
+		} else {
+			walkingLeft = false;
+
+		}
+
 	}
 	if (CurrentLayer == 1) {
 		actualSprite = &stairsSprite;
@@ -44,12 +62,17 @@ void MeleeEnemy::Render() {
 void MeleeEnemy::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
 		hp -= other.damage;
+		if (IsDead()) {
+			Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 4, 0.125, true));
+			Sound("audio/enemyDeath.wav").Play(0);
+		}
 	}
 }
 
 void MeleeEnemy::Attack() {
+	Sound("audio/meleeEnemyAttack.wav").Play(0);
 	focus->TakeDamage(10);
-	actualSprite = &attackingSprite;
+	//actualSprite = &attackingSprite;
 	attackTimer.Update(-attackDuration);
 }
 
@@ -58,7 +81,7 @@ void MeleeEnemy::CheckAttack(float dt) {
 		attackTimer.Update(dt);
 		if (attackTimer.Get() > 0) {
 			attackTimer.Restart();
-			actualSprite = &stillSprite;
+			//actualSprite = &stillSprite;
 		}
 	} else if (this->focus->box.DistanceFrom(box) <= attackRange) {
 		Attack();

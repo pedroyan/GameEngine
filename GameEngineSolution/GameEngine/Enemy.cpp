@@ -21,7 +21,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 	Vec2 newPos;
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	auto neig = FindNeighbors(200 * dt, tileHeight * sqrK1 * dt, pos);
-	actualSprite = &walkingSprite;
+	
 
 	if (CurrentLayer == 0) {
 		if (!neig.empty()) {
@@ -34,12 +34,8 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 				Rect newPosBox = box;
 				newPosBox.X = newPos.X;
 				newPosBox.Y = newPos.Y;
-				if (newPosBox.X - box.X >0) {
-					walkingLeft = false;
-
-				} else {
-					walkingLeft = true;
-				}
+			//	actualSprite = &walkingSprite;
+				
 				auto collisionAnalysis = TileCollision::PriorityCollision(newPosBox, 0);
 
 				if (collisionAnalysis == CollisionType::Solid) {
@@ -169,9 +165,17 @@ void Enemy::MoveToDumbly(Vec2 pos) {
 std::list<Vec2> Enemy::FindNeighbors(float tileWidth, float tileHeight, Vec2 pos) {
 	list<Vec2> neighbors;
 	if (pos.X > box.X) {
+	
+		
+	//		walkingLeft = false;
+		
+		
 		neighbors.push_back(Vec2(box.X + tileWidth, box.Y));
 		neighbors.push_back(Vec2(box.X + tileWidth, box.Y - tileHeight));
 	} else if (pos.X < box.X) {
+
+		
+
 		neighbors.push_back(Vec2(box.X - tileWidth, box.Y));
 		neighbors.push_back(Vec2(box.X - tileWidth, box.Y - tileHeight));
 	}

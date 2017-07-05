@@ -45,12 +45,12 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	}
 
 	//1122,544
-	//auto enemy = new MeleeEnemy(1122, 544);
-	//auto enemyRanged = new RangedEnemy(1160, 544);
-	//enemy->Focus(player);
-	//enemyRanged->Focus(player);
-	//AddObject(enemy);
-	//AddObject(enemyRanged);
+	auto enemy = new MeleeEnemy(1122, 544);
+	auto enemyRanged = new RangedEnemy(1160, 544);
+	enemy->Focus(player);
+	enemyRanged->Focus(player);
+	AddObject(enemy);
+	AddObject(enemyRanged);
 	SpawnKeys();
 }
 
@@ -73,7 +73,7 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
-	SpawnEnemy(dt);
+	//SpawnEnemy(dt);
 }
 
 void StageState::Render() {

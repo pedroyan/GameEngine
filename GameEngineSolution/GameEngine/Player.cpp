@@ -22,7 +22,7 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 {
 	rotation = 0;
 	Player::playerInstance = this;
-	hp = 100;//vida aumentada pra teste
+	hp = 1000000;//vida aumentada pra teste
 	cooldownCounter = Timer();
 
 	box.X = x;
