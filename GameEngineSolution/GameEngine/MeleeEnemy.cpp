@@ -6,7 +6,7 @@
 
 float attackDuration = 1;
 
-MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), Sprite("img/MeleeEnemy.png",6,0.1)), attackingSprite("img/MeleeEnemy_atk.png",6,attackDuration/6){
+MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), Sprite("img/MeleeEnemyWalking.png",6,0.1)), attackingSprite("img/meleeEnemyAttack.png",2,attackDuration/6){
 	damage = 10;
 	hp = 100;
 	box.X = x;
