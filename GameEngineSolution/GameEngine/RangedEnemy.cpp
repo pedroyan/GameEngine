@@ -4,6 +4,7 @@
 #include "State.h"
 #include "Game.h"
 #include "Sound.h"
+#include "Animation.h"
 
 float attackDurationRanged = 1.5;
 
@@ -52,6 +53,10 @@ void RangedEnemy::Render() {
 void RangedEnemy::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
 		hp -= other.damage;
+		if (IsDead()) {
+			Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true, Camera::Zoom));
+			Sound("audio/enemyDeath.wav").Play(0);
+		}
 	}
 }
 

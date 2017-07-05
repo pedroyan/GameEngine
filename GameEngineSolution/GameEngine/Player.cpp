@@ -205,8 +205,8 @@ float Player::getInertialBulletSpeed() {
 void Player::TakeDamage(int damage) {
 	hp -= damage;
 	if (IsDead()) {
-		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
-		Sound("audio/boom.wav").Play(0);
+		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true, Camera::Zoom));
+		Sound("audio/enemyDeath.wav").Play(0);
 	}
 }
 
