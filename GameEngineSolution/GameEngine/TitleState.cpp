@@ -17,7 +17,7 @@ void TitleState::Update(float dt) {
 	auto& manager = InputManager::GetInstance();
 	quitRequested = manager.QuitRequested() || manager.KeyPress(SDLK_ESCAPE);
 	if (manager.KeyPress(SDLK_SPACE)) {
-		Game::GetInstance().Push(new StageState("map/map.tmx","img/tileset.png"));
+		Game::GetInstance().Push(new StageState("map/map.tmx","img/tilesetMedieval.png"));
 	}
 	textTimer.Update(dt);
 	if (textTimer.Get() > period) {
