@@ -6,7 +6,7 @@
 
 float attackDuration = 1;
 
-MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), Sprite("img/MeleeEnemyWalking.png",6,0.1)), attackingSprite("img/meleeEnemyAttack.png",2,attackDuration/6){
+MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), Sprite("img/MeleeEnemyWalking.png",6,0.1), Sprite("img/MeleeEnemyStairs.png",2, 0.1)), attackingSprite("img/meleeEnemyAttack.png",2,attackDuration/6){
 	damage = 10;
 	hp = 100;
 	box.X = x;
@@ -29,13 +29,15 @@ void MeleeEnemy::Update(float dt) {
 		MoveTo(focus->box.GetCenter(), dt);
 		CheckAttack(dt);
 	}
-
+	if (CurrentLayer == 1) {
+		actualSprite = &stairsSprite;
+	}
 	actualSprite->Update(dt);
-	//auto result = MoveOnSpeed(dt);
 	EnemyMove(dt);
 }
 
 void MeleeEnemy::Render() {
+	
 	actualSprite->Render(box.GetWorldRenderPosition(), rotation, walkingLeft, Camera::Zoom);
 }
 

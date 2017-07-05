@@ -21,6 +21,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 	Vec2 newPos;
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	auto neig = FindNeighbors(200 * dt, tileHeight * sqrK1 * dt, pos);
+	actualSprite = &walkingSprite;
 
 	if (CurrentLayer == 0) {
 		if (!neig.empty()) {
@@ -148,7 +149,7 @@ void Enemy::Focus(Player* focus) {
 	this->focus = focus;
 }
 
-Enemy::Enemy(Sprite stillSprite, Sprite walkingSprite) : stillSprite(stillSprite), walkingSprite(walkingSprite) {
+Enemy::Enemy(Sprite stillSprite, Sprite walkingSprite,Sprite stairsSprite) : stillSprite(stillSprite), walkingSprite(walkingSprite), stairsSprite(stairsSprite){
 	focus = nullptr;
 	actualSprite = &this->stillSprite;
 }
