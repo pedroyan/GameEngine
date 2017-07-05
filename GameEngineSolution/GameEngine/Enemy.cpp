@@ -34,6 +34,12 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 				Rect newPosBox = box;
 				newPosBox.X = newPos.X;
 				newPosBox.Y = newPos.Y;
+				if (newPosBox.X - box.X >0) {
+					walkingLeft = false;
+
+				} else {
+					walkingLeft = true;
+				}
 				auto collisionAnalysis = TileCollision::PriorityCollision(newPosBox, 0);
 
 				if (collisionAnalysis == CollisionType::Solid) {
@@ -115,6 +121,8 @@ void Enemy::EnemyMove(float dt) {
 		auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 		Speed.Y += tileHeight * Gravity * dt;
 		box.Y += Speed.Y*dt;
+
+	
 
 		auto collisionAnalysisY = TileCollision::PriorityCollision(this->box, 0);
 		if (collisionAnalysisY == CollisionType::Solid) {
