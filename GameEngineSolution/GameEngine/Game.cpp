@@ -110,7 +110,7 @@ void Game::Run() {
 
 		currentState.Render();
 		InputManager::GetInstance().Update();
-		currentState.Update(dt);
+ 		currentState.Update(dt);
 		SDL_RenderPresent(renderer);
 
 		ManagePile();
