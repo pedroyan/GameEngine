@@ -31,7 +31,7 @@ void MeleeEnemy::Update(float dt) {
 		MoveTo(focus->box.GetCenter(), dt);
 		CheckAttack(dt);
 		
-		if (abs(focus->box.DistanceFrom(box)) <30) {
+		if (abs(focus->box.DistanceFrom(box)) <attackRange) {
 			actualSprite = &attackingSprite;
 
 		} else {

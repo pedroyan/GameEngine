@@ -232,6 +232,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 			jumpPlayer();
 			jumpSP.SetCurrentFrame(0);
+			Sound("audio/pulo.wav").Play(0);
 			
 		} else {
 			ApplyGravity(dt);
