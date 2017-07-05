@@ -16,6 +16,8 @@ class Portal : public GameObject {
 		string text;
 		string nextMap;
 		string nextTileSet;
+
 		void CenterDisplayText();
+		void UpdateText(string text);
 };
 

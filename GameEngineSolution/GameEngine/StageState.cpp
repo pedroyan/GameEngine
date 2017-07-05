@@ -43,15 +43,6 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 		}
 		AddObject(obj);
 	}
-
-	//1122,544
-	//auto enemy = new MeleeEnemy(1122, 544);
-	//auto enemyRanged = new RangedEnemy(1160, 544);
-	//enemy->Focus(player);
-	//enemyRanged->Focus(player);
-	//AddObject(enemy);
-	//AddObject(enemyRanged);
-	SpawnKeys();
 }
 
 void StageState::LoadAssets() {
@@ -73,7 +64,7 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
-	SpawnEnemy(dt);
+	SpawnEnemy();
 }
 
 void StageState::Render() {
@@ -98,12 +89,21 @@ void StageState::AddObject(GameObject * ptr) {
 	objectArray.push_back(std::move(uniqueObject));
 }
 
-void StageState::SpawnEnemy(float dt) {
+bool StageState::GetHordeMode() {
+	return HordeMode;
+}
+
+void StageState::EnableHordeMode() {
+	HordeMode = true;
+	SpawnKeys();
+
+}
+
+void StageState::SpawnEnemy() {
 	//int numberOfEnemys = 20;
 	int numberOfEnemys = rand() % 3;
 	
-	coolDownSpawnCounter.Update(dt);
-	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
+	if (this->coolDownSpawnCounter.Get() > coolDownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
 			int randomEnemy = rand() % 3;
 			auto spawn = tileMap.GetRandomSpawnPosition();
@@ -171,4 +171,7 @@ void StageState::UpdateArray(float dt) {
 StageState::~StageState() {
 	objectArray.clear();
 	delete tileSet;
+
+	//Desliga o Horde Mode quando um StageState for desempilhado
+	StageState::HordeMode = false;
 }

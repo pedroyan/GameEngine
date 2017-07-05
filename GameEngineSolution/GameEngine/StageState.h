@@ -22,7 +22,8 @@ class StageState : public State{
 		void Resume();
 		TileMap GetMap();
 		void AddObject(GameObject* ptr);
-
+		bool GetHordeMode();
+		void EnableHordeMode();
 		
 	private:
 		//variaveis
@@ -33,11 +34,12 @@ class StageState : public State{
 		Music stageMusic;
 		Background bg1;
 		int playerLayer;
+		bool HordeMode;
 
 		//metodos
 		void CheckCollisions();
 		void UpdateArray(float dt);
-		void SpawnEnemy(float dt);
+		void SpawnEnemy();
 		void SpawnKeys();
 };
 
