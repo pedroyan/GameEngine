@@ -10,6 +10,7 @@
 #include "Sound.h"
 #include "Background.h"
 #include "Timer.h"
+#include "Portal.h"
 
 class StageState : public State{
 	public:
@@ -34,8 +35,12 @@ class StageState : public State{
 		Music stageMusic;
 		Background bg1;
 		int playerLayer;
+
+		//horde variables
 		bool HordeMode;
 		float cooldownSpawn;
+		int enemyCount;
+		std::vector<GameObject*> barrierArray;
 
 		//metodos
 		void CheckCollisions();

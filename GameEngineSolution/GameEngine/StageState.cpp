@@ -38,11 +38,15 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	for (auto& obj : objects) {
 		if (obj->Is("Player")) {
 			player = static_cast<Player*>(obj);
+		} else if(obj->Is("Barrier")){
+			barrierArray.emplace_back(obj);
+			continue;
 		}
 		AddObject(obj);
 	}
 
-	cooldownSpawn = 8;
+	cooldownSpawn = 4;
+	enemyCount = 2;
 }
 
 void StageState::LoadAssets() {
@@ -99,11 +103,16 @@ void StageState::EnableHordeMode() {
 	HordeMode = true;
 	SpawnKeys();
 	cooldownSpawn = 3;
+	enemyCount = 4;
+
+	for (auto& barrier : barrierArray) {
+		AddObject(barrier);
+	}
 }
 
 void StageState::SpawnEnemy() {
 	//int numberOfEnemys = 20;
-	int numberOfEnemys = rand() % 3;
+	int numberOfEnemys = rand() % enemyCount;
 	
 	if (this->coolDownSpawnCounter.Get() > cooldownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
