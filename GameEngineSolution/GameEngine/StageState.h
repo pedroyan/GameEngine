@@ -35,6 +35,7 @@ class StageState : public State{
 		Background bg1;
 		int playerLayer;
 		bool HordeMode;
+		float cooldownSpawn;
 
 		//metodos
 		void CheckCollisions();

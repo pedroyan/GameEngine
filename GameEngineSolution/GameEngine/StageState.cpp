@@ -15,8 +15,6 @@
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 
-//coolDownSpawn de tiro em segundos
-const float coolDownSpawn = 3.0;
 
 StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
@@ -43,6 +41,8 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 		}
 		AddObject(obj);
 	}
+
+	cooldownSpawn = 8;
 }
 
 void StageState::LoadAssets() {
@@ -64,7 +64,9 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
+	coolDownSpawnCounter.Update(dt);
 	SpawnEnemy();
+
 }
 
 void StageState::Render() {
@@ -96,14 +98,14 @@ bool StageState::GetHordeMode() {
 void StageState::EnableHordeMode() {
 	HordeMode = true;
 	SpawnKeys();
-
+	cooldownSpawn = 3;
 }
 
 void StageState::SpawnEnemy() {
 	//int numberOfEnemys = 20;
 	int numberOfEnemys = rand() % 3;
 	
-	if (this->coolDownSpawnCounter.Get() > coolDownSpawn) {
+	if (this->coolDownSpawnCounter.Get() > cooldownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
 			int randomEnemy = rand() % 3;
 			auto spawn = tileMap.GetRandomSpawnPosition();

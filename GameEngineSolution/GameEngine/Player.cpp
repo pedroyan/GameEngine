@@ -156,7 +156,7 @@ void Player::UpdateAllSprites(float dt, InputManager& input) {
 
 
 void Player::Shoot() {
-	Vec2 cannonOffset(30, -20);
+	Vec2 cannonOffset(50, 0);
 	cannonOffset.Rotate(cannonAngle);
 	
 	Sprite bulletSprite;
@@ -164,7 +164,7 @@ void Player::Shoot() {
 	if (chargeCounter.Get() > chargingTimeLimit) {
 		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 3,0.3,true);
 		Sound("audio/LazerCarregado.wav").Play(0);
-		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset;
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset + Vec2(0,-30);
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
