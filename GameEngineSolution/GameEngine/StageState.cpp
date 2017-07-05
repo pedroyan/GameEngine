@@ -15,8 +15,6 @@
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 
-//coolDownSpawn de tiro em segundos
-const float coolDownSpawn = 3.0;
 
 StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
@@ -40,18 +38,15 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	for (auto& obj : objects) {
 		if (obj->Is("Player")) {
 			player = static_cast<Player*>(obj);
+		} else if(obj->Is("Barrier")){
+			barrierArray.emplace_back(obj);
+			continue;
 		}
 		AddObject(obj);
 	}
 
-	//1122,544
-	//auto enemy = new MeleeEnemy(1122, 544);
-	//auto enemyRanged = new RangedEnemy(1160, 544);
-	//enemy->Focus(player);
-	//enemyRanged->Focus(player);
-	//AddObject(enemy);
-	//AddObject(enemyRanged);
-	SpawnKeys();
+	cooldownSpawn = 4;
+	enemyCount = 2;
 }
 
 void StageState::LoadAssets() {
@@ -73,7 +68,9 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
-	SpawnEnemy(dt);
+	coolDownSpawnCounter.Update(dt);
+	SpawnEnemy();
+
 }
 
 void StageState::Render() {
@@ -98,12 +95,26 @@ void StageState::AddObject(GameObject * ptr) {
 	objectArray.push_back(std::move(uniqueObject));
 }
 
-void StageState::SpawnEnemy(float dt) {
+bool StageState::GetHordeMode() {
+	return HordeMode;
+}
+
+void StageState::EnableHordeMode() {
+	HordeMode = true;
+	SpawnKeys();
+	cooldownSpawn = 3;
+	enemyCount = 4;
+
+	for (auto& barrier : barrierArray) {
+		AddObject(barrier);
+	}
+}
+
+void StageState::SpawnEnemy() {
 	//int numberOfEnemys = 20;
-	int numberOfEnemys = rand() % 3;
+	int numberOfEnemys = rand() % enemyCount;
 	
-	coolDownSpawnCounter.Update(dt);
-	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
+	if (this->coolDownSpawnCounter.Get() > cooldownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
 			int randomEnemy = rand() % 3;
 			auto spawn = tileMap.GetRandomSpawnPosition();
@@ -171,4 +182,7 @@ void StageState::UpdateArray(float dt) {
 StageState::~StageState() {
 	objectArray.clear();
 	delete tileSet;
+
+	//Desliga o Horde Mode quando um StageState for desempilhado
+	StageState::HordeMode = false;
 }
