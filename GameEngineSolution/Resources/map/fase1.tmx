@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="32" tileheight="32" nextobjectid="35">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="300" height="50" tilewidth="32" tileheight="32" nextobjectid="36">
  <properties>
   <property name="playerLayer" type="int" value="2"/>
  </properties>
@@ -219,5 +219,12 @@
  </layer>
  <objectgroup name="Object Layer 1">
   <object id="34" type="PlayerSpawn" x="186" y="68" width="54" height="82"/>
+  <object id="35" type="Portal" x="9439.83" y="940.583" width="49.9091" height="81.5">
+   <properties>
+    <property name="Message" value="Press F for next stage"/>
+    <property name="NextMap" value="map/fase2.tmx"/>
+    <property name="NextTileset" value="img/tileset2.png"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
