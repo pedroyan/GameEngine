@@ -18,6 +18,7 @@
 
 StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
+	stageMusic.Play(-1);
 	int th, tw;
 	parser.GetTileDimensions(&th, &tw);
 

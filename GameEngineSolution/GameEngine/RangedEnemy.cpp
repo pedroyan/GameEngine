@@ -8,7 +8,7 @@
 
 float attackDurationRanged = 1.5;
 
-RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemy.png"), Sprite("img/RangedEnemyWalking.png", 6, 0.1), Sprite("img/RangedEnemy.png", 1, 0.1)), attackingSprite("img/RangedEnemyAttack.png", 2, attackDurationRanged / 6) {
+RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemyWalking.png", 7, 0.1,true), Sprite("img/RangedEnemyWalking.png", 7, 0.1), Sprite("img/RangedEnemyWalking.png", 7, 0.1)), attackingSprite("img/RangedEnemyAttack.png", 7, attackDurationRanged / 7) {
 	damage = 20;
 	hp = 50;
 	box.X = x;
