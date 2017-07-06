@@ -9,6 +9,32 @@
 float attackDuration = 1;
 
 MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), Sprite("img/MeleeEnemyWalking.png",6,0.1), Sprite("img/MeleeEnemyStairs.png",2, 0.1)), attackingSprite("img/meleeEnemyAttack.png",2,attackDuration/6){
+	int randomEnemy = rand() % 3;
+	switch (randomEnemy) {
+	case 0:
+	{
+		stillSprite=Sprite("img/MeleeEnemy2.png");
+		stairsSprite = Sprite("img/MeleeEnemyStairs2.png", 10, 0.3);
+		walkingSprite = Sprite("img/MeleeEnemyWalking2.png", 8, 0.1);
+		attackingSprite = Sprite("img/MeleeEnemyAttack2.png", 12, 0.1);
+		damage = 30;
+		hp = 200;
+		box.X = x;
+		box.Y = y;
+		box.W = actualSprite->GetWidth();
+		box.H = actualSprite->GetHeight();
+		attackRange = box.W;
+		ground = 1;
+		CurrentLayer = 0;
+		return;
+		break;
+	}
+	default:
+		break;
+	}
+
+
+	
 	damage = 10;
 	hp = 100;
 	box.X = x;
