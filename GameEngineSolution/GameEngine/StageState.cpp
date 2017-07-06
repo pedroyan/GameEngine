@@ -15,6 +15,7 @@
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 
+const float zoomToValue = 0.5;
 
 StageState::StageState(string map, string tileSet, string music, string paralax) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
@@ -69,6 +70,14 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
+
+	if (Camera::Zoom == zoomToValue) {
+		zoomTimer.Update(dt);
+		if (zoomTimer.Get() >= 3) {
+			Camera::ZoomTo(1, 3);
+		}
+	}
+
 	coolDownSpawnCounter.Update(dt);
 	SpawnEnemy();
 
@@ -109,6 +118,8 @@ void StageState::EnableHordeMode() {
 	for (auto& barrier : barrierArray) {
 		AddObject(barrier);
 	}
+
+	Camera::ZoomTo(zoomToValue, 5);
 }
 
 void StageState::SpawnEnemy() {

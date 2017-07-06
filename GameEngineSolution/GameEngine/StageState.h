@@ -41,6 +41,7 @@ class StageState : public State{
 		float cooldownSpawn;
 		int enemyCount;
 		std::vector<GameObject*> barrierArray;
+		Timer zoomTimer;
 
 		//metodos
 		void CheckCollisions();
