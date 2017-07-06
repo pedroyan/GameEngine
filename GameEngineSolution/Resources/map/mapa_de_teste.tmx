@@ -134,7 +134,7 @@
   <object id="4" type="Portal" x="1504" y="268.83" width="51" height="81.5">
    <properties>
     <property name="Message" value="Press F for next stage"/>
-    <property name="NextMap" value="map/lvl2.tmx"/>
+    <property name="NextMap" value="map/map.tmx"/>
     <property name="NextTileset" value="img/tileset.png"/>
    </properties>
   </object>
