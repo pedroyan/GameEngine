@@ -5,7 +5,7 @@
 #include "Pathfinding.h"
 #include "Game.h"
 
-const float jumpHeight = 3;
+const float jumpHeight = 11;
 const float Gravity = 2 * 9.8;
 const float sqrK1 = sqrt(2 * Gravity * jumpHeight);
 
@@ -21,47 +21,59 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 	Vec2 newPos;
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	auto neig = FindNeighbors(200 * dt, tileHeight * sqrK1 * dt, pos);
+	bool walked = false;
 
-	if (CurrentLayer == 0) {
-		if (!neig.empty()) {
-			for (auto next : neig) {
-				frontier.put(next, heuristic(pos, next));
+	if (!neig.empty()) {
+		for (auto next : neig) {
+			frontier.put(next, heuristic(pos, next));
+		}
+
+		while (!frontier.empty()) {
+			newPos = frontier.get();
+			Rect newPosBox = box;
+			newPosBox.X = newPos.X;
+			newPosBox.Y = newPos.Y;
+			auto collisionAnalysis = TileCollision::PriorityCollision(newPosBox, 0);
+
+			if (collisionAnalysis == CollisionType::Solid) {
+				continue;
 			}
 
-			while (!frontier.empty()) {
-				newPos = frontier.get();
-				Rect newPosBox = box;
-				newPosBox.X = newPos.X;
-				newPosBox.Y = newPos.Y;
-				auto collisionAnalysis = TileCollision::PriorityCollision(newPosBox, 0);
-
-				if (collisionAnalysis == CollisionType::Solid) {
-					continue;
-				}
-
-
-				if (collisionAnalysis == CollisionType::noCollision) {
-					if (box.Y > newPos.Y) { //quero pular
-						if (ground == 1 && Speed.Y == 0) { //posso pular?
-							box.X = newPos.X;
+			if (collisionAnalysis == CollisionType::noCollision) {
+				if (newPos.Y - box.Y > 20) { //esta mais alto
+					if (!isJumping && ground) { //posso pular?
+						walked = true;
+						ground = false;
+						if (box.X > newPos.X) {
+							Speed.X = -200;
+							walkingLeft = true;
+						} else {
 							Speed.X = 200;
-							Speed.Y = -tileHeight * sqrK1;
-							break;
+							walkingLeft = false;
 						}
-						else {
-							continue;
-						}
-					}
-					else {
-						box.X = newPos.X;
-						Speed.X = 200;
+						Jump(2);
 						break;
 					}
+					else {
+						continue;
+					}
+				} else if(fabs(pos.Y - box.Y) < 10) {
+					walked = true;
+					if (box.X > newPos.X) {
+						Speed.X = -200;
+						walkingLeft = true;
+					} else {
+						Speed.X = 200;
+						walkingLeft = false;
+					}
+					break;
 				}
 			}
 		}
+	}
 
-		if (box.X != newPos.X) {//não andei
+	if (!walked) {//não andei
+		if (fabs(pos.Y - box.Y) < 10) {//parede entre a gente
 			Rect newPosBox = box;
 			newPosBox.X = box.X + 200 * dt;
 			newPosBox.Y = box.Y + tileHeight * sqrK1;
@@ -71,41 +83,40 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 			newPosBox.Y = box.Y + tileHeight * sqrK1;
 			auto collisionAnalysisL = TileCollision::PriorityCollision(newPosBox, 0);
 			if (collisionAnalysisL == CollisionType::noCollision || collisionAnalysisR == CollisionType::noCollision) {//se eu pular eu contorno
-				if (ground == 1 && Speed.Y == 0) { //posso pular?
-					Speed.Y = -tileHeight * sqrK1;
+				if (!isJumping && ground) { //posso pular?
+					walked = true;
+					ground = false;
+					Jump(2);
+					if (box.X > newPos.X) {
+						Speed.X = -200;
+						walkingLeft = true;
+					}
+					else {
+						Speed.X = 200;
+						walkingLeft = false;
+					}
+				}
+			}
+		} else if(box.Y - pos.Y > 10) {//escada de tiles entre a gente
+			if (!isJumping && ground) { //posso pular?
+				walked = true;
+				ground = false;
+				Jump(2);
+				if (box.X > newPos.X) {
+					Speed.X = -200;
+					walkingLeft = true;
+				}
+				else {
+					Speed.X = 200;
+					walkingLeft = false;
 				}
 			}
 		}
+	}
 
-
-		if (box.X - pos.X < 100 && box.Y != pos.Y) {
-			if (speedStairs.Y == 0) {
-				if (box.Y > pos.Y) {
-					speedStairs.Y = 200 / 2;
-				}
-				else {
-					speedStairs.Y = -200 / 2;
-				}
-			}
-
-			Rect previousRect = box;
-			Rect stairsAnalisys = previousRect;
-			stairsAnalisys.Y += speedStairs.Y*dt;
-			stairsAnalisys.W = 0;
-			stairsAnalisys.X += box.W / 2;
-
-			auto collisionAnalysisLayer1 = TileCollision::PriorityCollision(stairsAnalisys, 1);
-			if (collisionAnalysisLayer1 == CollisionType::Stairs) {
-				CenterOnCurrentTile();
-				CurrentLayer = 1;
-				if (box.Y > pos.Y) {
-					Speed.Y = -tileHeight * sqrK1;
-				}
-				else {
-					Speed.Y = tileHeight * sqrK1;
-				}
-			}
-		}
+	if (!walked && fabs(pos.X - box.X) < 1) {
+		walked = true;
+		GoToStairs = true;
 	}
 }
 
@@ -118,11 +129,7 @@ void Enemy::EnemyMove(float dt) {
 		auto collisionAnalysisY = TileCollision::PriorityCollision(this->box, 0);
 		if (collisionAnalysisY == CollisionType::Solid) {
 			box.Y -= Speed.Y*dt;
-			ground = 1;
 			Speed.Y = 0;
-		}
-		else {
-			ground = 0;
 		}
 	}
 	else if (CurrentLayer == 1) {
@@ -175,9 +182,11 @@ void Enemy::DummyWalk(float dt) {
 	if (walked >= 0 && walked <= 40) {
 		walked++;
 		Speed.X = 100;
+		walkingLeft = false;
 	} else if (walked <= 0 && walked >= -40) {
 		walked--;
 		Speed.X = -100;
+		walkingLeft = true;
 	} else if (walked > 0) {
 		walked = -1;
 	} else if (walked < 0) {

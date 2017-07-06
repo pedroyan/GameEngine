@@ -9,7 +9,6 @@ const float MoveableObject::Gravity = 2 * 9.8;
 MoveableObject::MoveableObject() {
 }
 
-
 MoveableObject::~MoveableObject() {
 }
 
