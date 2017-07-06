@@ -5,9 +5,10 @@
 #include "StageState.h"
 #include "Player.h"
 
-Portal::Portal(string nextMap, string nextTileSet, Rect dimensions, string text) : displayText("font/Call me maybe.ttf",20,Text::TextStyle::BLENDED, text, { 0,0,0,255 }){
+Portal::Portal(string nextMap, string nextTileSet,Rect dimensions, string text) : displayText("font/Call me maybe.ttf",20,Text::TextStyle::BLENDED, text, { 0,0,0,255 }){
 	box = dimensions;
 	this->nextMap = nextMap;
+	this->nextMusic = "audio/fase1.wav";
 	this->nextTileSet = nextTileSet;
 	this->text = text;
 	CenterDisplayText();
@@ -39,7 +40,7 @@ void Portal::NotifyCollision(GameObject & other) {
 			} else {
 				UpdateText(this->text);
 				if (InputManager::GetInstance().KeyPress(SDLK_f)) {
-					stageState.Swap(new StageState(nextMap, nextTileSet));
+					stageState.Swap(new StageState(nextMap, nextTileSet,nextMusic));
 				}
 			}
 		} else {

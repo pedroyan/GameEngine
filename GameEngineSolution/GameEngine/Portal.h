@@ -3,7 +3,7 @@
 #include "Text.h"
 class Portal : public GameObject {
 	public:
-		Portal(string nextMap, string nextTileSet, Rect dimensions, string text = "Pressione F para a Proxima Fase");
+		Portal(string nextMap, string nextTileSet, Rect dimensions ,string text = "Pressione F para a Proxima Fase");
 		void Update(float dt);
 		void Render();
 		bool IsDead();
@@ -16,6 +16,7 @@ class Portal : public GameObject {
 		string text;
 		string nextMap;
 		string nextTileSet;
+		string nextMusic;
 
 		void CenterDisplayText();
 		void UpdateText(string text);
