@@ -72,7 +72,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 		}
 	}
 
-	if (!walked) {//n„o andei
+	if (!walked) {//n√£o andei
 		if (fabs(pos.Y - box.Y) < 10) {//parede entre a gente
 			Rect newPosBox = box;
 			newPosBox.X = box.X + 200 * dt;
@@ -126,6 +126,8 @@ void Enemy::EnemyMove(float dt) {
 		Speed.Y += tileHeight * Gravity * dt;
 		box.Y += Speed.Y*dt;
 
+	
+
 		auto collisionAnalysisY = TileCollision::PriorityCollision(this->box, 0);
 		if (collisionAnalysisY == CollisionType::Solid) {
 			box.Y -= Speed.Y*dt;
@@ -155,7 +157,7 @@ void Enemy::Focus(Player* focus) {
 	this->focus = focus;
 }
 
-Enemy::Enemy(Sprite stillSprite, Sprite walkingSprite) : stillSprite(stillSprite), walkingSprite(walkingSprite) {
+Enemy::Enemy(Sprite stillSprite, Sprite walkingSprite,Sprite stairsSprite) : stillSprite(stillSprite), walkingSprite(walkingSprite), stairsSprite(stairsSprite){
 	focus = nullptr;
 	actualSprite = &this->stillSprite;
 }
@@ -167,9 +169,17 @@ void Enemy::MoveToDumbly(Vec2 pos) {
 std::list<Vec2> Enemy::FindNeighbors(float tileWidth, float tileHeight, Vec2 pos) {
 	list<Vec2> neighbors;
 	if (pos.X > box.X) {
+	
+		
+	//		walkingLeft = false;
+		
+		
 		neighbors.push_back(Vec2(box.X + tileWidth, box.Y));
 		neighbors.push_back(Vec2(box.X + tileWidth, box.Y - tileHeight));
 	} else if (pos.X < box.X) {
+
+		
+
 		neighbors.push_back(Vec2(box.X - tileWidth, box.Y));
 		neighbors.push_back(Vec2(box.X - tileWidth, box.Y - tileHeight));
 	}

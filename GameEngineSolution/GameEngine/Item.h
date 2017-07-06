@@ -24,6 +24,7 @@ class Item : public GameObject {
 	private:
 		bool isTaken=false;
 		Sprite sp;
+		Sprite HighlightSp;
 		ItemType itemType;
 };
 

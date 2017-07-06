@@ -4,10 +4,11 @@
 #include "State.h"
 #include "Game.h"
 #include "Sound.h"
+#include "Animation.h"
 
 float attackDurationRanged = 1.5;
 
-RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemy.png"), Sprite("img/RangedEnemy.png", 1, 0.1)), attackingSprite("img/RangedEnemy_atk.png", 1, attackDurationRanged / 6) {
+RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemyWalking.png", 7, 0.1,true), Sprite("img/RangedEnemyWalking.png", 7, 0.1), Sprite("img/RangedEnemyWalking.png", 7, 0.1)), attackingSprite("img/RangedEnemyAttack.png", 7, attackDurationRanged / 7), attackingSpriteVomito("img/RangedEnemyAttackVomito.png", 11, attackDurationRanged / 11) {
 	damage = 20;
 	hp = 50;
 	box.X = x;
@@ -15,6 +16,7 @@ RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemy.png")
 	box.W = actualSprite->GetWidth();
 	box.H = actualSprite->GetHeight();
 	attackRange = box.W*10;
+	attackRangeVomito = box.W *5;
 }
 
 
@@ -26,6 +28,19 @@ void RangedEnemy::Update(float dt) {
 	if (focus != nullptr) {
 		MoveToDumbly(focus->box.GetCenter());
 		CheckAttack(dt);
+		
+		if (abs(focus->box.DistanceFrom(box)) <attackRangeVomito) {
+			actualSprite = &attackingSpriteVomito;
+		} else if(abs(focus->box.DistanceFrom(box)) <attackRange){
+			actualSprite = &attackingSprite;
+		}else {
+			actualSprite = &walkingSprite;
+		}
+		if (focus->box.GetCenter().X - box.GetCenter().X <0) {
+			walkingLeft = true;
+		} else {
+			walkingLeft = false;
+		}
 	}
 	actualSprite->Update(dt);
 	auto result = MoveOnSpeed(dt);
@@ -41,24 +56,40 @@ void RangedEnemy::Render() {
 void RangedEnemy::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
 		hp -= other.damage;
+		if (IsDead()) {
+			Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true, Camera::Zoom));
+			Sound("audio/enemyDeath.wav").Play(0);
+		}
 	}
 }
 
 void RangedEnemy::Attack() {
+	
 	Shoot();
 	actualSprite = &attackingSprite;
 	attackTimer.Update(-attackDurationRanged);
 }
 
 void RangedEnemy::Shoot() {
-
 	auto position = box.GetCenter();
-
 	auto angle = position.GetDistanceVectorAngle(this->focus->box.GetCenter());
-	auto bullet = new Bullet(position.X, position.Y, angle, 500, 1000, "img/RangedEnemy_Bullet.png", 1, true,10);
-	Sound("audio/LazerCarregado.wav").Play(0);
-	State& state = Game::GetInstance().GetCurrentState();
-	state.AddObject(bullet);
+	if (this->focus->box.DistanceFrom(box) <= attackRangeVomito) {
+		auto bullet = new Bullet(position.X, position.Y, angle, 400, 1000, "img/rangedBulletVomito.png", 1, true, 30);
+		Sound("audio/rangedAttackVomito.wav").Play(0);
+		State& state = Game::GetInstance().GetCurrentState();
+		state.AddObject(bullet);
+
+	} else {
+		auto  bullet = new Bullet(position.X, position.Y, angle, 600, 1500, "img/rangedBullet2.png", 6, true, 10);
+		Sound("audio/rangedAttack.wav").Play(0);
+		State& state = Game::GetInstance().GetCurrentState();
+		state.AddObject(bullet);
+
+		
+	}
+
+	
+	
 }
 
 void RangedEnemy::CheckAttack(float dt) {

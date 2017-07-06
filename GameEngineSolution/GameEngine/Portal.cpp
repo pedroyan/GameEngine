@@ -5,18 +5,34 @@
 #include "StageState.h"
 #include "Player.h"
 
-Portal::Portal(string nextMap, string nextTileSet, Rect dimensions, string text) : displayText("font/Call me maybe.ttf",20,Text::TextStyle::BLENDED, text, { 0,0,0,255 }){
+const float animationTime = 1.0;
+
+Portal::Portal(string nextMap, string nextTileSet, Rect dimensions, string text) : displayText("font/Call me maybe.ttf", 20, Text::TextStyle::BLENDED, text, { 0,0,0,255 }),
+sp("img/Portal.png", 6, animationTime / 6, true) {
 	box = dimensions;
 	this->nextMap = nextMap;
+	this->nextMusic = "audio/fase1.wav";
 	this->nextTileSet = nextTileSet;
 	this->text = text;
+	OpenRequested = false;
 	CenterDisplayText();
 }
 
 void Portal::Update(float dt) {
+	if (OpenRequested) {
+		sp.Update(dt);
+		teleportTime.Update(dt);
+		if (teleportTime.Get() >= animationTime) {
+			auto& stageState = static_cast<StageState&>(Game::GetInstance().GetCurrentState());
+			stageState.Swap(new StageState(nextMap, nextTileSet, nextMusic));
+		}
+	}
 }
 
 void Portal::Render() {
+	if (OpenRequested) {
+		sp.Render(box.GetWorldRenderPosition(), 0, false, Camera::Zoom);
+	}
 }
 
 bool Portal::IsDead() {
@@ -29,8 +45,8 @@ void Portal::NotifyCollision(GameObject & other) {
 	//pois para o PORTAL estar presente no jogo, um StageState deve estar presente.
 
 	if (other.Is("Player")) {
-		auto& stageState =  static_cast<StageState&>(Game::GetInstance().GetCurrentState());
 		auto& manager = InputManager::GetInstance();
+		auto& stageState = static_cast<StageState&>(Game::GetInstance().GetCurrentState());
 		if (stageState.GetHordeMode()) {
 			auto& player = static_cast<const Player&>(other);
 			if (player.GetKeyCount() < 3) {
@@ -39,7 +55,7 @@ void Portal::NotifyCollision(GameObject & other) {
 			} else {
 				UpdateText(this->text);
 				if (InputManager::GetInstance().KeyPress(SDLK_f)) {
-					stageState.Swap(new StageState(nextMap, nextTileSet));
+					OpenRequested = true;
 				}
 			}
 		} else {
