@@ -26,12 +26,17 @@ void MeleeEnemy::Update(float dt) {
 	//ApplyGravity(dt);
 
 	if (focus != nullptr) {
-		MoveTo(focus->box.GetCenter(), dt);
+		if (focus->box.GetCenter().GetDistance(box.GetCenter()) < 300) {
+			MoveTo(focus->box.GetCenter(), dt);
+		}
+		else {
+			DummyWalk(dt);
+			MoveOnSpeed(dt);
+		}
 		CheckAttack(dt);
 	}
 
 	actualSprite->Update(dt);
-	//auto result = MoveOnSpeed(dt);
 	EnemyMove(dt);
 }
 
