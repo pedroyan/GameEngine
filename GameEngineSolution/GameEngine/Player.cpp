@@ -18,10 +18,11 @@ const float Gravity = 2 * 9.8;
 const float coolDown = 0.5;
 const float chargingTimeLimit = 1.0;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png"), stairsSP("img/stairsPlayer.png",2,0.2)
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png"), stairsSP("img/stairsPlayer.png",2,0.2), playerLife("img/Life.png")
 {
 	rotation = 0;
 	Player::playerInstance = this;
+	fullHp = 100;//vida aumentada pra teste
 	hp = 100;//vida aumentada pra teste
 	cooldownCounter = Timer();
 
@@ -33,6 +34,9 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 
 	jumpCount = 0;
 	keyCount = 0;
+
+	playerLife.SetScaleX(0.1);
+	playerLife.SetScaleY(0.1);
 }
 
 Player::~Player() {
@@ -59,6 +63,8 @@ void Player::Update(float dt) {
 }
 
 void Player::Render() {
+	playerLife.Render(10, 10);
+
 	auto& input = InputManager::GetInstance();
 	Vec2 renderPosition;
 	auto centerPosition = box.GetCenter();
@@ -204,6 +210,17 @@ float Player::getInertialBulletSpeed() {
 
 void Player::TakeDamage(int damage) {
 	hp -= damage;
+	double percent = (double) hp / fullHp;
+
+	printf("%lf\n", percent);
+	printf("%d\n", playerLife.GetWidth());
+	printf("%lf\n", playerLife.GetWidth()*percent);
+	playerLife.SetScaleX(1);
+	playerLife.SetScaleY(1);
+	playerLife.SetClip(10, 10, (int)playerLife.GetWidth()*percent, playerLife.GetHeight());
+	playerLife.SetScaleX(0.1);
+	playerLife.SetScaleY(0.1);
+
 	if (IsDead()) {
 		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
 		Sound("audio/boom.wav").Play(0);

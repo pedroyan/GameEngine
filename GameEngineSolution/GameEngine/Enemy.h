@@ -15,6 +15,7 @@ class Enemy : public MoveableObject {
 		virtual void Focus(Player* focus);
 		virtual void Attack() = 0;
 		virtual void EnemyMove(float dt);
+		virtual void DummyWalk(float dt);
 		virtual ~Enemy();
 		std::list<Vec2> FindNeighbors(float tileWidth, float tileHeight, Vec2 pos);
 
@@ -28,6 +29,7 @@ class Enemy : public MoveableObject {
 		Sprite stillSprite;
 		Sprite walkingSprite;
 		bool walkingLeft;
+		int walked;
 
 		Enemy(Sprite stillSprite, Sprite walkingSprite);
 

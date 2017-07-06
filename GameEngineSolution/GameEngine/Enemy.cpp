@@ -44,7 +44,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 					if (box.Y > newPos.Y) { //quero pular
 						if (ground == 1 && Speed.Y == 0) { //posso pular?
 							box.X = newPos.X;
-							Speed.X = SpeedLimit;
+							Speed.X = 200;
 							Speed.Y = -tileHeight * sqrK1;
 							break;
 						}
@@ -54,7 +54,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 					}
 					else {
 						box.X = newPos.X;
-						Speed.X = SpeedLimit;
+						Speed.X = 200;
 						break;
 					}
 				}
@@ -63,11 +63,11 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 
 		if (box.X != newPos.X) {//não andei
 			Rect newPosBox = box;
-			newPosBox.X = box.X + SpeedLimit * dt;
+			newPosBox.X = box.X + 200 * dt;
 			newPosBox.Y = box.Y + tileHeight * sqrK1;
 			auto collisionAnalysisR = TileCollision::PriorityCollision(newPosBox, 0);
 
-			newPosBox.X = box.X - SpeedLimit * dt;
+			newPosBox.X = box.X - 200 * dt;
 			newPosBox.Y = box.Y + tileHeight * sqrK1;
 			auto collisionAnalysisL = TileCollision::PriorityCollision(newPosBox, 0);
 			if (collisionAnalysisL == CollisionType::noCollision || collisionAnalysisR == CollisionType::noCollision) {//se eu pular eu contorno
@@ -168,4 +168,19 @@ std::list<Vec2> Enemy::FindNeighbors(float tileWidth, float tileHeight, Vec2 pos
 	}
 	
 	return neighbors;
+}
+
+
+void Enemy::DummyWalk(float dt) {
+	if (walked >= 0 && walked <= 40) {
+		walked++;
+		Speed.X = 100;
+	} else if (walked <= 0 && walked >= -40) {
+		walked--;
+		Speed.X = -100;
+	} else if (walked > 0) {
+		walked = -1;
+	} else if (walked < 0) {
+		walked = 1;
+	}
 }
