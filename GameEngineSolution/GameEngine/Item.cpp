@@ -8,6 +8,7 @@ Item::Item(int x,int y,ItemType tipo) {
 	switch (tipo) {
 		case ItemType::Key:
 			sp = Sprite("img/Chave.png");
+			HighlightSp = Sprite("img/ChaveD.png");
 			break;
 		default:
 			break;
@@ -21,7 +22,11 @@ Item::Item(int x,int y,ItemType tipo) {
 
 
 void Item::Render() {
-	sp.Render(box.GetWorldRenderPosition(),0,false, Camera::Zoom);
+	if (Camera::Zoom < 1) {
+		HighlightSp.Render(box.GetWorldRenderPosition(), 0, false, Camera::Zoom);
+	} else {
+		sp.Render(box.GetWorldRenderPosition(),0,false, Camera::Zoom);
+	}
 }
 
 void Item::Update(float dt) {
