@@ -33,7 +33,7 @@ class Enemy : public MoveableObject {
 		bool walkingLeft;
 		int walked;
 
-		Enemy(Sprite stillSprite, Sprite walkingSprite,Sprite jumpingSprite);
+		Enemy(Sprite stillSprite, Sprite walkingSprite,Sprite stairsSprite);
 
 		/// <summary>
 		/// Versão menos custosa do pathfinding, onde os inimigos só se movimentam para a esquerda e direita, sem considerar escadas
