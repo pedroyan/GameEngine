@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "Rect.h"
 #include "TileSet.h"
-#include "RapidXML\rapidxml.hpp"
+#include "./RapidXML/rapidxml.hpp"
 #include "XMLParser.h"
 
 using std::string;
