@@ -1,5 +1,7 @@
 #include "Bullet.h"
 #include "TileCollision.h"
+#include "Game.h"
+#include "Animation.h"
 Bullet::Bullet(float x, float y, float angle, float speedArg, float maxDistance, string sprite, int frameCount, bool targetsPlayerv,int damage):sp(sprite, frameCount,0.1),speed(speedArg,0) {
 	Init(x, y, angle, maxDistance, targetsPlayerv, damage);
 }
@@ -38,6 +40,7 @@ bool Bullet::IsDead() {
 void Bullet::NotifyCollision(GameObject & other) {
 	if ((other.Is("Player") && targetsPlayer) || (other.IsEnemy() && !targetsPlayer) || other.Is("Barrier")) {
 		distanceLeft = 0;
+		
 	}
 }
 

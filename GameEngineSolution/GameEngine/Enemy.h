@@ -16,6 +16,7 @@ class Enemy : public MoveableObject {
 		virtual void Attack() = 0;
 		virtual void EnemyMove(float dt);
 		virtual void DummyWalk(float dt);
+		virtual void NotifyCollision(GameObject & other);
 		virtual ~Enemy();
 		std::list<Vec2> FindNeighbors(float tileWidth, float tileHeight, Vec2 pos);
 
@@ -32,7 +33,7 @@ class Enemy : public MoveableObject {
 		bool walkingLeft;
 		int walked;
 
-		Enemy(Sprite stillSprite, Sprite walkingSprite,Sprite jumpingSprite);
+		Enemy(Sprite stillSprite, Sprite walkingSprite,Sprite stairsSprite);
 
 		/// <summary>
 		/// Versão menos custosa do pathfinding, onde os inimigos só se movimentam para a esquerda e direita, sem considerar escadas

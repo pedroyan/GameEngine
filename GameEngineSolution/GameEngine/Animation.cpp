@@ -1,13 +1,13 @@
 #include "Animation.h"
+#include "Camera.h"
 
-Animation::Animation(Vec2 center, float rotationv, string sprite, int framecount ,float frameTime, bool ends, float zoom) :sp(sprite,framecount,frameTime) {
+Animation::Animation(Vec2 center, float rotationv, string sprite, int framecount ,float frameTime, bool ends) :sp(sprite,framecount,frameTime) {
 
 	box.W = sp.GetWidth();
 	box.H = sp.GetHeight();
 	box.SetCenter(center);
 
 	rotation = rotationv;
-	this->zoom = zoom;
 	timeLimit = framecount*frameTime;
 	oneTimeOnly = ends;
 	endTimer = Timer();
@@ -19,7 +19,7 @@ void Animation::Update(float dt) {
 }
 
 void Animation::Render() {
-	sp.Render(box.GetWorldRenderPosition(), rotation,zoom);
+	sp.Render(box.GetWorldRenderPosition(),0,false,Camera::Zoom);
 }
 
 bool Animation::IsDead() {

@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Animation.h"
 #include "Sound.h"
+#include "Raio.h"
 
 float attackDuration = 1;
 
@@ -100,15 +101,6 @@ void MeleeEnemy::Render() {
 	actualSprite->Render(box.GetWorldRenderPosition(), rotation, walkingLeft, Camera::Zoom);
 }
 
-void MeleeEnemy::NotifyCollision(GameObject & other) {
-	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
-		hp -= other.damage;
-		if (IsDead()) {
-			Game::GetInstance().GetCurrentState().AddObject(new Animation(this->box.GetWorldRenderPosition(), 0, "img/morteEnemy70.png", 5, 0.125, true, Camera::Zoom));
-			Sound("audio/enemyDeath.wav").Play(0);
-		}
-	}
-}
 
 void MeleeEnemy::Attack() {
 	Sound("audio/meleeEnemyAttack.wav").Play(0);

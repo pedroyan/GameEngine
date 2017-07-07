@@ -5,7 +5,7 @@
 
 
 EndState::EndState(StateData stateData) : instruction("font/Call me maybe.ttf", 40, Text::TextStyle::BLENDED, "Esc para menu, Espaco para tentar novamente", { 255,255,255,255 }),
-bg(stateData.playerVictory ? "img/win.jpg" : "img/lose.jpg"),
+bg(stateData.playerVictory ? "img/win.png" : "img/lose.png"),
 music(stateData.playerVictory ? "audio/endStateWin.ogg" : "audio/endStateLose.wav") 
 {
 	instruction.SetPos(bg.GetWidth() / 2, bg.GetHeight() - 80, true, false);
@@ -24,7 +24,7 @@ void EndState::Update(float dt) {
 	popRequested = scapePressed || spacePressed;
 
 	if (spacePressed) {
-		Game::GetInstance().Push(new StageState("map/fase1.tmx","img/tileset.png", "audio/fase1.wav"));
+		Game::GetInstance().Push(new StageState("map/mapa_de_teste.tmx","img/tileset.png", "audio/faseTeste.wav"));
 	}
 }
 

@@ -5,10 +5,11 @@
 #include "Game.h"
 #include "Sound.h"
 #include "Animation.h"
-
+#include "Raio.h"
 float attackDurationRanged = 1.5;
 
-RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemyWalking.png", 7, 0.1,true), Sprite("img/RangedEnemyWalking.png", 7, 0.1), Sprite("img/RangedEnemyWalking.png", 7, 0.1)), attackingSprite("img/RangedEnemyAttack.png", 7, attackDurationRanged / 7), attackingSpriteVomito("img/RangedEnemyAttackVomito.png", 11, attackDurationRanged / 11) {
+
+RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemyWalking.png", 7, 0.1,true), Sprite("img/RangedEnemyWalking.png", 7, 0.1),Sprite("img/rangedEnemyStairs.png")), attackingSprite("img/RangedEnemyAttack.png", 7, attackDurationRanged / 7), attackingSpriteVomito("img/RangedEnemyAttackVomito.png", 4, attackDurationRanged/5) {
 	damage = 20;
 	hp = 50;
 	box.X = x;
@@ -42,6 +43,9 @@ void RangedEnemy::Update(float dt) {
 			walkingLeft = false;
 		}
 	}
+	if (CurrentLayer == 1) {
+		actualSprite = &stairsSprite;
+	}
 	actualSprite->Update(dt);
 	auto result = MoveOnSpeed(dt);
 	if (result & (int)CollisionFlags::Bottom) {
@@ -53,15 +57,6 @@ void RangedEnemy::Render() {
 	actualSprite->Render(box.GetWorldRenderPosition(), rotation, walkingLeft, Camera::Zoom);
 }
 
-void RangedEnemy::NotifyCollision(GameObject & other) {
-	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
-		hp -= other.damage;
-		if (IsDead()) {
-			Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true, Camera::Zoom));
-			Sound("audio/enemyDeath.wav").Play(0);
-		}
-	}
-}
 
 void RangedEnemy::Attack() {
 	

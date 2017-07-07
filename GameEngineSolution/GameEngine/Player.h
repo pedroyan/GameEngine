@@ -28,6 +28,7 @@ class Player : public MoveableObject {
 		/// <param name="input">input dos botoes do teclado</param>
 		void UpdateAllSprites(float dt, InputManager& input);
 		void Shoot();
+		void Bolt();
 
 		static Player* playerInstance;
 
@@ -54,6 +55,7 @@ class Player : public MoveableObject {
 
 		void UpdateCannonAngle(InputManager& manager);
 		float getInertialBulletSpeed();
+		float getInertialBoltSpeed();
 		void MovePlayer(float dt, InputManager& manager);
 		void jumpPlayer();
 		void UpdateConcertaArm(int correcaoX, int correcaoY, int correcaoLeft);

@@ -8,6 +8,7 @@
 #include "TileCollision.h"
 #include "Item.h"
 #include "Debug.h"
+#include "Raio.h"
 
 Player* Player::playerInstance = nullptr;
 
@@ -22,7 +23,7 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 {
 	rotation = 0;
 	Player::playerInstance = this;
-	fullHp = 100000;//vida aumentada pra teste
+	fullHp = 100;//vida aumentada pra teste
 	hp = fullHp;//vida aumentada pra teste
 	cooldownCounter = Timer();
 
@@ -185,6 +186,27 @@ void Player::Shoot() {
 	}
 }
 
+void Player::Bolt() {
+	Vec2 finalOffSet;
+	Vec2 cannonOffset(210,-30);
+	finalOffSet = cannonOffset;
+	if (abs(cannonAngle) >1.5) {
+		Vec2 cannonOffset2(200,15);
+		finalOffSet = cannonOffset2;
+	}
+	finalOffSet.Rotate(cannonAngle);
+
+	Sprite bulletSprite;
+
+		bulletSprite = Sprite("img/raio.png", 6, 0.08);
+		Sound("audio/LazerCarregado.wav").Play(0);
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + finalOffSet;
+		auto raio = new Raio(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed()*2, 500, bulletSprite, false, 5);
+		chargeCounter.Restart();
+		Game::GetInstance().GetCurrentState().AddObject(raio);
+	
+}
+
 
 void Player::UpdateCannonAngle(InputManager & manager) {
 	Vec2 mousePosition(manager.GetWorldMouseX(), manager.GetWorldMouseY());
@@ -208,6 +230,12 @@ float Player::getInertialBulletSpeed() {
 	return (bulletSpeed + Speed).Magnitude();
 }
 
+float Player::getInertialBoltSpeed() {
+	Vec2 bulletSpeed(500, 0);
+	bulletSpeed.Rotate(cannonAngle);
+	return (bulletSpeed + Speed).Magnitude();
+}
+
 void Player::TakeDamage(int damage) {
 	hp -= damage;
 	double percent = (double) hp / fullHp;
@@ -218,7 +246,7 @@ void Player::TakeDamage(int damage) {
 	playerLife.SetScaleY(0.1);
 
 	if (IsDead()) {
-		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true, Camera::Zoom));
+		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true));
 		Sound("audio/enemyDeath.wav").Play(0);
 	}
 }
@@ -252,6 +280,9 @@ void Player::MovePlayer(float dt, InputManager& input){
 		}
 		if (input.MouseRelease(LEFT_MOUSE_BUTTON) && cooldownCounter.Get() == 0) {
 			Shoot();
+		}
+		if (input.KeyPress(SDLK_r)) {
+			Bolt();
 		}
 	} 
 	else if (CurrentLayer == 1) {//caso o player esteja na layer de escada
