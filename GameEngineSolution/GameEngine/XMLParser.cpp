@@ -63,6 +63,15 @@ string XMLParser::GetBackground() {
 	}
 }
 
+string XMLParser::GetMusic() {
+	auto it = propertyTable.find("Music");
+	if (it == propertyTable.end()) {
+		return "audio/fase1.wav";
+	} else {
+		return it->second;
+	}
+}
+
 void XMLParser::parseTMX(string fileName) {
 	ifstream file;
 	string outError;
