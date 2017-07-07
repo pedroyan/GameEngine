@@ -36,6 +36,10 @@ bool XMLParser::PlayerDefinedOnMap() {
 	return hasPlayer;
 }
 
+float XMLParser::GetHordeZoom() {
+	return zoomTo;
+}
+
 void XMLParser::parseTMX(string fileName) {
 	ifstream file;
 	string outError;
@@ -77,6 +81,17 @@ void XMLParser::LoadTileDimensions() {
 
 	this ->tileHeight = atoi(tileSetNode->first_attribute("tileheight")->value());
 	this ->tileWidth = atoi(tileSetNode->first_attribute("tilewidth")->value());
+}
+
+void XMLParser::LoadMapProperties() {
+	xml_node<>* Node = mapnode->first_node("properties");
+	auto propNode = Node->first_node("property");
+	while (propNode != nullptr) {
+		auto keyAtrib = propNode->first_attribute("name");
+		auto valueAtrib = propNode->first_attribute("value");
+		string value = valueAtrib == nullptr ? propNode->value() : valueAtrib->value();
+		propertyTable.emplace(std::make_pair(keyAtrib->value(), value));
+	}
 }
 
 

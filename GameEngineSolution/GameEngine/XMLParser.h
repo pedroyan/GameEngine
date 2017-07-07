@@ -40,11 +40,15 @@ class XMLParser {
 		xml_node<char>*  GetMapNode();
 
 		bool PlayerDefinedOnMap();
+
+		float GetHordeZoom();
 	private:
 		//Variaveis que mantem o ciclo de vida do parser
 		char* tmx;
 		xml_document<> doc;
 		xml_node<char>* mapnode;
+		unordered_map<string, string> propertyTable;
+		float zoomTo;
 
 		bool hasPlayer;
 
@@ -68,6 +72,8 @@ class XMLParser {
 
 		
 		void LoadTileDimensions();
+
+		void LoadMapProperties();
 
 		/// <summary>
 		/// Faz o parsing da layer de objetos
