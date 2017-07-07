@@ -42,14 +42,7 @@ void TileMap::Load(XMLParser & parser) {
 	GetDimensionProperties(mapNode,&mapWidth,&mapHeight);
 	
 	auto propertiesNode = mapNode->first_node("properties")->first_node("property");
-	if (propertiesNode != nullptr) {
-		string propertyeType = propertiesNode->first_attribute("name")->value();
-		if (propertyeType == "playerLayer") {
-			string playerLayerString = propertiesNode->first_attribute("value")->value();
-			sscanf(playerLayerString.c_str(), "%d", &this->playerLayer);
-		}
-
-	}
+	this->playerLayer = parser.GetPlayerLayer();
 	xml_node<>* TileSetNode = mapNode->first_node("tileset");
 	auto tilesNode = TileSetNode->first_node("tile");
 	

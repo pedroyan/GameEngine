@@ -32,6 +32,15 @@ xml_node<char>* XMLParser::GetMapNode() {
 	return mapnode;
 }
 
+int XMLParser::GetPlayerLayer() {
+	auto it = propertyTable.find("playerLayer");
+	if (it == propertyTable.end()) {
+		return 2;
+	} else {
+		return std::stoi(it->second);
+	}
+}
+
 bool XMLParser::PlayerDefinedOnMap() {
 	return hasPlayer;
 }
@@ -60,6 +69,7 @@ void XMLParser::parseTMX(string fileName) {
 	mapnode = doc.first_node("map", 0U, true);
 	LoadMapObjects();
 	LoadTileDimensions();
+	LoadMapProperties();
 }
 
 void XMLParser::LoadMapObjects() {
@@ -91,6 +101,7 @@ void XMLParser::LoadMapProperties() {
 		auto valueAtrib = propNode->first_attribute("value");
 		string value = valueAtrib == nullptr ? propNode->value() : valueAtrib->value();
 		propertyTable.emplace(std::make_pair(keyAtrib->value(), value));
+		propNode = propNode->next_sibling();
 	}
 }
 

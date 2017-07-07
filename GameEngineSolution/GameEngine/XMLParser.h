@@ -39,6 +39,8 @@ class XMLParser {
 		/// <returns></returns>
 		xml_node<char>*  GetMapNode();
 
+		int GetPlayerLayer();
+
 		bool PlayerDefinedOnMap();
 
 		float GetHordeZoom();
