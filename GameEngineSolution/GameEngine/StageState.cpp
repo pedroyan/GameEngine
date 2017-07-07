@@ -146,12 +146,12 @@ void StageState::SpawnEnemy() {
 				case 1 || 2:
 				{
 					
-					auto enemy = new Boss(spawn.X, spawn.Y);
-					enemy->Focus(Player::playerInstance);
-					AddObject(enemy);
-					//auto enemy = new MeleeEnemy(spawn.X, spawn.Y);
+					//auto enemy = new Boss(spawn.X, spawn.Y);
 					//enemy->Focus(Player::playerInstance);
 					//AddObject(enemy);
+					auto enemy = new MeleeEnemy(spawn.X, spawn.Y);
+					enemy->Focus(Player::playerInstance);
+					AddObject(enemy);
 				}
 				break;
 				default:
