@@ -34,34 +34,21 @@ void Boss::Update(float dt) {
 	if (focus != nullptr) {
 		if (CurrentLayer == 0) {
 			
-			if (RestTimer.Get() != 0) {
-				RestTimer.Update(dt);
 				Shoot();
-				if (RestTimer.Get() > 0) {
-					RestTimer.Restart();
-					stop = false;
-				}
-			}
+			
 
-				if (!stop) {
+				
 					if (focus->box.GetCenter().GetDistance(box.GetCenter()) < 300) {
 						MoveTo(Vec2(focus->box.X, focus->box.Y), dt);
 					} else {
 						DummyWalk(dt);
 					}
 					CheckAttack(dt);
-				} else {
-					if (attackTimerFire.Get() > 0) {
-						attackTimerFire.Restart();
-					}
-					else Shoot();
-				}
+				
 
 
 
-			if (abs(focus->box.DistanceFrom(box)) <attackRangeFire && attackDurationBossFire>0) {
-				actualSprite = &attackingSpriteFire;
-			} else if (abs(focus->box.DistanceFrom(box)) <attackRange) {
+			if (abs(focus->box.DistanceFrom(box)) <attackRange) {
 				actualSprite = &attackingSprite;
 			} else {
 				actualSprite = &walkingSprite;
@@ -129,18 +116,10 @@ void Boss::Attack() {
 void Boss::CheckAttack(float dt) {
 	if (attackTimer.Get() != 0) {
 		attackTimer.Update(dt);
-		attackTimerFire.Update(dt);
-		if (attackTimerFire.Get() > 0) {
-			attackTimerFire.Restart();
-		} 
 		if (attackTimer.Get() > 0) {
 			attackTimer.Restart();
+			//actualSprite = &stillSprite;
 		}
-	} 
-	else if (this->focus->box.DistanceFrom(box) <= attackRangeFire ) {
-		RestTimer.Update(-restDuration);
-		stop = true;
-		return;
 	} else if (this->focus->box.DistanceFrom(box) <= attackRange) {
 		Attack();
 	}
