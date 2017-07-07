@@ -48,6 +48,7 @@ void Portal::NotifyCollision(GameObject & other) {
 		auto& manager = InputManager::GetInstance();
 		auto& stageState = static_cast<StageState&>(Game::GetInstance().GetCurrentState());
 		if (stageState.GetHordeMode()) {
+			Sound("audio/Alarme.wav").Play(1);
 			auto& player = static_cast<const Player&>(other);
 			if (player.GetKeyCount() < 3) {
 				auto keysLeft = 3 - player.GetKeyCount();

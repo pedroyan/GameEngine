@@ -8,7 +8,8 @@
 #include "Raio.h"
 float attackDurationRanged = 1.5;
 
-RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemyWalking.png", 7, 0.1,true), Sprite("img/RangedEnemyWalking.png", 7, 0.1),Sprite("img/rangedEnemyStairs.png")), attackingSprite("img/RangedEnemyAttack.png", 7, attackDurationRanged / 7), attackingSpriteVomito("img/RangedEnemyAttackVomito.png", 11, attackDurationRanged / 11) {
+
+RangedEnemy::RangedEnemy(float x, float y) : Enemy(Sprite("img/RangedEnemyWalking.png", 7, 0.1,true), Sprite("img/RangedEnemyWalking.png", 7, 0.1),Sprite("img/rangedEnemyStairs.png")), attackingSprite("img/RangedEnemyAttack.png", 7, attackDurationRanged / 7), attackingSpriteVomito("img/RangedEnemyAttackVomito.png", 4, attackDurationRanged/5) {
 	damage = 20;
 	hp = 50;
 	box.X = x;

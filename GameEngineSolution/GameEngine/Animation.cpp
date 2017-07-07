@@ -19,7 +19,7 @@ void Animation::Update(float dt) {
 }
 
 void Animation::Render() {
-	sp.Render(box.GetWorldRenderPosition(), rotation,false,Camera::Zoom);
+	sp.Render(box.GetWorldRenderPosition(),0,false,Camera::Zoom);
 }
 
 bool Animation::IsDead() {
