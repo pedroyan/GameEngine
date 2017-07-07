@@ -15,9 +15,7 @@
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 
-const float zoomToValue = 0.5;
-
-StageState::StageState(string map, string tileSet, string music, string paralax) : bg1(paralax, 0.2), stageMusic(music) {
+StageState::StageState(string map, string tileSet, string paralax) : bg1(paralax, 0.2) {
 	XMLParser parser(map);
 	stageMusic.Play(-1);
 	int th, tw;

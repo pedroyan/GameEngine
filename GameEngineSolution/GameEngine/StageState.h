@@ -14,7 +14,7 @@
 
 class StageState : public State{
 	public:
-		StageState(string map, string tileSet, string music,string paralax = "img/ParalaxBlackCraftV1.png");
+		StageState(string map, string tileSet,string paralax = "img/ParalaxBlackCraftV1.png");
 		~StageState();
 		void LoadAssets();
 		void Update(float dt);
@@ -42,6 +42,7 @@ class StageState : public State{
 		int enemyCount;
 		std::vector<GameObject*> barrierArray;
 		Timer zoomTimer;
+		float zoomToValue;
 
 		//metodos
 		void CheckCollisions();
