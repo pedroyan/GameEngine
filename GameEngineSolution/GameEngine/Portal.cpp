@@ -24,7 +24,7 @@ void Portal::Update(float dt) {
 		teleportTime.Update(dt);
 		if (teleportTime.Get() >= animationTime) {
 			auto& stageState = static_cast<StageState&>(Game::GetInstance().GetCurrentState());
-			stageState.Swap(new StageState(nextMap, nextTileSet, nextMusic));
+			stageState.Swap(new StageState(nextMap, nextTileSet));
 		}
 	}
 }
@@ -48,7 +48,6 @@ void Portal::NotifyCollision(GameObject & other) {
 		auto& manager = InputManager::GetInstance();
 		auto& stageState = static_cast<StageState&>(Game::GetInstance().GetCurrentState());
 		if (stageState.GetHordeMode()) {
-			Sound("audio/Alarme.wav").Play(1);
 			auto& player = static_cast<const Player&>(other);
 			if (player.GetKeyCount() < 3) {
 				auto keysLeft = 3 - player.GetKeyCount();
@@ -62,6 +61,7 @@ void Portal::NotifyCollision(GameObject & other) {
 		} else {
 			UpdateText(this->text);
 			if (manager.KeyPress(SDLK_f)) {
+				Sound("audio/Alarme.wav").Play(1);
 				stageState.EnableHordeMode();
 			}
 		}

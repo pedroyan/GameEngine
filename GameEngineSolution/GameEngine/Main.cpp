@@ -5,7 +5,7 @@
 #include "TitleState.h"
 #include "Resources.h"
 
-int main(int argc, char ** argv) {
+int wmain(int argc, char ** argv) {
 	int Height = DEFAULT_GAME_HEIGHT;
 	int Width = DEFAULT_GAME_WIDTH;
 
