@@ -29,6 +29,8 @@ class StageState : public State{
 	private:
 		//variaveis
 		Timer coolDownSpawnCounter;
+		string mapName;
+		bool haveBoss=false;
 		TileSet* tileSet;
 		TileMap tileMap;
 		Music stageMusic;
