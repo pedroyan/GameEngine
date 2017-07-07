@@ -14,6 +14,7 @@
 #include "Item.h"
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
+#include "Boss.h"
 
 StageState::StageState(string map, string tileSet) : bg1(0.2) {
 	XMLParser parser(map);
@@ -134,18 +135,24 @@ void StageState::SpawnEnemy() {
 
 				switch (randomEnemy) {
 
-				case 0:
-				{
-					auto enemy = new MeleeEnemy(spawn.X, spawn.Y);
-					enemy->Focus(Player::playerInstance);
-					AddObject(enemy);
-				}
-				break;
-				case 1 || 2:
+				case 0 :
 				{
 					auto enemy2 = new RangedEnemy(spawn.X, spawn.Y);
 					enemy2->Focus(Player::playerInstance);
 					AddObject(enemy2);
+
+					
+				}
+				break;
+				case 1 || 2:
+				{
+					
+					//auto enemy = new Boss(spawn.X, spawn.Y);
+					//enemy->Focus(Player::playerInstance);
+					//AddObject(enemy);
+					auto enemy = new MeleeEnemy(spawn.X, spawn.Y);
+					enemy->Focus(Player::playerInstance);
+					AddObject(enemy);
 				}
 				break;
 				default:
