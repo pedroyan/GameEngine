@@ -15,7 +15,7 @@
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 
-StageState::StageState(string map, string tileSet, string paralax) : bg1(paralax, 0.2) {
+StageState::StageState(string map, string tileSet) : bg1(0.2) {
 	XMLParser parser(map);
 	stageMusic.Play(-1);
 	int th, tw;
@@ -46,6 +46,7 @@ StageState::StageState(string map, string tileSet, string paralax) : bg1(paralax
 	}
 
  	zoomToValue = parser.GetHordeZoom();
+	bg1.Open(parser.GetBackground());
 
 	cooldownSpawn = 4;
 	enemyCount = 8;

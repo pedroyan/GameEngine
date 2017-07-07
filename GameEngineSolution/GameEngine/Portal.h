@@ -21,7 +21,6 @@ class Portal : public GameObject {
 		string text;
 		string nextMap;
 		string nextTileSet;
-		string nextMusic;
 
 		bool OpenRequested;
 

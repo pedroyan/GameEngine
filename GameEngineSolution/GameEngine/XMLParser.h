@@ -44,6 +44,8 @@ class XMLParser {
 		bool PlayerDefinedOnMap();
 
 		float GetHordeZoom();
+
+		string GetBackground();
 	private:
 		//Variaveis que mantem o ciclo de vida do parser
 		char* tmx;

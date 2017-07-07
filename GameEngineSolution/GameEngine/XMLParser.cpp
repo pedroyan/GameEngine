@@ -54,6 +54,15 @@ float XMLParser::GetHordeZoom() {
 	}
 }
 
+string XMLParser::GetBackground() {
+	auto it = propertyTable.find("Parallax");
+	if (it == propertyTable.end()) {
+		return "img/ParalaxBlackCraftV1.png";
+	} else {
+		return it->second;
+	}
+}
+
 void XMLParser::parseTMX(string fileName) {
 	ifstream file;
 	string outError;

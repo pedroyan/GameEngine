@@ -8,6 +8,7 @@ Sprite::Sprite() {
 	texture = nullptr;
 	scaleX = 1;
 	scaleY = 1;
+	frameCount = 1;
 }
 
 Sprite::Sprite(string file, int VframeCount, float VframeTime, bool endFinalFrame) {

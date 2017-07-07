@@ -11,7 +11,6 @@ Portal::Portal(string nextMap, string nextTileSet, Rect dimensions, string text)
 sp("img/Portal.png", 6, animationTime / 6, true) {
 	box = dimensions;
 	this->nextMap = nextMap;
-	this->nextMusic = "audio/fase1.wav";
 	this->nextTileSet = nextTileSet;
 	this->text = text;
 	OpenRequested = false;

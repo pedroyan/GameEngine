@@ -6,6 +6,16 @@ Background::Background(string sprite, float velocity) : bg(sprite) {
 	this->velocity = velocity;
 }
 
+Background::Background(float velocity) {
+	this->velocity = velocity;
+}
+
+void Background::Open(string sprite) {
+	bg.Open(sprite);
+	this->width = bg.GetWidth();
+	this->height = bg.GetHeight();
+}
+
 void Background::Render(int cameraX, int cameraY) {
 	int actualX;
 	int actualY;
