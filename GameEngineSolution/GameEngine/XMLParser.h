@@ -50,7 +50,6 @@ class XMLParser {
 		xml_document<> doc;
 		xml_node<char>* mapnode;
 		unordered_map<string, string> propertyTable;
-		float zoomTo;
 
 		bool hasPlayer;
 

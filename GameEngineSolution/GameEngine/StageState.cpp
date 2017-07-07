@@ -45,7 +45,7 @@ StageState::StageState(string map, string tileSet, string paralax) : bg1(paralax
 		AddObject(obj);
 	}
 
-	zoomToValue = parser.GetHordeZoom();
+ 	zoomToValue = parser.GetHordeZoom();
 
 	cooldownSpawn = 4;
 	enemyCount = 8;

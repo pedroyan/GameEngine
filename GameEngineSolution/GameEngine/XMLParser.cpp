@@ -46,7 +46,12 @@ bool XMLParser::PlayerDefinedOnMap() {
 }
 
 float XMLParser::GetHordeZoom() {
-	return zoomTo;
+	auto it = propertyTable.find("ZoomTo");
+	if (it == propertyTable.end()) {
+		return 0.5;
+	} else {
+		return std::stof(it->second);
+	}
 }
 
 void XMLParser::parseTMX(string fileName) {
