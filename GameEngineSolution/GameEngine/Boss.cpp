@@ -30,7 +30,7 @@ Boss::~Boss() {
 
 void Boss::Update(float dt) {
 	
-	if (stop) {
+	if (!stop) {
 		ApplyGravity(dt);
 
 		if (focus != nullptr) {

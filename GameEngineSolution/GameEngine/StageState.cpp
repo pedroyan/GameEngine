@@ -18,6 +18,8 @@
 
 StageState::StageState(string map, string tileSet) : bg1(0.2) {
 	XMLParser parser(map);
+	mapName = map;
+	stageMusic.Play(-1);
 	int th, tw;
 	parser.GetTileDimensions(&th, &tw);
 
@@ -59,6 +61,13 @@ void StageState::LoadAssets() {
 }
 
 void StageState::Update(float dt) {
+	
+	if (!haveBoss && mapName == "map/faseBoss.tmx") {
+		haveBoss = true;
+		auto enemy = new Boss(200, 20);
+		enemy->Focus(Player::playerInstance);
+		AddObject(enemy);
+	}
 	Camera::Update(dt);
 	auto& manager = InputManager::GetInstance();
 
