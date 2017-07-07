@@ -210,7 +210,7 @@ void Player::Bolt() {
 
 	Sprite bulletSprite;
 
-		bulletSprite = Sprite("img/raio.png", 6, 0.08);
+		bulletSprite = Sprite("img/UnlimitedPower.png", 6, 0.08);
 		Sound("audio/LazerCarregado.wav").Play(0);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + finalOffSet;
 		auto raio = new Raio(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed()*2, 500, bulletSprite, false, 5);
