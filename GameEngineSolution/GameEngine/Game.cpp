@@ -110,6 +110,10 @@ void Game::Run() {
 
 		currentState.Render();
 		InputManager::GetInstance().Update();
+
+		// para baixo fps não sequelar a gravidade
+		dt = dt > 0.33333 ? 0.33333 : dt;
+
 		currentState.Update(dt);
 		SDL_RenderPresent(renderer);
 

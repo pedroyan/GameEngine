@@ -4,6 +4,10 @@
 #include "TileCollision.h"
 #include "Pathfinding.h"
 #include "Game.h"
+#include "Sound.h"
+#include "Animation.h"
+#include "Raio.h"
+#include "Bullet.h"
 
 const float jumpHeight = 3;
 const float Gravity = 2 * 9.8;
@@ -21,6 +25,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 	Vec2 newPos;
 	auto tileHeight = Game::GetInstance().GetCurrentState().GetMap().GetTileSet()->GetTileHeight();
 	auto neig = FindNeighbors(200 * dt, tileHeight * sqrK1 * dt, pos);
+	
 
 	if (CurrentLayer == 0) {
 		if (!neig.empty()) {
@@ -33,6 +38,8 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 				Rect newPosBox = box;
 				newPosBox.X = newPos.X;
 				newPosBox.Y = newPos.Y;
+			//	actualSprite = &walkingSprite;
+				
 				auto collisionAnalysis = TileCollision::PriorityCollision(newPosBox, 0);
 
 				if (collisionAnalysis == CollisionType::Solid) {
@@ -44,7 +51,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 					if (box.Y > newPos.Y) { //quero pular
 						if (ground == 1 && Speed.Y == 0) { //posso pular?
 							box.X = newPos.X;
-							Speed.X = SpeedLimit;
+							Speed.X = 200;
 							Speed.Y = -tileHeight * sqrK1;
 							break;
 						}
@@ -54,7 +61,7 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 					}
 					else {
 						box.X = newPos.X;
-						Speed.X = SpeedLimit;
+						Speed.X = 200;
 						break;
 					}
 				}
@@ -63,11 +70,11 @@ void Enemy::MoveTo(Vec2 pos, float dt) {
 
 		if (box.X != newPos.X) {//não andei
 			Rect newPosBox = box;
-			newPosBox.X = box.X + SpeedLimit * dt;
+			newPosBox.X = box.X + 200 * dt;
 			newPosBox.Y = box.Y + tileHeight * sqrK1;
 			auto collisionAnalysisR = TileCollision::PriorityCollision(newPosBox, 0);
 
-			newPosBox.X = box.X - SpeedLimit * dt;
+			newPosBox.X = box.X - 200 * dt;
 			newPosBox.Y = box.Y + tileHeight * sqrK1;
 			auto collisionAnalysisL = TileCollision::PriorityCollision(newPosBox, 0);
 			if (collisionAnalysisL == CollisionType::noCollision || collisionAnalysisR == CollisionType::noCollision) {//se eu pular eu contorno
@@ -115,6 +122,8 @@ void Enemy::EnemyMove(float dt) {
 		Speed.Y += tileHeight * Gravity * dt;
 		box.Y += Speed.Y*dt;
 
+	
+
 		auto collisionAnalysisY = TileCollision::PriorityCollision(this->box, 0);
 		if (collisionAnalysisY == CollisionType::Solid) {
 			box.Y -= Speed.Y*dt;
@@ -148,7 +157,7 @@ void Enemy::Focus(Player* focus) {
 	this->focus = focus;
 }
 
-Enemy::Enemy(Sprite stillSprite, Sprite walkingSprite) : stillSprite(stillSprite), walkingSprite(walkingSprite) {
+Enemy::Enemy(Sprite stillSprite, Sprite walkingSprite,Sprite stairsSprite) : stillSprite(stillSprite), walkingSprite(walkingSprite), stairsSprite(stairsSprite){
 	focus = nullptr;
 	actualSprite = &this->stillSprite;
 }
@@ -160,12 +169,54 @@ void Enemy::MoveToDumbly(Vec2 pos) {
 std::list<Vec2> Enemy::FindNeighbors(float tileWidth, float tileHeight, Vec2 pos) {
 	list<Vec2> neighbors;
 	if (pos.X > box.X) {
+	
+		
+	//		walkingLeft = false;
+		
+		
 		neighbors.push_back(Vec2(box.X + tileWidth, box.Y));
 		neighbors.push_back(Vec2(box.X + tileWidth, box.Y - tileHeight));
 	} else if (pos.X < box.X) {
+
+		
+
 		neighbors.push_back(Vec2(box.X - tileWidth, box.Y));
 		neighbors.push_back(Vec2(box.X - tileWidth, box.Y - tileHeight));
 	}
 	
 	return neighbors;
+}
+
+
+void Enemy::DummyWalk(float dt) {
+	if (walked >= 0 && walked <= 40) {
+		walked++;
+		Speed.X = 100;
+	} else if (walked <= 0 && walked >= -40) {
+		walked--;
+		Speed.X = -100;
+	} else if (walked > 0) {
+		walked = -1;
+	} else if (walked < 0) {
+		walked = 1;
+	}
+}
+
+void Enemy::NotifyCollision(GameObject & other) {
+	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
+		hp -= other.damage;
+		if (IsDead()) {
+			Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true));
+			Sound("audio/enemyDeath.wav").Play(0);
+		}
+	}
+	if (other.Is("Bolt") && !static_cast<const Raio&>(other).targetsPlayer) {
+		hp -= other.damage;
+		if (IsDead()) {
+			Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true));
+			Sound("audio/enemyDeath.wav").Play(0);
+		}
+	}
+
+
 }

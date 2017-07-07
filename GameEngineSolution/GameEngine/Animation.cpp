@@ -1,4 +1,5 @@
 #include "Animation.h"
+#include "Camera.h"
 
 Animation::Animation(Vec2 center, float rotationv, string sprite, int framecount ,float frameTime, bool ends) :sp(sprite,framecount,frameTime) {
 
@@ -18,7 +19,7 @@ void Animation::Update(float dt) {
 }
 
 void Animation::Render() {
-	sp.Render(box.GetWorldRenderPosition(), rotation);
+	sp.Render(box.GetWorldRenderPosition(), rotation,false,Camera::Zoom);
 }
 
 bool Animation::IsDead() {

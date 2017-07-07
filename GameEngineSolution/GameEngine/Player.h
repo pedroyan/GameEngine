@@ -39,12 +39,14 @@ class Player : public MoveableObject {
 		Sprite actualSP;
 		Sprite jumpSP;
 		Sprite armSP;
+		Sprite playerLife;
 		TileMap map;
 		int keyCount;
 
 
 		float linearSpeed;
 		float cannonAngle;
+		int fullHp;
 		int hp;
 		Timer cooldownCounter;
 		Timer chargeCounter;

@@ -20,6 +20,7 @@ class Animation : public GameObject {
 	private:
 	Timer endTimer;
 	float timeLimit;
+	float zoom;
 	bool oneTimeOnly;
 	Sprite sp;
 };

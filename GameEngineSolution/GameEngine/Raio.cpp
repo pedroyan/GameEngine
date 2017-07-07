@@ -29,7 +29,7 @@ void Raio::NotifyCollision(GameObject & other) {
 }
 
 bool Raio::Is(string type) {
-	return type == "Raio";
+	return type == "Bolt";
 }
 
 void Raio::Init(float x, float y, float angle, float maxDistance, bool targetsPlayerv, int damage) {

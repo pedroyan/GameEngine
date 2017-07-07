@@ -10,10 +10,11 @@
 #include "Sound.h"
 #include "Background.h"
 #include "Timer.h"
+#include "Portal.h"
 
 class StageState : public State{
 	public:
-		StageState(string map, string tileSet,string paralax = "img/ParalaxBlackCraftV1.png", string music = "audio/CenarioDeGuerra.wav");
+		StageState(string map, string tileSet, string music,string paralax = "img/ParalaxBlackCraftV1.png");
 		~StageState();
 		void LoadAssets();
 		void Update(float dt);
@@ -22,7 +23,8 @@ class StageState : public State{
 		void Resume();
 		TileMap GetMap();
 		void AddObject(GameObject* ptr);
-
+		bool GetHordeMode();
+		void EnableHordeMode();
 		
 	private:
 		//variaveis
@@ -34,10 +36,16 @@ class StageState : public State{
 		Background bg1;
 		int playerLayer;
 
+		//horde variables
+		bool HordeMode;
+		float cooldownSpawn;
+		int enemyCount;
+		std::vector<GameObject*> barrierArray;
+
 		//metodos
 		void CheckCollisions();
 		void UpdateArray(float dt);
-		void SpawnEnemy(float dt);
+		void SpawnEnemy();
 		void SpawnKeys();
 };
 

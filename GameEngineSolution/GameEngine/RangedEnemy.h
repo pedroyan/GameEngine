@@ -9,14 +9,15 @@ class RangedEnemy : public Enemy {
 	~RangedEnemy();
 	void Update(float dt);
 	void Render();
-	void NotifyCollision(GameObject& other);
 	bool inline Is(string type) { return type == "RangedEnemy"; }
 	void Attack();
 	void Shoot();
 
 	private:
 	Sprite attackingSprite;
+	Sprite attackingSpriteVomito;
 	int attackRange;
+	int attackRangeVomito;
 	Timer attackTimer;
 	void CheckAttack(float dt);
 };

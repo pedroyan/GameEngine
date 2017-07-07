@@ -19,10 +19,11 @@ const float Gravity = 2 * 9.8;
 const float coolDown = 0.5;
 const float chargingTimeLimit = 1.0;
 
-Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png"), stairsSP("img/stairsPlayer.png",2,0.2)
+Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png"), stairsSP("img/stairsPlayer.png",2,0.2), playerLife("img/Life.png")
 {
 	rotation = 0;
 	Player::playerInstance = this;
+	fullHp = 100;//vida aumentada pra teste
 	hp = 100;//vida aumentada pra teste
 	cooldownCounter = Timer();
 
@@ -34,6 +35,9 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 
 	jumpCount = 0;
 	keyCount = 0;
+
+	playerLife.SetScaleX(0.1);
+	playerLife.SetScaleY(0.1);
 }
 
 Player::~Player() {
@@ -60,6 +64,8 @@ void Player::Update(float dt) {
 }
 
 void Player::Render() {
+	playerLife.Render(10, 10);
+
 	auto& input = InputManager::GetInstance();
 	Vec2 renderPosition;
 	auto centerPosition = box.GetCenter();
@@ -157,29 +163,22 @@ void Player::UpdateAllSprites(float dt, InputManager& input) {
 
 
 void Player::Shoot() {
-	Vec2 finalOffSet;
-	Vec2 cannonOffset(30, -20);
-	finalOffSet = cannonOffset;
-	if (abs(cannonAngle) >1.5) {
-		Vec2 cannonOffset2(30, 20);
-		finalOffSet = cannonOffset2;
-	}
-	finalOffSet.Rotate(cannonAngle);
-
+	Vec2 cannonOffset(50, 0);
+	cannonOffset.Rotate(cannonAngle);
 	
 	Sprite bulletSprite;
 	
 	if (chargeCounter.Get() > chargingTimeLimit) {
 		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 3,0.3,true);
 		Sound("audio/LazerCarregado.wav").Play(0);
-		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + finalOffSet;
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset + Vec2(0,-20);
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 	} else {
 		bulletSprite = Sprite("img/tiroPlayer.png", 2,0.1);
 		Sound("audio/LazerSimples.wav").Play(0);
-		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + finalOffSet;
+		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset + Vec2(0, -20);
 		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
@@ -202,7 +201,7 @@ void Player::Bolt() {
 		bulletSprite = Sprite("img/raio.png", 6, 0.08);
 		Sound("audio/LazerCarregado.wav").Play(0);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + finalOffSet;
-		auto raio = new Raio(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed()*2, 500, bulletSprite, false, 100);
+		auto raio = new Raio(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed()*2, 500, bulletSprite, false, 5);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(raio);
 	
@@ -239,9 +238,20 @@ float Player::getInertialBoltSpeed() {
 
 void Player::TakeDamage(int damage) {
 	hp -= damage;
+	double percent = (double) hp / fullHp;
+
+	printf("%lf\n", percent);
+	printf("%d\n", playerLife.GetWidth());
+	printf("%lf\n", playerLife.GetWidth()*percent);
+	playerLife.SetScaleX(1);
+	playerLife.SetScaleY(1);
+	playerLife.SetClip(10, 10, (int)playerLife.GetWidth()*percent, playerLife.GetHeight());
+	playerLife.SetScaleX(0.1);
+	playerLife.SetScaleY(0.1);
+
 	if (IsDead()) {
-		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetCenter(), rotation, "img/penguindeath.png", 5, 0.125, true));
-		Sound("audio/boom.wav").Play(0);
+		Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true));
+		Sound("audio/enemyDeath.wav").Play(0);
 	}
 }
 
@@ -267,6 +277,7 @@ void Player::MovePlayer(float dt, InputManager& input){
 		if (input.KeyPress(SDLK_SPACE) && jumpCount <2) {
 			jumpPlayer();
 			jumpSP.SetCurrentFrame(0);
+			Sound("audio/pulo.wav").Play(0);
 			
 		} else {
 			ApplyGravity(dt);
