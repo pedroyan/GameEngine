@@ -16,7 +16,7 @@ const float jumpHeight = 2; // em blocos
 const float Gravity = 2 * 9.8;
 
 //cooldown de tiro em segundos
-const float coolDown = 0.5;
+const float coolDown = 0.1;
 const float chargingTimeLimit = 1.0;
 
 Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png"), stairsSP("img/stairsPlayer.png",2,0.2), playerLife("img/Life.png")
