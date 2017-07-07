@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <string.h>
 using std::string;
 using std::vector;
 using std::istream;
@@ -83,4 +84,12 @@ class StringLibrary {
 	/// </summary>
 	/// <returns>True caso as strings sejam iguais</returns>
 	static bool CompareInsensitive(string a, string b);
+
+	static char* Strdup(const char *str) {
+		size_t len = strlen(str);
+		char *x = (char *)malloc(len + 1);
+		if (!x) return NULL;
+		memcpy(x, str, len + 1);
+		return x;
+	}
 };
