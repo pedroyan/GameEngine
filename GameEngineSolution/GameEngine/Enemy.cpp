@@ -8,6 +8,7 @@
 #include "Animation.h"
 #include "Raio.h"
 #include "Bullet.h"
+#include "RangedEnemy.h"
 
 const float jumpHeight = 11;
 const float Gravity = 2 * 9.8;
@@ -218,8 +219,12 @@ void Enemy::NotifyCollision(GameObject & other) {
 	}
 	if (other.Is("Bolt") && !static_cast<const Raio&>(other).targetsPlayer) {
 		hp -= other.damage;
+		
 		if (IsDead()) {
-			Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true));
+			Vec2 animation;
+			animation.X = box.X;
+			animation.Y = box.Y;
+			Game::GetInstance().GetCurrentState().AddObject(new Animation(animation, rotation, "img/morteEnemy70.png", 5, 0.125, true));
 			Sound("audio/enemyDeath.wav").Play(0);
 		}
 	}
