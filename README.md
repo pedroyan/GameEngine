@@ -1,36 +1,40 @@
-Descrição e Genero:
-O jogo se passa em um futuro ciberpunk, com um personagem seguindo um objetivo descrito
+# Blackcraft
+## Descrição e Genero:
+  O jogo se passa em um futuro ciberpunk, com um personagem seguindo um objetivo descrito
 na abertura do game. Ele trabalha para a empresa Dingen-i e a operação dele se passa
 dentro da empresa rival Biozeera no qual está acontecendo anomalias que devem ser investigadas
 pelo agente.
 
-O jogo é estilo plataforma com elemento de mira e personalização de skills. Apenas um
+  O jogo é estilo plataforma com elemento de mira e personalização de skills. Apenas um
 jogador e com hordas e objetos para serem achados no mapa. Com mudança de ambientação e 
 criaturas de acordo com o progresso do jogo.
 
-História do jogo:
-Duas empresas rivais, brigam a muito tempo pelas inovações científicas e
+## História do jogo:
+  Duas empresas rivais, brigam a muito tempo pelas inovações científicas e
 em um mundo com a ética totalmente diferente onde vale tudo pela
 ciência, as empresas estão dispostas a jogarem sujo para manter a imagem
 e sua aparência diante do mundo. Em um cenário assim fica difícil saber
 quem é o vilão e quem é o mocinho.
 
-Objetivo:
+## Objetivo:
+  O objetivo do jogo é descobrir o que está acontecendo dentro da empresa BioZeera, independente
+do que você encontre pelo caminho. Para isso você deve passar pelas fases, achando as chaves para abrir
+as portas que estiverem trancadas, enquanto desvia ou mata os inimigos que encontrar pelo caminho. 
 
-Controles:
+## Controles:
 Para andar com o personagem você usa as letras 'w','a','s','d'. Para atirar você mira com o mouse
 e clica no botão esquerdo. Para abrir a porta você deve apertar 'f'.
 
-Membros do time e seus papéis:
+## Membros do time e seus papéis:
 O único personagem é o principal, o agente da empresa e seu papel e passar pelas fases coletando as chaves
 para abrir as portas.
 
-Dependencias e versões:
-  - SDL2 32 bits
-  - gcc11
-  - mingw32 32bits
+## Dependencias e versões:
+-  SDL2 32 bits
+-  gcc11
+-  mingw32 32bits
 
-Como instalar e como compilar:
+## Como instalar e como compilar:
 Para instalar basta você clonar o projeto. Ele por padrão é um projeto do Visual Studio, mas ele possui um
 makefile dentro dele caso esteja-se usando o Ubuntu, Mac ou Windows sem o VS. 
 
@@ -39,7 +43,7 @@ Caso esteja usando o VS você precisa informar que arquitetura é de 32 bits e i
 Caso esteja usando o makefile, basta usar o comando make (Linux ou Mac) ou mingw32-make (Windows). Certifique-se 
 que as pastas dep e bin estão criadas antes de rodas o comando.
 
-Licensa open source:
+## Licensa:
 The MIT License (MIT)
 
 Copyright (c) [2017] [Blackcraft]
@@ -61,16 +65,10 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Screenshots do jogo:
-Vídeo:
+## Screenshots do jogo:
+## Vídeo:
 
-
-
-
-
-
-
-# GameEngine
+### GameEngine
 Engine de um jogo desenvolvida na disciplina de IDJ
 
 Programação:
