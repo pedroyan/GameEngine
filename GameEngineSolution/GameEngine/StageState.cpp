@@ -49,6 +49,9 @@ StageState::StageState(string map, string tileSet) : bg1(0.2) {
 
  	zoomToValue = parser.GetHordeZoom();
 	bg1.Open(parser.GetBackground());
+	
+	stageMusic.Open(parser.GetMusic());
+	stageMusic.Play(-1);
 
 	cooldownSpawn = 4;
 	enemyCount = 8;

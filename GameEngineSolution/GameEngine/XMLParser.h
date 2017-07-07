@@ -46,6 +46,8 @@ class XMLParser {
 		float GetHordeZoom();
 
 		string GetBackground();
+
+		string GetMusic();
 	private:
 		//Variaveis que mantem o ciclo de vida do parser
 		char* tmx;
