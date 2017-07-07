@@ -24,7 +24,7 @@ void EndState::Update(float dt) {
 	popRequested = scapePressed || spacePressed;
 
 	if (spacePressed) {
-		Game::GetInstance().Push(new StageState("map/map.tmx","img/tileset.png", "audio/fase1.wav"));
+		Game::GetInstance().Push(new StageState("map/fase1.tmx","img/tileset.png", "audio/fase1.wav"));
 	}
 }
 

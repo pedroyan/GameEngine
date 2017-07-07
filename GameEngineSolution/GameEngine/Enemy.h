@@ -24,7 +24,7 @@ class Enemy : public MoveableObject {
 		Player* focus;
 		int hp, x, y;
 		Vec2 speedStairs;
-		int ground;
+		bool ground;
 
 		Sprite* actualSprite;
 		Sprite stillSprite;

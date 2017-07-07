@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "Text.h"
+#include "Timer.h"
+#include "Sprite.h"
 class Portal : public GameObject {
 	public:
 		Portal(string nextMap, string nextTileSet, Rect dimensions ,string text = "Pressione F para a Proxima Fase");
@@ -13,10 +15,15 @@ class Portal : public GameObject {
 
 	private:
 		Text displayText;
+		Sprite sp;
+		Timer teleportTime;
+
 		string text;
 		string nextMap;
 		string nextTileSet;
 		string nextMusic;
+
+		bool OpenRequested;
 
 		void CenterDisplayText();
 		void UpdateText(string text);

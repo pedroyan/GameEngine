@@ -23,8 +23,8 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 {
 	rotation = 0;
 	Player::playerInstance = this;
-	fullHp = 100;//vida aumentada pra teste
-	hp = 100;//vida aumentada pra teste
+	fullHp = 100000;//vida aumentada pra teste
+	hp = fullHp;//vida aumentada pra teste
 	cooldownCounter = Timer();
 
 	box.X = x;
@@ -239,10 +239,6 @@ float Player::getInertialBoltSpeed() {
 void Player::TakeDamage(int damage) {
 	hp -= damage;
 	double percent = (double) hp / fullHp;
-
-	printf("%lf\n", percent);
-	printf("%d\n", playerLife.GetWidth());
-	printf("%lf\n", playerLife.GetWidth()*percent);
 	playerLife.SetScaleX(1);
 	playerLife.SetScaleY(1);
 	playerLife.SetClip(10, 10, (int)playerLife.GetWidth()*percent, playerLife.GetHeight());
