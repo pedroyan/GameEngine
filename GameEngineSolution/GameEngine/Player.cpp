@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Bullet.h"
+#include "Bullet2.h"
 #include "Game.h"
 #include "Animation.h"
 #include "Sound.h"
@@ -184,7 +185,7 @@ void Player::Shoot() {
 		bulletSprite = Sprite("img/tiroCarregadoPlayer.png", 3,0.3,true);
 		Sound("audio/LazerCarregado.wav").Play(0);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset + Vec2(0,-20);
-		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
+		auto bullet = new Bullet2(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false,100);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 	} else {
