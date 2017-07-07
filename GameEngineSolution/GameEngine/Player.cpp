@@ -23,7 +23,7 @@ Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/
 {
 	rotation = 0;
 	Player::playerInstance = this;
-	fullHp = 300;//vida aumentada pra teste
+	fullHp = 200;//vida aumentada pra teste
 	hp = fullHp;//vida aumentada pra teste
 	cooldownCounter = Timer();
 
@@ -179,7 +179,7 @@ void Player::Shoot() {
 		bulletSprite = Sprite("img/tiroPlayer.png", 2,0.1);
 		Sound("audio/LazerSimples.wav").Play(0);
 		auto pos = bulletSprite.GetCentralizedRenderPoint(box.GetCenter()) + cannonOffset + Vec2(0, -20);
-		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 10);
+		auto bullet = new Bullet(pos.X, pos.Y, cannonAngle, getInertialBulletSpeed(), 1000, bulletSprite, false, 25);
 		chargeCounter.Restart();
 		Game::GetInstance().GetCurrentState().AddObject(bullet);
 		cooldownCounter.Update(-coolDown);

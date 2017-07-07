@@ -212,22 +212,17 @@ void Enemy::DummyWalk(float dt) {
 void Enemy::NotifyCollision(GameObject & other) {
 	if (other.Is("Bullet") && !static_cast<const Bullet&>(other).targetsPlayer) {
 		hp -= other.damage;
-		if (IsDead()) {
-			Game::GetInstance().GetCurrentState().AddObject(new Animation(box.GetWorldRenderPosition(), rotation, "img/morteEnemy70.png", 5, 0.125, true));
-			Sound("audio/enemyDeath.wav").Play(0);
-		}
 	}
+
 	if (other.Is("Bolt") && !static_cast<const Raio&>(other).targetsPlayer) {
 		hp -= other.damage;
-		
-		if (IsDead()) {
-			Vec2 animation;
-			animation.X = box.X;
-			animation.Y = box.Y;
-			Game::GetInstance().GetCurrentState().AddObject(new Animation(animation, rotation, "img/morteEnemy70.png", 5, 0.125, true));
-			Sound("audio/enemyDeath.wav").Play(0);
-		}
 	}
 
-
+	if (IsDead()) {
+		Vec2 animation;
+		animation.X = box.X;
+		animation.Y = box.Y;
+		Game::GetInstance().GetCurrentState().AddObject(new Animation(animation, rotation, "img/morteEnemy70.png", 5, 0.125, true));
+		Sound("audio/enemyDeath.wav").Play(0);
+	}
 }
