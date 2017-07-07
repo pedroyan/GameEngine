@@ -40,6 +40,7 @@ class Player : public MoveableObject {
 		Sprite jumpSP;
 		Sprite armSP;
 		Sprite playerLife;
+		Sprite playerCharge;
 		TileMap map;
 		int keyCount;
 
