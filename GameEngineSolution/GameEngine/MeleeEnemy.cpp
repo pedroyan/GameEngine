@@ -42,7 +42,6 @@ MeleeEnemy::MeleeEnemy(float x, float y) : Enemy(Sprite("img/MeleeEnemy.png"), S
 	box.W = actualSprite->GetWidth();
 	box.H = actualSprite->GetHeight();
 	attackRange = box.W;
-	ground = 1;
 	CurrentLayer = 0;
 }
 
@@ -51,39 +50,49 @@ MeleeEnemy::~MeleeEnemy() {
 }
 
 void MeleeEnemy::Update(float dt) {
-	//ApplyGravity(dt);
+	ApplyGravity(dt);
 
 	if (focus != nullptr) {
-		if (focus->box.GetCenter().GetDistance(box.GetCenter()) < 300) {
-			MoveTo(focus->box.GetCenter(), dt);
-		}
-		else {
-			DummyWalk(dt);
-			MoveOnSpeed(dt);
-		}
-		CheckAttack(dt);
+		if (CurrentLayer == 0) {
+			if (focus->box.GetCenter().GetDistance(box.GetCenter()) < 300) {
+				MoveTo(Vec2(focus->box.X, focus->box.Y), dt);
+			}
+			else {
+				DummyWalk(dt);
+			}
+			CheckAttack(dt);
 		
-		if (abs(focus->box.DistanceFrom(box)) <attackRange) {
-			actualSprite = &attackingSprite;
-
-		} else {
-			actualSprite = &walkingSprite;
-
+		  if (abs(focus->box.DistanceFrom(box)) < attackRange) {
+		  	actualSprite = &attackingSprite;
+		  } else {
+		  	actualSprite = &walkingSprite;
+		  }
 		}
-		if (focus->box.GetCenter().X - box.GetCenter().X <0) {
-			walkingLeft = true;
-
-		} else {
-			walkingLeft = false;
-
+		else if (CurrentLayer == 1) {
+			if (focus->box.Y > box.Y) {
+				Speed.Y = +200;
+			}
+			else if (focus->box.Y < box.Y) {
+				Speed.Y = -200;
+			}
 		}
-
 	}
+  
+	auto collisionResult = MoveOnSpeed(dt);
+  
 	if (CurrentLayer == 1) {
 		actualSprite = &stairsSprite;
 	}
+  
 	actualSprite->Update(dt);
-	EnemyMove(dt);
+
+	if (collisionResult & (int)CollisionFlags::Bottom) {
+		ground = true;
+	}
+
+	if (!OnStairs() && GoToStairs) {
+		GoToStairs = false;
+	}
 }
 
 void MeleeEnemy::Render() {
