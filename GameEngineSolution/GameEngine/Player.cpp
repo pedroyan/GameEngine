@@ -17,7 +17,7 @@ const float Gravity = 2 * 9.8;
 
 //cooldown de tiro em segundos
 const float coolDown = 0.1;
-const float chargingTimeLimit = 1.0;
+const float chargingTimeLimit = 0.5;
 
 Player::Player(float x, float y) : bodySP("img/MainPlayer.png"), bodyRunSP("img/MainPlayerRun.png", 6, 0.1), jumpSP("img/jumpPlayer.png",4,0.1,true), armSP("img/armPlayer.png"), stairsSP("img/stairsPlayer.png",2,0.2), playerLife("img/Life.png"),
 playerCharge("img/Raio.png")
@@ -66,7 +66,7 @@ void Player::Update(float dt) {
 	UpdateCannonAngle(input);
 
 
-	float percent = (chargeCounter.Get() > 1 ? 1 : chargeCounter.Get()) / chargingTimeLimit;
+	float percent = (chargeCounter.Get() > chargingTimeLimit ? chargingTimeLimit : chargeCounter.Get()) / chargingTimeLimit;
 	playerCharge.SetScaleX(1);
 	playerCharge.SetScaleY(1);
 	playerCharge.SetClip(10, 10, (int)playerCharge.GetWidth()*percent, playerCharge.GetHeight());
@@ -76,7 +76,7 @@ void Player::Update(float dt) {
 
 void Player::Render() {
 	playerLife.Render(10, 10);
-	playerCharge.Render(350, 10);
+	playerCharge.Render(750, 10);
 
 	auto& input = InputManager::GetInstance();
 	Vec2 renderPosition;
