@@ -111,7 +111,7 @@ void Boss::Render() {
 void Boss::Shoot() {
 	auto position = box.GetCenter();
 	auto angle = position.GetDistanceVectorAngle(this->focus->box.GetCenter());
-		auto  bullet = new Bullet(position.X, position.Y, angle, 400, 1000, "img/fire.png", 6, true, 2);
+		auto  bullet = new Bullet(position.X, position.Y, angle, 400, 1000, "img/fire.png", 1, true, 0.1);
 		Sound("audio/rangedAttack.wav").Play(0);
 		State& state = Game::GetInstance().GetCurrentState();
 		state.AddObject(bullet);

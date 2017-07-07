@@ -90,6 +90,7 @@ void RangedEnemy::Shoot() {
 void RangedEnemy::CheckAttack(float dt) {
 	if (attackTimer.Get() != 0) {
 		attackTimer.Update(dt);
+		
 		if (attackTimer.Get() > 0) {
 			attackTimer.Restart();
 			actualSprite = &stillSprite;
