@@ -63,7 +63,7 @@ void MeleeEnemy::Update(float dt) {
 			}
 			CheckAttack(dt);
 		
-		  if (abs(focus->box.DistanceFrom(box)) < attackRange) {
+		  if (abs(focus->box.DistanceFrom(box)) < attackRange*1.2) {
 		  	actualSprite = &attackingSprite;
 		  } else {
 		  	actualSprite = &walkingSprite;
