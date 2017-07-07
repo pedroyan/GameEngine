@@ -14,7 +14,7 @@
 
 class StageState : public State{
 	public:
-		StageState(string map, string tileSet,string paralax = "img/ParalaxBlackCraftV1.png");
+		StageState(string map, string tileSet);
 		~StageState();
 		void LoadAssets();
 		void Update(float dt);
@@ -31,7 +31,6 @@ class StageState : public State{
 		Timer coolDownSpawnCounter;
 		TileSet* tileSet;
 		TileMap tileMap;
-		Sprite bg;
 		Music stageMusic;
 		Background bg1;
 		int playerLayer;
