@@ -16,7 +16,9 @@ class RangedEnemy : public Enemy {
 
 	private:
 	Sprite attackingSprite;
+	Sprite attackingSpriteVomito;
 	int attackRange;
+	int attackRangeVomito;
 	Timer attackTimer;
 	void CheckAttack(float dt);
 };

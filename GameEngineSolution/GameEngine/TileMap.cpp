@@ -317,12 +317,19 @@ std::vector<Vec2> TileMap::GetSpawnTiles() {
 	return spawnTiles;
 }
 
-Vec2 TileMap::GetRandomSpawnPosition() {
+Vec2 TileMap::GetRandomSpawnPosition(int objectHeight) {
 	int tileIndex = rand() % spawnTiles.size();
 
 	Vec2 toReturn = spawnTiles[tileIndex];
 	toReturn.X = toReturn.X*tileSet->GetTileWidth();
-	toReturn.Y = toReturn.Y*tileSet->GetTileHeight();
+
+	float y = toReturn.Y*tileSet->GetTileHeight();
+
+	//Caso o objeto seja maior que o tamanho do tile, o offset será negativo, resultando num delocamento pra cima.
+	//Caso o objeto seja mais que o tamanho do tile, o offset será positivo, resultando num deslocamento pra baixo.
+	//Isso evita que o objeto entre dentro do tile
+	toReturn.Y = y + (tileSet->GetTileHeight() - objectHeight);
+
 
 	return toReturn;
 }

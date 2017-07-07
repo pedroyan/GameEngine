@@ -37,7 +37,7 @@ class TileMap {
 		int GetHeight();
 		int GetDepth();
 		std::vector<Vec2> GetSpawnTiles();
-		Vec2 GetRandomSpawnPosition();
+		Vec2 GetRandomSpawnPosition(int objectHeight);
 		TileSet* GetTileSet();
 
 		~TileMap();

@@ -18,7 +18,8 @@ class TitleState : public State{
 		void Resume();
 
 	private:
-		Sprite bg;
+		Sprite bg1;
+		Sprite bg2;
 		Text mainText;
 		Timer textTimer;
 		Music  menuMusic;

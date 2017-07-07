@@ -12,6 +12,7 @@ class MoveableObject : public GameObject {
 	public:
 		MoveableObject();
 		~MoveableObject();
+		bool isJumping;
 
 		/// <summary>
 		/// Velocidade do moveable object
@@ -75,5 +76,7 @@ class MoveableObject : public GameObject {
 		/// Centraliza o Moveable Object no tile em que ele se encontra
 		/// </summary>
 		void CenterOnCurrentTile();
+
+		
 };
 

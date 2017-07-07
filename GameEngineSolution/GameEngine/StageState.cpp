@@ -15,11 +15,11 @@
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 
-//coolDownSpawn de tiro em segundos
-const float coolDownSpawn = 3.0;
+const float zoomToValue = 0.5;
 
-StageState::StageState(string map, string tileSet, string paralax, string music) : bg1(paralax, 0.2), stageMusic(music) {
+StageState::StageState(string map, string tileSet, string music, string paralax) : bg1(paralax, 0.2), stageMusic(music) {
 	XMLParser parser(map);
+	stageMusic.Play(-1);
 	int th, tw;
 	parser.GetTileDimensions(&th, &tw);
 
@@ -40,18 +40,15 @@ StageState::StageState(string map, string tileSet, string paralax, string music)
 	for (auto& obj : objects) {
 		if (obj->Is("Player")) {
 			player = static_cast<Player*>(obj);
+		} else if(obj->Is("Barrier")){
+			barrierArray.emplace_back(obj);
+			continue;
 		}
 		AddObject(obj);
 	}
 
-	//1122,544
-	//auto enemy = new MeleeEnemy(1122, 544);
-	//auto enemyRanged = new RangedEnemy(1160, 544);
-	//enemy->Focus(player);
-	//enemyRanged->Focus(player);
-	//AddObject(enemy);
-	//AddObject(enemyRanged);
-	SpawnKeys();
+	cooldownSpawn = 4;
+	enemyCount = 2;
 }
 
 void StageState::LoadAssets() {
@@ -73,7 +70,17 @@ void StageState::Update(float dt) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(false)));
 	}
-	//SpawnEnemy(dt);
+
+	if (Camera::Zoom == zoomToValue) {
+		zoomTimer.Update(dt);
+		if (zoomTimer.Get() >= 3) {
+			Camera::ZoomTo(1, 3);
+		}
+	}
+
+	coolDownSpawnCounter.Update(dt);
+	SpawnEnemy();
+
 }
 
 void StageState::Render() {
@@ -98,25 +105,41 @@ void StageState::AddObject(GameObject * ptr) {
 	objectArray.push_back(std::move(uniqueObject));
 }
 
-void StageState::SpawnEnemy(float dt) {
+bool StageState::GetHordeMode() {
+	return HordeMode;
+}
+
+void StageState::EnableHordeMode() {
+	HordeMode = true;
+	SpawnKeys();
+	cooldownSpawn = 3;
+	enemyCount = 4;
+
+	for (auto& barrier : barrierArray) {
+		AddObject(barrier);
+	}
+
+	Camera::ZoomTo(zoomToValue, 5);
+}
+
+void StageState::SpawnEnemy() {
 	//int numberOfEnemys = 20;
-	int numberOfEnemys = rand() % 3;
+	int numberOfEnemys = rand() % enemyCount;
 	
-	coolDownSpawnCounter.Update(dt);
-	if (this->coolDownSpawnCounter.Get() >coolDownSpawn) {
+	if (this->coolDownSpawnCounter.Get() > cooldownSpawn) {
 		for (int i = 0; i < numberOfEnemys; i++) {
 			int randomEnemy = rand() % 3;
-			auto spawn = tileMap.GetRandomSpawnPosition();
+			auto spawn = tileMap.GetRandomSpawnPosition(90);
 			
 			switch (randomEnemy) {
 				case 0:{
-					auto enemy = new MeleeEnemy(spawn.X, spawn.Y - 64);
+					auto enemy = new MeleeEnemy(spawn.X, spawn.Y);
 					enemy->Focus(Player::playerInstance);
 					AddObject(enemy);
 				}
 					break;
 				case 1 || 2:{
-					auto enemy2 = new RangedEnemy(spawn.X, spawn.Y - 64);
+					auto enemy2 = new RangedEnemy(spawn.X, spawn.Y);
 					enemy2->Focus(Player::playerInstance);
 					AddObject(enemy2);
 				}
@@ -133,8 +156,9 @@ void StageState::SpawnEnemy(float dt) {
 
 void StageState::SpawnKeys() {
 	for (size_t i = 0; i < 3; i++) {
-		auto spawn = tileMap.GetRandomSpawnPosition();
-		auto key = new Item(spawn.X, spawn.Y, ItemType::Key);
+		auto key = new Item(0,0, ItemType::Key);
+		auto spawn = tileMap.GetRandomSpawnPosition(key->box.H);
+		key->box += spawn;
 		AddObject(key);
 	}
 }
@@ -171,4 +195,7 @@ void StageState::UpdateArray(float dt) {
 StageState::~StageState() {
 	objectArray.clear();
 	delete tileSet;
+
+	//Desliga o Horde Mode quando um StageState for desempilhado
+	StageState::HordeMode = false;
 }

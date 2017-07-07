@@ -9,8 +9,9 @@ TileSet::TileSet(int width, int height, string file) : tileSet(file) {
 	tileWidth = width;
 	tileHeight = height;
 
-	rows = tileSet.GetHeight() / height;
 	columns = tileSet.GetWidth() / width;
+	rows = tileSet.GetHeight() / height;
+
 }
 
 TileSet::~TileSet() {
