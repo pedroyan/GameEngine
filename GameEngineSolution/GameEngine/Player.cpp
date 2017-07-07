@@ -211,10 +211,6 @@ float Player::getInertialBulletSpeed() {
 void Player::TakeDamage(int damage) {
 	hp -= damage;
 	double percent = (double) hp / fullHp;
-
-	printf("%lf\n", percent);
-	printf("%d\n", playerLife.GetWidth());
-	printf("%lf\n", playerLife.GetWidth()*percent);
 	playerLife.SetScaleX(1);
 	playerLife.SetScaleY(1);
 	playerLife.SetClip(10, 10, (int)playerLife.GetWidth()*percent, playerLife.GetHeight());
