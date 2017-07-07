@@ -26,8 +26,19 @@ Para andar com o personagem você usa as letras 'w','a','s','d'. Para atirar voc
 e clica no botão esquerdo. Para abrir a porta você deve apertar 'f'.
 
 ## Membros do time e seus papéis:
-O único personagem é o principal, o agente da empresa e seu papel e passar pelas fases coletando as chaves
-para abrir as portas.
+### Programação
+- Pedro Yan Ornelas de Oliveira
+- Pietro Bertarini
+- Carlos Tavares
+
+### Design
+- Sara Vieira da Silva Viana
+- Fernando
+- Alexandre Alisson Pereira Lima
+- Vinicius Motinha
+
+### Musica
+- Gabriel Max Gomes de Bessa - Música
 
 ## Dependencias e versões:
 -  SDL2 32 bits
