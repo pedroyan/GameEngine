@@ -47,6 +47,13 @@ StageState::StageState(string map, string tileSet) : bg1(0.2) {
 		AddObject(obj);
 	}
 
+	if (mapName == "map/faseBoss.tmx") {
+		haveBoss = true;
+		auto enemy = new Boss(200, 20);
+		enemy->Focus(Player::playerInstance);
+		AddObject(enemy);
+	}
+
  	zoomToValue = parser.GetHordeZoom();
 	bg1.Open(parser.GetBackground());
 	
@@ -61,13 +68,7 @@ void StageState::LoadAssets() {
 }
 
 void StageState::Update(float dt) {
-	
-	if (!haveBoss && mapName == "map/faseBoss.tmx") {
-		haveBoss = true;
-		auto enemy = new Boss(200, 20);
-		enemy->Focus(Player::playerInstance);
-		AddObject(enemy);
-	}
+
 	Camera::Update(dt);
 	auto& manager = InputManager::GetInstance();
 
@@ -76,7 +77,7 @@ void StageState::Update(float dt) {
 
 	UpdateArray(dt);
 
-	if (false) {
+	if (haveBoss && Boss::bossInstance == nullptr) {
 		popRequested = true;
 		Game::GetInstance().Push(new EndState(StateData(true)));
 	} else if (Player::playerInstance == nullptr) {

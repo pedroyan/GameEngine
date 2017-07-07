@@ -11,6 +11,8 @@ float attackDurationBoss = 5;
 float attackDurationBossFire = 5;
 float restDuration = 6;
 
+Boss* Boss::bossInstance = nullptr;
+
 Boss::Boss(float x, float y) : Enemy(Sprite("img/BossStairs.png",2,1), Sprite("img/BossWalking.png", 3, 0.1,true), Sprite("img/BossStairs.png", 2, 0.1)), attackingSprite("img/BossAttack.png", 3, attackDurationBoss / 3), attackingSpriteFire("img/BossAttackFire.png",5, attackDurationBoss/5),restSprite("img/BossRest.png",2,0.05){
 	
 	damage = 50;
@@ -22,10 +24,12 @@ Boss::Boss(float x, float y) : Enemy(Sprite("img/BossStairs.png",2,1), Sprite("i
 	attackRange = box.W;
 	attackRangeFire= box.W*10;
 	CurrentLayer = 0;
+	bossInstance = this;
 }
 
 
 Boss::~Boss() {
+	bossInstance = nullptr;
 }
 
 void Boss::Update(float dt) {
