@@ -22,8 +22,17 @@ do que você encontre pelo caminho. Para isso você deve passar pelas fases, ach
 as portas que estiverem trancadas, enquanto desvia ou mata os inimigos que encontrar pelo caminho. 
 
 ## Controles:
-Para andar com o personagem você usa as letras 'w','a','s','d'. Para atirar você mira com o mouse
-e clica no botão esquerdo. Para abrir a porta você deve apertar 'f'.
+Movimentação:
+  - W,A,S,D
+  
+ Tiro:
+  - Para atirar você mira com o mouse e clica no botão esquerdo.
+  
+ Interação com as portas:
+  - Para abrir a porta você deve apertar 'f'.
+
+Poderes:
+  - Tecla R para o Raio
 
 ## Membros do time e seus papéis:
 ### Programação
@@ -53,6 +62,8 @@ Caso esteja usando o VS você precisa informar que arquitetura é de 32 bits e i
 
 Caso esteja usando o makefile, basta usar o comando make (Linux ou Mac) ou mingw32-make (Windows). Certifique-se 
 que as pastas dep e bin estão criadas antes de rodas o comando.
+
+Lembrando que é necessário copiar todo o conteúdo da pasta "Resources" para a pasta do executável
 
 ## Licensa:
 The MIT License (MIT)
