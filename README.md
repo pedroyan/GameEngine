@@ -27,6 +27,8 @@ Movimentação:
   
  Tiro:
   - Para atirar você mira com o mouse e clica no botão esquerdo.
+  - Ao segurar o botão de atirar por mais de 3 segundos, um projétil mais forte
+    será atirado
   
  Interação com as portas:
   - Para abrir a porta você deve apertar 'f'.
